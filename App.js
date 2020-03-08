@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert } from 'react-native';
-import { getAll } from './functions/chats';
+import { get, getAll } from './functions/chats';
 
 export default function App() {
   const [tempList, setState] = useState([
@@ -13,20 +13,18 @@ export default function App() {
     { name: 'bowser', id: '7' },
   ]);
 
-  var list = getAll();
-
   return (
     <View style={styles.container}>
-    <FlatList 
-      numColumns={2}
-      keyExtractor={(item) => item.id}
-      data={tempList}
-      renderItem={({ item }) => (
-        <View>
-          <Text style={styles.item}>name: {item.name}</Text>
-        </View>
-      )}
-    />
+      <FlatList 
+        numColumns={2}
+        keyExtractor={(item) => item.id}
+        data={tempList}
+        renderItem={({ item }) => (
+          <View>
+            <Text style={styles.item}>name: {item.name}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 }
