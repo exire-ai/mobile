@@ -8,16 +8,17 @@ export default function GetStarted({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Welcome to Exire</Text>
-      <TouchableOpacity
-        style={styles.getStartedButton}
-        activeOpacity={0.75}
-        onPress={pressHandler}
-      >
-        <View>
+      <Text style={styles.exireText}>exire</Text>
+      <Text>Going out made simple</Text>
+      <View style={styles.bottom}>
+        <TouchableOpacity
+          style={styles.getStartedButton}
+          activeOpacity={0.75}
+          onPress={pressHandler}
+        >
           <Text style={styles.buttonText}>Get Started</Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -26,13 +27,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#eee",
-    alignItems: "center",
-    justifyContent: "space-around"
+    alignItems: "center"
+  },
+  exireText: {
+    marginTop: 50,
+    fontSize: 32
   },
   getStartedButton: {
     backgroundColor: "#007aff",
     height: 50,
-    width: "85%",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8
@@ -41,5 +44,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "500"
+  },
+  bottom: {
+    flex: 1,
+    width: "85%",
+    justifyContent: "flex-end",
+    marginBottom: 36
   }
 });
