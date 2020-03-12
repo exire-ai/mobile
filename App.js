@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
-import users from "./functions/users";
+import plans from "./functions/plans";
 import SignInStack from "./routes/signInStack";
 
 export default function App() {
+  plans.getAllCategories(function(data) {
+    console.log("Hello")
+    console.log(data[0])
+  })
   return <SignInStack />;
 }
 
