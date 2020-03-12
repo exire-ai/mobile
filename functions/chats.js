@@ -1,18 +1,18 @@
 const chats = {
-  getChat: function(chatID) {
+  getChat: function(chatID, callback) {
     fetch('https://exire-backend.herokuapp.com/chats/get/' + chatID, {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  createChat: function(userID) {
+  createChat: function(userID, callback) {
     fetch('https://exire-backend.herokuapp.com/chats/create', {
       method: 'POST',
       headers: {
@@ -25,15 +25,14 @@ const chats = {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson)
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  sendMessage:function(chatID, message, senderID, venues) {
+  sendMessage:function(chatID, message, senderID, venues, callback) {
     fetch('https://exire-backend.herokuapp.com/chats/sendMessage/' + chatID, {
       method: 'POST',
       headers: {
@@ -49,24 +48,24 @@ const chats = {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  getAll: function() {
+  getAll: function(callback) {
     fetch('https://exire-backend.herokuapp.com/chats/getAll', {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return([]);
+      callback([]);
     })
   },
 }

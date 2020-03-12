@@ -1,18 +1,18 @@
 const users = {
-  getUser: function(userID) {
+  getUser: function(userID, callback) {
     fetch('https://exire-backend.herokuapp.com/users/get/' + userID, {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
       return(null);
     })
   },
-  createUser: function(userID, name, number, deviceID) {
+  createUser: function(userID, name, number, deviceID, callback) {
     fetch('https://exire-backend.herokuapp.com/users/create', {
       method: 'POST',
       headers: {
@@ -28,27 +28,27 @@ const users = {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  doesExist: function(userID) {
+  doesExist: function(userID, callback) {
     fetch('https://exire-backend.herokuapp.com/users/doesExist/' + userID, {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  addCategories: function(userID, categories) {
+  addCategories: function(userID, categories, callback) {
     fetch('https://exire-backend.herokuapp.com/users/addCategories' + userID, {
       method: 'POST',
       headers: {
@@ -61,50 +61,50 @@ const users = {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  getChatUser: function(userID) {
+  getChatUser: function(userID, callback) {
     fetch('https://exire-backend.herokuapp.com/users/getChat'/ + userID, {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  updateChat: function(userID, chatID) {
+  updateChat: function(userID, chatID, callback) {
     fetch('https://exire-backend.herokuapp.com/users/updateChat/' + userID + '/' + chatID, {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
-  updateToken: function(userID, newToken) {
+  updateToken: function(userID, newToken, callback) {
     fetch('https://exire-backend.herokuapp.com/users/updateToken/' + userID + '/' + newToken, {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      return(responseJson);
+      callback(responseJson);
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      callback(null);
     })
   },
 }
