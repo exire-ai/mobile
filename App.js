@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
-import { get, getAll } from "./functions/chats";
+import users from "./functions/users";
 import SignInStack from "./routes/signInStack";
 
 export default function App() {
