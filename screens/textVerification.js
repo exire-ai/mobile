@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
+import { signInStyles } from "../global/signInStyles";
 
 export default function TextVerification({ navigation }) {
   const pressHandler = () => {
@@ -15,9 +16,9 @@ export default function TextVerification({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>Enter the verification code</Text>
-      <TextInput style={styles.input} keyboardType={"phone-pad"} />
+      <TextInput style={signInStyles.input} keyboardType={"phone-pad"} />
       <TouchableOpacity
-        style={styles.getStartedButton}
+        style={signInStyles.sendButton}
         activeOpacity={0.75}
         onPress={pressHandler}
       >
@@ -36,26 +37,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  getStartedButton: {
-    backgroundColor: "#007aff",
-    height: 50,
-    width: "85%",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8
-  },
   buttonText: {
     color: "white",
     fontSize: 18,
     fontWeight: "500"
-  },
-  input: {
-    width: "60%",
-    height: 60,
-    borderWidth: 1,
-    borderColor: "#444",
-    margin: 8,
-    paddingLeft: 10,
-    paddingRight: 10
   }
 });

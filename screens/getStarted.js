@@ -30,8 +30,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   exireText: {
-    marginTop: 50,
-    fontSize: 32
+    marginTop: 75,
+    fontSize: 42,
+    color: "#007aff"
   },
   getStartedButton: {
     backgroundColor: "#007aff",
@@ -49,6 +50,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "85%",
     justifyContent: "flex-end",
-    marginBottom: 36
+    marginBottom: 45
   }
 });

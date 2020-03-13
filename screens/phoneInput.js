@@ -7,19 +7,20 @@ import {
   TextInput
 } from "react-native";
 // import TextVerification from "./textVerification";
+import { signInStyles } from "../global/signInStyles";
 
 export default function PhoneInput({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Enter your number</Text>
-      <TextInput style={styles.input} keyboardType={"phone-pad"} />
+      <Text>What's your phone number?</Text>
+      <TextInput style={signInStyles.input} keyboardType={"phone-pad"} />
       <TouchableOpacity
-        style={styles.getStartedButton}
+        style={styles.sendButton}
         activeOpacity={0.75}
         onPress={() => navigation.navigate("TextVerification")}
       >
         <View>
-          <Text style={styles.buttonText}>Done</Text>
+          <Text style={styles.buttonText}>Send</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -33,26 +34,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  getStartedButton: {
+  sendButton: {
     backgroundColor: "#007aff",
     height: 50,
-    width: "85%",
+    width: 150,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 8
+    borderRadius: 25
   },
   buttonText: {
     color: "white",
     fontSize: 18,
     fontWeight: "500"
-  },
-  input: {
-    width: "60%",
-    height: 60,
-    borderWidth: 1,
-    borderColor: "#444",
-    margin: 8,
-    paddingLeft: 10,
-    paddingRight: 10
   }
 });
