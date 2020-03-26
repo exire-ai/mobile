@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
 import plans from "./functions/plans";
 import SignInStack from "./routes/signInStack";
+import ChatStack from "./routes/chatStack";
 
 export default function App() {
   // plans.getAllCategories(function(data) {
