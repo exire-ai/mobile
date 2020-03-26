@@ -35,13 +35,19 @@
 //<--- Gifted Chat Example --->
 import React from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
+import chats from "../functions/chats";
 
 export default class Example extends React.Component {
   state = {
-    messages: [],
+    messages: []
   }
 
   componentDidMount() {
+
+    chats.getChat('062j0jglunxt', data => {
+      console.log(data)
+    })
+      
     this.setState({
       messages: [
         {
