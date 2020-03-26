@@ -78,6 +78,11 @@ export default function CategoryPreference({ navigation }) {
     // navigation.push("PhoneInput");
   };
 
+  const doneTapped = () => {
+    console.log("Done");
+    navigation.navigate("ChatStack");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={{ margin: 15, fontSize: 22 }}>
@@ -106,7 +111,7 @@ export default function CategoryPreference({ navigation }) {
           // </TouchableOpacity>
         )}
       />
-      <TouchableOpacity style={styles.doneButton}>
+      <TouchableOpacity style={styles.doneButton} onPress={doneTapped}>
         <Text style={{ color: "white" }}>Done</Text>
       </TouchableOpacity>
     </View>

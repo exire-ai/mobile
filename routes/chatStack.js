@@ -15,5 +15,5 @@ const screens = {
 };
 
 const ChatStack = createStackNavigator(screens);
-
-export default createAppContainer(ChatStack);
+export default ChatStack;
+// export default createAppContainer(ChatStack);

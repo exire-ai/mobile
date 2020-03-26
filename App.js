@@ -3,13 +3,14 @@ import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
 import plans from "./functions/plans";
 import SignInStack from "./routes/signInStack";
 import ChatStack from "./routes/chatStack";
+import MainStack from "./routes/mainStack";
 
 export default function App() {
   // plans.getAllCategories(function(data) {
   //   // console.log("Hello")
   //   // console.log(data[0])
   // })
-  return <SignInStack />;
+  return <MainStack />;
 }
 
 const styles = StyleSheet.create({
