@@ -45,41 +45,38 @@ export default class Example extends React.Component {
   componentDidMount() {
 
     chats.getChat('062j0jglunxt', data => {
-      console.log(data.chat[0])
 
+      var newChat = [];
       for (elem in data.chat) {
-        console.log(data.chat[elem]);
+        var elem = data.chat[elem]
+        var userID = 1
+        if (elem.senderID == data.userID) {
+          userID = 2
+        }
+        newChat.push({
+          text: elem.message,
+          _id: elem.time,
+          createdAt: new Date(),
+          user: {
+            _id: userID,
+            name: "Nobody",
+            avatar: "https://placeimg.com/140/140/any"
+          }
+        });
       }
-
-      // var newChat = [];
-      // for (elem in data.chat) {
-      //   newChat.push({
-      //     text: elem.message,
-      //     _id: elem.time,
-      //     createdAt: new Date(),
-      //     user: {
-      //       _id: 2,
-      //       name: "Nobody",
-      //       avatar: "https://placeimg.com/140/140/any"
-      //     }
-      //   });
-      // }
-
-      // console.log(newChat);
-
       // var updatedMessages = this.state.messages.concat(
       //   {
       //     _id:
       //   });
 
-        // this.setState({ messages: newChat });
+        this.setState({ messages: newChat });
     })
 
     this.setState({
       messages: [
         {
           _id: 1,
-          text: 'Hello developer',
+          text: 'Hello, welcome to Exire!',
           createdAt: new Date(),
           user: {
             _id: 2,
