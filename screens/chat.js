@@ -37,6 +37,10 @@ import React from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
 import chats from "../functions/chats";
 
+
+var currentChatID = '062j0jglunxt';
+var currentUserID = '0';
+
 export default class Example extends React.Component {
   state = {
     messages: []
@@ -44,19 +48,19 @@ export default class Example extends React.Component {
 
   componentDidMount() {
 
-      chats.getChat('062j0jglunxt', data => {
-
+      chats.getChat(currentChatID, data => {
+        currentUserID = data.userID;
         var newChat = [];
         for (elem in data.chat) {
           var elem = data.chat[elem]
-          var userID = 1
+          var userID = 2
           if (elem.senderID == data.userID) {
-            userID = 2
+            userID = 1
           }
           newChat.push({
             text: elem.message,
             _id: elem.time,
-            createdAt: new Date(),
+            createdAt: new Date(elem.time * 1000),
             user: {
               _id: userID,
               name: "Nobody",
@@ -71,6 +75,7 @@ export default class Example extends React.Component {
         // this.setState(previousState => ({
         //   messages: GiftedChat.append(previousState.messages, newChat),
         // }))
+          newChat.reverse()
           this.setState({ messages: newChat });
 
           console.log(newChat);
@@ -94,6 +99,15 @@ export default class Example extends React.Component {
 
   onSend(messages = []) {
     console.log(messages)
+
+    let text = messages[0].text
+    console.log(text)
+    console.log(currentChatID + " " + currentUserID)
+    const chatID = currentChatID
+    const senderID = currentUserID
+    chats.sendMessage(chatID, text, senderID, [], data => {
+      console.log(data);
+    });
 
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
