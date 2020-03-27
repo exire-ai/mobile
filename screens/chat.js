@@ -44,51 +44,57 @@ export default class Example extends React.Component {
 
   componentDidMount() {
 
-    chats.getChat('062j0jglunxt', data => {
+      chats.getChat('062j0jglunxt', data => {
 
-      var newChat = [];
-      for (elem in data.chat) {
-        var elem = data.chat[elem]
-        var userID = 1
-        if (elem.senderID == data.userID) {
-          userID = 2
-        }
-        newChat.push({
-          text: elem.message,
-          _id: elem.time,
-          createdAt: new Date(),
-          user: {
-            _id: userID,
-            name: "Nobody",
-            avatar: "https://placeimg.com/140/140/any"
+        var newChat = [];
+        for (elem in data.chat) {
+          var elem = data.chat[elem]
+          var userID = 1
+          if (elem.senderID == data.userID) {
+            userID = 2
           }
-        });
-      }
-      // var updatedMessages = this.state.messages.concat(
-      //   {
-      //     _id:
-      //   });
+          newChat.push({
+            text: elem.message,
+            _id: elem.time,
+            createdAt: new Date(),
+            user: {
+              _id: userID,
+              name: "Nobody",
+              avatar: "https://placeimg.com/140/140/any"
+            }
+          });
+        }
+        // var updatedMessages = this.state.messages.concat(
+        //   {
+        //     _id:
+        //   });
+        // this.setState(previousState => ({
+        //   messages: GiftedChat.append(previousState.messages, newChat),
+        // }))
+          this.setState({ messages: newChat });
 
-        this.setState({ messages: newChat });
-    })
+          console.log(newChat);
+      })
 
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello, welcome to Exire!',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
+      this.setState({
+        messages: [
+          {
+            _id: 1,
+            text: 'Hello, welcome to Exire!',
+            createdAt: new Date(),
+            user: {
+              _id: 2,
+              name: 'React Native',
+              avatar: 'https://placeimg.com/140/140/any',
+            },
           },
-        },
-      ],
-    })
-  }
+        ],
+      })
+    }
 
   onSend(messages = []) {
+    console.log(messages)
+
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))

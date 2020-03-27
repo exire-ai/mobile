@@ -44,7 +44,7 @@ export default function CategoryPreference({ navigation }) {
     id => {
       const newSelected = new Map(selected);
       newSelected.set(id, !selected.get(id));
-      console.log("Selecting" + { id });
+      // console.log("Selecting" + { id });
 
       setSelected(newSelected);
     },
@@ -57,9 +57,7 @@ export default function CategoryPreference({ navigation }) {
 
   if (!reqMade) {
     plans.getAllCategories(function(data) {
-      console.log("Hello");
-      // console.log(data[0]);
-      console.log(data);
+      // console.log(data);
       var titles = [];
       for (var i = 0; i < data.length; i++) {
         titles.push({
@@ -67,7 +65,7 @@ export default function CategoryPreference({ navigation }) {
           id: i
         });
       }
-      console.log(titles);
+      // console.log(titles);
       setCategories(titles);
     });
     reqMade = true;
@@ -79,7 +77,7 @@ export default function CategoryPreference({ navigation }) {
   };
 
   const doneTapped = () => {
-    console.log("Done");
+    // console.log("Done");
     navigation.navigate("ChatStack");
   };
 
