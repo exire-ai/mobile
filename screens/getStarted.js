@@ -40,15 +40,15 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   headerText: {
-    marginTop: 75,
-    fontSize: 52,
+    marginTop: 50,
+    fontSize: 60,
     color: "#007aff",
-    fontWeight: "bold"
+    fontWeight: "600"
   },
   subHeaderText: {
     fontSize: 24,
     color: "#fff",
-    fontWeight: "bold"
+    fontWeight: "500"
   },
   getStartedButton: {
     backgroundColor: "#007aff",
@@ -59,13 +59,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "500"
   },
   bottom: {
     flex: 1,
     width: "85%",
     justifyContent: "flex-end",
-    marginBottom: 45
+    marginBottom: 46
   }
 });

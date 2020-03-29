@@ -12,15 +12,23 @@ import { signInStyles } from "../global/signInStyles";
 export default function PhoneInput({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>What's your phone number?</Text>
-      <TextInput style={signInStyles.input} keyboardType={"phone-pad"} />
+        <View style={signInStyles.textContainer}>
+          <Text style={signInStyles.headerText}>What's your number?</Text>
+          <Text style={signInStyles.subHeaderText}>We just need your number for verification and won't spam you or sell your data.</Text>
+        </View>
+      <TextInput style={signInStyles.input}
+          keyboardType={"phone-pad"}
+          placeholder='(123)-456-7890'
+          textAlign={'center'}
+          autoFocus={true}
+      />
       <TouchableOpacity
-        style={styles.sendButton}
+        style={signInStyles.button}
         activeOpacity={0.75}
         onPress={() => navigation.navigate("TextVerification")}
       >
         <View>
-          <Text style={styles.buttonText}>Send</Text>
+          <Text style={signInStyles.buttonText}>Send</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -31,20 +39,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#eee",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  sendButton: {
-    backgroundColor: "#007aff",
-    height: 50,
-    width: 150,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 25
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "500"
+    alignItems: 'center'
   }
 });

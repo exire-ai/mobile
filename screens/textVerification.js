@@ -15,15 +15,23 @@ export default function TextVerification({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Enter the verification code</Text>
-      <TextInput style={signInStyles.input} keyboardType={"phone-pad"} />
+      <View style={signInStyles.textContainer}>
+        <Text style={signInStyles.headerText}>What's your code?</Text>
+        <Text style={signInStyles.subHeaderText}>You should receive an SMS verification code shortly.</Text>
+      </View>
+      <TextInput style={signInStyles.input}
+        keyboardType={"phone-pad"}
+        placeholder='123456'
+        textAlign={'center'}
+        autoFocus={true}
+      />
       <TouchableOpacity
-        style={signInStyles.sendButton}
+        style={signInStyles.button}
         activeOpacity={0.75}
         onPress={pressHandler}
       >
         <View>
-          <Text style={styles.buttonText}>Done</Text>
+          <Text style={signInStyles.buttonText}>Done</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -35,11 +43,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#eee",
     alignItems: "center",
-    justifyContent: "center"
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "500"
   }
 });

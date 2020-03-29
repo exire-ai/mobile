@@ -3,6 +3,8 @@ import { createAppContainer } from "react-navigation";
 // import ReviewDetails from "../screens/reviewDetails";
 // import Header from "../shared/header";
 import React from "react";
+import { TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import GetStarted from "../screens/getStarted";
 import PhoneInput from "../screens/phoneInput";
 import TextVerification from "../screens/textVerification";
@@ -13,22 +15,71 @@ const screens = {
     screen: GetStarted,
     navigationOptions: () => {
       return {
-        headerShown: false
+        headerShown: false,
       };
     }
   },
   PhoneInput: {
     screen: PhoneInput,
-    navigationOptions: {
-      headerShown: true
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        title: 'Phone Number',
+        headerStyle: { backgroundColor: '#007aff' },
+        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={{paddingLeft: 8}}>
+            <Icon
+              name='chevron-left'
+              color='#FFF'
+              size={32}
+            />
+          </TouchableOpacity>
+        ),
+      }
     }
   },
   TextVerification: {
-    screen: TextVerification
+    screen: TextVerification,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        title: 'Verification',
+        headerStyle: { backgroundColor: '#007aff' },
+        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('PhoneInput')} style={{paddingLeft: 8}}>
+            <Icon
+              name='chevron-left'
+              color='#FFF'
+              size={32}
+            />
+          </TouchableOpacity>
+          ),
+      }
+    }
   },
   CategoryPreference: {
-    screen: CategoryPreference
+    screen: CategoryPreference,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        title: 'Category Preference',
+        headerStyle: { backgroundColor: '#007aff' },
+        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('TextVerification')} style={{paddingLeft: 8}}>
+            <Icon
+              name='chevron-left'
+              color='#FFF'
+              size={32}
+            />
+          </TouchableOpacity>
+          ),
+      }
+    }
   }
+
 };
 
 const SignInStack = createStackNavigator(screens);

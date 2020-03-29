@@ -4,116 +4,95 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Image,
+  Dimensions,
+  ImageBackground
 } from "react-native";
 import Card from "../shared/card";
 import plans from "../functions/plans";
+import users from "../functions/users"
+import { signInStyles } from "../global/signInStyles"
 
-function Category({ key, title, selected, onSelect }) {
+function Category({ key, title, url, selected, onSelect }) {
   return (
     <TouchableOpacity
       onPress={() => onSelect(key)}
-      style={[
-        styles.itemContainer,
-        { backgroundColor: selected ? "#6e3b6e" : "#f9c2ff" }
-      ]}
+      style={styles.itemContainer}
     >
-      <View style={styles.itemContent}>
-        <Text style={styles.itemText}>{title}</Text>
-      </View>
+      <ImageBackground source={{ uri: url}} style={{width: '100%', height: '100%', borderRadius: 8}}>
+        <View style={[styles.itemContent, { backgroundColor: selected ? 'rgba(0,0,80,.75)' : 'rgba(0,0,0,.3)' }]}>
+          <Text style={styles.itemText}>{title}</Text>
+        </View>
+      </ImageBackground>
     </TouchableOpacity>
   );
 }
 
-var reqMade = false;
+export default class CategoryPreference extends React.Component {
 
-export default function CategoryPreference({ navigation }) {
-  // const [categories, setCategories] = useState([
-  //   { title: "Sushi" },
-  //   { title: "Parks" },
-  //   { title: "Beaches" },
-  //   { title: "Pizza" },
-  //   { title: "Extreme" },
-  //   { title: "Museums" },
-  //   { title: "Dancing" }
-  // ]);
+  constructor(props) {
+    super(props)
+    this.state = {
+      categories: []
+    }
 
-  const [selected, setSelected] = React.useState(new Map());
-
-  const onSelect = React.useCallback(
-    id => {
-      const newSelected = new Map(selected);
-      newSelected.set(id, !selected.get(id));
-      // console.log("Selecting" + { id });
-
-      setSelected(newSelected);
-    },
-    [selected]
-  );
-
-  const [categories, setCategories] = useState([]);
-
-  // const [reqMade, setReqMade] = useState(false);
-
-  if (!reqMade) {
-    plans.getAllCategories(function(data) {
-      // console.log(data);
-      var titles = [];
+    plans.getAllCategories( (data) => {
+      var categories = []
       for (var i = 0; i < data.length; i++) {
-        titles.push({
+        categories.push({
           title: data[i].title,
-          id: i
-        });
+          id: i,
+          url: data[i].url,
+          selected: false
+        })
       }
-      // console.log(titles);
-      setCategories(titles);
-    });
-    reqMade = true;
+      this.setState({
+        categories: categories
+      })
+    })
   }
 
-  const pressHandler = () => {
-    //Modal to Home View 'Chat'
-    // navigation.push("PhoneInput");
-  };
-
-  const doneTapped = () => {
-    // console.log("Done");
-    navigation.navigate("ChatStack");
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={{ margin: 15, fontSize: 22 }}>
-        Select at least five categories
-      </Text>
-      <FlatList
-        style={styles.list}
-        numColumns={2}
-        data={categories}
-        extraData={selected}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        // extraData={selected}
-        // contentContainerStyle={{ alignItems: "center" }}
-        renderItem={({ item }) => (
-          <Category
-            key={item.key}
-            title={item.title}
-            selected={selected.get(item.id)}
-            onSelect={onSelect}
-          />
-          // <TouchableOpacity style={styles.itemContainer}>
-          //   <View style={styles.itemContent}>
-          //     <Text style={styles.itemText}>{item.title}</Text>
-          //   </View>
-          // </TouchableOpacity>
-        )}
-      />
-      <TouchableOpacity style={styles.doneButton} onPress={doneTapped}>
-        <Text style={{ color: "white" }}>Done</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={[signInStyles.subHeaderText, { padding: '5%', backgroundColor: '#e3e3e3', width: '100%' }]}>
+          Tell us what you are interested in!
+        </Text>
+        <FlatList
+          style={styles.list}
+          numColumns={2}
+          data={this.state.categories}
+          extraData={this.state.selected}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <Category
+              key={item.key}
+              title={item.title}
+              url={item.url}
+              selected={item.selected}
+              onSelect={() => {
+                var newCategories = this.state.categories
+                newCategories[item.id].selected = !this.state.categories[item.id].selected
+                this.setState({
+                  categories: newCategories
+                })
+                }
+              }
+            />
+          )}
+        />
+        <TouchableOpacity style={styles.doneButton} onPress={() => {
+          // users.updateCategories(globalUser ID this.state.categories, () => {
+            this.props.navigation.navigate('ChatStack')
+          // })
+        }}>
+          <Text style={signInStyles.buttonText}>Done</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -138,9 +117,7 @@ const styles = StyleSheet.create({
   item: {
     margin: 24,
     padding: 15,
-    backgroundColor: "pink",
-    width: 120,
-    height: 120
+    backgroundColor: "pink"
   },
   doneButton: {
     backgroundColor: "#007aff",
@@ -152,8 +129,9 @@ const styles = StyleSheet.create({
   itemContainer: {
     flex: 1,
     flexDirection: "column",
-    margin: 8,
     borderRadius: 16,
+    margin: Dimensions.get('screen').width*.025,
+    height: Dimensions.get('screen').width*.45,
     overflow: "hidden"
   },
   itemContent: {
@@ -161,10 +139,11 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center"
-    // backgroundColor: "blue"
   },
   itemText: {
-    color: "white"
+    color: "white",
+    fontSize: 28,
+    fontWeight: "600"
   },
   list: {
     flex: 1,
