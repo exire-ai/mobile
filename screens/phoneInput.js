@@ -21,6 +21,7 @@ export default function PhoneInput({ navigation }) {
           placeholder='(123)-456-7890'
           textAlign={'center'}
           autoFocus={true}
+          autoCompleteType={'tel'}
       />
       <TouchableOpacity
         style={signInStyles.button}
@@ -38,7 +39,7 @@ export default function PhoneInput({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eee",
+    backgroundColor: "#fff",
     alignItems: 'center'
   }
 });

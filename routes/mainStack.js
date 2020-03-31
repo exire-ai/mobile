@@ -18,6 +18,7 @@ const screens = {
     screen: ChatStack,
     navigationOptions: () => {
       return {
+        gestureEnabled: false,
         headerShown: false
       };
     }

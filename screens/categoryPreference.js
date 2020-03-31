@@ -98,7 +98,7 @@ export default class CategoryPreference extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eee",
+    backgroundColor: "#fff",
     alignItems: "center"
   },
   getStartedButton: {

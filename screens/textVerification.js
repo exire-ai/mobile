@@ -41,7 +41,7 @@ export default function TextVerification({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eee",
+    backgroundColor: "#fff",
     alignItems: "center",
   }
 });
