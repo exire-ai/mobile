@@ -21,7 +21,7 @@ function Category({ key, title, url, selected, onSelect }) {
       style={styles.itemContainer}
     >
       <ImageBackground source={{ uri: url}} style={{width: '100%', height: '100%', borderRadius: 8}}>
-        <View style={[styles.itemContent, { backgroundColor: selected ? 'rgba(0,0,80,.75)' : 'rgba(0,0,0,.3)' }]}>
+        <View style={[styles.itemContent, { backgroundColor: selected ? 'rgba(0,0,80,.75)' : 'rgba(0,0,0,.35)' }]}>
           <Text style={styles.itemText}>{title}</Text>
         </View>
       </ImageBackground>
@@ -56,7 +56,7 @@ export default class CategoryPreference extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={[signInStyles.subHeaderText, { padding: '5%', backgroundColor: '#e3e3e3', width: '100%' }]}>
+        <Text style={[signInStyles.subHeaderText, { padding: '5%', backgroundColor: '#eee', width: '100%' }]}>
           Tell us what you are interested in!
         </Text>
         <FlatList
@@ -141,9 +141,12 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   itemText: {
+    fontFamily: 'nunito-semibold',
     color: "white",
     fontSize: 28,
-    fontWeight: "600"
+    fontWeight: "600",
+    marginHorizontal: 8,
+    textAlign: "center"
   },
   list: {
     flex: 1,

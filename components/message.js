@@ -62,7 +62,8 @@ export function Message({ message, overMin, sameAsNext, owner, venues, first }) 
 
 const styles = StyleSheet.create({
   messsageText: {
-    fontSize: 24
+    fontFamily: 'karla-regular',
+    fontSize: 18
   },
   message: {
     backgroundColor: "#ccc",
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     width: '65%'
   },
   ownerMessage: {
-    paddingRight: 7.5, 
+    paddingRight: 7.5,
     alignItems: 'flex-end',
   },
   venueContainer: {
@@ -81,24 +82,28 @@ const styles = StyleSheet.create({
     height: 185,
     width: 140,
     borderRadius: 16,
-    overflow: "hidden"
+    overflow: "hidden",
+    backgroundColor: 'black'
   },
   venueImage: {
-    width: '100%', 
-    height: '100%', 
-    borderRadius: 20
+    width: '100%',
+    height: '100%',
+    borderRadius: 20,
+    // opacity: 0.75
   },
   venueContent: {
     height: '100%',
     width: '100%',
-    backgroundColor: 'rgba(0,0,0,.2)',
+    backgroundColor: 'rgba(0,0,0,.35)',
   },
   venueText: {
-    fontSize: 22,
+    fontFamily: 'karla-regular',
+    fontSize: 20,
     color: '#fff',
     fontWeight: '600',
     position: 'absolute',
     marginHorizontal: 5,
-    bottom: 5
+    bottom: 5,
+    // opacity: 1.0
   }
 });

@@ -26,7 +26,7 @@ const screens = {
         headerShown: true,
         title: 'Phone Number',
         headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerTitleStyle: { color: '#FFF',fontFamily: 'nunito-semibold', fontSize: 24, fontWeight: '500'},
         headerLeft: () => (
           <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={{paddingLeft: 8}}>
             <Icon

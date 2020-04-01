@@ -40,12 +40,14 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   headerText: {
+    fontFamily: 'nunito-semibold',
     marginTop: 50,
     fontSize: 60,
     color: "#007aff",
     fontWeight: "600"
   },
   subHeaderText: {
+    fontFamily: 'karla-regular',
     fontSize: 24,
     color: "#fff",
     fontWeight: "500"
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
   buttonText: {
+    fontFamily: 'karla-bold',
     color: "white",
     fontSize: 24,
     fontWeight: "500"

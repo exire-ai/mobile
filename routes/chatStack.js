@@ -14,7 +14,7 @@ const screens = {
         headerShown: true,
         title: 'exire',
         headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF', fontSize: 28, fontWeight: '500'},
+        headerTitleStyle: { color: '#FFF', fontFamily: 'nunito-semibold', fontSize: 28, fontWeight: '500'},
         gestureEnabled: false,
         headerLeft: () => (
           <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={{paddingLeft: 16, paddingBottom: 4}}>

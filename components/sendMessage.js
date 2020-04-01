@@ -137,10 +137,14 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   messageInput: {
-    fontSize: 24,
-    textAlign: 'left'
+    fontFamily: 'karla-regular',
+    fontSize: 22,
+    textAlign: 'left',
+    // justifyContent: 'flex-start'
   },
   sendMessageText: {
-      fontSize: 24
+    fontFamily: 'karla-bold',
+      fontSize: 22,
+      color: "#007aff"
   }
 });

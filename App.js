@@ -1,16 +1,35 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
 import plans from "./functions/plans";
-import SignInStack from "./routes/signInStack";
-import ChatStack from "./routes/chatStack";
 import MainStack from "./routes/mainStack";
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
+
+
+const getFonts = () => Font.loadAsync({
+    'karla-regular': require('./assets/fonts/Karla-Regular.ttf'),
+    'karla-bold': require('./assets/fonts/Karla-Bold.ttf'),
+    'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),  
+    'nunito-semibold': require('./assets/fonts/Nunito-SemiBold.ttf')
+});
+
 
 export default function App() {
-  // plans.getAllCategories(function(data) {
-  //   // console.log("Hello")
-  //   // console.log(data[0])
-  // })
-  return <MainStack />;
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  if(fontsLoaded) {
+    return (
+       <MainStack />
+    );
+  } else {
+    return (
+      <AppLoading
+        startAsync={getFonts}
+        onFinish={() => setFontsLoaded(true)}
+      />
+    )
+  }
+
+
 }
 
 const styles = StyleSheet.create({
