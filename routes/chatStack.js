@@ -4,6 +4,7 @@ import { Button, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import React from "react";
 import Chat from "../screens/chat";
+import Profile from "../screens/profile";
 // import Drawer from "../components/Drawer";
 
 const screens = {
@@ -21,22 +22,25 @@ const screens = {
             <Icon
               name='bars'
               color='#FFF'
-              size={28}
+              size={24}
             />
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('Account')} style={{paddingRight: 16, paddingBottom: 4}}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={{paddingRight: 16, paddingBottom: 4}}>
             <Icon
               name='user'
               color='#FFF'
-              size={28}
+              size={24}
             />
           </TouchableOpacity>
         ),
       };
     }
   },
+  Profile: {
+    screen: Profile
+  }
   // Drawer: { screen: Drawer }
 };
 

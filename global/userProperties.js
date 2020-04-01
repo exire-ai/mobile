@@ -1,4 +1,7 @@
 
 
 //TODO Firebase Auth, Set Values
-global var userID = ''
+export var userProperties = {
+  userID: '',
+  accessToken: ''
+}

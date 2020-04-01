@@ -9,7 +9,7 @@ import {
   PixelRatio,
   TouchableOpacity,
   Dimensions,
-  TextInput
+  TextInput,
 } from "react-native";
 import chats from "../functions/chats";
 import { Message } from "../components/message";
@@ -20,7 +20,7 @@ export default class Chat extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      messages: []
+      messages: [],
     }
 
     chats.getChat('062j0jglunxt', (data) => {
@@ -70,9 +70,16 @@ export default class Chat extends React.Component {
     this.setState({ comments: comments.slice(0)});
   }
 
+  makeProfileVisible = () => {
+    this.setState({ isProfileVisible: true });
+  };
+
   render() {
     return (
+
+
         <Animated.View style={[styles.container, { paddingBottom: this.keyboardHeight }]}>
+
         <FlatList
           style={styles.list}
           data={this.state.messages}

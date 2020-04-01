@@ -11,17 +11,19 @@ export default class LoadingScreen extends Component {
   checkIfLoggedIn = () => {
     firebase.auth().onAuthStateChanged((user) =>
     {
+      console.log(user);
       if (user)
       {
         //TODO: Get User from database, check if exists
         if (true) {
+          console.log("Category");
           this.props.navigation.navigate('CategoryPreference');
         } else {
           this.props.navigation.navigate('ChatStack');
         }
       }
       else {
-        this.props.navigation.navigate('SignInStack');
+        this.props.navigation.navigate('GetStarted');
       }
     }
   );

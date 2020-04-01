@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 // import * as GoogleSignIn from 'expo-google-sign-in';
 import firebase from 'firebase';
+import * as UserProperties from '../global/userProperties';
 
 export default class SignIn extends Component {
   isUserEqual = (googleUser, firebaseUser) => {
@@ -61,6 +62,7 @@ export default class SignIn extends Component {
     if (result.type == 'success') {
       this.onSignIn(result);
       console.log(result);
+      UserProperties.accessToken = result.accessToken;
       return result.accessToken;
     } else {
       return { cancelled: true };
