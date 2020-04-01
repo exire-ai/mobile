@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Animated } f
 
 export default function GetStarted({ navigation }) {
   const pressHandler = () => {
-    navigation.push("PhoneInput");
+    navigation.navigate("SignIn");
   };
   const imageHolder = [require('../assets/getStarted0.jpg'), require('../assets/getStarted1.jpg')]
   const [currentImageIndex, setCurrentImageIndex] = useState(0)

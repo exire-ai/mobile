@@ -24,7 +24,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ai.exire.exireMobile",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.471330204699-g7hm1fhqg2comg62lhn1okcph7tn43s4"
+        }
+      },
+      "googleServicesFile": "./googleDocs/GoogleService-Info.plist"
+    },
+    "android": {
+      "package": "ai.exire.exireMobile",
+      "googleServicesFile": "./googleDocs/google-services.json"
     }
   }
 }

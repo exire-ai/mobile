@@ -9,6 +9,7 @@ import GetStarted from "../screens/getStarted";
 import PhoneInput from "../screens/phoneInput";
 import TextVerification from "../screens/textVerification";
 import CategoryPreference from "../screens/categoryPreference";
+import SignIn from "../screens/signIn"
 
 const screens = {
   GetStarted: {
@@ -19,46 +20,54 @@ const screens = {
       };
     }
   },
-  PhoneInput: {
-    screen: PhoneInput,
-    navigationOptions: ({ navigation }) => {
+  SignIn: {
+    screen: SignIn,
+    navigationOptions: () => {
       return {
         headerShown: true,
-        title: 'Phone Number',
-        headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF',fontFamily: 'nunito-semibold', fontSize: 24, fontWeight: '500'},
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={{paddingLeft: 8}}>
-            <Icon
-              name='chevron-left'
-              color='#FFF'
-              size={32}
-            />
-          </TouchableOpacity>
-        ),
-      }
+      };
     }
   },
-  TextVerification: {
-    screen: TextVerification,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerShown: true,
-        title: 'Verification',
-        headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('PhoneInput')} style={{paddingLeft: 8}}>
-            <Icon
-              name='chevron-left'
-              color='#FFF'
-              size={32}
-            />
-          </TouchableOpacity>
-          ),
-      }
-    }
-  },
+  // PhoneInput: {
+  //   screen: PhoneInput,
+  //   navigationOptions: ({ navigation }) => {
+  //     return {
+  //       headerShown: true,
+  //       title: 'Phone Number',
+  //       headerStyle: { backgroundColor: '#007aff' },
+  //       headerTitleStyle: { color: '#FFF',fontFamily: 'nunito-semibold', fontSize: 24, fontWeight: '500'},
+  //       headerLeft: () => (
+  //         <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={{paddingLeft: 8}}>
+  //           <Icon
+  //             name='chevron-left'
+  //             color='#FFF'
+  //             size={32}
+  //           />
+  //         </TouchableOpacity>
+  //       ),
+  //     }
+  //   }
+  // },
+  // TextVerification: {
+  //   screen: TextVerification,
+  //   navigationOptions: ({ navigation }) => {
+  //     return {
+  //       headerShown: true,
+  //       title: 'Verification',
+  //       headerStyle: { backgroundColor: '#007aff' },
+  //       headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+  //       headerLeft: () => (
+  //         <TouchableOpacity onPress={() => navigation.navigate('PhoneInput')} style={{paddingLeft: 8}}>
+  //           <Icon
+  //             name='chevron-left'
+  //             color='#FFF'
+  //             size={32}
+  //           />
+  //         </TouchableOpacity>
+  //         ),
+  //     }
+  //   }
+  // },
   CategoryPreference: {
     screen: CategoryPreference,
     navigationOptions: ({ navigation }) => {
@@ -67,15 +76,15 @@ const screens = {
         title: 'Category Preference',
         headerStyle: { backgroundColor: '#007aff' },
         headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('TextVerification')} style={{paddingLeft: 8}}>
-            <Icon
-              name='chevron-left'
-              color='#FFF'
-              size={32}
-            />
-          </TouchableOpacity>
-          ),
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.navigate('TextVerification')} style={{paddingLeft: 8}}>
+        //     <Icon
+        //       name='chevron-left'
+        //       color='#FFF'
+        //       size={32}
+        //     />
+        //   </TouchableOpacity>
+        //   ),
       }
     }
   }
