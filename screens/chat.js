@@ -69,8 +69,8 @@ export default class Chat extends React.Component {
     if (!this.state.loading) {
       const { messages } = this.state;
       messages.unshift({
-        message: 'Hayden is typing',
-        senderID: '',
+        message: 'Hayden is typing...',
+        senderID: 'bot',
         venues: [],
         time: Math.round((new Date()).getTime()),
         loading: true
