@@ -61,7 +61,7 @@ export default class SignIn extends Component {
 
     if (result.type == 'success') {
       this.onSignIn(result);
-      console.log(result);
+      // console.log(result);
       UserProperties.accessToken = result.accessToken;
       return result.accessToken;
     } else {

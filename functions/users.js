@@ -12,7 +12,7 @@ const users = {
       return(null);
     })
   },
-  createUser: function(userID, name, number, deviceID, callback) {
+  createUser: function(userID, name, deviceID, categories, callback) {
     fetch('https://exire-backend.herokuapp.com/users/create', {
       method: 'POST',
       headers: {
@@ -22,8 +22,9 @@ const users = {
       body: JSON.stringify({
         userID: userID,
         name: name,
-        number: number,
-        deviceID: deviceID
+        categories: categories
+        // number: number,
+        // deviceID: deviceID
       })
     })
     .then((response) => response.json())

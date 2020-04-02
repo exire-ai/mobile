@@ -11,8 +11,9 @@ import {
 } from "react-native";
 import Card from "../shared/card";
 import plans from "../functions/plans";
-import users from "../functions/users"
-import { signInStyles } from "../global/signInStyles"
+import users from "../functions/users";
+import { signInStyles } from "../global/signInStyles";
+import firebase from "firebase";
 
 function Category({ key, title, url, selected, onSelect }) {
   return (
@@ -20,8 +21,18 @@ function Category({ key, title, url, selected, onSelect }) {
       onPress={() => onSelect(key)}
       style={styles.itemContainer}
     >
-      <ImageBackground source={{ uri: url}} style={{width: '100%', height: '100%', borderRadius: 8}}>
-        <View style={[styles.itemContent, { backgroundColor: selected ? 'rgba(0,0,80,.75)' : 'rgba(0,0,0,.35)' }]}>
+      <ImageBackground
+        source={{ uri: url }}
+        style={{ width: "100%", height: "100%", borderRadius: 8 }}
+      >
+        <View
+          style={[
+            styles.itemContent,
+            {
+              backgroundColor: selected ? "rgba(0,0,80,.75)" : "rgba(0,0,0,.35)"
+            }
+          ]}
+        >
           <Text style={styles.itemText}>{title}</Text>
         </View>
       </ImageBackground>
@@ -30,33 +41,38 @@ function Category({ key, title, url, selected, onSelect }) {
 }
 
 export default class CategoryPreference extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      categories: []
-    }
+      categories: [],
+      selectedCategories: []
+    };
 
-    plans.getAllCategories( (data) => {
-      var categories = []
+    plans.getAllCategories(data => {
+      var categories = [];
       for (var i = 0; i < data.length; i++) {
         categories.push({
           title: data[i].title,
           id: i,
           url: data[i].url,
           selected: false
-        })
+        });
       }
       this.setState({
         categories: categories
-      })
-    })
+      });
+    });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={[signInStyles.subHeaderText, { padding: '5%', backgroundColor: '#eee', width: '100%' }]}>
+        <Text
+          style={[
+            signInStyles.subHeaderText,
+            { padding: "5%", backgroundColor: "#eee", width: "100%" }
+          ]}
+        >
           Tell us what you are interested in!
         </Text>
         <FlatList
@@ -73,21 +89,47 @@ export default class CategoryPreference extends React.Component {
               url={item.url}
               selected={item.selected}
               onSelect={() => {
-                var newCategories = this.state.categories
-                newCategories[item.id].selected = !this.state.categories[item.id].selected
-                this.setState({
-                  categories: newCategories
-                })
+                var newCategories = this.state.categories;
+                newCategories[item.id].selected = !this.state.categories[
+                  item.id
+                ].selected;
+                var newSelected = this.state.selectedCategories;
+                if (newCategories[item.id].selected) {
+                  newSelected.push(newCategories[item.id].title);
+                } else {
+                  const index = newSelected.indexOf(
+                    newCategories[item.id].title
+                  );
+                  newSelected.splice(index, 1);
                 }
-              }
+                this.setState({
+                  categories: newCategories,
+                  selectedCategories: newSelected
+                });
+              }}
             />
           )}
         />
-        <TouchableOpacity style={styles.doneButton} onPress={() => {
-          // users.updateCategories(globalUser ID this.state.categories, () => {
-            this.props.navigation.navigate('ChatStack')
-          // })
-        }}>
+        <TouchableOpacity
+          style={styles.doneButton}
+          onPress={() => {
+            // users.updateCategories(globalUser ID this.state.categories, () => {
+            var user = firebase.auth().currentUser;
+            if (user) {
+              users.createUser(
+                user.uid,
+                "unknown",
+                "not implemented",
+                this.state.selectedCategories,
+                success => {
+                  console.log(success);
+                }
+              );
+            }
+            this.props.navigation.navigate("ChatStack");
+            // })
+          }}
+        >
           <Text style={signInStyles.buttonText}>Done</Text>
         </TouchableOpacity>
       </View>
@@ -130,8 +172,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     borderRadius: 16,
-    margin: Dimensions.get('screen').width*.025,
-    height: Dimensions.get('screen').width*.45,
+    margin: Dimensions.get("screen").width * 0.025,
+    height: Dimensions.get("screen").width * 0.45,
     overflow: "hidden"
   },
   itemContent: {
@@ -141,7 +183,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   itemText: {
-    fontFamily: 'nunito-semibold',
+    fontFamily: "nunito-semibold",
     color: "white",
     fontSize: 28,
     fontWeight: "600",
