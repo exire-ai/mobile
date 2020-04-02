@@ -12,27 +12,73 @@ import {
   TextInput,
 } from "react-native";
 import chats from "../functions/chats";
+import dialogflow from "../functions/dialogflow";
 import { Message } from "../components/message";
-import Search from '../components/sendMessage';
+import SendMessage from '../components/sendMessage';
 
 export default class Chat extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      messages: [],
+      messages: [{
+        message: "Human presence detected 🤖. How can I help you?",
+        senderID: 'bot',
+        venues: [],
+        time: Math.round((new Date()).getTime() /1000)
+      }],
+      ownerID: 'user',
+      sessionID: Math.random().toString(36).slice(-5)
     }
 
-    chats.getChat('062j0jglunxt', (data) => {
-      var ownerID = data.userID
-      var messages = data.chat.reverse()
-      this.setState({
-        messages: messages,
-        ownerID : ownerID
-      })
-    })
     this.keyboardHeight = new Animated.Value(0);
   }
+
+  addMessage = (inputText, user, venues) => {
+    const { messages } = this.state;
+    messages.unshift({
+      message: inputText,
+      senderID: user,
+      venues: [],
+      time: Math.round((new Date()).getTime() /1000),
+      loading: false
+    });
+    this.setState({ messages: messages.slice(0)});
+  }
+
+  sendMessage = (inputText) => {
+    this.addMessage(inputText, this.state.ownerID, []);
+    setTimeout(this.addIndicator, 250)
+    console.log('requesting')
+    dialogflow.sendMessage(this.state.sessionID, inputText, (data) => {
+      var messagesClone = this.state.messages
+      messagesClone[0] = {
+        message: data.fulfillmentText,
+        senderID: 'bot',
+        venues: [],
+        time: Math.round((new Date()).getTime())
+      }
+      this.setState({messages: messagesClone, loading: false})
+      if(data.hasOwnProperty('venues')) {
+        console.log(data.venues)
+      }
+    })
+  }
+
+  addIndicator = () => {
+    if (!this.state.loading) {
+      const { messages } = this.state;
+      messages.unshift({
+        message: 'Hayden is typing',
+        senderID: '',
+        venues: [],
+        time: Math.round((new Date()).getTime()),
+        loading: true
+      });
+      this.setState({ messages: messages.slice(0), loading: true});
+    }
+  }
+
 
   componentDidMount () {
     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
@@ -62,14 +108,6 @@ export default class Chat extends React.Component {
     ]).start();
   };
 
-  sendMessage() {
-    const {messages} = this.state;
-    messages.unshift({
-        message: data.chat[i].message
-    });
-    this.setState({ comments: comments.slice(0)});
-  }
-
   makeProfileVisible = () => {
     this.setState({ isProfileVisible: true });
   };
@@ -85,7 +123,7 @@ export default class Chat extends React.Component {
           data={this.state.messages}
           inverted={-1}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => 'key' + index}
+          keyExtractor={(item, index) => 'key' + index + "time" + item.time}
           renderItem={({ item, index }) => (
             <Message
                 message={item.message}
@@ -98,7 +136,10 @@ export default class Chat extends React.Component {
           )}
         />
         <View style={{width: '100%'}}>
-            <Search width={Dimensions.get('screen').width} height={Dimensions.get('screen').height} chatID={'062j0jglunxt'} senderID={this.state.ownerID}/>
+            <SendMessage
+              width={Dimensions.get('screen').width}
+              height={Dimensions.get('screen').height}
+              sendMessage={this.sendMessage}/>
         </View>
       </Animated.View>
     );

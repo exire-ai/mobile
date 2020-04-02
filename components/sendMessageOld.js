@@ -64,13 +64,6 @@ export default class message extends React.Component {
       })
   }
 
-  sendMessage = () => {
-    if (this.state.text.length > 0) {
-        this.props.sendMessage(this.state.text)
-        this.clearText()
-    }
-  }
-
   render() {
     const { messageBarFocused } = this.state;
 
@@ -105,7 +98,13 @@ export default class message extends React.Component {
 
         <AnimatedTouchable
           style={[styles.sendMessage, { right: this.state.sendPosition }]}
-          onPress={this.sendMessage}
+          onPress={() => {
+              var input = this.state.text
+              this.clearText()
+              chats.sendMessage(this.props.chatID, input, this.props.senderID, [], function(data) {
+                console.log(data)
+              })
+          }}
         >
           <Animated.Text
             style={[styles.sendMessageText, { opacity: this.state.opacity }]}
