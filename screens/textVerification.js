@@ -8,6 +8,7 @@ import {
   AsyncStorage
 } from "react-native";
 import users from '../functions/users';
+var uuid = require("uuid");
 import { signInStyles } from "../global/signInStyles";
 
 export default function TextVerification({ navigation }) {
@@ -20,17 +21,20 @@ export default function TextVerification({ navigation }) {
   const [value, changeText] = React.useState('');
   const [errorMsg, changeErrorMsg] = React.useState('#fff')
 
+  var userID = uuid.v4();
+
   function onChangeText(text) {
     changeText(text);
     if (text == data.code) {
       if (!userExist) {
-        users.createUser(data.number, '', data.number, (result) => {
-          navigation.navigate("ActivityPreference", {number: data.number, categories: navigation.getParam('categories')});
+        users.createUser(userID, '', data.number, (result) => {
+          navigation.navigate("ActivityPreference", {userID: userID, categories: navigation.getParam('categories')});
         })
       } else {
-        // navigation.navigate("ActivityPreference", {number: data.number, categories: navigation.getParam('categories')});
-        AsyncStorage.setItem("number", data.number)
-        navigation.navigate("Chat");
+        users.getByNumber(data.number, (result) => {
+          AsyncStorage.setItem("userID", result.userID)
+          navigation.navigate("Chat");
+        })
       }
     } else if (text.length > 6) {
       changeErrorMsg('#8b0000')

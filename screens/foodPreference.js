@@ -42,7 +42,7 @@ export default class CategoryPreference extends React.Component {
     super(props);
     var categoryData = this.props.navigation.state.params.categoryData
 
-    var food = ['chinese', 'sushi', 'burgers', 'pubs', 'mexican', 'oriental', 'poke', 'italian', 'markets', 'sandwiches', 'pizza', 'icecream', 'bakeries', 'barbeque', 'gelato', 'newamerican', 'tea', 'acaibowl', 'cafe', 'japanese']
+    var food = ['chinese', 'sushi', 'burgers', 'pubs', 'mexican', 'oriental', 'poke', 'italian', 'sandwiches', 'pizza', 'icecream', 'bakeries', 'barbeque', 'gelato', 'newamerican', 'tea', 'acaibowl', 'cafe', 'japanese']
 
     var formatData = () => {
       var categories = [];
@@ -70,10 +70,9 @@ export default class CategoryPreference extends React.Component {
 
   next = (selected) => {
     selected = selected.concat(this.props.navigation.state.params.selected)
-    var number = this.props.navigation.state.params.number;
-    console.log(selected)
-    users.updateCategories(number, selected, () => {
-      AsyncStorage.setItem('number', number);
+    var userID = this.props.navigation.state.params.userID;
+    users.updateCategories(userID, selected, () => {
+      AsyncStorage.setItem('userID', userID);
       this.props.navigation.navigate("ChatStack");
     });
   }

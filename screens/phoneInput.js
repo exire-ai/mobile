@@ -33,9 +33,6 @@ export default function PhoneInput({ navigation }) {
               })
             } else {
               navigation.navigate("TextVerification", {data: newData, userExist: userExist})
-              // plans.getAllCategories((categories) => {
-              //   navigation.navigate("TextVerification", {data: newData, userExist: userExist, categories: categories})
-              // })
             }
           })
         } else {

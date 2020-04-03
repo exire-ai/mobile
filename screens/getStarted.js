@@ -5,7 +5,7 @@ export default class GetStarted extends React.Component {
   
   constructor(props) {
     super(props)
-    AsyncStorage.getItem('number').then((value) => {
+    AsyncStorage.getItem('userID').then((value) => {
       if (value != null && value != '') {
         this.props.navigation.navigate('Chat')
       }

@@ -15,7 +15,7 @@ export default class Profile extends Component {
   //   }
 
     logout = () => {
-      AsyncStorage.setItem('number', '')
+      AsyncStorage.setItem('userID', '')
       this.props.navigation.navigate('GetStarted')
     }
 

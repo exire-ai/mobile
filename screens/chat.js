@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import {
-  Text,
   View,
   Animated,
   Keyboard,
   StyleSheet,
   FlatList,
-  PixelRatio,
-  TouchableOpacity,
   Dimensions,
-  TextInput,
 } from "react-native";
-import chats from "../functions/chats";
 import dialogflow from "../functions/dialogflow";
 import { Message } from "../components/message";
 import SendMessage from '../components/sendMessage';

@@ -5,16 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Image,
   Dimensions,
   ImageBackground,
-  AsyncStorage
 } from "react-native";
-import Card from "../shared/card";
-import plans from "../functions/plans";
-import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
-import firebase from "firebase";
 
 function Category({ key, title, url, selected, onSelect }) {
   return (
@@ -49,7 +43,6 @@ export default class CategoryPreference extends React.Component {
     var activities = ["dancing", "bars", "artgalleries", "extreme", "rockclimbing", "speakeasies", "yoga", "danceclubs", "karaoke", "arcades", "markets", "parks", "cocktailbars", "wine_bars", "spa", "museums"]
     
     var formatData = () => {
-      // check if in activities
       var categories = [];
       var j = 0;
       for (var i = 0; i < categoryData.length; i++) {
@@ -75,7 +68,7 @@ export default class CategoryPreference extends React.Component {
   }
 
   next = () => {
-    this.props.navigation.navigate("FoodPreference", { number: this.props.navigation.state.params.number, categoryData: this.state.categoryData, selected: this.state.selectedCategories });
+    this.props.navigation.navigate("FoodPreference", { userID: this.props.navigation.state.params.userID, categoryData: this.state.categoryData, selected: this.state.selectedCategories });
   }
 
   render() {
