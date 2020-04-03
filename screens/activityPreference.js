@@ -8,16 +8,17 @@ import {
   Dimensions,
   ImageBackground,
 } from 'react-native';
+import Images from '../assets/categories/index';
 import { signInStyles } from '../global/signInStyles';
 
-function Category({ key, title, url, selected, onSelect }) {
+function Category({ key, title, url, code, selected, onSelect }) {
   return (
     <TouchableOpacity
       onPress={() => onSelect(key)}
       style={styles.itemContainer}
     >
       <ImageBackground
-        source={{ uri: url }}
+        source={{uri: url}}
         style={{ width: '100%', height: '100%', borderRadius: 8 }}
       >
         <View
@@ -50,9 +51,9 @@ export default class CategoryPreference extends React.Component {
           categories.push({
             title: categoryData[i].title,
             id: j,
+            code: categoryData[i].code,
             url: categoryData[i].url,
             selected: false,
-            code: categoryData[i].code
           });
           j++;
         }
@@ -63,7 +64,7 @@ export default class CategoryPreference extends React.Component {
     this.state = {
       categories: formatData(),
       selectedCategories: [],
-      categoryData: categoryData
+      categoryData: categoryData,
     };
   }
 
@@ -93,6 +94,7 @@ export default class CategoryPreference extends React.Component {
             <Category
               key={item.key}
               title={item.title}
+              localUrl={'../assets/categories/' + item.code + '.jpg'}
               url={item.url}
               selected={item.selected}
               onSelect={() => {
