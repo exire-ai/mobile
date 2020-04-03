@@ -7,18 +7,20 @@ import LoadingScreen from "../screens/LoadingScreen";
 
 
 const screens = {
-  LoadingScreen: {
-    screen: LoadingScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false
-      };
-    }
-  },
+  // Causing Errors so Removing Temporarily
+  // LoadingScreen: {
+  //   screen: LoadingScreen,
+  //   navigationOptions: () => {
+  //     return {
+  //       headerShown: false
+  //     };
+  //   }
+  // },
   SignInStack: {
     screen: SignInStack,
     navigationOptions: () => {
       return {
+        gestureEnabled: false,
         headerShown: false
       };
     }

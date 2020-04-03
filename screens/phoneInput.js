@@ -6,10 +6,48 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
-// import TextVerification from "./textVerification";
+import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
+import plans from "../functions/plans";
 
 export default function PhoneInput({ navigation }) {
+
+  const [value, changeText] = React.useState('');
+  const [errorMsg, changeErrorMsg] = React.useState('#fff')
+
+  function onChangeText(text) {
+    let result = changeText(text);
+    if (text.length == 10) {
+      users.phoneAuth(text, (data) => {
+        if (data) {
+          users.doesNumberExist(text, (userExist) => {
+            var newData = {
+              data: {
+                code: data.code,
+                number: text
+              }
+            }
+            if (!userExist) {
+              plans.getAllCategories((categories) => {
+                navigation.navigate("TextVerification", {data: newData, userExist: userExist, categories: categories})
+              })
+            } else {
+              navigation.navigate("TextVerification", {data: newData, userExist: userExist})
+              // plans.getAllCategories((categories) => {
+              //   navigation.navigate("TextVerification", {data: newData, userExist: userExist, categories: categories})
+              // })
+            }
+          })
+        } else {
+          changeErrorMsg('#8b0000')
+        }
+      })
+    } else if (text.length < 10) {
+      changeErrorMsg('#fff')
+    }
+    return result;
+  }
+
   return (
     <View style={styles.container}>
         <View style={signInStyles.textContainer}>
@@ -22,16 +60,12 @@ export default function PhoneInput({ navigation }) {
           textAlign={'center'}
           autoFocus={true}
           autoCompleteType={'tel'}
+          onChangeText={text => onChangeText(text)}
+          value={value}
       />
-      <TouchableOpacity
-        style={signInStyles.button}
-        activeOpacity={0.75}
-        onPress={() => navigation.navigate("TextVerification")}
-      >
-        <View>
-          <Text style={signInStyles.buttonText}>Send</Text>
-        </View>
-      </TouchableOpacity>
+      <View>
+        <Text style={{color: errorMsg}}>Invalid Input, Please Try Again</Text>
+      </View>
     </View>
   );
 }

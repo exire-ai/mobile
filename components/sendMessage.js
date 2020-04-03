@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
     fontFamily: 'karla-regular',
     fontSize: 22,
     textAlign: 'left',
-    // justifyContent: 'flex-start'
   },
   sendMessageText: {
     fontFamily: 'karla-bold',

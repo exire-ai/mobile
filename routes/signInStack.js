@@ -8,8 +8,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import GetStarted from "../screens/getStarted";
 import PhoneInput from "../screens/phoneInput";
 import TextVerification from "../screens/textVerification";
-import CategoryPreference from "../screens/categoryPreference";
-import SignIn from "../screens/signIn"
+import ActivityPreference from "../screens/activityPreference";
+import FoodPreference from "../screens/foodPreference";
+// import SignIn from "../screens/signIn"
 
 const screens = {
   GetStarted: {
@@ -20,74 +21,78 @@ const screens = {
       };
     }
   },
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: () => {
-      return {
-        headerShown: true,
-      };
-    }
-  },
-  // PhoneInput: {
-  //   screen: PhoneInput,
-  //   navigationOptions: ({ navigation }) => {
+  // SignIn: {
+  //   screen: SignIn,
+  //   navigationOptions: () => {
   //     return {
   //       headerShown: true,
-  //       title: 'Phone Number',
-  //       headerStyle: { backgroundColor: '#007aff' },
-  //       headerTitleStyle: { color: '#FFF',fontFamily: 'nunito-semibold', fontSize: 24, fontWeight: '500'},
-  //       headerLeft: () => (
-  //         <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={{paddingLeft: 8}}>
-  //           <Icon
-  //             name='chevron-left'
-  //             color='#FFF'
-  //             size={32}
-  //           />
-  //         </TouchableOpacity>
-  //       ),
-  //     }
+  //     };
   //   }
   // },
-  // TextVerification: {
-  //   screen: TextVerification,
-  //   navigationOptions: ({ navigation }) => {
-  //     return {
-  //       headerShown: true,
-  //       title: 'Verification',
-  //       headerStyle: { backgroundColor: '#007aff' },
-  //       headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
-  //       headerLeft: () => (
-  //         <TouchableOpacity onPress={() => navigation.navigate('PhoneInput')} style={{paddingLeft: 8}}>
-  //           <Icon
-  //             name='chevron-left'
-  //             color='#FFF'
-  //             size={32}
-  //           />
-  //         </TouchableOpacity>
-  //         ),
-  //     }
-  //   }
-  // },
-  CategoryPreference: {
-    screen: CategoryPreference,
+  PhoneInput: {
+    screen: PhoneInput,
     navigationOptions: ({ navigation }) => {
       return {
         headerShown: true,
-        title: 'Category Preference',
+        title: 'Phone Number',
         headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
-        // headerLeft: () => (
-        //   <TouchableOpacity onPress={() => navigation.navigate('TextVerification')} style={{paddingLeft: 8}}>
-        //     <Icon
-        //       name='chevron-left'
-        //       color='#FFF'
-        //       size={32}
-        //     />
-        //   </TouchableOpacity>
-        //   ),
+        headerTitleStyle: { color: '#FFF',fontFamily: 'nunito-semibold', fontSize: 24, fontWeight: '500'},
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={{paddingLeft: 8}}>
+            <Icon
+              name='chevron-left'
+              color='#FFF'
+              size={32}
+            />
+          </TouchableOpacity>
+        ),
       }
     }
-  }
+  },
+  TextVerification: {
+    screen: TextVerification,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        title: 'Verification',
+        headerStyle: { backgroundColor: '#007aff' },
+        gestureEnabled: false,
+        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+      }
+    }
+  },
+  ActivityPreference: {
+    screen: ActivityPreference,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        title: 'Activities',
+        headerStyle: { backgroundColor: '#007aff' },
+        gestureEnabled: false,
+        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+      }
+    }
+  },
+  FoodPreference: {
+    screen: FoodPreference,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        title: 'Food',
+        headerStyle: { backgroundColor: '#007aff' },
+        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('ActivityPreference')} style={{paddingLeft: 8}}>
+            <Icon
+              name='chevron-left'
+              color='#FFF'
+              size={32}
+            />
+          </TouchableOpacity>
+          ),
+      }
+    }
+  },
 
 };
 

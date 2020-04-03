@@ -1,21 +1,27 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Animated } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Animated, AsyncStorage } from "react-native";
 
-export default function GetStarted({ navigation }) {
-  const pressHandler = () => {
-    navigation.navigate("SignIn");
-  };
-  const imageHolder = [require('../assets/getStarted0.jpg'), require('../assets/getStarted1.jpg')]
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  setTimeout(() => {
-    setCurrentImageIndex(currentImageIndex == imageHolder.length - 1 ?
-          0:
-          currentImageIndex + 1
-        )
-  }, 5000)
+export default class GetStarted extends React.Component {
+  
+  constructor(props) {
+    super(props)
+    AsyncStorage.getItem('number').then((value) => {
+      if (value != null && value != '') {
+        this.props.navigation.navigate('Chat')
+      }
+    })
+    this.state = {
+      imageHolder: [require('../assets/getStarted0.jpg'), require('../assets/getStarted1.jpg')],
+      currentIndex: 0
+    }
+    setInterval(() => {
+      this.setState({currentIndex: this.state.currentIndex == this.state.imageHolder.length - 1 ? 0 : this.state.currentIndex + 1 })
+    }, 5000)
+  }
 
-  return (
-    <ImageBackground source={imageHolder[currentImageIndex]} style={{width: '100%', height: '100%'}}>
+  render() {
+    return (
+      <ImageBackground source={this.state.imageHolder[this.state.currentIndex]} style={{width: '100%', height: '100%'}}>
       <View style={styles.container}>
         <Text style={styles.headerText}>exire</Text>
         <Text style={styles.subHeaderText}>Going out made simple</Text>
@@ -23,7 +29,7 @@ export default function GetStarted({ navigation }) {
           <TouchableOpacity
             style={styles.getStartedButton}
             activeOpacity={0.75}
-            onPress={pressHandler}
+            onPress={() => { this.props.navigation.navigate('PhoneInput')}}
           >
             <Text style={styles.buttonText}>Get Started</Text>
           </TouchableOpacity>
@@ -31,6 +37,7 @@ export default function GetStarted({ navigation }) {
       </View>
     </ImageBackground>
   );
+  }
 }
 
 const styles = StyleSheet.create({

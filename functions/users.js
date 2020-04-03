@@ -12,7 +12,7 @@ const users = {
       return(null);
     })
   },
-  createUser: function(userID, name, deviceID, categories, callback) {
+  createUser: function(userID, name, number, callback) {
     fetch('https://exire-backend.herokuapp.com/users/create', {
       method: 'POST',
       headers: {
@@ -22,9 +22,7 @@ const users = {
       body: JSON.stringify({
         userID: userID,
         name: name,
-        categories: categories
-        // number: number,
-        // deviceID: deviceID
+        number: number,
       })
     })
     .then((response) => response.json())
@@ -69,8 +67,28 @@ const users = {
       callback(null);
     })
   },
+  updateCategories: function(userID, categories, callback) {
+    fetch('https://exire-backend.herokuapp.com/users/updateCategories/' + userID, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify(
+        categories
+      )
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      callback(responseJson);
+    })
+    .catch((error) => {
+      console.log(JSON.stringify(error));
+      callback(null);
+    })
+  },
   getChatUser: function(userID, callback) {
-    fetch('https://exire-backend.herokuapp.com/users/getChat'/ + userID, {
+    fetch('https://exire-backend.herokuapp.com/users/getChat/' + userID, {
       method: 'GET'
     })
     .then((response) => response.json())
@@ -108,6 +126,35 @@ const users = {
       callback(null);
     })
   },
+  phoneAuth: function(number, callback) {
+    fetch('https://exire-backend.herokuapp.com/external/phoneAuth/' + number, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if (typeof responseJson['code'] == "number") {
+        callback(responseJson);
+      } else {
+        callback(false)
+      }
+    })
+    .catch((error) => {
+      callback(false);
+    })
+  },
+  doesNumberExist: function(number, callback) {
+    fetch('https://exire-backend.herokuapp.com/users/doesNumberExist/' + number, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      callback(responseJson);
+    })
+    .catch((error) => {
+      console.log(JSON.stringify(error));
+      callback(false);
+    })
+  }
 }
 
 export default users;

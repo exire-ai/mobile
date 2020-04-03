@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, AsyncStorage } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { userProperties } from '../global/userProperties';
 
-import firebase from 'firebase';
+// import firebase from 'firebase';
 
 export default class Profile extends Component {
 
-  logOut = async () => {
-    try {
-      await firebase.auth().signOut();
-    } catch (e) {
-      console.log(e);
+  // logOut = async () => {
+  //   try {
+  //     await firebase.auth().signOut();
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+
+    logout = () => {
+      AsyncStorage.setItem('number', '')
+      this.props.navigation.navigate('GetStarted')
     }
 
 
@@ -47,15 +52,11 @@ export default class Profile extends Component {
       //   scopes: ['profile', 'email'],
       // });
 
-
-
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <Button title="Log Out"
-                onPress={() => this.logOut()}
+            onPress={this.logout}
          />
       </View>
     );

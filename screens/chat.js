@@ -79,7 +79,6 @@ export default class Chat extends React.Component {
     }
   }
 
-
   componentDidMount () {
     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
     this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
@@ -114,10 +113,7 @@ export default class Chat extends React.Component {
 
   render() {
     return (
-
-
-        <Animated.View style={[styles.container, { paddingBottom: this.keyboardHeight }]}>
-
+      <Animated.View style={[styles.container, { paddingBottom: this.keyboardHeight }]}>
         <FlatList
           style={styles.list}
           data={this.state.messages}
@@ -139,7 +135,8 @@ export default class Chat extends React.Component {
             <SendMessage
               width={Dimensions.get('screen').width}
               height={Dimensions.get('screen').height}
-              sendMessage={this.sendMessage}/>
+              sendMessage={this.sendMessage}
+            />
         </View>
       </Animated.View>
     );

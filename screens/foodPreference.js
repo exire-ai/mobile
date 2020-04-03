@@ -5,15 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Image,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  AsyncStorage
 } from "react-native";
-import Card from "../shared/card";
-import plans from "../functions/plans";
 import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
-import firebase from "firebase";
 
 function Category({ key, title, url, selected, onSelect }) {
   return (
@@ -43,24 +40,41 @@ function Category({ key, title, url, selected, onSelect }) {
 export default class CategoryPreference extends React.Component {
   constructor(props) {
     super(props);
+    var categoryData = this.props.navigation.state.params.categoryData
+
+    var food = ['chinese', 'sushi', 'burgers', 'pubs', 'mexican', 'oriental', 'poke', 'italian', 'markets', 'sandwiches', 'pizza', 'icecream', 'bakeries', 'barbeque', 'gelato', 'newamerican', 'tea', 'acaibowl', 'cafe', 'japanese']
+
+    var formatData = () => {
+      var categories = [];
+      var j = 0;
+      for (var i = 0; i < categoryData.length; i++) {
+        if (food.includes(categoryData[i].code)) {
+          categories.push({
+            title: categoryData[i].title,
+            id: j,
+            url: categoryData[i].url,
+            selected: false,
+            code: categoryData[i].code
+          });
+          j++;
+        }
+      }
+      return categories
+    }
+
     this.state = {
-      categories: [],
+      categories: formatData(),
       selectedCategories: []
     };
+  }
 
-    plans.getAllCategories(data => {
-      var categories = [];
-      for (var i = 0; i < data.length; i++) {
-        categories.push({
-          title: data[i].title,
-          id: i,
-          url: data[i].url,
-          selected: false
-        });
-      }
-      this.setState({
-        categories: categories
-      });
+  next = (selected) => {
+    selected = selected.concat(this.props.navigation.state.params.selected)
+    var number = this.props.navigation.state.params.number;
+    console.log(selected)
+    users.updateCategories(number, selected, () => {
+      AsyncStorage.setItem('number', number);
+      this.props.navigation.navigate("ChatStack");
     });
   }
 
@@ -95,10 +109,10 @@ export default class CategoryPreference extends React.Component {
                 ].selected;
                 var newSelected = this.state.selectedCategories;
                 if (newCategories[item.id].selected) {
-                  newSelected.push(newCategories[item.id].title);
+                  newSelected.push(newCategories[item.id].code);
                 } else {
                   const index = newSelected.indexOf(
-                    newCategories[item.id].title
+                    newCategories[item.id].code
                   );
                   newSelected.splice(index, 1);
                 }
@@ -112,23 +126,7 @@ export default class CategoryPreference extends React.Component {
         />
         <TouchableOpacity
           style={styles.doneButton}
-          onPress={() => {
-            // users.updateCategories(globalUser ID this.state.categories, () => {
-            var user = firebase.auth().currentUser;
-            if (user) {
-              users.createUser(
-                user.uid,
-                "unknown",
-                "not implemented",
-                this.state.selectedCategories,
-                success => {
-                  console.log(success);
-                }
-              );
-            }
-            this.props.navigation.navigate("ChatStack");
-            // })
-          }}
+          onPress={() => {this.next(this.state.selectedCategories)}}
         >
           <Text style={signInStyles.buttonText}>Done</Text>
         </TouchableOpacity>
