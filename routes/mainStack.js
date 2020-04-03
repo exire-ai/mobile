@@ -1,27 +1,24 @@
-import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
-import React from "react";
-import SignInStack from "./signInStack";
-import ChatStack from "./chatStack";
-import LoadingScreen from "../screens/LoadingScreen";
-
+import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import SignInStack from './signInStack';
+import ChatStack from './chatStack';
+import LoadingScreen from '../screens/LoadingScreen';
 
 const screens = {
-  // Causing Errors so Removing Temporarily
-  // LoadingScreen: {
-  //   screen: LoadingScreen,
-  //   navigationOptions: () => {
-  //     return {
-  //       headerShown: false
-  //     };
-  //   }
-  // },
+  LoadingScreen: {
+    screen: LoadingScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    }
+  },
   SignInStack: {
     screen: SignInStack,
     navigationOptions: () => {
       return {
         gestureEnabled: false,
-        headerShown: false
+        headerShown: false,
       };
     }
   },
@@ -36,6 +33,11 @@ const screens = {
   }
 };
 
-const MainStack = createStackNavigator(screens);
+const MainStack = createStackNavigator(screens, {
+  initialRouteName: 'LoadingScreen',
+  defaultNavigationOptions: {
+    ...TransitionPresets.FadeFromBottomAndroid
+  }
+});
 
 export default createAppContainer(MainStack);

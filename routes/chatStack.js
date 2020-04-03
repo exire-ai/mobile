@@ -1,11 +1,11 @@
-import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
-import { Button, TouchableOpacity } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import React from "react";
-import Chat from "../screens/chat";
-import Profile from "../screens/profile";
-// import Drawer from "../components/Drawer";
+import { navigationStyles } from '../global/navigationStyles';
+import React from 'react';
+import Chat from '../screens/chat';
+import Profile from '../screens/profile';
+// import Drawer from '../components/Drawer';
 
 const screens = {
   Chat: {
@@ -14,11 +14,11 @@ const screens = {
       return {
         headerShown: true,
         title: 'exire',
-        headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF', fontFamily: 'nunito-semibold', fontSize: 28, fontWeight: '500'},
+        headerStyle: navigationStyles.header,
+        headerTitleStyle: navigationStyles.headerTitle,
         gestureEnabled: false,
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={{paddingLeft: 16, paddingBottom: 4}}>
+          <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={navigationStyles.icon}>
             <Icon
               name='bars'
               color='#FFF'
@@ -27,7 +27,7 @@ const screens = {
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={{paddingRight: 16, paddingBottom: 4}}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={navigationStyles.icon}>
             <Icon
               name='user'
               color='#FFF'

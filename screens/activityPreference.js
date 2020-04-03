@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -7,8 +7,8 @@ import {
   FlatList,
   Dimensions,
   ImageBackground,
-} from "react-native";
-import { signInStyles } from "../global/signInStyles";
+} from 'react-native';
+import { signInStyles } from '../global/signInStyles';
 
 function Category({ key, title, url, selected, onSelect }) {
   return (
@@ -18,13 +18,13 @@ function Category({ key, title, url, selected, onSelect }) {
     >
       <ImageBackground
         source={{ uri: url }}
-        style={{ width: "100%", height: "100%", borderRadius: 8 }}
+        style={{ width: '100%', height: '100%', borderRadius: 8 }}
       >
         <View
           style={[
             styles.itemContent,
             {
-              backgroundColor: selected ? "rgba(0,0,80,.75)" : "rgba(0,0,0,.35)"
+              backgroundColor: selected ? 'rgba(0,0,80,.75)' : 'rgba(0,0,0,.35)'
             }
           ]}
         >
@@ -40,7 +40,7 @@ export default class CategoryPreference extends React.Component {
     super(props);
     var categoryData = this.props.navigation.state.params.categories
 
-    var activities = ["dancing", "bars", "artgalleries", "extreme", "rockclimbing", "speakeasies", "yoga", "danceclubs", "karaoke", "arcades", "markets", "parks", "cocktailbars", "wine_bars", "spa", "museums"]
+    var activities = ['dancing', 'bars', 'artgalleries', 'extreme', 'rockclimbing', 'speakeasies', 'yoga', 'danceclubs', 'karaoke', 'arcades', 'markets', 'parks', 'cocktailbars', 'wine_bars', 'spa', 'museums']
     
     var formatData = () => {
       var categories = [];
@@ -68,7 +68,7 @@ export default class CategoryPreference extends React.Component {
   }
 
   next = () => {
-    this.props.navigation.navigate("FoodPreference", { userID: this.props.navigation.state.params.userID, categoryData: this.state.categoryData, selected: this.state.selectedCategories });
+    this.props.navigation.navigate('FoodPreference', { userID: this.props.navigation.state.params.userID, categoryData: this.state.categoryData, selected: this.state.selectedCategories });
   }
 
   render() {
@@ -77,7 +77,7 @@ export default class CategoryPreference extends React.Component {
         <Text
           style={[
             signInStyles.subHeaderText,
-            { padding: "5%", backgroundColor: "#eee", width: "100%" }
+            { padding: '5%', backgroundColor: '#eee', width: '100%' }
           ]}
         >
           Tell us what you are interested in!
@@ -131,58 +131,58 @@ export default class CategoryPreference extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center'
   },
   getStartedButton: {
-    backgroundColor: "#007aff",
+    backgroundColor: '#007aff',
     height: 50,
-    width: "85%",
-    alignItems: "center",
-    justifyContent: "center",
+    width: '85%',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 8
   },
   buttonText: {
-    color: "white",
+    color: 'white',
     fontSize: 18,
-    fontWeight: "500"
+    fontWeight: '500'
   },
   item: {
     margin: 24,
     padding: 15,
-    backgroundColor: "pink"
+    backgroundColor: 'pink'
   },
   doneButton: {
-    backgroundColor: "#007aff",
-    width: "100%",
+    backgroundColor: '#007aff',
+    width: '100%',
     height: 80,
-    alignItems: "center",
+    alignItems: 'center',
     paddingTop: 15
   },
   itemContainer: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     borderRadius: 16,
-    margin: Dimensions.get("screen").width * 0.025,
-    height: Dimensions.get("screen").width * 0.45,
-    overflow: "hidden"
+    margin: Dimensions.get('screen').width * 0.025,
+    height: Dimensions.get('screen').width * 0.45,
+    overflow: 'hidden'
   },
   itemContent: {
-    width: "100%",
+    width: '100%',
     aspectRatio: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   itemText: {
-    fontFamily: "nunito-semibold",
-    color: "white",
+    fontFamily: 'nunito-semibold',
+    color: 'white',
     fontSize: 28,
-    fontWeight: "600",
+    fontWeight: '600',
     marginHorizontal: 8,
-    textAlign: "center"
+    textAlign: 'center'
   },
   list: {
     flex: 1,
-    width: "100%"
+    width: '100%'
   }
 });

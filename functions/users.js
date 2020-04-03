@@ -132,7 +132,7 @@ const users = {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      if (typeof responseJson['code'] == "number") {
+      if (typeof responseJson['code'] == 'number') {
         callback(responseJson);
       } else {
         callback(false)

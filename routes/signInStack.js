@@ -1,16 +1,14 @@
-import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
-// import ReviewDetails from "../screens/reviewDetails";
-// import Header from "../shared/header";
-import React from "react";
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { navigationStyles } from '../global/navigationStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import GetStarted from "../screens/getStarted";
-import PhoneInput from "../screens/phoneInput";
-import TextVerification from "../screens/textVerification";
-import ActivityPreference from "../screens/activityPreference";
-import FoodPreference from "../screens/foodPreference";
-// import SignIn from "../screens/signIn"
+import GetStarted from '../screens/getStarted';
+import PhoneInput from '../screens/phoneInput';
+import TextVerification from '../screens/textVerification';
+import ActivityPreference from '../screens/activityPreference';
+import FoodPreference from '../screens/foodPreference';
 
 const screens = {
   GetStarted: {
@@ -21,24 +19,16 @@ const screens = {
       };
     }
   },
-  // SignIn: {
-  //   screen: SignIn,
-  //   navigationOptions: () => {
-  //     return {
-  //       headerShown: true,
-  //     };
-  //   }
-  // },
   PhoneInput: {
     screen: PhoneInput,
     navigationOptions: ({ navigation }) => {
       return {
         headerShown: true,
         title: 'Phone Number',
-        headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF',fontFamily: 'nunito-semibold', fontSize: 24, fontWeight: '500'},
+        headerStyle: navigationStyles.header,
+        headerTitleStyle: navigationStyles.headerTitle,
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={{paddingLeft: 8}}>
+          <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={navigationStyles.icon}>
             <Icon
               name='chevron-left'
               color='#FFF'
@@ -55,9 +45,9 @@ const screens = {
       return {
         headerShown: true,
         title: 'Verification',
-        headerStyle: { backgroundColor: '#007aff' },
+        headerStyle: navigationStyles.header,
         gestureEnabled: false,
-        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerTitleStyle: navigationStyles.headerTitle,
       }
     }
   },
@@ -67,9 +57,9 @@ const screens = {
       return {
         headerShown: true,
         title: 'Activities',
-        headerStyle: { backgroundColor: '#007aff' },
+        headerStyle: navigationStyles.header,
         gestureEnabled: false,
-        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerTitleStyle: navigationStyles.headerTitle,
       }
     }
   },
@@ -79,10 +69,10 @@ const screens = {
       return {
         headerShown: true,
         title: 'Food',
-        headerStyle: { backgroundColor: '#007aff' },
-        headerTitleStyle: { color: '#FFF', fontSize: 24, fontWeight: '500'},
+        headerStyle: navigationStyles.header,
+        headerTitleStyle: navigationStyles.headerTitle,
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('ActivityPreference')} style={{paddingLeft: 8}}>
+          <TouchableOpacity onPress={() => navigation.navigate('ActivityPreference')} style={navigationStyles.icon}>
             <Icon
               name='chevron-left'
               color='#FFF'

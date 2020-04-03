@@ -6,7 +6,7 @@ import Chat from '../screens/chat';
 
 const getDrawerItem = navigation => (
   <NavBarItem
-    iconName="bars"
+    iconName='bars'
     onPress={() => {
       if (navigation.state.index === 0) {
         // check if drawer is not open, then only open it

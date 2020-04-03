@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
   TextInput
-} from "react-native";
-import users from "../functions/users";
-import { signInStyles } from "../global/signInStyles";
-import plans from "../functions/plans";
+} from 'react-native';
+import users from '../functions/users';
+import { signInStyles } from '../global/signInStyles';
+import plans from '../functions/plans';
 
 export default function PhoneInput({ navigation }) {
 
@@ -29,20 +28,19 @@ export default function PhoneInput({ navigation }) {
             }
             if (!userExist) {
               plans.getAllCategories((categories) => {
-                navigation.navigate("TextVerification", {data: newData, userExist: userExist, categories: categories})
+                navigation.navigate('TextVerification', {data: newData, userExist: userExist, categories: categories})
               })
             } else {
-              navigation.navigate("TextVerification", {data: newData, userExist: userExist})
+              navigation.navigate('TextVerification', {data: newData, userExist: userExist})
             }
           })
         } else {
           changeErrorMsg('#8b0000')
         }
       })
-    } else if (text.length < 10) {
-      changeErrorMsg('#fff')
+    } else {
+      changeErrorMsg(text.length > 10 ? '#8b0000' : '#fff')
     }
-    return result;
   }
 
   return (
@@ -52,7 +50,7 @@ export default function PhoneInput({ navigation }) {
           <Text style={signInStyles.subHeaderText}>We just need your number for verification and won't spam you or sell your data.</Text>
         </View>
       <TextInput style={signInStyles.input}
-          keyboardType={"phone-pad"}
+          keyboardType={'phone-pad'}
           placeholder='(123)-456-7890'
           textAlign={'center'}
           autoFocus={true}
@@ -70,7 +68,7 @@ export default function PhoneInput({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     alignItems: 'center'
   }
 });

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
-import plans from "./functions/plans";
-import MainStack from "./routes/mainStack";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, FlatList, Alert } from 'react-native';
+import plans from './functions/plans';
+import MainStack from './routes/mainStack';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 
@@ -40,7 +40,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     paddingTop: 40,
     paddingHorizontal: 20
     // alignItems: 'center',
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 24,
     padding: 30,
-    backgroundColor: "pink",
+    backgroundColor: 'pink',
     fontSize: 24,
     marginHorizontal: 10,
     marginTop: 24

@@ -8,7 +8,7 @@ function HomeScreen({ navigation }) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button
         onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
+        title='Go to notifications'
       />
     </View>
   );
@@ -17,7 +17,7 @@ function HomeScreen({ navigation }) {
 function NotificationsScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
+      <Button onPress={() => navigation.goBack()} title='Go back home' />
     </View>
   );
 }
@@ -27,9 +27,9 @@ const Drawer = createDrawerNavigator();
 export default function Menu() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      <Drawer.Navigator initialRouteName='Home'>
+        <Drawer.Screen name='Home' component={HomeScreen} />
+        <Drawer.Screen name='Notifications' component={NotificationsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

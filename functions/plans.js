@@ -1,7 +1,7 @@
 const plans = {
   getAllCategories: function(callback) {
-    fetch("https://exire-backend.herokuapp.com/plans/getAllCategories/", {
-      method: "GET"
+    fetch('https://exire-backend.herokuapp.com/plans/getAllCategories/', {
+      method: 'GET'
     })
       .then(response => response.json())
       .then(responseJson => {

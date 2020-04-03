@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   Animated,
@@ -6,9 +6,9 @@ import {
   StyleSheet,
   FlatList,
   Dimensions,
-} from "react-native";
-import dialogflow from "../functions/dialogflow";
-import { Message } from "../components/message";
+} from 'react-native';
+import dialogflow from '../functions/dialogflow';
+import { Message } from '../components/message';
 import SendMessage from '../components/sendMessage';
 
 export default class Chat extends React.Component {
@@ -17,7 +17,7 @@ export default class Chat extends React.Component {
     super(props)
     this.state = {
       messages: [{
-        message: "Human presence detected 🤖. How can I help you?",
+        message: 'Human presence detected 🤖. How can I help you?',
         senderID: 'bot',
         venues: [],
         time: Math.round((new Date()).getTime() /1000)
@@ -25,7 +25,6 @@ export default class Chat extends React.Component {
       ownerID: 'user',
       sessionID: Math.random().toString(36).slice(-5)
     }
-
     this.keyboardHeight = new Animated.Value(0);
   }
 
@@ -55,7 +54,9 @@ export default class Chat extends React.Component {
       }
       this.setState({messages: messagesClone, loading: false})
       if(data.hasOwnProperty('venues')) {
-        console.log(data.venues)
+        setTimeout(() => {
+          this.addMessage('', 'bot', data.venues)
+        }, 400)
       }
     })
   }
@@ -114,7 +115,7 @@ export default class Chat extends React.Component {
           data={this.state.messages}
           inverted={-1}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => 'key' + index + "time" + item.time}
+          keyExtractor={(item, index) => 'key' + index + 'time' + item.time}
           renderItem={({ item, index }) => (
             <Message
                 message={item.message}
@@ -141,11 +142,11 @@ export default class Chat extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center'
   },
   list: {
     flex: 1,
-    width: "100%"
+    width: '100%'
   }
 });

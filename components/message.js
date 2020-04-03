@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
-} from "react-native";
+} from 'react-native';
 
 export function Message({ message, overMin, sameAsNext, owner, venues, first }) {
     var spaceBelow = sameAsNext ? 1 : 5
@@ -31,7 +31,7 @@ export function Message({ message, overMin, sameAsNext, owner, venues, first }) 
             renderItem={({ item }) => (
                 <View style={{paddingLeft: 10}}>
                     <TouchableOpacity
-                        onPress={() => console.log("Clicked")}
+                        onPress={() => console.log('Clicked')}
                         style={styles.venueContainer}
                     >
                         <ImageBackground source={{ uri: item.imgURL}} style={styles.venueImage}>
@@ -51,8 +51,8 @@ export function Message({ message, overMin, sameAsNext, owner, venues, first }) 
     } else if (owner) {
         messageJSX = (
         <View style={[styles.ownerMessage, {marginBottom: spaceBelow, marginTop: spaceAbove}]}>
-            <View style={[styles.message, { backgroundColor: "#007aff" }]}>
-                <Text style={[styles.messsageText, {color: "#fff"}]}>{message}</Text>
+            <View style={[styles.message, { backgroundColor: '#007aff' }]}>
+                <Text style={[styles.messsageText, {color: '#fff'}]}>{message}</Text>
             </View>
         </View>
         )
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   message: {
-    backgroundColor: "#ccc",
+    backgroundColor: '#ccc',
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 16,
@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
   },
   venueContainer: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     height: 185,
     width: 140,
     borderRadius: 16,
-    overflow: "hidden",
+    overflow: 'hidden',
     backgroundColor: 'black'
   },
   venueImage: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Dimensions,
   View,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform
-} from "react-native";
+} from 'react-native';
 import chats from '../functions/chats'
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
@@ -81,11 +81,11 @@ export default class message extends React.Component {
             styles.message,
             {
               width: this.state.inputLength,
-              position: "absolute",
+              position: 'absolute',
               left: 16,
-              alignSelf: "center"
+              alignSelf: 'center'
             },
-            messageBarFocused === true ? undefined : { justifyContent: "center" }
+            messageBarFocused === true ? undefined : { justifyContent: 'center' }
           ]}
         >
           <TextInput
@@ -93,7 +93,7 @@ export default class message extends React.Component {
             onBlur={this.onBlur}
             onFocus={this.onFocus}
             autoFocus={true}
-            placeholder="Say something..."
+            placeholder='Say something...'
             maxLength={144}
             numberOfLines={2}
             textAlign={'left'}
@@ -120,22 +120,22 @@ export default class message extends React.Component {
 
 const styles = StyleSheet.create({
   messageContainer: {
-    flexDirection: "row",
-    borderBottomColor: "#00000033",
+    flexDirection: 'row',
+    borderBottomColor: '#00000033',
     paddingTop: 100
   },
   message: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 10,
     borderRadius: 10,
-    backgroundColor: "#ccc"
+    backgroundColor: '#ccc'
   },
   sendMessage: {
-    position: "absolute",
-    textAlign: "center",
-    justifyContent: "center",
-    alignSelf: "center"
+    position: 'absolute',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center'
   },
   messageInput: {
     fontFamily: 'karla-regular',
@@ -145,6 +145,6 @@ const styles = StyleSheet.create({
   sendMessageText: {
     fontFamily: 'karla-bold',
       fontSize: 22,
-      color: "#007aff"
+      color: '#007aff'
   }
 });
