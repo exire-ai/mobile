@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
-  Dimensions,
   View,
   Animated,
   TextInput,
   TouchableOpacity,
   StyleSheet,
   Platform
-} from 'react-native';
-import chats from '../functions/chats'
+} from "react-native";
+import chats from "../functions/chats";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -16,103 +15,74 @@ export default class message extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputLength: new Animated.Value(this.props.width *.9),
+      inputLength: new Animated.Value(this.props.width * 0.9),
       sendPosition: new Animated.Value(0),
       opacity: new Animated.Value(0),
       messageBarFocused: false,
-      text: ''
+      text: "",
+      inputActivated: false
     };
   }
 
   onFocus = () => {
-    Animated.parallel([
-      Animated.timing(this.state.inputLength, {
-        toValue: this.props.width*.8,
-        duration: 250
-      }),
-      Animated.timing(this.state.sendPosition, {
-        toValue: 16,
-        duration: 400
-      }),
-      Animated.timing(this.state.opacity, {
-        toValue: 1,
-        duration: 250
-      })
-    ]).start();
+    this.setState({ inputActivated: true });
+    console.log(this.state.inputActivated);
   };
 
   onBlur = () => {
-    Animated.parallel([
-      Animated.timing(this.state.inputLength, {
-        toValue: this.props.width*.9,
-        duration: 250
-      }),
-      Animated.timing(this.state.sendPosition, {
-        toValue: 0,
-        duration: 250
-      }),
-      Animated.timing(this.state.opacity, {
-        toValue: 0,
-        duration: 250
-      })
-    ]).start();
+    this.setState({ inputActivated: false });
   };
 
   clearText = () => {
-      this.setState({
-          text : ''
-      })
-  }
+    this.setState({
+      text: ""
+    });
+  };
 
   sendMessage = () => {
     if (this.state.text.length > 0) {
-        this.props.sendMessage(this.state.text)
-        this.clearText()
+      this.props.sendMessage(this.state.text);
+      this.clearText();
     }
-  }
+  };
+
+  renderSend = () => {
+    if (this.state.inputActivated) {
+      console.log("Showing Send Button");
+      return (
+        <AnimatedTouchable
+          style={styles.sendMessage}
+          onPress={this.sendMessage}
+        >
+          <Animated.Text style={[styles.sendMessageText, { opacity: 1.0 }]}>
+            Send
+          </Animated.Text>
+        </AnimatedTouchable>
+      );
+    } else {
+      return null;
+    }
+  };
 
   render() {
-    const { messageBarFocused } = this.state;
-
     return (
       <View style={styles.messageContainer}>
-        <Animated.View
-          style={[
-            styles.message,
-            {
-              width: this.state.inputLength,
-              position: 'absolute',
-              left: 16,
-              alignSelf: 'center'
-            },
-            messageBarFocused === true ? undefined : { justifyContent: 'center' }
-          ]}
-        >
+        <Animated.View style={styles.message}>
           <TextInput
             style={styles.messageInput}
             onBlur={this.onBlur}
             onFocus={this.onFocus}
             autoFocus={true}
-            placeholder='Say something...'
+            placeholder="Say something..."
             maxLength={144}
             numberOfLines={2}
-            textAlign={'left'}
+            textAlign={"left"}
             multiline
-            onChangeText={(text) => this.setState({text})}
+            onChangeText={text => this.setState({ text })}
             value={this.state.text}
           />
         </Animated.View>
-
-        <AnimatedTouchable
-          style={[styles.sendMessage, { right: this.state.sendPosition }]}
-          onPress={this.sendMessage}
-        >
-          <Animated.Text
-            style={[styles.sendMessageText, { opacity: this.state.opacity }]}
-          >
-            Send
-          </Animated.Text>
-        </AnimatedTouchable>
+        {this.renderSend()}
       </View>
     );
   }
@@ -120,31 +90,42 @@ export default class message extends React.Component {
 
 const styles = StyleSheet.create({
   messageContainer: {
-    flexDirection: 'row',
-    borderBottomColor: '#00000033',
-    paddingTop: 100
+    flexDirection: "row",
+    borderBottomColor: "#00000033",
+    paddingTop: 20,
+    paddingBottom: 30,
+    backgroundColor: "#fff",
+    marginHorizontal: 10
   },
   message: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 55,
     paddingVertical: 10,
+    paddingHorizontal: 10,
     borderRadius: 10,
-    backgroundColor: '#ccc'
+    backgroundColor: "#ddd"
   },
   sendMessage: {
-    position: 'absolute',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center'
+    flex: -1,
+    textAlign: "center",
+    width: 65,
+    justifyContent: "center",
+    alignSelf: "center",
+    marginLeft: 16
   },
   messageInput: {
-    fontFamily: 'karla-regular',
+    fontFamily: "karla-regular",
     fontSize: 22,
-    textAlign: 'left',
+    textAlign: "left",
+    flex: 1,
+    marginLeft: 10
   },
   sendMessageText: {
-    fontFamily: 'karla-bold',
-      fontSize: 22,
-      color: '#007aff'
+    fontFamily: "karla-bold",
+    fontSize: 22,
+    color: "#007aff"
   }
 });
