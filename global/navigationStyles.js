@@ -8,7 +8,6 @@ export const navigationStyles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#007aff',
-    justifyContent: 'center'
   },
   headerTitle: {
     color: '#FFF',
