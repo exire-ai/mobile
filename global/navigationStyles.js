@@ -7,12 +7,14 @@ export const navigationStyles = StyleSheet.create({
     paddingLeft: 16
   },
   header: {
-    backgroundColor: '#007aff'
+    backgroundColor: '#007aff',
+    justifyContent: 'center'
   },
   headerTitle: {
     color: '#FFF',
     fontFamily: 'nunito-semibold', 
     fontSize: 28, 
-    fontWeight: '500'
+    fontWeight: '500',
+    justifyContent: 'center'
   }
 });

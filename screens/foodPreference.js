@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -6,33 +6,34 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  ImageBackground,
-  AsyncStorage
 } from 'react-native';
-import users from '../functions/users';
+import ProgressiveImage from '../components/ProgressiveImage';
 import { signInStyles } from '../global/signInStyles';
 
-function Category({ key, title, url, selected, onSelect }) {
+
+function Category({ key, title, ogUrl, lowUrl, url, code, selected, onSelect }) {
   return (
     <TouchableOpacity
       onPress={() => onSelect(key)}
       style={styles.itemContainer}
     >
-      <ImageBackground
-        source={{ uri: url }}
+      <ProgressiveImage
+        thumbnailSource={{ uri: lowUrl}}
+        source={{uri: ogUrl}}
         style={{ width: '100%', height: '100%', borderRadius: 8 }}
+        resizeMode='cover'
+      />
+      <View
+        style={[
+          styles.itemContent,
+          {
+            backgroundColor: selected ? 'rgba(0,0,169,.65)' : 'rgba(0,0,0,.15)',
+            blurRadius: selected ? 1 : 0
+          }
+        ]}
       >
-        <View
-          style={[
-            styles.itemContent,
-            {
-              backgroundColor: selected ? 'rgba(0,0,80,.75)' : 'rgba(0,0,0,.35)'
-            }
-          ]}
-        >
-          <Text style={styles.itemText}>{title}</Text>
-        </View>
-      </ImageBackground>
+        <Text style={styles.itemText}>{title}</Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -42,7 +43,7 @@ export default class CategoryPreference extends React.Component {
     super(props);
     var categoryData = this.props.navigation.state.params.categoryData
 
-    var food = ['chinese', 'sushi', 'burgers', 'pubs', 'mexican', 'oriental', 'poke', 'italian', 'sandwiches', 'pizza', 'icecream', 'bakeries', 'barbeque', 'gelato', 'newamerican', 'tea', 'acaibowl', 'cafe', 'japanese']
+    var food = ['chinese', 'sushi', 'burgers', 'pubs', 'mexican', 'poke', 'italian', 'sandwiches', 'pizza', 'icecream', 'bakeries', 'barbeque', 'gelato', 'newamerican', 'tea', 'acaibowl', 'cafe', 'japanese']
 
     var formatData = () => {
       var categories = [];
@@ -52,7 +53,9 @@ export default class CategoryPreference extends React.Component {
           categories.push({
             title: categoryData[i].title,
             id: j,
-            url: categoryData[i].url,
+            ogUrl: categoryData[i].url,
+            lowUrl: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + 'low.jpg',
+            url: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + '.jpg',
             selected: false,
             code: categoryData[i].code
           });
@@ -99,7 +102,10 @@ export default class CategoryPreference extends React.Component {
             <Category
               key={item.key}
               title={item.title}
+              localUrl={'../assets/categories/' + item.code + '.jpg'}
               url={item.url}
+              ogUrl={item.ogUrl}
+              lowUrl={item.lowUrl}
               selected={item.selected}
               onSelect={() => {
                 var newCategories = this.state.categories;
@@ -177,7 +183,12 @@ const styles = StyleSheet.create({
     width: '100%',
     aspectRatio: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'absolute', 
+    top: 0, 
+    left: 0, 
+    right: 0, 
+    bottom: 0, 
   },
   itemText: {
     fontFamily: 'nunito-semibold',

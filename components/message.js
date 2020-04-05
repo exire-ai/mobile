@@ -8,17 +8,18 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
+import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 export function Message({ message, overMin, sameAsNext, owner, venues, first }) {
     var spaceBelow = sameAsNext ? 1 : 5
     spaceBelow = overMin ? spaceBelow : 5
     var spaceAbove = first ? 0 : 5
     var messageJSX = (
-        <View style={{paddingLeft: 7.5, marginBottom: spaceBelow, marginTop: spaceAbove}}>
-            <View style={styles.message}>
-                <Text style={styles.messsageText}>{message}</Text>
-            </View>
-        </View>
+      <View style={{paddingLeft: 7.5, marginBottom: spaceBelow, marginTop: spaceAbove}}>
+          <View style={styles.message}>
+              <Text style={[styles.messsageText, { alignSelf: 'flex-start'}]}>{message}</Text>
+          </View>
+      </View>
     )
     if (venues.length > 0) {
         messageJSX = (
@@ -52,10 +53,28 @@ export function Message({ message, overMin, sameAsNext, owner, venues, first }) 
         messageJSX = (
         <View style={[styles.ownerMessage, {marginBottom: spaceBelow, marginTop: spaceAbove}]}>
             <View style={[styles.message, { backgroundColor: '#007aff' }]}>
-                <Text style={[styles.messsageText, {color: '#fff'}]}>{message}</Text>
+                <Text style={[styles.messsageText, {color: '#fff', alignSelf: 'flex-end'}]}>{message}</Text>
             </View>
         </View>
         )
+    } else if (message == 'loadingloadingloading' && !owner) {
+      messageJSX = (
+        <View style={{paddingLeft: 7.5, marginBottom: spaceBelow, marginTop: spaceAbove}}>
+          <View style={[styles.message, { height: 28, width: 64, marginBottom: 5}]}>
+            <View style={{position: 'absolute', top: -50, left: 6, right: 6}}>
+              <AnimatedEllipsis numberOfDots={3}
+                                minOpacity={0.4}
+                                animationDelay={300}
+                                style={{
+                                color: '#8b8b8b',
+                                fontSize: 85,
+                                letterSpacing: -15
+                              }}
+              />
+            </View>
+          </View>
+        </View>
+      )
     }
     return messageJSX
 }
@@ -63,14 +82,15 @@ export function Message({ message, overMin, sameAsNext, owner, venues, first }) 
 const styles = StyleSheet.create({
   messsageText: {
     fontFamily: 'karla-regular',
-    fontSize: 18
+    fontSize: 22,
   },
   message: {
     backgroundColor: '#ccc',
-    paddingVertical: 5,
+    paddingTop: 5,
+    paddingBottom: 5.5,
     paddingHorizontal: 10,
     borderRadius: 16,
-    width: '65%'
+    maxWidth: '65%',
   },
   ownerMessage: {
     paddingRight: 7.5,
