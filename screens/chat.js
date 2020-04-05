@@ -7,11 +7,15 @@ import {
   FlatList,
   Dimensions,
   KeyboardAvoidingView,
-  SafeAreaView
+  SafeAreaView,
+  AsyncStorage
 } from "react-native";
 import dialogflow from "../functions/dialogflow";
 import { Message } from "../components/message";
 import SendMessage from "../components/sendMessage";
+import chats from "../functions/chats";
+import users from "../functions/users";
+import { useScreens } from "react-native-screens";
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -26,10 +30,17 @@ export default class Chat extends React.Component {
         }
       ],
       ownerID: "user",
-      sessionID: Math.random()
-        .toString(36)
-        .slice(-5)
     };
+    AsyncStorage.getItem('userID').then((value) => {
+      this.setState({
+        userID: value
+      })
+      chats.createChat(value, this.state.messages[0].message, (bool) => {
+        users.getChatUser(value, ( data ) => {
+          this.setState({ sessionID: data.chatID})
+        })
+      })
+    })
     this.keyboardHeight = new Animated.Value(0);
   }
 
@@ -43,6 +54,9 @@ export default class Chat extends React.Component {
       loading: false
     });
     this.setState({ messages: messages.slice(0) });
+    chats.sendMessage(this.state.sessionID, inputText, this.state.userID, [], (data) => {
+      console.log("Message added to: " + this.state.sessionID)
+    })
   };
 
   sendMessage = inputText => {
@@ -58,6 +72,9 @@ export default class Chat extends React.Component {
         time: Math.round(new Date().getTime())
       };
       this.setState({ messages: messagesClone, loading: false });
+      chats.sendMessage(this.state.sessionID, data.fulfillmentText, "bot", [], (data) => {
+        console.log("Message added to chat: " + this.state.sessionID)
+      })
       if (data.hasOwnProperty("venues")) {
         setTimeout(() => {
           this.addMessage("", "bot", data.venues);

@@ -9,7 +9,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      return(null);
+      return(false);
     })
   },
   createUser: function(userID, name, number, callback) {
@@ -31,7 +31,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   doesExist: function(userID, callback) {
@@ -44,7 +44,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   addCategories: function(userID, categories, callback) {
@@ -64,7 +64,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   updateCategories: function(userID, categories, callback) {
@@ -84,7 +84,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   getChatUser: function(userID, callback) {
@@ -97,7 +97,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   updateChat: function(userID, chatID, callback) {
@@ -110,7 +110,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   updateToken: function(userID, newToken, callback) {
@@ -123,7 +123,7 @@ const users = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   phoneAuth: function(number, callback) {

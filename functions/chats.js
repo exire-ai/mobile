@@ -9,10 +9,10 @@ const chats = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
-  createChat: function(userID, callback) {
+  createChat: function(userID, message, callback) {
     fetch('https://exire-backend.herokuapp.com/chats/create', {
       method: 'POST',
       headers: {
@@ -20,7 +20,11 @@ const chats = {
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
-        userID: userID
+        userID: userID,
+        chat: [{
+          senderID: 'bot',
+          message: message 
+        }],
       })
     })
     .then((response) => response.json())
@@ -29,7 +33,7 @@ const chats = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   sendMessage:function(chatID, message, senderID, venues, callback) {
@@ -40,7 +44,6 @@ const chats = {
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
-        chatID: chatID,
         message: message,
         senderID: senderID,
         venues: venues
@@ -52,7 +55,7 @@ const chats = {
     })
     .catch((error) => {
       console.log(JSON.stringify(error));
-      callback(null);
+      callback(false);
     })
   },
   getAll: function(callback) {
