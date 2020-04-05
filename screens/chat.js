@@ -8,7 +8,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   SafeAreaView,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import dialogflow from "../functions/dialogflow";
 import { Message } from "../components/message";
@@ -23,24 +23,24 @@ export default class Chat extends React.Component {
     this.state = {
       messages: [
         {
-          message: "Human presence detected 🤖. How can I help you?",
+          message: "Welcome to Exire. How can I help you?",
           senderID: "bot",
           venues: [],
-          time: Math.round(new Date().getTime() / 1000)
-        }
+          time: Math.round(new Date().getTime() / 1000),
+        },
       ],
       ownerID: "user",
     };
-    AsyncStorage.getItem('userID').then((value) => {
+    AsyncStorage.getItem("userID").then((value) => {
       this.setState({
-        userID: value
-      })
+        userID: value,
+      });
       chats.createChat(value, this.state.messages[0].message, (bool) => {
-        users.getChatUser(value, ( data ) => {
-          this.setState({ sessionID: data.chatID})
-        })
-      })
-    })
+        users.getChatUser(value, (data) => {
+          this.setState({ sessionID: data.chatID });
+        });
+      });
+    });
     this.keyboardHeight = new Animated.Value(0);
   }
 
@@ -51,30 +51,42 @@ export default class Chat extends React.Component {
       senderID: user,
       venues: [],
       time: Math.round(new Date().getTime() / 1000),
-      loading: false
+      loading: false,
     });
     this.setState({ messages: messages.slice(0) });
-    chats.sendMessage(this.state.sessionID, inputText, this.state.userID, [], (data) => {
-      console.log("Message added to: " + this.state.sessionID)
-    })
+    chats.sendMessage(
+      this.state.sessionID,
+      inputText,
+      this.state.userID,
+      [],
+      (data) => {
+        console.log("Message added to: " + this.state.sessionID);
+      }
+    );
   };
 
-  sendMessage = inputText => {
+  sendMessage = (inputText) => {
     this.addMessage(inputText, this.state.ownerID, []);
     setTimeout(this.addIndicator, 250);
     console.log("requesting");
-    dialogflow.sendMessage(this.state.sessionID, inputText, data => {
+    dialogflow.sendMessage(this.state.sessionID, inputText, (data) => {
       var messagesClone = this.state.messages;
       messagesClone[0] = {
         message: data.fulfillmentText,
         senderID: "bot",
         venues: [],
-        time: Math.round(new Date().getTime())
+        time: Math.round(new Date().getTime()),
       };
       this.setState({ messages: messagesClone, loading: false });
-      chats.sendMessage(this.state.sessionID, data.fulfillmentText, "bot", [], (data) => {
-        console.log("Message added to chat: " + this.state.sessionID)
-      })
+      chats.sendMessage(
+        this.state.sessionID,
+        data.fulfillmentText,
+        "bot",
+        [],
+        (data) => {
+          console.log("Message added to chat: " + this.state.sessionID);
+        }
+      );
       if (data.hasOwnProperty("venues")) {
         setTimeout(() => {
           this.addMessage("", "bot", data.venues);
@@ -91,7 +103,7 @@ export default class Chat extends React.Component {
         senderID: "bot",
         venues: [],
         time: Math.round(new Date().getTime()),
-        loading: true
+        loading: true,
       });
       this.setState({ messages: messages.slice(0), loading: true });
     }
@@ -113,7 +125,7 @@ export default class Chat extends React.Component {
     // this.keyboardWillHideSub.remove();
   }
 
-  keyboardWillShow = event => {
+  keyboardWillShow = (event) => {
     // Animated.parallel([
     //   Animated.timing(this.keyboardHeight, {
     //     duration: event.duration,
@@ -122,7 +134,7 @@ export default class Chat extends React.Component {
     // ]).start();
   };
 
-  keyboardWillHide = event => {
+  keyboardWillHide = (event) => {
     // Animated.parallel([
     //   Animated.timing(this.keyboardHeight, {
     //     duration: event.duration,
@@ -190,13 +202,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     // alignItems: "center"
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   keyboardAvoidingContainer: {
-    flex: 1
+    flex: 1,
   },
   list: {
     flex: 1,
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
