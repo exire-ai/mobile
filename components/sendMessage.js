@@ -15,8 +15,8 @@ export default class message extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputLength: new Animated.Value(this.props.width * 0.9),
-      sendPosition: new Animated.Value(0),
+      // inputLength: new Animated.Value(this.props.width * 0.9),
+      // sendPosition: new Animated.Value(0),
       opacity: new Animated.Value(0),
       messageBarFocused: false,
       text: "",
@@ -26,7 +26,6 @@ export default class message extends React.Component {
 
   onFocus = () => {
     this.setState({ inputActivated: true });
-    console.log(this.state.inputActivated);
   };
 
   onBlur = () => {
@@ -48,7 +47,6 @@ export default class message extends React.Component {
 
   renderSend = () => {
     if (this.state.inputActivated) {
-      console.log("Showing Send Button");
       return (
         <AnimatedTouchable
           style={styles.sendMessage}
@@ -96,11 +94,12 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     backgroundColor: "#fff",
     marginHorizontal: 10
+    // height: 100
   },
   message: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
+    // flexDirection: "row",
+    alignItems: "flex-start",
     justifyContent: "center",
     height: 55,
     paddingVertical: 10,
