@@ -8,7 +8,8 @@ export const navigationStyles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#007aff',
-    shadowOffset: { width: 0, height: .5 },
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 1,
   },

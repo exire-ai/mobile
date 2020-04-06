@@ -24,7 +24,10 @@ export const getStartedStyles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 8
+    borderRadius: 8,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   buttonText: {
     fontFamily: 'karla-bold',

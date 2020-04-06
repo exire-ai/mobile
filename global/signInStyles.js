@@ -22,12 +22,12 @@ export const signInStyles = StyleSheet.create({
   },
   input: {
     width: "85%",
-    borderWidth: 1.5,
+    borderWidth: 1,
     borderColor: "#143e60",
     margin: 8,
     padding: 18,
     borderRadius: 35,
-    fontSize: 24
+    fontSize: 24,
   },
   button: {
     backgroundColor: "#007aff",
@@ -35,7 +35,10 @@ export const signInStyles = StyleSheet.create({
     padding: 18,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 50
+    borderRadius: 50,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   buttonText: {
     fontFamily: "karla-bold",

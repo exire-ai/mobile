@@ -39,7 +39,7 @@ export default class Chat extends React.Component {
       });
       chats.createChat(value, this.state.messages[0].message, (bool) => {
         users.getChatUser(value, (data) => {
-          this.setState({ sessionID: data.chatID + this.state.userID });
+          this.setState({ sessionID: data.chatID });
         });
       });
     });

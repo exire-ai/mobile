@@ -15,9 +15,9 @@ import { signInStyles } from '../global/signInStyles';
 
 function Category({ key, title, ogUrl, lowUrl, url, code, selected, onSelect }) {
   return (
+    <View style={styles.itemContainer}>
     <TouchableOpacity
       onPress={() => onSelect(key)}
-      style={styles.itemContainer}
     >
       <ProgressiveImage
         thumbnailSource={{ uri: lowUrl}}
@@ -37,6 +37,7 @@ function Category({ key, title, ogUrl, lowUrl, url, code, selected, onSelect }) 
         <Text style={styles.itemText}>{title}</Text>
       </View>
     </TouchableOpacity>
+    </View>
   );
 }
 
@@ -144,14 +145,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center'
   },
-  getStartedButton: {
-    backgroundColor: '#007aff',
-    height: 50,
-    width: '85%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8
-  },
   buttonText: {
     color: 'white',
     fontSize: 18,
@@ -175,7 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     margin: Dimensions.get('screen').width * 0.025,
     height: Dimensions.get('screen').width * 0.45,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   itemContent: {
     width: '100%',

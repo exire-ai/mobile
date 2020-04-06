@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  AsyncStorage
 } from 'react-native';
+import users from '../functions/users'
 import ProgressiveImage from '../components/ProgressiveImage';
 import { signInStyles } from '../global/signInStyles';
 
@@ -146,14 +148,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center'
   },
-  getStartedButton: {
-    backgroundColor: '#007aff',
-    height: 50,
-    width: '85%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8
-  },
   buttonText: {
     color: 'white',
     fontSize: 18,
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
   item: {
     margin: 24,
     padding: 15,
-    backgroundColor: 'pink'
+    backgroundColor: '#eee'
   },
   doneButton: {
     backgroundColor: '#007aff',
@@ -177,7 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     margin: Dimensions.get('screen').width * 0.025,
     height: Dimensions.get('screen').width * 0.45,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   itemContent: {
     width: '100%',
