@@ -6,9 +6,10 @@ import {
   FlatList,
   TouchableOpacity,
   ImageBackground,
-  Dimensions,
+  TextInput
 } from "react-native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
+import { ExireForm } from "../components/ExireForm";
 
 export function Message({
   message,
@@ -17,6 +18,7 @@ export function Message({
   owner,
   venues,
   first,
+  form
 }) {
   var spaceBelow = sameAsNext ? 1 : 5;
   spaceBelow = overMin ? spaceBelow : 5;
@@ -38,7 +40,9 @@ export function Message({
   );
   if (venues.length > 0) {
     messageJSX = (
-      <View style={{ marginBottom: spaceBelow, marginTop: spaceAbove }}>
+      <View style={{ marginBottom: spaceBelow, marginTop: spaceAbove,     shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.4,
+      shadowRadius: 1, }}>
         <FlatList
           horizontal={true}
           data={venues}
@@ -127,6 +131,14 @@ export function Message({
         </View>
       </View>
     );
+  } else if (form == 'form') {
+    messageJSX = (
+      <ExireForm
+        form={form}
+        spaceBelow={spaceBelow}
+        spaceAbove={spaceAbove}
+      />
+    )
   }
   return messageJSX;
 }
@@ -137,12 +149,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   message: {
-    backgroundColor: "#ccc",
+    backgroundColor: "#dddddd",
     paddingTop: 5,
     paddingBottom: 5.5,
     paddingHorizontal: 10,
     borderRadius: 16,
     maxWidth: "65%",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   ownerMessage: {
     paddingRight: 7.5,
@@ -161,7 +176,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 20,
-    // opacity: 0.75
   },
   venueContent: {
     height: "100%",
@@ -170,12 +184,11 @@ const styles = StyleSheet.create({
   },
   venueText: {
     fontFamily: "karla-regular",
-    fontSize: 20,
+    fontSize: 22,
     color: "#fff",
     fontWeight: "600",
     position: "absolute",
     marginHorizontal: 5,
     bottom: 5,
-    // opacity: 1.0
   },
 });

@@ -89,23 +89,23 @@ export default class message extends React.Component {
 const styles = StyleSheet.create({
   messageContainer: {
     flexDirection: "row",
-    borderBottomColor: "#00000033",
     paddingTop: 20,
     paddingBottom: 30,
     backgroundColor: "#fff",
     marginHorizontal: 10
-    // height: 100
   },
   message: {
     flex: 1,
-    // flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "center",
     height: 55,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
-    backgroundColor: "#ddd"
+    backgroundColor: "#dddddd",
+    shadowOffset: { width: 0, height: .5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   sendMessage: {
     flex: -1,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     width: 65,
     justifyContent: "center",
     alignSelf: "center",
-    marginLeft: 16
+    marginLeft: 16,
   },
   messageInput: {
     fontFamily: "karla-regular",

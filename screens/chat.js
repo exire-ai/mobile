@@ -15,7 +15,7 @@ import { Message } from "../components/message";
 import SendMessage from "../components/sendMessage";
 import chats from "../functions/chats";
 import users from "../functions/users";
-import { useScreens } from "react-native-screens";
+import plans from "../functions/plans";
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -27,6 +27,8 @@ export default class Chat extends React.Component {
           senderID: "bot",
           venues: [],
           time: Math.round(new Date().getTime() / 1000),
+          loading: false,
+          form: ""
         },
       ],
       ownerID: "user",
@@ -37,21 +39,22 @@ export default class Chat extends React.Component {
       });
       chats.createChat(value, this.state.messages[0].message, (bool) => {
         users.getChatUser(value, (data) => {
-          this.setState({ sessionID: data.chatID });
+          this.setState({ sessionID: data.chatID + this.state.userID });
         });
       });
     });
     this.keyboardHeight = new Animated.Value(0);
   }
 
-  addMessage = (inputText, user, venues) => {
+  addMessage = (inputText, user, venues, form) => {
     const { messages } = this.state;
     messages.unshift({
       message: inputText,
       senderID: user,
-      venues: [],
+      venues: venues,
       time: Math.round(new Date().getTime() / 1000),
       loading: false,
+      form: form
     });
     this.setState({ messages: messages.slice(0) });
     chats.sendMessage(
@@ -66,7 +69,7 @@ export default class Chat extends React.Component {
   };
 
   sendMessage = (inputText) => {
-    this.addMessage(inputText, this.state.ownerID, []);
+    this.addMessage(inputText, this.state.ownerID, [], "");
     setTimeout(this.addIndicator, 250);
     console.log("requesting");
     dialogflow.sendMessage(this.state.sessionID, inputText, (data) => {
@@ -76,6 +79,8 @@ export default class Chat extends React.Component {
         senderID: "bot",
         venues: [],
         time: Math.round(new Date().getTime()),
+        loading: false,
+        form: ""
       };
       this.setState({ messages: messagesClone, loading: false });
       chats.sendMessage(
@@ -83,16 +88,25 @@ export default class Chat extends React.Component {
         data.fulfillmentText,
         "bot",
         [],
+        "",
         (data) => {
           console.log("Message added to chat: " + this.state.sessionID);
         }
       );
       if (data.hasOwnProperty("venues")) {
+      // if (true) {
+        plans.getByList(data.venues, (venues) => {
+        // plans.getByList(['sushidamo', 'mightyquinns', 'BurgerJoint'], (venues) => {
+          if (venues.length != 0) {
+            this.addMessage("", "bot", venues, "");
+          }
+        })
+      } else if (data.hasOwnProperty("form")) {
         setTimeout(() => {
-          this.addMessage("", "bot", data.venues);
-        }, 400);
+          this.addMessage("", "bot", [], "");
+        }, 300);
       }
-    });
+    })
   };
 
   addIndicator = () => {
@@ -104,6 +118,7 @@ export default class Chat extends React.Component {
         venues: [],
         time: Math.round(new Date().getTime()),
         loading: true,
+        form: ""
       });
       this.setState({ messages: messages.slice(0), loading: true });
     }
@@ -181,6 +196,7 @@ export default class Chat extends React.Component {
                 owner={this.state.ownerID == item.senderID ? true : false}
                 venues={item.venues}
                 first={index == 0}
+                form={item.form}
               />
             )}
           />
@@ -201,7 +217,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center"
     justifyContent: "flex-end",
   },
   keyboardAvoidingContainer: {
