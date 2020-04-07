@@ -21,8 +21,6 @@
       "supportsTablet": false,
       "bundleIdentifier": "ai.exire.exireMobile",
       "buildNumber": "2"
-      },
-      "googleServicesFile": "./googleDocs/GoogleService-Info.plist"
     },
     "android": {
       "package": "ai.exire.exireMobile",
