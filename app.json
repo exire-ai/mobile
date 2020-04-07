@@ -1,14 +1,10 @@
 {
   "expo": {
-    "name": "Blank Template",
+    "name": "Exire",
     "slug": "rntut",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,16 +16,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "ai.exire.exireMobile",
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.471330204699-g7hm1fhqg2comg62lhn1okcph7tn43s4"
-        }
+      "buildNumber": "2"
       },
       "googleServicesFile": "./googleDocs/GoogleService-Info.plist"
     },
