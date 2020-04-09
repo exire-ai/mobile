@@ -54,7 +54,6 @@ const chats = {
       callback(responseJson);
     })
     .catch((error) => {
-      console.log(JSON.stringify(error));
       callback(false);
     })
   },

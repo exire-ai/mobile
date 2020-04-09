@@ -71,7 +71,6 @@ export default class Chat extends React.Component {
   sendMessage = (inputText) => {
     this.addMessage(inputText, this.state.ownerID, [], "");
     setTimeout(this.addIndicator, 250);
-    // console.log("requesting");
     dialogflow.sendMessage(this.state.userID, inputText, (data) => {
       var messagesClone = this.state.messages;
       var parsedData;
@@ -96,7 +95,6 @@ export default class Chat extends React.Component {
         parsedData.text,
         "bot",
         [],
-        "",
         (data) => {
           console.log("Message added to chat: " + this.state.sessionID);
         }
