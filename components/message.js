@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   ImageBackground,
-  TextInput
+  TextInput,
 } from "react-native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 import { ExireForm } from "../components/ExireForm";
@@ -18,7 +18,7 @@ export function Message({
   owner,
   venues,
   first,
-  form
+  form,
 }) {
   var spaceBelow = sameAsNext ? 1 : 5;
   spaceBelow = overMin ? spaceBelow : 5;
@@ -40,9 +40,15 @@ export function Message({
   );
   if (venues.length > 0) {
     messageJSX = (
-      <View style={{ marginBottom: spaceBelow, marginTop: spaceAbove,     shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.4,
-      shadowRadius: 1, }}>
+      <View
+        style={{
+          marginBottom: spaceBelow,
+          marginTop: spaceAbove,
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.4,
+          shadowRadius: 1,
+        }}
+      >
         <FlatList
           horizontal={true}
           data={venues}
@@ -131,14 +137,10 @@ export function Message({
         </View>
       </View>
     );
-  } else if (form == 'form') {
+  } else if (form == "form") {
     messageJSX = (
-      <ExireForm
-        form={form}
-        spaceBelow={spaceBelow}
-        spaceAbove={spaceAbove}
-      />
-    )
+      <ExireForm form={form} spaceBelow={spaceBelow} spaceAbove={spaceAbove} />
+    );
   }
   return messageJSX;
 }
@@ -166,8 +168,8 @@ const styles = StyleSheet.create({
   venueContainer: {
     flex: 1,
     flexDirection: "column",
-    height: 185,
-    width: 140,
+    height: 200,
+    width: 150,
     borderRadius: 16,
     overflow: "hidden",
     backgroundColor: "black",

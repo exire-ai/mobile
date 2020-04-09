@@ -28,7 +28,7 @@ export default class Chat extends React.Component {
           venues: [],
           time: Math.round(new Date().getTime() / 1000),
           loading: false,
-          form: ""
+          form: "",
         },
       ],
       ownerID: "user",
@@ -54,7 +54,7 @@ export default class Chat extends React.Component {
       venues: venues,
       time: Math.round(new Date().getTime() / 1000),
       loading: false,
-      form: form
+      form: form,
     });
     this.setState({ messages: messages.slice(0) });
     chats.sendMessage(
@@ -71,21 +71,29 @@ export default class Chat extends React.Component {
   sendMessage = (inputText) => {
     this.addMessage(inputText, this.state.ownerID, [], "");
     setTimeout(this.addIndicator, 250);
-    console.log("requesting");
-    dialogflow.sendMessage(this.state.sessionID, inputText, (data) => {
+    // console.log("requesting");
+    dialogflow.sendMessage(this.state.userID, inputText, (data) => {
       var messagesClone = this.state.messages;
+      var parsedData;
+      try {
+        parsedData = JSON.parse(data.fulfillmentText);
+      } catch (e) {
+        parsedData = { text: data.fulfillmentText };
+      }
+      console.log(parsedData);
+
       messagesClone[0] = {
-        message: data.fulfillmentText,
+        message: parsedData.text,
         senderID: "bot",
         venues: [],
         time: Math.round(new Date().getTime()),
         loading: false,
-        form: ""
+        form: "",
       };
       this.setState({ messages: messagesClone, loading: false });
       chats.sendMessage(
         this.state.sessionID,
-        data.fulfillmentText,
+        parsedData.text,
         "bot",
         [],
         "",
@@ -93,20 +101,21 @@ export default class Chat extends React.Component {
           console.log("Message added to chat: " + this.state.sessionID);
         }
       );
-      if (data.hasOwnProperty("venues")) {
-      // if (true) {
-        plans.getByList(data.venues, (venues) => {
-        // plans.getByList(['sushidamo', 'mightyquinns', 'BurgerJoint'], (venues) => {
+      if (parsedData.hasOwnProperty("venues")) {
+        // if (true) {
+        console.log("Has venues");
+        plans.getByList(parsedData.venues, (venues) => {
+          // plans.getByList(['sushidamo', 'mightyquinns', 'BurgerJoint'], (venues) => {
           if (venues.length != 0) {
             this.addMessage("", "bot", venues, "");
           }
-        })
-      } else if (data.hasOwnProperty("form")) {
+        });
+      } else if (parsedData.hasOwnProperty("form")) {
         setTimeout(() => {
           this.addMessage("", "bot", [], "");
         }, 300);
       }
-    })
+    });
   };
 
   addIndicator = () => {
@@ -118,7 +127,7 @@ export default class Chat extends React.Component {
         venues: [],
         time: Math.round(new Date().getTime()),
         loading: true,
-        form: ""
+        form: "",
       });
       this.setState({ messages: messages.slice(0), loading: true });
     }
