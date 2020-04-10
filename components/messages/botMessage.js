@@ -12,11 +12,10 @@ export function BotMessage({
 }) {
   return (
     <View
-      style={{
-        paddingLeft: 7.5,
+      style={[messageStyles.botMessage, {
         marginBottom: spaceBelow,
         marginTop: spaceAbove,
-      }}
+      }]}
     >
       <View style={messageStyles.message}>
         <Text style={[messageStyles.messsageText, { alignSelf: "flex-start" }]}>

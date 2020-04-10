@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import {
   View,
   Animated,
-  Keyboard,
   StyleSheet,
   FlatList,
-  Dimensions,
   KeyboardAvoidingView,
-  SafeAreaView,
   AsyncStorage,
+  BackHandler
 } from "react-native";
 import dialogflow from "../functions/dialogflow";
 import { Message } from "../components/message";
@@ -100,10 +98,8 @@ export default class Chat extends React.Component {
         }
       );
       if (parsedData.hasOwnProperty("venues")) {
-        // if (true) {
         console.log("Has venues");
         plans.getByList(parsedData.venues, (venues) => {
-          // plans.getByList(['sushidamo', 'mightyquinns', 'BurgerJoint'], (venues) => {
           if (venues.length != 0) {
             this.addMessage("", "bot", venues, "");
           }
@@ -132,6 +128,7 @@ export default class Chat extends React.Component {
   };
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     // this.keyboardWillShowSub = Keyboard.addListener(
     //   "keyboardWillShow",
     //   this.keyboardWillShow
@@ -143,8 +140,13 @@ export default class Chat extends React.Component {
   }
 
   componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     // this.keyboardWillShowSub.remove();
     // this.keyboardWillHideSub.remove();
+  }
+
+  handleBackButton() {
+      return true;
   }
 
   keyboardWillShow = (event) => {
@@ -204,6 +206,7 @@ export default class Chat extends React.Component {
                 venues={item.venues}
                 first={index == 0}
                 form={item.form}
+                navigation={this.props.navigation}
               />
             )}
           />

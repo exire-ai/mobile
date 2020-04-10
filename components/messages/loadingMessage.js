@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Text,
   View,
 } from "react-native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
@@ -27,6 +26,7 @@ export function LoadingMessage({
                 top: -55,
                 left: 6,
                 right: 6,
+                allowFontScaling: false
             }}
         >
             <AnimatedEllipsis

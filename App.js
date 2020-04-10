@@ -5,11 +5,11 @@ import MainStack from './routes/mainStack';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 
-import * as firebase from 'firebase';
-import { firebaseConfig } from './config';
+// import * as firebase from 'firebase';
+// import { firebaseConfig } from './config';
 
-firebase.initializeApp(firebaseConfig);
-console.log(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
+// console.log(firebaseConfig);
 
 const getFonts = () => Font.loadAsync({
     'karla-regular': require('./assets/fonts/Karla-Regular.ttf'),
@@ -17,7 +17,6 @@ const getFonts = () => Font.loadAsync({
     'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
     'nunito-semibold': require('./assets/fonts/Nunito-SemiBold.ttf')
 });
-
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -36,22 +35,3 @@ export default function App() {
 
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 40,
-    paddingHorizontal: 20
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
-  item: {
-    marginTop: 24,
-    padding: 30,
-    backgroundColor: 'pink',
-    fontSize: 24,
-    marginHorizontal: 10,
-    marginTop: 24
-  }
-});

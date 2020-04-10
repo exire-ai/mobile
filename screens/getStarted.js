@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ImageBackground, Animated, AsyncStorage } from 'react-native';
+import React from 'react';
+import { Text, View, TouchableOpacity, ImageBackground, BackHandler } from 'react-native';
 import { getStartedStyles } from '../global/getStartedStyles';
 
 export default class GetStarted extends React.Component {
-  
+
   constructor(props) {
     super(props)
     this.state = {
@@ -13,6 +13,18 @@ export default class GetStarted extends React.Component {
     setInterval(() => {
       this.setState({currentIndex: this.state.currentIndex == this.state.imageHolder.length - 1 ? 0 : this.state.currentIndex + 1 })
     }, 5000)
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+      return true;
   }
 
   render() {

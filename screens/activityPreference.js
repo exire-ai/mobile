@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  ImageBackground,
-  Image
 } from 'react-native';
 import ProgressiveImage from '../components/ProgressiveImage';
 import { signInStyles } from '../global/signInStyles';
@@ -45,6 +43,7 @@ export default class CategoryPreference extends React.Component {
   constructor(props) {
     super(props);
     var categoryData = this.props.navigation.state.params.categories
+    var userCategories = this.props.navigation.state.params.userCategories
 
     var activities = ['dancing', 'bars', 'artgalleries', 'extreme', 'rockclimbing', 'speakeasies', 'yoga', 'danceclubs', 'karaoke', 'arcades', 'markets', 'parks', 'cocktailbars', 'wine_bars', 'spa', 'museums']
     
@@ -60,7 +59,7 @@ export default class CategoryPreference extends React.Component {
             ogUrl: categoryData[i].url,
             lowUrl: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + 'low.jpg',
             url: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + '.jpg',
-            selected: false,
+            selected: userCategories.includes(categoryData[i].code),
           });
           j++;
         }
@@ -68,15 +67,28 @@ export default class CategoryPreference extends React.Component {
       return categories
     }
 
+    var priorSelected = () => {
+      var selectedCategories = [];
+      for (var i = 0; i < categoryData.length; i++) {
+        if (activities.includes(categoryData[i].code)) {
+          if (userCategories.includes(categoryData[i].code)) {
+            selectedCategories.push(categoryData[i].code);
+          }
+        }
+      }
+      return selectedCategories;
+    }
+
     this.state = {
       categories: formatData(),
-      selectedCategories: [],
+      selectedCategories: priorSelected(),
       categoryData: categoryData,
+      userCategories: userCategories
     };
   }
 
   next = () => {
-    this.props.navigation.navigate('FoodPreference', { userID: this.props.navigation.state.params.userID, categoryData: this.state.categoryData, selected: this.state.selectedCategories });
+    this.props.navigation.navigate('FoodPreference', { userID: this.props.navigation.state.params.userID, categoryData: this.state.categoryData, selected: this.state.selectedCategories, userCategories: this.state.userCategories });
   }
 
   render() {

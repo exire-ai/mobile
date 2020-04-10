@@ -44,6 +44,7 @@ export default class CategoryPreference extends React.Component {
   constructor(props) {
     super(props);
     var categoryData = this.props.navigation.state.params.categoryData
+    var userCategories = this.props.navigation.state.params.userCategories
 
     var food = ['chinese', 'sushi', 'burgers', 'pubs', 'mexican', 'poke', 'italian', 'sandwiches', 'pizza', 'icecream', 'bakeries', 'barbeque', 'gelato', 'newamerican', 'tea', 'acaibowl', 'cafe', 'japanese']
 
@@ -58,7 +59,7 @@ export default class CategoryPreference extends React.Component {
             ogUrl: categoryData[i].url,
             lowUrl: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + 'low.jpg',
             url: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + '.jpg',
-            selected: false,
+            selected: userCategories.includes(categoryData[i].code),
             code: categoryData[i].code
           });
           j++;
@@ -67,9 +68,21 @@ export default class CategoryPreference extends React.Component {
       return categories
     }
 
+    var priorSelected = () => {
+      var selectedCategories = [];
+      for (var i = 0; i < categoryData.length; i++) {
+        if (food.includes(categoryData[i].code)) {
+          if (userCategories.includes(categoryData[i].code)) {
+            selectedCategories.push(categoryData[i].code);
+          }
+        }
+      }
+      return selectedCategories;
+    }
+
     this.state = {
       categories: formatData(),
-      selectedCategories: []
+      selectedCategories: priorSelected()
     };
   }
 

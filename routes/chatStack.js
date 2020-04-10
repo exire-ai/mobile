@@ -5,6 +5,7 @@ import { navigationStyles } from '../global/navigationStyles';
 import React from 'react';
 import Chat from '../screens/chat';
 import Profile from '../screens/profile';
+import Venue from '../screens/venue';
 // import Drawer from '../components/Drawer';
 
 const screens = {
@@ -16,6 +17,7 @@ const screens = {
         title: 'exire',
         headerStyle: navigationStyles.header,
         headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: 'center',
         gestureEnabled: false,
         headerLeft: () => (
           <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={navigationStyles.icon}>
@@ -40,6 +42,31 @@ const screens = {
   },
   Profile: {
     screen: Profile
+  },
+  Venue: {
+    screen: Venue,
+    navigationOptions: ({navigation}) => {
+      return {
+        title: ' ',
+        headerTransparent: true,
+        gestureEnabled: true,
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={navigationStyles.icon}>
+            <Icon
+              name='times'
+              color='#FFF'
+              size={32}
+              style={{
+                textShadowColor: '#000',
+                shadowOpacity: 1,
+                shadowRadius: 5,
+                textShadowOffset:{width: 5,height: 2}
+              }}
+            />
+          </TouchableOpacity>
+        ),
+      }
+    }
   }
   // Drawer: { screen: Drawer }
 };

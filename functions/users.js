@@ -167,6 +167,19 @@ const users = {
       console.log(JSON.stringify(error));
       callback(false);
     })
+  },
+  getCategories: function(userID, callback) {
+    fetch('https://exire-backend.herokuapp.com/users/getCategories/' + userID, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      callback(responseJson);
+    })
+    .catch((error) => {
+      console.log(JSON.stringify(error));
+      callback(false);
+    })
   }
 }
 

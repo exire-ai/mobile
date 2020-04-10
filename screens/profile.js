@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, AsyncStorage } from 'react-native';
 import plans from '../functions/plans';
+import users from '../functions/users'
 
 export default class Profile extends Component {
 
@@ -11,8 +12,10 @@ export default class Profile extends Component {
 
   updateCategories = () => {
     AsyncStorage.getItem('userID').then((value) => {
-      plans.getAllCategories((data) => {
-        this.props.navigation.navigate('ActivityPreference', {userID: value, categories: data})
+      plans.getAllCategories(categories => {
+        users.getCategories(value, userCategories => {
+          this.props.navigation.navigate('ActivityPreference', {userID: value, categories: categories, userCategories: userCategories})
+        })
       })
     })
   }

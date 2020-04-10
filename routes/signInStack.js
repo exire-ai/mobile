@@ -27,6 +27,7 @@ const screens = {
         title: 'Phone Number',
         headerStyle: navigationStyles.header,
         headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={navigationStyles.icon}>
             <Icon
@@ -48,6 +49,7 @@ const screens = {
         headerStyle: navigationStyles.header,
         gestureEnabled: false,
         headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: 'center',
       }
     }
   },
@@ -60,6 +62,8 @@ const screens = {
         headerStyle: navigationStyles.header,
         gestureEnabled: false,
         headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: 'center',
+        headerLeft: () => { return null }
       }
     }
   },
@@ -71,6 +75,7 @@ const screens = {
         title: 'Food',
         headerStyle: navigationStyles.header,
         headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity onPress={() => navigation.navigate('ActivityPreference')} style={navigationStyles.icon}>
             <Icon

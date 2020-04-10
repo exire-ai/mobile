@@ -18,6 +18,5 @@ export const navigationStyles = StyleSheet.create({
     fontFamily: 'nunito-semibold', 
     fontSize: 28, 
     fontWeight: '500',
-    justifyContent: 'center'
   }
 });

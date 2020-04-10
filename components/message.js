@@ -13,6 +13,7 @@ export function Message({
   venues,
   first,
   form,
+  navigation
 }) {
   var spaceBelow = sameAsNext ? 1 : 5;
   spaceBelow = overMin ? spaceBelow : 5;
@@ -22,7 +23,7 @@ export function Message({
   );
   if (venues.length > 0) {
     messageJSX = (
-      <VenuesMessage venues={venues} spaceBelow={spaceBelow} spaceAbove={spaceAbove}/>
+      <VenuesMessage venueData={venues} spaceBelow={spaceBelow} spaceAbove={spaceAbove} navigation={navigation}/>
     )
   } else if (owner) {
     messageJSX = (

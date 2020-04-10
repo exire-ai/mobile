@@ -11,9 +11,6 @@ import users from '../functions/users';
 import { signInStyles } from '../global/signInStyles';
 
 export default function TextVerification({ navigation }) {
-  const pressHandler = () => {
-    navigation.navigate('CategoryPreference');
-  };
   const data = navigation.getParam('data').data;
   const userExist = navigation.getParam('userExist');
 
@@ -27,7 +24,7 @@ export default function TextVerification({ navigation }) {
     if (text == data.code) {
       if (!userExist) {
         users.createUser(userID, '', data.number, (result) => {
-          navigation.navigate('ActivityPreference', {userID: userID, categories: navigation.getParam('categories')});
+          navigation.navigate('ActivityPreference', {userID: userID, categories: navigation.getParam('categories'), userCategories: []});
         })
       } else {
         users.getByNumber(data.number, (result) => {

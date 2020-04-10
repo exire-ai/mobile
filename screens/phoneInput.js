@@ -9,7 +9,6 @@ import {
 import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
 import plans from "../functions/plans";
-import { State } from "react-native-gesture-handler";
 
 export default function PhoneInput({ navigation }) {
   const [number, setNumber] = React.useState("");

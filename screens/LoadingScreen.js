@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, StyleSheet, AsyncStorage } from 'react-native';
 
 export default class LoadingScreen extends Component {
   componentDidMount() {
+    Text.defaultProps = Text.defaultProps || {};
+    Text.defaultProps.allowFontScaling = false;
+    TextInput.defaultProps = TextInput.defaultProps || {};
+    TextInput.defaultProps.allowFontScaling = false;
     this.checkIfLoggedIn();
   }
 
   checkIfLoggedIn = () => {
     setTimeout( () => {
       AsyncStorage.getItem('userID').then((value) => {
-        console.log(value)
         if (value != null && value != '') {
           this.props.navigation.navigate('ChatStack');
         } else {

@@ -7,11 +7,14 @@ import {
   ImageBackground,
 } from "react-native";
 import { messageStyles } from '../../global/messageStyles';
+import venues from '../../functions/venues';
+import { navigationStyles } from "../../global/navigationStyles";
 
 export function VenuesMessage({
-  venues,
+  venueData,
   spaceAbove,
-  spaceBelow
+  spaceBelow,
+  navigation
 }) {
   return (
     <View
@@ -25,32 +28,36 @@ export function VenuesMessage({
     >
         <FlatList
         horizontal={true}
-        data={venues}
+        data={venueData}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => "key" + index}
         renderItem={({ item }) => (
             <View style={{ paddingLeft: 10 }}>
             <TouchableOpacity
-                onPress={() => console.log("Clicked")}
+                onPress={() => { 
+                  venues.get(item.placeID, (venue) => {
+                    navigation.navigate('Venue', venue)
+                  })
+                }}
                 style={messageStyles.venueContainer}
             >
-                <ImageBackground
+              <ImageBackground
                 source={{ uri: item.imgURL }}
                 style={messageStyles.venueImage}
-                >
-                <View style={messageStyles.venueContent}>
-                    <Text style={messageStyles.venueText}>
-                    {item.title + "\n"}
-                    {item.cost > 15
-                        ? item.cost > 30
-                        ? item.cost > 60
-                            ? "$$$$"
-                            : "$$$"
-                        : "$$"
-                        : "$"}
-                    </Text>
-                </View>
-                </ImageBackground>
+              >
+              <View style={messageStyles.venueContent}>
+                  <Text style={messageStyles.venueText}>
+                  {item.title + "\n"}
+                  {item.cost > 15
+                      ? item.cost > 30
+                      ? item.cost > 60
+                          ? "$$$$"
+                          : "$$$"
+                      : "$$"
+                      : "$"}
+                  </Text>
+              </View>
+              </ImageBackground>
             </TouchableOpacity>
             </View>
         )}

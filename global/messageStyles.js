@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const messageStyles = StyleSheet.create({
     messsageText: {
         fontFamily: "karla-regular",
-        fontSize: 22,
+        fontSize: 20,
     },
     message: {
         backgroundColor: "#dddddd",
@@ -15,6 +15,10 @@ export const messageStyles = StyleSheet.create({
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.3,
         shadowRadius: 1,
+    },
+    botMessage: {
+        paddingLeft: 7.5,
+        alignItems: 'flex-start'
     },
     ownerMessage: {
         paddingRight: 7.5,
@@ -41,7 +45,7 @@ export const messageStyles = StyleSheet.create({
     },
     venueText: {
         fontFamily: "karla-regular",
-        fontSize: 22,
+        fontSize: 20,
         color: "#fff",
         fontWeight: "600",
         position: "absolute",

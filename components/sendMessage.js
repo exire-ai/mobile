@@ -117,14 +117,14 @@ const styles = StyleSheet.create({
   },
   messageInput: {
     fontFamily: "karla-regular",
-    fontSize: 22,
+    fontSize: 20,
     textAlign: "left",
     flex: 1,
     marginLeft: 10
   },
   sendMessageText: {
     fontFamily: "karla-bold",
-    fontSize: 22,
+    fontSize: 20,
     color: "#007aff"
   }
 });
