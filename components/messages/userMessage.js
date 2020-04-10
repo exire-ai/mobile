@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import {
   Text,
   View,
-} from "react-native";
+} from 'react-native';
 import { messageStyles } from '../../global/messageStyles';
 
 export function UserMessage({
@@ -17,11 +17,11 @@ export function UserMessage({
             { marginBottom: spaceBelow, marginTop: spaceAbove },
         ]}
     >
-        <View style={[messageStyles.message, { backgroundColor: "#007aff" }]}>
+        <View style={[messageStyles.message, { backgroundColor: '#007aff' }]}>
             <Text
             style={[
                 messageStyles.messsageText,
-                { color: "#fff", alignSelf: "flex-end" },
+                { color: '#fff', alignSelf: 'flex-end' },
             ]}
             >
                 {message}

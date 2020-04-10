@@ -1,5 +1,5 @@
 const users = {
-  getUser: function(userID, callback) {
+  get: function(userID, callback) {
     fetch('https://exire-backend.herokuapp.com/users/get/' + userID, {
       method: 'GET'
     })

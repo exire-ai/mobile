@@ -34,6 +34,12 @@ const screens = {
               name='chevron-left'
               color='#FFF'
               size={32}
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.3,
+                shadowRadius: 1,
+              }}
             />
           </TouchableOpacity>
         ),
@@ -82,6 +88,12 @@ const screens = {
               name='chevron-left'
               color='#FFF'
               size={32}
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.3,
+                shadowRadius: 1,
+              }}
             />
           </TouchableOpacity>
           ),

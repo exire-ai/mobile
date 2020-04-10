@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import {
   View,
-} from "react-native";
-import AnimatedEllipsis from "react-native-animated-ellipsis";
+} from 'react-native';
+import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import { messageStyles } from '../../global/messageStyles';
 
 export function LoadingMessage({
@@ -22,7 +22,7 @@ export function LoadingMessage({
         >
         <View
             style={{
-                position: "absolute",
+                position: 'absolute',
                 top: -55,
                 left: 6,
                 right: 6,
@@ -34,7 +34,7 @@ export function LoadingMessage({
                 minOpacity={0.4}
                 animationDelay={300}
                 style={{
-                    color: "#8b8b8b",
+                    color: '#8b8b8b',
                     fontSize: 85,
                     letterSpacing: -15,
                 }}

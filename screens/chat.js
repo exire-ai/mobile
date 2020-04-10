@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   Animated,
@@ -7,13 +7,13 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
   BackHandler
-} from "react-native";
-import dialogflow from "../functions/dialogflow";
-import { Message } from "../components/message";
-import SendMessage from "../components/sendMessage";
-import chats from "../functions/chats";
-import users from "../functions/users";
-import plans from "../functions/plans";
+} from 'react-native';
+import dialogflow from '../functions/dialogflow';
+import { Message } from '../components/message';
+import SendMessage from '../components/sendMessage';
+import chats from '../functions/chats';
+import users from '../functions/users';
+import plans from '../functions/plans';
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -21,17 +21,17 @@ export default class Chat extends React.Component {
     this.state = {
       messages: [
         {
-          message: "Welcome to Exire. How can I help you?",
-          senderID: "bot",
+          message: 'Welcome to Exire. How can I help you?',
+          senderID: 'bot',
           venues: [],
           time: Math.round(new Date().getTime() / 1000),
           loading: false,
-          form: "",
+          form: '',
         },
       ],
-      ownerID: "user",
+      ownerID: 'user',
     };
-    AsyncStorage.getItem("userID").then((value) => {
+    AsyncStorage.getItem('userID').then((value) => {
       this.setState({
         userID: value,
       });
@@ -61,13 +61,13 @@ export default class Chat extends React.Component {
       this.state.userID,
       [],
       (data) => {
-        console.log("Message added to: " + this.state.sessionID);
+        console.log('Message added to: ' + this.state.sessionID);
       }
     );
   };
 
   sendMessage = (inputText) => {
-    this.addMessage(inputText, this.state.ownerID, [], "");
+    this.addMessage(inputText, this.state.ownerID, [], '');
     setTimeout(this.addIndicator, 250);
     dialogflow.sendMessage(this.state.userID, inputText, (data) => {
       var messagesClone = this.state.messages;
@@ -81,32 +81,32 @@ export default class Chat extends React.Component {
 
       messagesClone[0] = {
         message: parsedData.text,
-        senderID: "bot",
+        senderID: 'bot',
         venues: [],
         time: Math.round(new Date().getTime()),
         loading: false,
-        form: "",
+        form: '',
       };
       this.setState({ messages: messagesClone, loading: false });
       chats.sendMessage(
         this.state.sessionID,
         parsedData.text,
-        "bot",
+        'bot',
         [],
         (data) => {
-          console.log("Message added to chat: " + this.state.sessionID);
+          console.log('Message added to chat: ' + this.state.sessionID);
         }
       );
-      if (parsedData.hasOwnProperty("venues")) {
-        console.log("Has venues");
+      if (parsedData.hasOwnProperty('venues')) {
+        console.log('Has venues');
         plans.getByList(parsedData.venues, (venues) => {
           if (venues.length != 0) {
-            this.addMessage("", "bot", venues, "");
+            this.addMessage('', 'bot', venues, '');
           }
         });
-      } else if (parsedData.hasOwnProperty("form")) {
+      } else if (parsedData.hasOwnProperty('form')) {
         setTimeout(() => {
-          this.addMessage("", "bot", [], "");
+          this.addMessage('', 'bot', [], '');
         }, 300);
       }
     });
@@ -116,12 +116,12 @@ export default class Chat extends React.Component {
     if (!this.state.loading) {
       const { messages } = this.state;
       messages.unshift({
-        message: "loadingloadingloading",
-        senderID: "bot",
+        message: 'loadingloadingloading',
+        senderID: 'bot',
         venues: [],
         time: Math.round(new Date().getTime()),
         loading: true,
-        form: "",
+        form: '',
       });
       this.setState({ messages: messages.slice(0), loading: true });
     }
@@ -130,11 +130,11 @@ export default class Chat extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     // this.keyboardWillShowSub = Keyboard.addListener(
-    //   "keyboardWillShow",
+    //   'keyboardWillShow',
     //   this.keyboardWillShow
     // );
     // this.keyboardWillHideSub = Keyboard.addListener(
-    //   "keyboardWillHide",
+    //   'keyboardWillHide',
     //   this.keyboardWillHide
     // );
   }
@@ -178,7 +178,7 @@ export default class Chat extends React.Component {
         {/* <SafeAreaView style={styles.container}> */}
         <KeyboardAvoidingView
           style={styles.keyboardAvoidingContainer}
-          behavior="padding"
+          behavior='padding'
           keyboardVerticalOffset={75}
         >
           <FlatList
@@ -186,7 +186,7 @@ export default class Chat extends React.Component {
             data={this.state.messages}
             inverted={-1}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => "key" + index + "time" + item.time}
+            keyExtractor={(item, index) => 'key' + index + 'time' + item.time}
             renderItem={({ item, index }) => (
               <Message
                 message={item.message}
@@ -210,10 +210,10 @@ export default class Chat extends React.Component {
               />
             )}
           />
-          {/* <View style={{ width: "100%" }}> */}
+          {/* <View style={{ width: '100%' }}> */}
           <SendMessage
-            // width={Dimensions.get("screen").width}
-            // height={Dimensions.get("screen").height}
+            // width={Dimensions.get('screen').width}
+            // height={Dimensions.get('screen').height}
             sendMessage={this.sendMessage}
           />
           {/*  </Animated.View> */}
@@ -226,14 +226,14 @@ export default class Chat extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "flex-end",
+    backgroundColor: '#fff',
+    justifyContent: 'flex-end',
   },
   keyboardAvoidingContainer: {
     flex: 1,
   },
   list: {
     flex: 1,
-    width: "100%",
+    width: '100%',
   },
 });

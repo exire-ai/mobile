@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 import {
   Text,
   View,
   FlatList,
   TouchableOpacity,
   ImageBackground,
-} from "react-native";
+} from 'react-native';
 import { messageStyles } from '../../global/messageStyles';
 import venues from '../../functions/venues';
-import { navigationStyles } from "../../global/navigationStyles";
+import { navigationStyles } from '../../global/navigationStyles';
 
 export function VenuesMessage({
   venueData,
@@ -30,7 +30,7 @@ export function VenuesMessage({
         horizontal={true}
         data={venueData}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => "key" + index}
+        keyExtractor={(item, index) => 'key' + index}
         renderItem={({ item }) => (
             <View style={{ paddingLeft: 10 }}>
             <TouchableOpacity
@@ -47,14 +47,14 @@ export function VenuesMessage({
               >
               <View style={messageStyles.venueContent}>
                   <Text style={messageStyles.venueText}>
-                  {item.title + "\n"}
+                  {item.title + '\n'}
                   {item.cost > 15
                       ? item.cost > 30
                       ? item.cost > 60
-                          ? "$$$$"
-                          : "$$$"
-                      : "$$"
-                      : "$"}
+                          ? '$$$$'
+                          : '$$$'
+                      : '$$'
+                      : '$'}
                   </Text>
               </View>
               </ImageBackground>

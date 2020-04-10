@@ -4,7 +4,6 @@ import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { signInStyles } from '../global/signInStyles';
 
 async function openLink(url) {
-  console.log(url)
   try {
     if (await InAppBrowser.isAvailable()) {
       InAppBrowser.open(url, {
@@ -79,10 +78,10 @@ export default class Venue extends Component {
               this.state.venue.cost > 15
               ? this.state.venue.cost > 30
               ? this.state.venue.cost > 60
-                  ? "$$$$"
-                  : "$$$"
-              : "$$"
-              : "$"}
+                  ? '$$$$'
+                  : '$$$'
+              : '$$'
+              : '$'}
             </Text>
             <Text style={[signInStyles.subHeaderText, {textAlign: 'left', width: '100%', padding: 0}]}>{this.state.venue.description}</Text>
           <MoreInfo url={this.state.venue.accessURL} />

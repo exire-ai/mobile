@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   TextInput,
   StyleSheet
-} from "react-native";
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export function FormMessage({
@@ -13,7 +13,7 @@ export function FormMessage({
 }) {
   var messageJSX = ( 
     <View style={[styles.container, { marginBottom: spaceBelow, marginTop: spaceAbove, }]}>
-        <View style={{backgroundColor: "#dddddd", width: '100%', borderRadius: 16}}>
+        <View style={{backgroundColor: '#dddddd', width: '100%', borderRadius: 16}}>
           <View style={{flexDirection: 'row', borderBottomWidth: 1, borderColor: '#000'}}>
             <Icon
               name='book'
@@ -23,7 +23,7 @@ export function FormMessage({
             />
             <TextInput
               style={[styles.input, { flex: .85 }]}
-              value={"What are you planning?"}
+              value={'What are you planning?'}
             />
           </View>
           <View style={{flexDirection: 'row', borderBottomWidth: 1, borderColor: '#000'}}>
@@ -34,8 +34,8 @@ export function FormMessage({
               style={styles.icon}
             />
             <TextInput
-              style={[styles.input, {flex: .35, borderRightWidth: 1, borderColor: "#000"}]}
-              value={"Date and Time"}
+              style={[styles.input, {flex: .35, borderRightWidth: 1, borderColor: '#000'}]}
+              value={'Date and Time'}
             />
             <Icon
               name='money'
@@ -45,7 +45,7 @@ export function FormMessage({
             />
             <TextInput
               style={[styles.input, {flex: .35}]}
-              value={"Price Range"}
+              value={'Price Range'}
             />
           </View>
           <View style={{flexDirection: 'row', borderBottomWidth: 1, borderColor: '#000'}}>
@@ -57,7 +57,7 @@ export function FormMessage({
             />
             <TextInput
               style={[styles.input, {flex: .85}]}
-              value={"People"}
+              value={'People'}
             />
           </View>
           <View style={{flexDirection: 'row'}}>
@@ -69,7 +69,7 @@ export function FormMessage({
             />
             <TextInput
               style={[styles.input, {flex: .85}]}
-              value={"Region"}
+              value={'Region'}
             />
           </View>
         </View>

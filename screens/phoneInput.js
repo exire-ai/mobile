@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Text,
   View,
   StyleSheet,
   TextInput,
   TouchableOpacity
-} from "react-native";
-import users from "../functions/users";
-import { signInStyles } from "../global/signInStyles";
-import plans from "../functions/plans";
+} from 'react-native';
+import users from '../functions/users';
+import { signInStyles } from '../global/signInStyles';
+import plans from '../functions/plans';
 
 export default function PhoneInput({ navigation }) {
-  const [number, setNumber] = React.useState("");
-  const [errorMsg, changeErrorMsg] = React.useState("#fff");
+  const [number, setNumber] = React.useState('');
+  const [errorMsg, changeErrorMsg] = React.useState('#fff');
 
   const nextTapped = () => {
     let text = number;
@@ -29,25 +29,25 @@ export default function PhoneInput({ navigation }) {
             };
             if (!userExist) {
               plans.getAllCategories(categories => {
-                navigation.navigate("TextVerification", {
+                navigation.navigate('TextVerification', {
                   data: newData,
                   userExist: userExist,
                   categories: categories
                 });
               });
             } else {
-              navigation.navigate("TextVerification", {
+              navigation.navigate('TextVerification', {
                 data: newData,
                 userExist: userExist
               });
             }
           });
         } else {
-          changeErrorMsg("#8b0000");
+          changeErrorMsg('#8b0000');
         }
       });
     } else {
-      changeErrorMsg(text.length > 10 ? "#8b0000" : "#fff");
+      changeErrorMsg(text.length > 10 ? '#8b0000' : '#fff');
     }
   };
 
@@ -62,11 +62,11 @@ export default function PhoneInput({ navigation }) {
       </View>
       <TextInput
         style={signInStyles.input}
-        keyboardType={"phone-pad"}
-        placeholder="(123)-456-7890"
-        textAlign={"center"}
+        keyboardType={'phone-pad'}
+        placeholder='(123)-456-7890'
+        textAlign={'center'}
         autoFocus={true}
-        autoCompleteType={"tel"}
+        autoCompleteType={'tel'}
         onChangeText={val => setNumber(val)}
       />
       <TouchableOpacity style={signInStyles.button} onPress={nextTapped}>
@@ -82,7 +82,7 @@ export default function PhoneInput({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center'
   }
 });

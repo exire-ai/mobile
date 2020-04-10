@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const navigationStyles = StyleSheet.create({
   icon: {
@@ -16,7 +16,7 @@ export const navigationStyles = StyleSheet.create({
   headerTitle: {
     color: '#FFF',
     fontFamily: 'nunito-semibold', 
-    fontSize: 28, 
+    fontSize: 24, 
     fontWeight: '500',
   }
 });

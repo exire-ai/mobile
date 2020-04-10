@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import {
   Text,
   View,
-} from "react-native";
+} from 'react-native';
 import { messageStyles } from '../../global/messageStyles';
 
 export function BotMessage({
@@ -18,7 +18,7 @@ export function BotMessage({
       }]}
     >
       <View style={messageStyles.message}>
-        <Text style={[messageStyles.messsageText, { alignSelf: "flex-start" }]}>
+        <Text style={[messageStyles.messsageText, { alignSelf: 'flex-start' }]}>
           {message}
         </Text>
       </View>
