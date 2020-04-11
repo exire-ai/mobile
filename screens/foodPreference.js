@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Text,
   View,
@@ -6,34 +6,59 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  AsyncStorage
-} from 'react-native';
-import users from '../functions/users'
-import ProgressiveImage from '../components/ProgressiveImage';
-import { signInStyles } from '../global/signInStyles';
+  AsyncStorage,
+  Image,
+} from "react-native";
+import users from "../functions/users";
+import ProgressiveImage from "../components/ProgressiveImage";
+import { signInStyles } from "../global/signInStyles";
 
-
-function Category({ key, title, ogUrl, lowUrl, url, code, selected, onSelect }) {
+function Category({
+  key,
+  title,
+  ogUrl,
+  lowUrl,
+  url,
+  code,
+  selected,
+  onSelect,
+}) {
+  function renderSelectedImage() {
+    if (selected) {
+      return (
+        <Image
+          style={{
+            height: 50,
+            width: 50,
+          }}
+          source={require("../assets/check.png")}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
   return (
     <TouchableOpacity
       onPress={() => onSelect(key)}
       style={styles.itemContainer}
     >
       <ProgressiveImage
-        thumbnailSource={{ uri: lowUrl}}
-        source={{uri: ogUrl}}
-        style={{ width: '100%', height: '100%', borderRadius: 8 }}
-        resizeMode='cover'
+        thumbnailSource={{ uri: lowUrl }}
+        source={{ uri: ogUrl }}
+        style={{ width: "100%", height: "100%", borderRadius: 8 }}
+        resizeMode="cover"
       />
       <View
         style={[
           styles.itemContent,
           {
-            backgroundColor: selected ? 'rgba(0,0,169,.65)' : 'rgba(0,0,0,.15)',
-            blurRadius: selected ? 1 : 0
-          }
+            backgroundColor: selected ? "rgba(0,0,169,.65)" : "rgba(0,0,0,.15)",
+            blurRadius: selected ? 1 : 0,
+          },
         ]}
       >
+        {renderSelectedImage()}
         <Text style={styles.itemText}>{title}</Text>
       </View>
     </TouchableOpacity>
@@ -43,10 +68,29 @@ function Category({ key, title, ogUrl, lowUrl, url, code, selected, onSelect }) 
 export default class CategoryPreference extends React.Component {
   constructor(props) {
     super(props);
-    var categoryData = this.props.navigation.state.params.categoryData
-    var userCategories = this.props.navigation.state.params.userCategories
+    var categoryData = this.props.navigation.state.params.categoryData;
+    var userCategories = this.props.navigation.state.params.userCategories;
 
-    var food = ['chinese', 'sushi', 'burgers', 'pubs', 'mexican', 'poke', 'italian', 'sandwiches', 'pizza', 'icecream', 'bakeries', 'barbeque', 'gelato', 'newamerican', 'tea', 'acaibowl', 'cafe', 'japanese']
+    var food = [
+      "chinese",
+      "sushi",
+      "burgers",
+      "pubs",
+      "mexican",
+      "poke",
+      "italian",
+      "sandwiches",
+      "pizza",
+      "icecream",
+      "bakeries",
+      "barbeque",
+      "gelato",
+      "newamerican",
+      "tea",
+      "acaibowl",
+      "cafe",
+      "japanese",
+    ];
 
     var formatData = () => {
       var categories = [];
@@ -57,16 +101,22 @@ export default class CategoryPreference extends React.Component {
             title: categoryData[i].title,
             id: j,
             ogUrl: categoryData[i].url,
-            lowUrl: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + 'low.jpg',
-            url: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + '.jpg',
+            lowUrl:
+              "https://exirevideo.s3.us-east-2.amazonaws.com/" +
+              categoryData[i].code +
+              "low.jpg",
+            url:
+              "https://exirevideo.s3.us-east-2.amazonaws.com/" +
+              categoryData[i].code +
+              ".jpg",
             selected: userCategories.includes(categoryData[i].code),
-            code: categoryData[i].code
+            code: categoryData[i].code,
           });
           j++;
         }
       }
-      return categories
-    }
+      return categories;
+    };
 
     var priorSelected = () => {
       var selectedCategories = [];
@@ -78,22 +128,22 @@ export default class CategoryPreference extends React.Component {
         }
       }
       return selectedCategories;
-    }
+    };
 
     this.state = {
       categories: formatData(),
-      selectedCategories: priorSelected()
+      selectedCategories: priorSelected(),
     };
   }
 
   next = (selected) => {
-    selected = selected.concat(this.props.navigation.state.params.selected)
+    selected = selected.concat(this.props.navigation.state.params.selected);
     var userID = this.props.navigation.state.params.userID;
     users.updateCategories(userID, selected, () => {
-      AsyncStorage.setItem('userID', userID);
-      this.props.navigation.navigate('ChatStack');
+      AsyncStorage.setItem("userID", userID);
+      this.props.navigation.navigate("ChatStack");
     });
-  }
+  };
 
   render() {
     return (
@@ -101,7 +151,7 @@ export default class CategoryPreference extends React.Component {
         <Text
           style={[
             signInStyles.subHeaderText,
-            { padding: '5%', backgroundColor: '#eee', width: '100%' }
+            { padding: "5%", backgroundColor: "#eee", width: "100%" },
           ]}
         >
           Tell us what you are interested in!
@@ -112,12 +162,12 @@ export default class CategoryPreference extends React.Component {
           data={this.state.categories}
           extraData={this.state.selected}
           showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Category
               key={item.key}
               title={item.title}
-              localUrl={'../assets/categories/' + item.code + '.jpg'}
+              localUrl={"../assets/categories/" + item.code + ".jpg"}
               url={item.url}
               ogUrl={item.ogUrl}
               lowUrl={item.lowUrl}
@@ -138,7 +188,7 @@ export default class CategoryPreference extends React.Component {
                 }
                 this.setState({
                   categories: newCategories,
-                  selectedCategories: newSelected
+                  selectedCategories: newSelected,
                 });
               }}
             />
@@ -146,7 +196,9 @@ export default class CategoryPreference extends React.Component {
         />
         <TouchableOpacity
           style={styles.doneButton}
-          onPress={() => {this.next(this.state.selectedCategories)}}
+          onPress={() => {
+            this.next(this.state.selectedCategories);
+          }}
         >
           <Text style={signInStyles.buttonText}>Done</Text>
         </TouchableOpacity>
@@ -158,55 +210,55 @@ export default class CategoryPreference extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center'
+    backgroundColor: "#fff",
+    alignItems: "center",
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: '500'
+    fontWeight: "500",
   },
   item: {
     margin: 24,
     padding: 15,
-    backgroundColor: '#eee'
+    backgroundColor: "#eee",
   },
   doneButton: {
-    backgroundColor: '#007aff',
-    width: '100%',
+    backgroundColor: "#007aff",
+    width: "100%",
     height: 80,
-    alignItems: 'center',
-    paddingTop: 15
+    alignItems: "center",
+    paddingTop: 15,
   },
   itemContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
     borderRadius: 16,
-    margin: Dimensions.get('screen').width * 0.025,
-    height: Dimensions.get('screen').width * 0.45,
-    overflow: 'hidden',
+    margin: Dimensions.get("screen").width * 0.025,
+    height: Dimensions.get("screen").width * 0.45,
+    overflow: "hidden",
   },
   itemContent: {
-    width: '100%',
+    width: "100%",
     aspectRatio: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute', 
-    top: 0, 
-    left: 0, 
-    right: 0, 
-    bottom: 0, 
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   itemText: {
-    fontFamily: 'nunito-semibold',
-    color: 'white',
+    fontFamily: "nunito-semibold",
+    color: "white",
     fontSize: 28,
-    fontWeight: '600',
+    fontWeight: "600",
     marginHorizontal: 8,
-    textAlign: 'center'
+    textAlign: "center",
   },
   list: {
     flex: 1,
-    width: '100%'
-  }
+    width: "100%",
+  },
 });

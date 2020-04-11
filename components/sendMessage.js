@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Animated,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Platform
-} from 'react-native';
-import chats from '../functions/chats';
+  Image,
+} from "react-native";
+import chats from "../functions/chats";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -19,8 +19,8 @@ export default class message extends React.Component {
       // sendPosition: new Animated.Value(0),
       opacity: new Animated.Value(0),
       messageBarFocused: false,
-      text: '',
-      inputActivated: false
+      text: "",
+      inputActivated: false,
     };
   }
 
@@ -34,7 +34,7 @@ export default class message extends React.Component {
 
   clearText = () => {
     this.setState({
-      text: ''
+      text: "",
     });
   };
 
@@ -52,9 +52,14 @@ export default class message extends React.Component {
           style={styles.sendMessage}
           onPress={this.sendMessage}
         >
-          <Animated.Text style={[styles.sendMessageText, { opacity: 1.0 }]}>
-            Send
-          </Animated.Text>
+          <Image
+            style={{
+              height: 24,
+              width: 24,
+              alignSelf: "center",
+            }}
+            source={require("../assets/sendArrow.png")}
+          />
         </AnimatedTouchable>
       );
     } else {
@@ -71,12 +76,12 @@ export default class message extends React.Component {
             onBlur={this.onBlur}
             onFocus={this.onFocus}
             autoFocus={true}
-            placeholder='Say something...'
+            placeholder="How can I help?"
             maxLength={144}
             numberOfLines={2}
-            textAlign={'left'}
+            textAlign={"left"}
             multiline
-            onChangeText={text => this.setState({ text })}
+            onChangeText={(text) => this.setState({ text })}
             value={this.state.text}
           />
         </Animated.View>
@@ -88,43 +93,46 @@ export default class message extends React.Component {
 
 const styles = StyleSheet.create({
   messageContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingTop: 20,
     paddingBottom: 30,
-    backgroundColor: '#fff',
-    marginHorizontal: 10
+    backgroundColor: "#fff",
+    marginHorizontal: 10,
   },
   message: {
     flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: "flex-start",
+    justifyContent: "center",
     height: 55,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
-    backgroundColor: '#dddddd',
-    shadowOffset: { width: 0, height: .5 },
+    backgroundColor: "#dddddd",
+    shadowOffset: { width: 0, height: 0.5 },
     shadowOpacity: 0.3,
     shadowRadius: 1,
   },
   sendMessage: {
     flex: -1,
-    textAlign: 'center',
-    width: 65,
-    justifyContent: 'center',
-    alignSelf: 'center',
+    textAlign: "center",
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignSelf: "center",
     marginLeft: 16,
+    backgroundColor: "#007aff",
+    borderRadius: 50 / 2,
   },
   messageInput: {
-    fontFamily: 'karla-regular',
+    fontFamily: "karla-regular",
     fontSize: 20,
-    textAlign: 'left',
+    textAlign: "left",
     flex: 1,
-    marginLeft: 10
+    marginLeft: 10,
   },
   sendMessageText: {
-    fontFamily: 'karla-bold',
+    fontFamily: "karla-bold",
     fontSize: 20,
-    color: '#007aff'
-  }
+    color: "#007aff",
+  },
 });

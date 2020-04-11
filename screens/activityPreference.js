@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Text,
   View,
@@ -6,35 +6,61 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-} from 'react-native';
-import ProgressiveImage from '../components/ProgressiveImage';
-import { signInStyles } from '../global/signInStyles';
+  Image,
+} from "react-native";
+import ProgressiveImage from "../components/ProgressiveImage";
+import { signInStyles } from "../global/signInStyles";
 
+function Category({
+  key,
+  title,
+  ogUrl,
+  lowUrl,
+  url,
+  code,
+  selected,
+  onSelect,
+}) {
+  function renderSelectedImage() {
+    if (selected) {
+      return (
+        <Image
+          style={{
+            height: 50,
+            width: 50,
+          }}
+          source={require("../assets/check.png")}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
 
-function Category({ key, title, ogUrl, lowUrl, url, code, selected, onSelect }) {
   return (
     <View style={styles.itemContainer}>
-    <TouchableOpacity
-      onPress={() => onSelect(key)}
-    >
-      <ProgressiveImage
-        thumbnailSource={{ uri: lowUrl}}
-        source={{uri: ogUrl}}
-        style={{ width: '100%', height: '100%', borderRadius: 8 }}
-        resizeMode='cover'
-      />
-      <View
-        style={[
-          styles.itemContent,
-          {
-            backgroundColor: selected ? 'rgba(0,0,169,.65)' : 'rgba(0,0,0,.15)',
-            blurRadius: selected ? 1 : 0
-          }
-        ]}
-      >
-        <Text style={styles.itemText}>{title}</Text>
-      </View>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={() => onSelect(key)}>
+        <ProgressiveImage
+          thumbnailSource={{ uri: lowUrl }}
+          source={{ uri: ogUrl }}
+          style={{ width: "100%", height: "100%", borderRadius: 8 }}
+          resizeMode="cover"
+        />
+        <View
+          style={[
+            styles.itemContent,
+            {
+              backgroundColor: selected
+                ? "rgba(0,0,169,.65)"
+                : "rgba(0,0,0,.15)",
+              blurRadius: selected ? 1 : 0,
+            },
+          ]}
+        >
+          {renderSelectedImage()}
+          <Text style={styles.itemText}>{title}</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -42,11 +68,28 @@ function Category({ key, title, ogUrl, lowUrl, url, code, selected, onSelect }) 
 export default class CategoryPreference extends React.Component {
   constructor(props) {
     super(props);
-    var categoryData = this.props.navigation.state.params.categories
-    var userCategories = this.props.navigation.state.params.userCategories
+    var categoryData = this.props.navigation.state.params.categories;
+    var userCategories = this.props.navigation.state.params.userCategories;
 
-    var activities = ['dancing', 'bars', 'artgalleries', 'extreme', 'rockclimbing', 'speakeasies', 'yoga', 'danceclubs', 'karaoke', 'arcades', 'markets', 'parks', 'cocktailbars', 'wine_bars', 'spa', 'museums']
-    
+    var activities = [
+      "dancing",
+      "bars",
+      "artgalleries",
+      "extreme",
+      "rockclimbing",
+      "speakeasies",
+      "yoga",
+      "danceclubs",
+      "karaoke",
+      "arcades",
+      "markets",
+      "parks",
+      "cocktailbars",
+      "wine_bars",
+      "spa",
+      "museums",
+    ];
+
     var formatData = () => {
       var categories = [];
       var j = 0;
@@ -57,15 +100,21 @@ export default class CategoryPreference extends React.Component {
             id: j,
             code: categoryData[i].code,
             ogUrl: categoryData[i].url,
-            lowUrl: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + 'low.jpg',
-            url: 'https://exirevideo.s3.us-east-2.amazonaws.com/' + categoryData[i].code + '.jpg',
+            lowUrl:
+              "https://exirevideo.s3.us-east-2.amazonaws.com/" +
+              categoryData[i].code +
+              "low.jpg",
+            url:
+              "https://exirevideo.s3.us-east-2.amazonaws.com/" +
+              categoryData[i].code +
+              ".jpg",
             selected: userCategories.includes(categoryData[i].code),
           });
           j++;
         }
       }
-      return categories
-    }
+      return categories;
+    };
 
     var priorSelected = () => {
       var selectedCategories = [];
@@ -77,19 +126,24 @@ export default class CategoryPreference extends React.Component {
         }
       }
       return selectedCategories;
-    }
+    };
 
     this.state = {
       categories: formatData(),
       selectedCategories: priorSelected(),
       categoryData: categoryData,
-      userCategories: userCategories
+      userCategories: userCategories,
     };
   }
 
   next = () => {
-    this.props.navigation.navigate('FoodPreference', { userID: this.props.navigation.state.params.userID, categoryData: this.state.categoryData, selected: this.state.selectedCategories, userCategories: this.state.userCategories });
-  }
+    this.props.navigation.navigate("FoodPreference", {
+      userID: this.props.navigation.state.params.userID,
+      categoryData: this.state.categoryData,
+      selected: this.state.selectedCategories,
+      userCategories: this.state.userCategories,
+    });
+  };
 
   render() {
     return (
@@ -97,7 +151,7 @@ export default class CategoryPreference extends React.Component {
         <Text
           style={[
             signInStyles.subHeaderText,
-            { padding: '5%', backgroundColor: '#eee', width: '100%' }
+            { padding: "5%", backgroundColor: "#eee", width: "100%" },
           ]}
         >
           Tell us what you are interested in!
@@ -108,12 +162,12 @@ export default class CategoryPreference extends React.Component {
           data={this.state.categories}
           extraData={this.state.selected}
           showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Category
               key={item.key}
               title={item.title}
-              localUrl={'../assets/categories/' + item.code + '.jpg'}
+              localUrl={"../assets/categories/" + item.code + ".jpg"}
               url={item.url}
               ogUrl={item.ogUrl}
               lowUrl={item.lowUrl}
@@ -134,17 +188,14 @@ export default class CategoryPreference extends React.Component {
                 }
                 this.setState({
                   categories: newCategories,
-                  selectedCategories: newSelected
+                  selectedCategories: newSelected,
                 });
               }}
             />
           )}
         />
-        <TouchableOpacity
-          style={styles.doneButton}
-          onPress={this.next}
-        >
-          <Text style={signInStyles.buttonText}>Done</Text>
+        <TouchableOpacity style={styles.doneButton} onPress={this.next}>
+          <Text style={signInStyles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
     );
@@ -154,55 +205,55 @@ export default class CategoryPreference extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center'
+    backgroundColor: "#fff",
+    alignItems: "center",
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: '500'
+    fontWeight: "500",
   },
   item: {
     margin: 24,
     padding: 15,
-    backgroundColor: 'pink'
+    backgroundColor: "pink",
   },
   doneButton: {
-    backgroundColor: '#007aff',
-    width: '100%',
+    backgroundColor: "#007aff",
+    width: "100%",
     height: 80,
-    alignItems: 'center',
-    paddingTop: 15
+    alignItems: "center",
+    paddingTop: 15,
   },
   itemContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
     borderRadius: 16,
-    margin: Dimensions.get('screen').width * 0.025,
-    height: Dimensions.get('screen').width * 0.45,
-    overflow: 'hidden',
+    margin: Dimensions.get("screen").width * 0.025,
+    height: Dimensions.get("screen").width * 0.45,
+    overflow: "hidden",
   },
   itemContent: {
-    width: '100%',
+    width: "100%",
     aspectRatio: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute', 
-    top: 0, 
-    left: 0, 
-    right: 0, 
-    bottom: 0, 
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   itemText: {
-    fontFamily: 'nunito-semibold',
-    color: 'white',
+    fontFamily: "nunito-semibold",
+    color: "white",
     fontSize: 28,
-    fontWeight: '600',
+    fontWeight: "600",
     marginHorizontal: 8,
-    textAlign: 'center'
+    textAlign: "center",
   },
   list: {
     flex: 1,
-    width: '100%'
-  }
+    width: "100%",
+  },
 });

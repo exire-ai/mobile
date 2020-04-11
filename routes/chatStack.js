@@ -1,33 +1,36 @@
-import { createStackNavigator } from 'react-navigation-stack';
-import { TouchableOpacity, Text, AsyncStorage } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { navigationStyles } from '../global/navigationStyles';
-import React from 'react';
-import Chat from '../screens/chat';
-import Profile from '../screens/profile';
-import Venue from '../screens/venue';
-import users from '../functions/users';
+import { createStackNavigator } from "react-navigation-stack";
+import { TouchableOpacity, Text, AsyncStorage } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { navigationStyles } from "../global/navigationStyles";
+import React from "react";
+import Chat from "../screens/chat";
+import Profile from "../screens/profile";
+import Venue from "../screens/venue";
+import users from "../functions/users";
 // import Drawer from '../components/Drawer';
 
 const screens = {
   Chat: {
     screen: Chat,
-    navigationOptions: ({navigation}) => {
+    navigationOptions: ({ navigation }) => {
       return {
         headerShown: true,
-        title: 'exire',
+        title: "exire",
         headerStyle: navigationStyles.header,
-        headerTitleStyle: [navigationStyles.headerTitle, {fontSize: 32}],
-        headerTitleAlign: 'center',
+        headerTitleStyle: [navigationStyles.headerTitle, { fontSize: 32 }],
+        headerTitleAlign: "center",
         gestureEnabled: false,
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={navigationStyles.icon}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("DrawerOpen")}
+            style={navigationStyles.icon}
+          >
             <Icon
-              name='bars'
-              color='#FFF'
+              name="bars"
+              color="#FFF"
               size={24}
               style={{
-                shadowColor: '#000',
+                shadowColor: "#000",
                 shadowOffset: { width: 0, height: 1 },
                 shadowOpacity: 0.3,
                 shadowRadius: 1,
@@ -36,19 +39,22 @@ const screens = {
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => {
-            AsyncStorage.getItem('userID').then((value) => {
-              users.get(value, data => {
-                navigation.navigate('Profile', data)
-              })
-            })
-          }} style={navigationStyles.icon}>
+          <TouchableOpacity
+            onPress={() => {
+              AsyncStorage.getItem("userID").then((value) => {
+                users.get(value, (data) => {
+                  navigation.navigate("Profile", data);
+                });
+              });
+            }}
+            style={navigationStyles.icon}
+          >
             <Icon
-              name='user'
-              color='#FFF'
+              name="user"
+              color="#FFF"
               size={24}
               style={{
-                shadowColor: '#000',
+                shadowColor: "#000",
                 shadowOffset: { width: 0, height: 1 },
                 shadowOpacity: 0.3,
                 shadowRadius: 1,
@@ -57,23 +63,26 @@ const screens = {
           </TouchableOpacity>
         ),
       };
-    }
+    },
   },
   Profile: {
     screen: Profile,
-    navigationOptions: ({navigation}) => {
+    navigationOptions: ({ navigation }) => {
       return {
-        title: ' ',
+        title: " ",
         headerTransparent: true,
         gestureEnabled: true,
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={navigationStyles.icon}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Chat")}
+            style={navigationStyles.icon}
+          >
             <Icon
-              name='chevron-left'
-              color='#FFF'
+              name="times"
+              color="#FFF"
               size={32}
               style={{
-                shadowColor: '#000',
+                shadowColor: "#000",
                 shadowOffset: { width: 0, height: 1 },
                 shadowOpacity: 0.3,
                 shadowRadius: 1,
@@ -82,31 +91,39 @@ const screens = {
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => {
-              AsyncStorage.setItem('userID', '');
-              navigation.navigate('GetStarted');
-          }} style={navigationStyles.icon}>
-            <Text style={[navigationStyles.headerTitle, {fontSize: 20}]}>Logout</Text>
+          <TouchableOpacity
+            onPress={() => {
+              AsyncStorage.setItem("userID", "");
+              navigation.navigate("GetStarted");
+            }}
+            style={navigationStyles.icon}
+          >
+            <Text style={[navigationStyles.headerTitle, { fontSize: 20 }]}>
+              Logout
+            </Text>
           </TouchableOpacity>
-        )
-      }
-    }
+        ),
+      };
+    },
   },
   Venue: {
     screen: Venue,
-    navigationOptions: ({navigation}) => {
+    navigationOptions: ({ navigation }) => {
       return {
-        title: ' ',
+        title: " ",
         headerTransparent: true,
         gestureEnabled: true,
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('Chat')} style={navigationStyles.icon}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Chat")}
+            style={navigationStyles.icon}
+          >
             <Icon
-              name='times'
-              color='#FFF'
+              name="times"
+              color="#FFF"
               size={32}
               style={{
-                shadowColor: '#000',
+                shadowColor: "#000",
                 shadowOffset: { width: 0, height: 1 },
                 shadowOpacity: 0.3,
                 shadowRadius: 1,
@@ -114,11 +131,13 @@ const screens = {
             />
           </TouchableOpacity>
         ),
-      }
-    }
-  }
+      };
+    },
+  },
   // Drawer: { screen: Drawer }
 };
 
-const ChatStack = createStackNavigator(screens);
+const ChatStack = createStackNavigator(screens, {
+  mode: "modal",
+});
 export default ChatStack;
