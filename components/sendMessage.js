@@ -122,6 +122,9 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     backgroundColor: "#007aff",
     borderRadius: 50 / 2,
+    shadowOffset: { width: 0, height: 0.5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
   },
   messageInput: {
     fontFamily: "karla-regular",
@@ -129,6 +132,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     flex: 1,
     marginLeft: 10,
+    width: "100%",
   },
   sendMessageText: {
     fontFamily: "karla-bold",

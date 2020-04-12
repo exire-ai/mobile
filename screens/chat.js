@@ -69,7 +69,7 @@ export default class Chat extends React.Component {
   };
 
   sendMessage = (inputText) => {
-    console.log(this.state.recallCounter);
+    // console.log(this.state.recallCounter);
     if (!this.state.recallCounter > 0) {
       this.addMessage(inputText, this.state.ownerID, [], "");
       setTimeout(this.addIndicator, 250);
@@ -109,7 +109,7 @@ export default class Chat extends React.Component {
         "bot",
         [],
         (data) => {
-          console.log("Message added to chat: " + this.state.sessionID);
+          // console.log("Message added to chat: " + this.state.sessionID);
         }
       );
       if (parsedData.hasOwnProperty("venues")) {
