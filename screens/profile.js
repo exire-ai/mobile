@@ -8,12 +8,14 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import plans from "../functions/plans";
 import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
 import { FlatList } from "react-native-gesture-handler";
+import { userProperties } from "../global/userProperties";
 
 const nameDict = {
   artmuseums: "Art",
@@ -95,7 +97,7 @@ const colorList = [
 
 var categoryData = (categories) => {
   var newArray = [];
-  console.log(categories);
+  // console.log(categories);
   for (category in categories) {
     var temp = {
       code: categories[category],
@@ -121,6 +123,10 @@ export default class Profile extends Component {
       user: this.props.navigation.state.params,
       categories: categoryData(this.props.navigation.state.params.categories),
     };
+    AsyncStorage.getItem("userID").then((value) => {
+      this.state.userID = value;
+    });
+    this.state.name = userProperties.name;
   }
 
   componentDidMount() {
@@ -135,16 +141,23 @@ export default class Profile extends Component {
   }
 
   updateCategories = () => {
-    AsyncStorage.getItem("userID").then((value) => {
-      plans.getAllCategories((categories) => {
-        users.getCategories(value, (userCategories) => {
-          this.props.navigation.navigate("ActivityPreference", {
-            userID: value,
-            categories: categories,
-            userCategories: userCategories,
-          });
+    plans.getAllCategories((categories) => {
+      users.getCategories(this.state.userID, (userCategories) => {
+        this.props.navigation.navigate("ActivityPreference", {
+          userID: this.state.userID,
+          categories: categories,
+          userCategories: userCategories,
         });
       });
+    });
+  };
+
+  updateName = () => {
+    //TODO: Send Name value to database to store on user
+    let name = this.state.name;
+    console.log("Updating user " + this.state.userID + " with name " + name);
+    users.updateName(this.state.userID, name, (data) => {
+      console.log("Success: " + data);
     });
   };
 
@@ -175,10 +188,27 @@ export default class Profile extends Component {
               }}
             />
           </View>
-          <View style={{ height: "32%" }}>
-            <Text style={[signInStyles.headerText, { color: "#fff" }]}>
+          <View
+            style={{
+              height: "32%",
+              width: "80%",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TextInput
+              style={[signInStyles.headerText, { color: "#fff" }]}
+              value={this.state.name}
+              placeholder={"Set your name"}
+              placeholderTextColor={"#feb"}
+              returnKeyType={"done"}
+              onChangeText={(text) => this.setState({ name: text })}
+              onSubmitEditing={this.updateName}
+            />
+            {/* <Text style={[signInStyles.headerText, { color: "#fff" }]}>
               Frodo Baggins
-            </Text>
+            </Text> */}
             <TouchableOpacity
               style={styles.button}
               onPress={this.updateCategories}
@@ -262,6 +292,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: 10,
     paddingVertical: 10,
+    paddingHorizontal: 28,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 1,

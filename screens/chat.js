@@ -14,6 +14,7 @@ import SendMessage from "../components/sendMessage";
 import chats from "../functions/chats";
 import users from "../functions/users";
 import plans from "../functions/plans";
+import { userProperties, setUser } from "../global/userProperties";
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class Chat extends React.Component {
       recallCounter: 0,
     };
     AsyncStorage.getItem("userID").then((value) => {
+      this.getUser(value);
       this.setState({
         userID: value,
         messages: [
@@ -46,6 +48,12 @@ export default class Chat extends React.Component {
     });
     this.keyboardHeight = new Animated.Value(0);
   }
+
+  getUser = (userID) => {
+    users.get(userID, (data) => {
+      setUser(data);
+    });
+  };
 
   getWelcomeMessage = (userID) => {
     users.getWelcomeMessage(this.state.userID, (data) => {

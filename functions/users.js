@@ -65,6 +65,29 @@ const users = {
         callback(false);
       });
   },
+  updateName: function (userID, name, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/updateName/" +
+        userID +
+        "/" +
+        name,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
   updateCategories: function (userID, categories, callback) {
     fetch(
       "https://exire-backend.herokuapp.com/users/updateCategories/" + userID,
