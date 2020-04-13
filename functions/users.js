@@ -196,7 +196,6 @@ const users = {
       });
   },
   getWelcomeMessage: function (userID, callback) {
-    console.log("HERE");
     fetch(
       "https://exire-backend.herokuapp.com/users/getWelcomeMessage/" + userID,
       {

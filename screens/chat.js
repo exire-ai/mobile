@@ -70,7 +70,7 @@ export default class Chat extends React.Component {
       this.state.userID,
       [],
       (data) => {
-        console.log("Message added to: " + this.state.sessionID);
+        // console.log("Message added to: " + this.state.sessionID);
       }
     );
   };
@@ -119,10 +119,14 @@ export default class Chat extends React.Component {
         }
       );
       if (parsedData.hasOwnProperty("venues")) {
-        console.log("Has venues");
+        // console.log("Has venues");
         plans.getByList(parsedData.venues, (venues) => {
           if (venues.length != 0) {
-            this.addMessage("", "bot", venues, "");
+            var showVenues = venues;
+            if (showVenues.length > 4) {
+              showVenues = showVenues.slice(0, 4);
+            }
+            this.addMessage("", "bot", showVenues, "");
           }
         });
       } else if (parsedData.hasOwnProperty("form")) {
