@@ -19,24 +19,25 @@ export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [
-        {
-          message:
-            "Welcome to Exire. I can send you avtivity and food recommendations! How can I help?",
-          senderID: "bot",
-          venues: [],
-          time: Math.round(new Date().getTime() / 1000),
-          loading: false,
-          form: "",
-        },
-      ],
+      messages: [],
       ownerID: "user",
       recallCounter: 0,
     };
     AsyncStorage.getItem("userID").then((value) => {
       this.setState({
         userID: value,
+        messages: [
+          {
+            message: "Welcome to Exire",
+            senderID: "bot",
+            venues: [],
+            time: Math.round(new Date().getTime()),
+            loading: false,
+            form: "",
+          },
+        ],
       });
+      this.getWelcomeMessage();
       chats.createChat(value, this.state.messages[0].message, (bool) => {
         users.getChatUser(value, (data) => {
           this.setState({ sessionID: data.chatID });
@@ -45,6 +46,12 @@ export default class Chat extends React.Component {
     });
     this.keyboardHeight = new Animated.Value(0);
   }
+
+  getWelcomeMessage = (userID) => {
+    users.getWelcomeMessage(this.state.userID, (data) => {
+      this.addMessage(data.text, "bot", [], "");
+    });
+  };
 
   addMessage = (inputText, user, venues, form) => {
     const { messages } = this.state;
@@ -69,7 +76,6 @@ export default class Chat extends React.Component {
   };
 
   sendMessage = (inputText) => {
-    // console.log(this.state.recallCounter);
     if (!this.state.recallCounter > 0) {
       this.addMessage(inputText, this.state.ownerID, [], "");
       setTimeout(this.addIndicator, 250);
