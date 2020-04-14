@@ -29,6 +29,7 @@ export default function TextVerification({ navigation }) {
       } else {
         users.getByNumber(data.number, (result) => {
           AsyncStorage.setItem('userID', result.userID)
+          AsyncStorage.setItem('name', result.name)
           navigation.navigate('Chat');
         })
       }

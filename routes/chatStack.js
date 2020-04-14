@@ -94,6 +94,7 @@ const screens = {
           <TouchableOpacity
             onPress={() => {
               AsyncStorage.setItem("userID", "");
+              AsyncStorage.setItem("name", "");
               navigation.navigate("GetStarted");
             }}
             style={navigationStyles.icon}

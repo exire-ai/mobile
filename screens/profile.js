@@ -5,17 +5,19 @@ import {
   StyleSheet,
   Keyboard,
   AsyncStorage,
-  Image,
   Dimensions,
   TouchableOpacity,
   TextInput,
+  ImageBackground,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 import plans from "../functions/plans";
 import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
 import { FlatList } from "react-native-gesture-handler";
-import { userProperties } from "../global/userProperties";
 
 const nameDict = {
   artmuseums: "Art",
@@ -97,18 +99,19 @@ const colorList = [
 
 var categoryData = (categories) => {
   var newArray = [];
-  // console.log(categories);
-  for (category in categories) {
+  breakLoop : for (category in categories) {
     var temp = {
       code: categories[category],
       title: nameDict[categories[category]],
-      color:
-        colorList[
-          category < colorList.length
-            ? category
-            : Math.floor(Math.random() * colorList.length)
-        ],
+      color: colorList[
+        category < colorList.length
+          ? category
+          : Math.floor(Math.random() * colorList.length)
+      ],
     };
+    if ((newArray.length * 56) / 3> Dimensions.get('screen').height*.48) {
+      break breakLoop;
+    }
     newArray.push(temp);
   }
   return newArray;
@@ -117,27 +120,33 @@ var categoryData = (categories) => {
 export default class Profile extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      profile: require("../assets/bilbo.png"),
+      profile: require('../assets/profile.jpg'),
       user: this.props.navigation.state.params,
       categories: categoryData(this.props.navigation.state.params.categories),
+      name: ""
     };
     AsyncStorage.getItem("userID").then((value) => {
       this.state.userID = value;
     });
-    this.state.name = userProperties.name;
+    AsyncStorage.getItem("name").then((value) => {
+      if (value != null && value != "") {
+        this.setState({
+          name: value
+        })
+      }
+    })
+    AsyncStorage.getItem("profilePhoto").then((value) => {
+      if (value != null && value != "") {
+        this.setState({
+          profile: { uri: value }
+        })
+      }
+    })
   }
 
   componentDidMount() {
     Keyboard.dismiss();
-    // users.getCategories(this.state.profile.userID, categories => {
-    //   if (categories) {
-    //     this.setState({
-    //       categories: categoryData(categories)
-    //     })
-    //   }
-    // })
   }
 
   updateCategories = () => {
@@ -153,13 +162,50 @@ export default class Profile extends Component {
   };
 
   updateName = () => {
-    //TODO: Send Name value to database to store on user
-    let name = this.state.name;
-    console.log("Updating user " + this.state.userID + " with name " + name);
-    users.updateName(this.state.userID, name, (data) => {
+    AsyncStorage.setItem("name", this.state.name);
+    users.updateName(this.state.userID, this.state.name, (data) => {
       console.log("Success: " + data);
     });
   };
+
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+      AsyncStorage.setItem("profilePhoto", result.uri)
+      this.setState({
+        profile: { uri: result.uri }
+      })
+    };
+  }
+
+  // make work on android
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  }
+
+  profileChange = async () => {
+    AsyncStorage.getItem('profile', data => {
+      if (data == null || data == '') {
+        this.getPermissionAsync()
+        this.pickImage()
+      } else {
+        this.getPermissionAsync()
+
+        this.pickImage()
+      }
+    })
+  }
 
   render() {
     return (
@@ -177,16 +223,23 @@ export default class Profile extends Component {
               shadowRadius: 1,
             }}
           >
-            <Image
+            <ImageBackground
               source={this.state.profile}
               style={{
                 marginTop: "14%",
-                height: Math.round(Dimensions.get("window").height) * 0.15,
-                width: Math.round(Dimensions.get("window").height) * 0.15,
-                borderRadius:
-                  Math.round(Dimensions.get("window").height) * 0.075,
+                height: Math.round(Dimensions.get("window").height) * 0.17,
+                width: Math.round(Dimensions.get("window").height) * 0.17,
               }}
-            />
+              imageStyle={{
+                borderRadius: Math.round(Dimensions.get("window").height) * 0.085,
+              }}
+            >
+              <TouchableOpacity
+                style={{width: '100%', height: '100%'}}
+                onPress={this.pickImage}
+              >
+              </TouchableOpacity>
+            </ImageBackground>
           </View>
           <View
             style={{
@@ -247,7 +300,7 @@ export default class Profile extends Component {
                   style={{
                     backgroundColor: item.color.background,
                     paddingVertical: 15,
-                    paddingHorizontal: 25,
+                    paddingHorizontal: 20,
                     borderRadius: 8,
                     shadowColor: "black",
                     shadowOffset: { width: 0, height: 1 },

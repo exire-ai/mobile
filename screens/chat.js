@@ -8,13 +8,14 @@ import {
   AsyncStorage,
   BackHandler,
 } from "react-native";
+import Constants from 'expo-constants';
+import * as Location from 'expo-location';
 import dialogflow from "../functions/dialogflow";
 import { Message } from "../components/message";
 import SendMessage from "../components/sendMessage";
 import chats from "../functions/chats";
 import users from "../functions/users";
 import plans from "../functions/plans";
-import { userProperties, setUser } from "../global/userProperties";
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -25,21 +26,20 @@ export default class Chat extends React.Component {
       recallCounter: 0,
     };
     AsyncStorage.getItem("userID").then((value) => {
-      this.getUser(value);
-      this.setState({
-        userID: value,
-        messages: [
-          {
-            message: "Welcome to Exire",
+      this.addIndicator();
+      users.getWelcomeMessage(value, (data) => {
+        // Ternary for if issue in get request
+        this.setState({
+          messages : [{
+            message: data.text ? data.text : "Welcome to Exire! I can help you find activites and restaurants based on your preferences.",
             senderID: "bot",
             venues: [],
             time: Math.round(new Date().getTime()),
             loading: false,
             form: "",
-          },
-        ],
+          }]
+        })
       });
-      this.getWelcomeMessage();
       chats.createChat(value, this.state.messages[0].message, (bool) => {
         users.getChatUser(value, (data) => {
           this.setState({ sessionID: data.chatID });
@@ -48,18 +48,6 @@ export default class Chat extends React.Component {
     });
     this.keyboardHeight = new Animated.Value(0);
   }
-
-  getUser = (userID) => {
-    users.get(userID, (data) => {
-      setUser(data);
-    });
-  };
-
-  getWelcomeMessage = (userID) => {
-    users.getWelcomeMessage(this.state.userID, (data) => {
-      this.addMessage(data.text, "bot", [], "");
-    });
-  };
 
   addMessage = (inputText, user, venues, form) => {
     const { messages } = this.state;
@@ -70,6 +58,7 @@ export default class Chat extends React.Component {
       time: Math.round(new Date().getTime() / 1000),
       loading: false,
       form: form,
+      location: ""
     });
     this.setState({ messages: messages.slice(0) });
     chats.sendMessage(
@@ -162,43 +151,27 @@ export default class Chat extends React.Component {
 
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
-    // this.keyboardWillShowSub = Keyboard.addListener(
-    //   'keyboardWillShow',
-    //   this.keyboardWillShow
-    // );
-    // this.keyboardWillHideSub = Keyboard.addListener(
-    //   'keyboardWillHide',
-    //   this.keyboardWillHide
-    // );
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({
+        location: location
+      });
+      console.log(location, this.state.location);
+    })();
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
-    // this.keyboardWillShowSub.remove();
-    // this.keyboardWillHideSub.remove();
   }
 
   handleBackButton() {
     return true;
   }
-
-  keyboardWillShow = (event) => {
-    // Animated.parallel([
-    //   Animated.timing(this.keyboardHeight, {
-    //     duration: event.duration,
-    //     toValue: event.endCoordinates.height
-    //   })
-    // ]).start();
-  };
-
-  keyboardWillHide = (event) => {
-    // Animated.parallel([
-    //   Animated.timing(this.keyboardHeight, {
-    //     duration: event.duration,
-    //     toValue: 0
-    //   })
-    // ]).start();
-  };
 
   makeProfileVisible = () => {
     this.setState({ isProfileVisible: true });
@@ -206,9 +179,7 @@ export default class Chat extends React.Component {
 
   render() {
     return (
-      // <Animated.View style={[styles.container, { paddingBottom: this.keyboardHeight }]}>
       <View style={styles.container}>
-        {/* <SafeAreaView style={styles.container}> */}
         <KeyboardAvoidingView
           style={styles.keyboardAvoidingContainer}
           behavior="padding"
@@ -243,13 +214,9 @@ export default class Chat extends React.Component {
               />
             )}
           />
-          {/* <View style={{ width: '100%' }}> */}
           <SendMessage
-            // width={Dimensions.get('screen').width}
-            // height={Dimensions.get('screen').height}
             sendMessage={this.sendMessage}
           />
-          {/*  </Animated.View> */}
         </KeyboardAvoidingView>
       </View>
     );
