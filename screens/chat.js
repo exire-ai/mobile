@@ -26,6 +26,9 @@ export default class Chat extends React.Component {
       recallCounter: 0,
     };
     AsyncStorage.getItem("userID").then((value) => {
+      this.setState({
+        userID: value
+      })
       this.addIndicator();
       users.getWelcomeMessage(value, (data) => {
         // Ternary for if issue in get request
