@@ -32,21 +32,22 @@ export default class Chat extends React.Component {
       this.addIndicator();
       users.getWelcomeMessage(value, (data) => {
         // Ternary for if issue in get request
-        this.setState({
-          messages : [{
-            message: data.text ? data.text : "Welcome to Exire! I can help you find activites and restaurants based on your preferences.",
-            senderID: "bot",
-            venues: [],
-            time: Math.round(new Date().getTime()),
-            loading: false,
-            form: "",
-          }]
-        })
+        var messageClone = this.state.messages;
+        messageClone[0] = {
+          message: data.text ? data.text : "Welcome to Exire! I can help you find activites and restaurants based on your preferences.",
+          senderID: "bot",
+          venues: [],
+          time: Math.round(new Date().getTime()),
+          loading: false,
+          form: "",
+        }
+        this.setState({ messages: messageClone, loading: false });
       });
       chats.createChat(value, this.state.messages[0].message, (bool) => {
-        users.getChatUser(value, (data) => {
-          this.setState({ sessionID: data.chatID });
-        });
+        // users.getChatUser(value, (data) => {
+        //   this.setState({ sessionID: data.chatID });
+        // });
+        console.log("success: " + bool);
       });
     });
     this.keyboardHeight = new Animated.Value(0);
