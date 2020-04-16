@@ -8,8 +8,8 @@ import {
   AsyncStorage,
   BackHandler,
 } from "react-native";
-import Constants from 'expo-constants';
-import * as Location from 'expo-location';
+import Constants from "expo-constants";
+import * as Location from "expo-location";
 import dialogflow from "../functions/dialogflow";
 import { Message } from "../components/message";
 import SendMessage from "../components/sendMessage";
@@ -27,26 +27,29 @@ export default class Chat extends React.Component {
     };
     AsyncStorage.getItem("userID").then((value) => {
       this.setState({
-        userID: value
-      })
+        userID: value,
+        sessionID: value,
+      });
       this.addIndicator();
       users.getWelcomeMessage(value, (data) => {
         // Ternary for if issue in get request
         var messageClone = this.state.messages;
         messageClone[0] = {
-          message: data.text ? data.text : "Welcome to Exire! I can help you find activites and restaurants based on your preferences.",
+          message: data.text
+            ? data.text
+            : "Welcome to Exire! I can help you find activites and restaurants based on your preferences.",
           senderID: "bot",
           venues: [],
           time: Math.round(new Date().getTime()),
           loading: false,
           form: "",
-        }
+        };
         this.setState({ messages: messageClone, loading: false });
       });
       chats.createChat(value, this.state.messages[0].message, (bool) => {
-        // users.getChatUser(value, (data) => {
-        //   this.setState({ sessionID: data.chatID });
-        // });
+        users.getChatUser(value, (data) => {
+          this.setState({ sessionID: data.chatID });
+        });
         console.log("success: " + bool);
       });
     });
@@ -62,7 +65,7 @@ export default class Chat extends React.Component {
       time: Math.round(new Date().getTime() / 1000),
       loading: false,
       form: form,
-      location: ""
+      location: "",
     });
     this.setState({ messages: messages.slice(0) });
     chats.sendMessage(
@@ -71,7 +74,8 @@ export default class Chat extends React.Component {
       this.state.userID,
       [],
       (data) => {
-        // console.log("Message added to: " + this.state.sessionID);
+        console.log(data);
+        console.log("Message added to: " + this.state.sessionID);
       }
     );
   };
@@ -116,7 +120,7 @@ export default class Chat extends React.Component {
         "bot",
         [],
         (data) => {
-          // console.log("Message added to chat: " + this.state.sessionID);
+          console.log("Message added to chat: " + this.state.sessionID);
         }
       );
       if (parsedData.hasOwnProperty("venues")) {
@@ -157,13 +161,13 @@ export default class Chat extends React.Component {
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
       }
 
       let location = await Location.getCurrentPositionAsync({});
       this.setState({
-        location: location
+        location: location,
       });
       console.log(location, this.state.location);
     })();
@@ -218,9 +222,7 @@ export default class Chat extends React.Component {
               />
             )}
           />
-          <SendMessage
-            sendMessage={this.sendMessage}
-          />
+          <SendMessage sendMessage={this.sendMessage} />
         </KeyboardAvoidingView>
       </View>
     );
