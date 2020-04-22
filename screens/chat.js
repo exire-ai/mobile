@@ -165,7 +165,9 @@ export default class Chat extends React.Component {
       this.setState({
         location: location
       });
-      console.log(location, this.state.location);
+      users.updateLocation(this.state.userID, location.coords.latitude, location.coords.longitude, (bool) => {
+        console.log("Location Updated: " + bool)
+      })
     })();
   }
 

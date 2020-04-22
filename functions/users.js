@@ -234,6 +234,27 @@ const users = {
         callback(false);
       });
   },
+  updateLocation: function (userID, lat, lon, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/updateLocation/" +
+        userID +
+        "/" +
+        lat +
+        "/" +
+        lon,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
 };
 
 export default users;
