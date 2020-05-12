@@ -28,7 +28,7 @@ export default function TextVerification({ navigation }) {
         users.getByNumber(data.number, (result) => {
           AsyncStorage.setItem("userID", result.userID);
           AsyncStorage.setItem("name", result.name);
-          navigation.navigate("Chat");
+          navigation.navigate("HomeStack");
         });
       }
     } else {

@@ -7,6 +7,7 @@ export default class LoadingScreen extends Component {
     Text.defaultProps.allowFontScaling = false;
     TextInput.defaultProps = TextInput.defaultProps || {};
     TextInput.defaultProps.allowFontScaling = false;
+    console.disableYellowBox = true;
     this.checkIfLoggedIn();
   }
 
@@ -14,9 +15,9 @@ export default class LoadingScreen extends Component {
     setTimeout( () => {
       AsyncStorage.getItem('userID').then((value) => {
         if (value != null && value != '') {
-          this.props.navigation.navigate('ChatStack');
+          this.props.navigation.navigate('HomeStack');
         } else {
-          this.props.navigation.navigate('SignInStack');
+          this.props.navigation.navigate('HomeStack');
         }
       })
     }, 300)
