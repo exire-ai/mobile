@@ -15,7 +15,8 @@ const getFonts = () => Font.loadAsync({
     'karla-regular': require('./assets/fonts/Karla-Regular.ttf'),
     'karla-bold': require('./assets/fonts/Karla-Bold.ttf'),
     'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
-    'nunito-semibold': require('./assets/fonts/Nunito-SemiBold.ttf')
+    'nunito-semibold': require('./assets/fonts/Nunito-SemiBold.ttf'),
+    'nunito-bold' : require('./assets/fonts/Nunito-Bold.ttf')
 });
 
 export default function App() {

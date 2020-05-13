@@ -33,7 +33,7 @@ const screens = {
         title: "",
         tabBarIcon: ({ tintColor }) => (
           <Image
-            style={{ width: 42, height: 42, tintColor: tintColor }}
+            style={{ width: 45, height: 45, tintColor: tintColor }}
             source={require("../assets/icons/compass.png")}
           />
         ),
@@ -95,7 +95,7 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
   defaultNavigationOptions: {
     ...TransitionPresets.FadeFromBottomAndroid,
   },
-  swipeEnabled: false,
+  swipeEnabled: true,
   tabBarOptions: {
     activeTintColor: "#3597e9",
     inactiveTintColor: "#aaa",
@@ -108,7 +108,6 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
       shadowStyles.shadowDown,
       {
         height: 45,
-        width: 110,
         alignItems: "center",
         shadowRadius: 0.3,
       },
@@ -128,14 +127,14 @@ const HomeStack = createStackNavigator({
         headerTitleAlign: "center",
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => console.log(navigation)}
+            onPress={() => console.log("profile")}
             style={navigationStyles.icon}
           >
             <Icon
               name="user-circle"
               color="#FFF"
               size={32}
-              style={navigationStyles.shadowDown}
+              style={shadowStyles.shadowDown}
             />
           </TouchableOpacity>
         ),

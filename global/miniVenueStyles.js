@@ -25,7 +25,7 @@ export const miniVenueStyles = StyleSheet.create({
   },
   venueText: {
     fontFamily: "karla-regular",
-    fontSize: 20,
+    fontSize: 18,
     color: "#fff",
     fontWeight: "600",
   },

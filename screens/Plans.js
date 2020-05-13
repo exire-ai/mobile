@@ -59,14 +59,12 @@ export default class Plans extends Component {
             <Plan data={item} />
           )}
         />
-        <View style={{alignItems: 'flex-end', paddingRight: '2.5%', paddingBottom: '2.5%'}}>
         <TouchableOpacity
-          style={[shadowStyles.shadowDown, {backgroundColor: "#328232", height: 60, width: 60, borderRadius: 30, alignItems: 'center'}]}
+          style={[shadowStyles.shadowDown, {backgroundColor: "#328232", height: 60, width: 60, borderRadius: 30, alignItems: 'center', alignSelf: 'flex-end', marginRight: '2.5%', marginBottom: '2.5%'}]}
           onPress={() => { console.log("New Plan Pressed") }}
         >
-          <Text style={{fontFamily: "nunito-semibold", color: "#fff", fontSize: 45, marginTop: -2}}>+</Text>
+          <Text style={{fontFamily: "nunito-bold", color: "#fff", fontSize: 45, marginTop: -2}}>+</Text>
         </TouchableOpacity>
-        </View>
       </View>
     )
   }
