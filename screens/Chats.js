@@ -3,9 +3,13 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'r
 import { SearchBar } from 'react-native-elements';
 import Icon from "react-native-vector-icons/FontAwesome";
 
+// Components Imports 
 import Chat from "../components/Chat";
+
+// Styles Imports
 import { shadowStyles } from "../global/shadowStyles"
-import { fromTop } from 'react-navigation-transitions';
+import { chatsStyles } from "../global/chatsStyles";
+import { plansStyles } from "../global/plansStyles";
 
 const data = [
   {
@@ -38,30 +42,25 @@ const data = [
 
 function Search({}) {
   return (
-    <View style={[{height: 35, backgroundColor: '#fff', marginHorizontal: 15, marginVertical: 10, borderRadius: 5, flexDirection: 'row'}, shadowStyles.shadowDown]}>
+    <View style={[chatsStyles.search, shadowStyles.shadowDown]}>
       <Icon
         name="search"
         color="#888"
         size={16}
-        style={[shadowStyles.shadowDown, {alignSelf: 'center', paddingHorizontal: 10}]}
+        style={[shadowStyles.shadowDown, chatsStyles.icon]}
       />
-      <TextInput style={{color: '#aaa', fontSize: 16}} placeholder={"Search..."}></TextInput>
+      <TextInput style={chatsStyles.textInput} placeholder={"Search..."}></TextInput>
     </View>
   )
 }
 
 export default class Chats extends Component {
   render() {
-
     return (
-      <View style={styles.container}>
+      <View style={chatsStyles.container}>
         <Search />
-        {/* <SearchBar 
-          containerStyle={{backgroundColor: "#efefef", borderColor: '#efefef'}}
-          inputStyle={{backgroundColor: "#fff"}}
-        /> */}
         <FlatList
-          style={styles.list}
+          style={chatsStyles.list}
           data={data}
           showsVerticalScrollIndicator={false}
           keyExtratctor={(item, index) => "key" + index + "name" + item.name}
@@ -70,24 +69,12 @@ export default class Chats extends Component {
           )}
         />
         <TouchableOpacity
-          style={[shadowStyles.shadowDown, {backgroundColor: "#328232", height: 60, width: 60, borderRadius: 30, alignItems: 'center', alignSelf: 'flex-end', marginRight: '2.5%', marginBottom: '2.5%'}]}
+          style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => { console.log("New Chat Pressed") }}
         >
-          <Text style={{fontFamily: "nunito-bold", color: "#fff", fontSize: 45, marginTop: -2}}>+</Text>
+          <Text style={plansStyles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: '#efefef'
-  },
-  list: {
-    flex: 1,
-    width: '100%',
-  }
-});

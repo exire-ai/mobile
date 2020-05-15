@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colorScheme } from './colorScheme';
 
 export const getStartedStyles = StyleSheet.create({
   container: {
@@ -10,17 +11,17 @@ export const getStartedStyles = StyleSheet.create({
     fontFamily: 'nunito-semibold',
     marginTop: 50,
     fontSize: 60,
-    color: '#007aff',
+    color: colorScheme.primary,
     fontWeight: '600'
   },
   subHeaderText: {
     fontFamily: 'karla-regular',
     fontSize: 24,
-    color: '#fff',
+    color: colorScheme.primaryText,
     fontWeight: '500'
   },
   getStartedButton: {
-    backgroundColor: '#007aff',
+    backgroundColor: colorScheme.primary,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -31,7 +32,7 @@ export const getStartedStyles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'karla-bold',
-    color: 'white',
+    color: colorScheme.primaryText,
     fontSize: 24,
     fontWeight: '500'
   },

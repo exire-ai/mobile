@@ -17,7 +17,7 @@ export default class LoadingScreen extends Component {
         if (value != null && value != '') {
           this.props.navigation.navigate('HomeStack');
         } else {
-          this.props.navigation.navigate('HomeStack');
+          this.props.navigation.navigate('SignInStack');
         }
       })
     }, 300)
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#007AFF'
+    backgroundColor: '#3597e9'
   }
 });

@@ -1,13 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
+
+// Style Imports
 import { shadowStyles } from "../global/shadowStyles";
 import { miniVenueStyles } from "../global/miniVenueStyles";
+import { plansStyles } from "../global/plansStyles";
 
 function Venue({
   venues
 }) {
   return (
-    <View style={{height: 115, width: '100%', justifyContent: 'center', paddingRight: 10}}>
+    <View style={plansStyles.venue}>
     <TouchableOpacity
         onPress={() => {
           // venues.get(item.placeID, (venue) => {
@@ -37,12 +40,12 @@ export default function Plan({
 }) {
   var plan = (
     <TouchableOpacity style={{alignItems: 'center', paddingTop: 10}}>
-      <View style={[{height: 130.39, width: '95%', backgroundColor: "#fff", flexDirection: 'row', alignItems: 'flex-start', borderRadius: 13.29}, shadowStyles.shadowDown]}>
-        <View style={{flex: .7, paddingLeft: 10, paddingTop: 7.5,}}>
-          <Text style={{fontFamily: "nunito-bold", fontSize: 19, color: '#333333'}}>{data.name}</Text>
-          <Text style={{fontFamily: "nunito-regular", fontSize: 16, color: '#444444'}}>{data.time}</Text>
+      <View style={[plansStyles.component, shadowStyles.shadowDown]}>
+        <View style={plansStyles.textContainer}>
+          <Text style={plansStyles.name}>{data.name}</Text>
+          <Text style={plansStyles.time}>{data.time}</Text>
         </View>
-        <View style={{flex: .3, justifyContent: 'flex-end', paddingVertical: 7.5}}>
+        <View style={plansStyles.venueContainer}>
           <Venue venues={data.venues} />
         </View>
       </View>

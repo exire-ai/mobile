@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colorScheme } from './colorScheme';
 
 export const miniVenueStyles = StyleSheet.create({
   venueContainer: {
@@ -7,7 +8,7 @@ export const miniVenueStyles = StyleSheet.create({
     height: 120,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: "black",
+    backgroundColor: colorScheme.inactiveButton,
   },
   venueImage: {
     width: "100%",
@@ -26,7 +27,7 @@ export const miniVenueStyles = StyleSheet.create({
   venueText: {
     fontFamily: "karla-regular",
     fontSize: 18,
-    color: "#fff",
+    color: colorScheme.primaryText,
     fontWeight: "600",
   },
 });

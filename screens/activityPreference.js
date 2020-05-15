@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
   },
   doneButton: {
-    backgroundColor: "#007aff",
+    backgroundColor: "#3597e9",
     width: "100%",
     height: 80,
     alignItems: "center",

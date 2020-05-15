@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colorScheme } from './colorScheme';
 
 export const signInStyles = StyleSheet.create({
   textContainer: {
@@ -9,13 +10,13 @@ export const signInStyles = StyleSheet.create({
   headerText: {
     fontFamily: 'karla-regular',
     fontSize: 30,
-    color: '#143e60',
+    color: colorScheme.darkText,
     fontWeight: '600'
   },
   subHeaderText: {
     fontFamily: 'karla-regular',
     fontSize: 18,
-    color: '#143e60',
+    color: colorScheme.lessDarkText,
     padding: '5%',
     fontWeight: '400',
     textAlign: 'center'
@@ -23,14 +24,14 @@ export const signInStyles = StyleSheet.create({
   input: {
     width: '85%',
     borderWidth: 1,
-    borderColor: '#143e60',
+    borderColor: colorScheme.lessDarkText,
     margin: 8,
     padding: 18,
     borderRadius: 35,
     fontSize: 24,
   },
   button: {
-    backgroundColor: '#007aff',
+    backgroundColor: colorScheme.primary,
     width: '45%',
     padding: 18,
     alignItems: 'center',
@@ -42,7 +43,7 @@ export const signInStyles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'karla-bold',
-    color: 'white',
+    color: colorScheme.primaryText,
     fontSize: 24,
     fontWeight: '500'
   }

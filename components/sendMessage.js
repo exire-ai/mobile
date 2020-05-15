@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     marginLeft: 16,
-    backgroundColor: "#007aff",
+    backgroundColor: "#3597e9",
     borderRadius: 50 / 2,
     shadowOffset: { width: 0, height: 0.5 },
     shadowOpacity: 0.3,
@@ -137,6 +137,6 @@ const styles = StyleSheet.create({
   sendMessageText: {
     fontFamily: "karla-bold",
     fontSize: 20,
-    color: "#007aff",
+    color: "#3597e9",
   },
 });

@@ -1,33 +1,25 @@
-import {
-  createStackNavigator,
-  TransitionPresets,
-} from "react-navigation-stack";
+import { createStackNavigator, TransitionPresets } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
+import { createDrawerNavigator} from "react-navigation-drawer";
 import { createMaterialTopTabNavigator } from "react-navigation-tabs";
 import React from "react";
-import {
-  View,
-  TouchableOpacity,
-  ImageBackground,
-  AsyncStorage,
-  Image,
-} from "react-native";
+import { TouchableOpacity, Image, useColorScheme } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-// import Exire from "../assets/icons/exire.svg"
-
+// Style Imports
 import { navigationStyles } from "../global/navigationStyles";
 import { shadowStyles } from "../global/shadowStyles";
-import Discover from "../screens/Discover";
-import Plans from "../screens/Plans";
-import Chats from "../screens/Chats";
-import Exire from "../assets/icons/exire.svg";
+import { colorScheme } from "../global/colorScheme";
 
-const exire = require("../assets/icons/exire.svg");
+// View / Stack / Component Imports
+import DiscoverStack from "./discoverStack";
+import PlansStack from "./plansStack";
+import ChatsStack from "./chatsStack";
+import Drawer from "../components/Drawer";
 
 const screens = {
   Discover: {
-    screen: Discover,
+    screen: DiscoverStack,
     navigationOptions: ({ navigation }) => {
       return {
         title: "",
@@ -41,40 +33,21 @@ const screens = {
     },
   },
   Plans: {
-    screen: Plans,
+    screen: PlansStack,
     navigationOptions: ({ navigation }) => {
       return {
         title: "",
         tabBarIcon: ({ tintColor }) => (
-          // <Exire style={{ height: 24, width: 24,  }} />
-          // <Icon
-          //   name="home"
-          //   size={36}
-          //   color={tintColor}
-          //   style={{ paddingRight: 45, marginTop: -5 }}
-          // />
           <Image
             style={{ width: 36, height: 36, tintColor: tintColor }}
             source={require("../assets/icons/exire.png")}
           />
         ),
-        //   <Icon
-        //   name="comment"
-        //   size={36}
-        //   color={tintColor}
-        //   style={{ paddingRight: 45, marginTop: -5 }}
-        // />
-        // <Image
-        //   sytle={{ width: 24, height: 24 }}
-        //   size={24}
-        //   source={require("../assets/icons/exire.svg")}
-        // />
-        // <Exire />
       };
     },
   },
   Chats: {
-    screen: Chats,
+    screen: ChatsStack,
     navigationOptions: ({ navigation }) => {
       return {
         title: "",
@@ -92,13 +65,14 @@ const screens = {
 const HomeTab = createMaterialTopTabNavigator(screens, {
   initialRouteName: "Plans",
   tabBarPosition: "bottom",
+  headerShown: false,
   defaultNavigationOptions: {
     ...TransitionPresets.FadeFromBottomAndroid,
   },
   swipeEnabled: true,
   tabBarOptions: {
-    activeTintColor: "#3597e9",
-    inactiveTintColor: "#aaa",
+    activeTintColor: colorScheme.activeButton,
+    inactiveTintColor: colorScheme.inactiveButton,
     style: [shadowStyles.shadowUp, navigationStyles.footer],
     indicatorStyle: {
       height: 0,
@@ -116,7 +90,7 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
 });
 
 const HomeStack = createStackNavigator({
-  MyTab: {
+  HomeTab: {
     screen: HomeTab,
     navigationOptions: ({ navigation }) => {
       return {
@@ -127,12 +101,16 @@ const HomeStack = createStackNavigator({
         headerTitleAlign: "center",
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => console.log("profile")}
+            onPress={() => {
+              console.log("open")
+              navigation.toggleDrawer()
+            }
+          }
             style={navigationStyles.icon}
           >
             <Icon
               name="user-circle"
-              color="#FFF"
+              color={colorScheme.primaryText}
               size={32}
               style={shadowStyles.shadowDown}
             />
@@ -143,4 +121,16 @@ const HomeStack = createStackNavigator({
   },
 });
 
-export default createAppContainer(HomeStack);
+const MainDrawerNavigator = createDrawerNavigator({
+  Home: {
+    screen: HomeStack
+  }
+},
+{
+  hideStatusBar: true,
+  drawerBackgroundColor: colorScheme.componentBackground,
+  overlayColor: 'rgba(100,100,100,0.6)',
+  contentComponent: Drawer
+});
+
+export default createAppContainer(MainDrawerNavigator);

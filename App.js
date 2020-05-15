@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Alert } from 'react-native';
-import plans from './functions/plans';
 import MainStack from './routes/mainStack';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';

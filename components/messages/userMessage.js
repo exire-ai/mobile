@@ -17,7 +17,7 @@ export function UserMessage({
             { marginBottom: spaceBelow, marginTop: spaceAbove },
         ]}
     >
-        <View style={[messageStyles.message, { backgroundColor: '#007aff' }]}>
+        <View style={[messageStyles.message, { backgroundColor: '#3597e9' }]}>
             <Text
             style={[
                 messageStyles.messsageText,

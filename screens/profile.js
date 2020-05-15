@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   },
   top: {
     flex: 0.35,
-    backgroundColor: "#007aff",
+    backgroundColor: "#3597e9",
     width: "100%",
     alignItems: "center",
     shadowColor: "#000",
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
   },
   button: {
-    backgroundColor: "#007aff",
+    backgroundColor: "#3597e9",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,

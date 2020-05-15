@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, AsyncStorage, FlatList, TouchableOpa
 
 import Plan from "../components/Plan"
 import { shadowStyles } from "../global/shadowStyles"
+import { plansStyles } from '../global/plansStyles'
 
 const data = [
   {
@@ -49,9 +50,9 @@ export default class Plans extends Component {
   render() {
 
     return (
-      <View style={styles.container}>
+      <View style={plansStyles.container}>
         <FlatList
-          style={styles.list}
+          style={plansStyles.list}
           data={data}
           showsVerticalScrollIndicator={false}
           keyExtratctor={(item, index) => "key" + index + "name" + item.name}
@@ -60,24 +61,12 @@ export default class Plans extends Component {
           )}
         />
         <TouchableOpacity
-          style={[shadowStyles.shadowDown, {backgroundColor: "#328232", height: 60, width: 60, borderRadius: 30, alignItems: 'center', alignSelf: 'flex-end', marginRight: '2.5%', marginBottom: '2.5%'}]}
+          style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => { console.log("New Plan Pressed") }}
         >
-          <Text style={{fontFamily: "nunito-bold", color: "#fff", fontSize: 45, marginTop: -2}}>+</Text>
+          <Text style={plansStyles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: '#efefef'
-  },
-  list: {
-    flex: 1,
-    width: '100%',
-  }
-});
