@@ -9,10 +9,13 @@ import {
 } from "react-native";
 import VenueContent from "../components/VenueContent";
 import plans from "../functions/plans";
+import users from "../functions/users";
+import Categories from "../components/Categories";
 
 // Styles Imports
 import { discoverStyles } from "../global/discoverStyles";
 import { signInStyles } from "../global/signInStyles";
+import { ThemeConsumer } from "react-native-elements";
 
 export default class Discover extends Component {
   constructor(props) {
@@ -26,6 +29,8 @@ export default class Discover extends Component {
           key: "1",
         },
       ],
+      categories: [],
+      selected: ["all"]
     };
   }
   // const [people, setPeople] = useState([
@@ -86,6 +91,13 @@ export default class Discover extends Component {
         });
       });
     });
+    AsyncStorage.getItem("userID").then((value) => {
+      users.getCategories(value, (result) => {
+        this.setState({
+          categories: result
+        })
+      });
+    });
   };
 
   venueSelected = (venue) => {
@@ -95,8 +107,9 @@ export default class Discover extends Component {
   render() {
     return (
       <View style={discoverStyles.container}>
+        <Categories categories={this.state.categories} />
         <FlatList
-          style={{ flex: 1, marginTop: 10, width: "95%" }}
+          style={{ marginTop: 10, width: "95%" }}
           data={this.state.venues}
           renderItem={({ item }) => {
             if (item.numItems == 2) {
