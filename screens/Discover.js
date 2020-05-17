@@ -77,9 +77,9 @@ export default class Discover extends Component {
           }
         }
         for (var i = 0; i < venues.length; i++) {
-          console.log(venues[i].key);
+          // console.log(venues[i].key);
         }
-        console.log(venues.length);
+        // console.log(venues.length);
         venues.reverse();
         this.setState({
           venues: venues,
@@ -104,7 +104,7 @@ export default class Discover extends Component {
               // console.log(item.venue1);
               // console.log(item.venue2);
               if (item.venue1 == undefined || item.venue2 == undefined) {
-                console.log(item);
+                // console.log(item);
                 return <View></View>;
               }
 

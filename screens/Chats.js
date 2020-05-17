@@ -55,6 +55,10 @@ function Search({}) {
 }
 
 export default class Chats extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
       <View style={chatsStyles.container}>
@@ -65,12 +69,19 @@ export default class Chats extends Component {
           showsVerticalScrollIndicator={false}
           keyExtratctor={(item, index) => "key" + index + "name" + item.name}
           renderItem={({ item, index}) => (
-            <Chat data={item} />
+            <Chat 
+              data={item} 
+              navigate={() => { 
+                this.props.navigation.setParams({routeName: 'yooo'})
+                console.log(this.props.navigation)
+                this.props.navigation.navigate('Chat') 
+              }}
+            />
           )}
         />
         <TouchableOpacity
           style={[shadowStyles.shadowDown, plansStyles.newPlan]}
-          onPress={() => { console.log("New Chat Pressed") }}
+          onPress={() => { console.log('New Chat') }}
         >
           <Text style={plansStyles.buttonText}>+</Text>
         </TouchableOpacity>

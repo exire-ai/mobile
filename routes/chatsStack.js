@@ -1,6 +1,9 @@
 import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
+import React from 'react';
+import { Header, View } from 'react-native';
 import Chats from '../screens/Chats';
+import Chat from '../screens/Chat';
 
 const screens = {
   Chats: {
@@ -11,6 +14,14 @@ const screens = {
       };
     }
   },
+  Chat: {
+    screen: Chat,
+    navigationOptions: ({ navigation, screenProps}) => {
+      return {
+        headerShown: true
+      }
+    }
+  }
 };
 
 const ChatsStack = createStackNavigator(screens, {

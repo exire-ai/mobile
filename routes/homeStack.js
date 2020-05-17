@@ -2,7 +2,7 @@ import { createStackNavigator, TransitionPresets } from "react-navigation-stack"
 import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator} from "react-navigation-drawer";
 import { createMaterialTopTabNavigator } from "react-navigation-tabs";
-import React from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, Image, useColorScheme } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -95,7 +95,7 @@ const HomeStack = createStackNavigator({
     navigationOptions: ({ navigation }) => {
       return {
         headerShown: true,
-        title: ["Discover", "Plans", "Chats"][navigation.state.index],
+        title: ["Discover", "Plans", 'Chats'][navigation.state.index],
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",

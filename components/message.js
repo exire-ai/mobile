@@ -1,42 +1,48 @@
 import React from 'react';
-import { BotMessage } from './messages/botMessage';
-import { VenuesMessage } from './messages/venuesMessage';
-import { UserMessage } from './messages/userMessage';
-import { LoadingMessage } from './messages/loadingMessage';
-import { FormMessage } from './messages/formMessage';
+import { View, Text} from 'react-native';
+
+// Styles Imports
+import { shadowStyles } from '../global/shadowStyles';
+import { colorScheme } from '../global/colorScheme'
+import { messagesStyles } from '../global/messagesStyles';
 
 export function Message({
+  name,
   message,
-  overMin,
-  sameAsNext,
-  owner,
-  venues,
-  first,
-  form,
-  navigation
+  time,
 }) {
-  var spaceBelow = sameAsNext ? 1 : 5;
-  spaceBelow = overMin ? spaceBelow : 5;
-  var spaceAbove = first ? 0 : 5;
-  var messageJSX = (
-    <BotMessage message={message} spaceBelow={spaceBelow} spaceAbove={spaceAbove} />
-  );
-  if (venues.length > 0) {
-    messageJSX = (
-      <VenuesMessage venueData={venues} spaceBelow={spaceBelow} spaceAbove={spaceAbove} navigation={navigation}/>
-    )
-  } else if (owner) {
-    messageJSX = (
-      <UserMessage message={message} spaceBelow={spaceBelow} spaceAbove={spaceAbove}/>
-    );
-  } else if (message == 'loadingloadingloading' && !owner) {
-    return (
-      <LoadingMessage />
-    )
-  } else if (form == 'form') {
-    messageJSX = (
-      <FormMessage form={form} spaceBelow={spaceBelow} spaceAbove={spaceAbove} />
-    );
+  if (message.includes('@Emma')) {
+    var temp = message.split("@Emma")
+  } else {
+    var temp = message.split("@emma")
   }
-  return messageJSX;
+
+  if (temp.length == 2) {
+    message = (
+      <Text style={[messagesStyles.text, { marginTop: -1}]}>
+        <Text>{temp[0]}</Text>
+        <Text style={{fontFamily: 'nunito-bold'}}>@Emma</Text>
+        <Text>{temp[1]}</Text>
+      </Text>
+    )
+  } else {
+    message = (
+      <Text style={[messagesStyles.text, { marginTop: -1}]}>{message}</Text>
+    )
+  }
+  var MessageObj = (
+    <View style={[messagesStyles.chatContainer]}>
+    <View style={{paddingLeft: 6, flexDirection: 'row'}}>
+      <View style={[messagesStyles.profileImage, shadowStyles.shadowDown]}></View>
+    </View>
+    <View style={{flex: 1, paddingTop: 8, paddingLeft: 8}}>
+      <View style={{flexDirection: 'row', width: '100%', alignItems: 'center'}}>
+        <Text style={messagesStyles.name}>{name}</Text>
+        <Text style={[messagesStyles.text, {paddingLeft: 15, color: colorScheme.inactiveButton}]}>{time}</Text>
+      </View>
+      {message}
+    </View>
+  </View>
+  )
+  return MessageObj
 }

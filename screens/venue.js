@@ -19,7 +19,7 @@ async function openLink(url) {
         enableDefaultShare: true,
         forceCloseOnRedirection: true,
       }).then((result) => {
-        console.log(JSON.stringify(result))
+        // console.log(JSON.stringify(result))
       })
     } else Linking.openURL(url)
   } catch (error) {

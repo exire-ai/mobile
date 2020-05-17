@@ -6,10 +6,14 @@ import { shadowStyles } from "../global/shadowStyles";
 import { chatsStyles } from "../global/chatsStyles";
 
 export default function Chat({
-  data
+  data,
+  navigate
 }) {
   var chat = (
-    <TouchableOpacity style={{alignItems: 'center'}}>
+    <TouchableOpacity 
+      style={{alignItems: 'center'}}
+      onPress={navigate}
+    >
       <View style={[chatsStyles.chatContainer]}>
         <View style={{flexDirection: 'column', alignSelf: 'center'}}>
           <View style={chatsStyles.notification}></View>
