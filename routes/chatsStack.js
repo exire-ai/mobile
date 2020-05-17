@@ -1,9 +1,12 @@
-import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
-import React from 'react';
-import { Header, View } from 'react-native';
-import Chats from '../screens/Chats';
-import Chat from '../screens/Chat';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
+import React from "react";
+import { Header, View } from "react-native";
+import Chats from "../screens/Chats";
+import Chat from "../screens/chat";
 
 const screens = {
   Chats: {
@@ -12,23 +15,23 @@ const screens = {
       return {
         headerShown: false,
       };
-    }
+    },
   },
   Chat: {
     screen: Chat,
-    navigationOptions: ({ navigation, screenProps}) => {
+    navigationOptions: ({ navigation, screenProps }) => {
       return {
-        headerShown: true
-      }
-    }
-  }
+        headerShown: true,
+      };
+    },
+  },
 };
 
 const ChatsStack = createStackNavigator(screens, {
-  initialRouteName: 'Chats',
+  initialRouteName: "Chats",
   defaultNavigationOptions: {
-    ...TransitionPresets.FadeFromBottomAndroid
-  }
+    ...TransitionPresets.FadeFromBottomAndroid,
+  },
 });
 
 export default createAppContainer(ChatsStack);

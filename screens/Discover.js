@@ -6,16 +6,21 @@ import {
   Image,
   ImageBackground,
   AsyncStorage,
+  TouchableOpacity,
 } from "react-native";
 import VenueContent from "../components/VenueContent";
 import plans from "../functions/plans";
 import users from "../functions/users";
-import Categories from "../components/Categories";
+import Search from "../components/SearchBar";
+import CategorySelection from "../components/CategorySelection";
 
 // Styles Imports
 import { discoverStyles } from "../global/discoverStyles";
 import { signInStyles } from "../global/signInStyles";
 import { ThemeConsumer } from "react-native-elements";
+import { shadowStyles } from "../global/shadowStyles";
+import { chatsStyles } from "../global/chatsStyles";
+import { colorScheme } from "../global/colorScheme";
 
 export default class Discover extends Component {
   constructor(props) {
@@ -29,30 +34,27 @@ export default class Discover extends Component {
           key: "1",
         },
       ],
-      categories: [],
-      selected: ["all"]
+      categories: [
+        { name: "all", selected: true },
+        { name: "sushi", selected: false },
+        { name: "pubs", selected: false },
+        { name: "spa", selected: false },
+      ],
+      selected: ["all"],
+      refreshing: false,
     };
   }
-  // const [people, setPeople] = useState([
-  //   // {
-  //   //   venue1: { title: "sushi damo", type: "venue", key: "1" },
-  //   //   venue2: { title: "maru karaoke", type: "venue", key: "2" },
-  //   //   numItems: 2,
-  //   //   key: "1",
-  //   // },
-  //   // {
-  //   //   venue1: { title: "sushi damo", type: "venue", key: "1" },
-  //   //   venue2: { title: "maru karaoke", type: "venue", key: "2" },
-  //   //   numItems: 2,
-  //   //   key: "4",
-  //   // },
-  // ]);
 
   componentDidMount() {
     this.loadData();
+    this.loadCategories();
   }
 
   loadData = () => {
+    this.setState({
+      refreshing: true,
+    });
+    console.log("refreshing");
     AsyncStorage.getItem("userID").then((value) => {
       plans.getRecommended(value, (result) => {
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
@@ -81,21 +83,31 @@ export default class Discover extends Component {
             current++;
           }
         }
-        for (var i = 0; i < venues.length; i++) {
-          // console.log(venues[i].key);
-        }
-        // console.log(venues.length);
         venues.reverse();
         this.setState({
+          venues: [],
+        });
+        this.setState({
           venues: venues,
+          refreshing: false,
         });
       });
     });
+  };
+
+  loadCategories = () => {
     AsyncStorage.getItem("userID").then((value) => {
       users.getCategories(value, (result) => {
+        var categories = [];
+        for (var i = 0; i < result.length; i++) {
+          categories.push({ name: result[i], selected: false });
+        }
+        categories.push({ name: "all", selected: true });
+
+        categories.reverse();
         this.setState({
-          categories: result
-        })
+          categories: categories,
+        });
       });
     });
   };
@@ -107,18 +119,27 @@ export default class Discover extends Component {
   render() {
     return (
       <View style={discoverStyles.container}>
-        <Categories categories={this.state.categories}/>
+        {/* <Categories categories={this.state.categories} /> */}
+        <Search />
+        <FlatList
+          horizontal={true}
+          style={{ paddingTop: 5, paddingLeft: 5, paddingBottom: 10 }}
+          data={this.state.categories}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => {
+            return <CategorySelection category={item} />;
+          }}
+        />
         <FlatList
           style={{ marginTop: 5, width: "95%" }}
           data={this.state.venues}
-          keyExtractor={(item, index) => "key" + index}
+          onRefresh={() => {
+            this.loadData();
+          }}
+          refreshing={this.state.refreshing}
           renderItem={({ item }) => {
             if (item.numItems == 2) {
-              // console.log(item);
-              // console.log(item.venue1);
-              // console.log(item.venue2);
               if (item.venue1 == undefined || item.venue2 == undefined) {
-                // console.log(item);
                 return <View></View>;
               }
 
@@ -147,7 +168,7 @@ export default class Discover extends Component {
                   <View style={{ flex: 1 }}>
                     <View
                       style={{
-                        marginRight: 7.5,
+                        marginLeft: 7.5,
                         height: 245,
                         borderRadius: 15,
                         overflow: "hidden",

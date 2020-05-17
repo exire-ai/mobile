@@ -1,12 +1,7 @@
 import React, { setState } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  KeyboardAvoidingView,
-} from "react-native";
+import { View, StyleSheet, FlatList, KeyboardAvoidingView } from "react-native";
 
-import { Message } from '../components/Message';
+import { Message } from "../components/message";
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -16,16 +11,18 @@ export default class Chat extends React.Component {
   state = {
     messages: [
       {
-        name: 'Emma',
-        message: 'Hello! I’m here to help creating plans. To ask me questions, just tag me with @Emma and I can help you: discover things to do, find when everyone is free, create a plan, and much more!',
-        time: '5:31pm'
+        name: "Emma",
+        message:
+          "Hello! I’m here to help creating plans. To ask me questions, just tag me with @Emma and I can help you: discover things to do, find when everyone is free, create a plan, and much more!",
+        time: "5:31pm",
       },
       {
-        name: 'Elayna',
-        message: 'Hey everyone! I’m thinking of doing a city trip some point this weekend.',
-        time: '5:31pm'
-      }
-    ]
+        name: "Elayna",
+        message:
+          "Hey everyone! I’m thinking of doing a city trip some point this weekend.",
+        time: "5:31pm",
+      },
+    ],
   };
 
   render() {
