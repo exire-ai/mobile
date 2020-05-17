@@ -107,10 +107,11 @@ export default class Discover extends Component {
   render() {
     return (
       <View style={discoverStyles.container}>
-        <Categories categories={this.state.categories} />
+        <Categories categories={this.state.categories}/>
         <FlatList
-          style={{ marginTop: 10, width: "95%" }}
+          style={{ marginTop: 5, width: "95%" }}
           data={this.state.venues}
+          keyExtractor={(item, index) => "key" + index}
           renderItem={({ item }) => {
             if (item.numItems == 2) {
               // console.log(item);

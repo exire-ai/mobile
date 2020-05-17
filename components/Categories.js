@@ -80,7 +80,7 @@ export default class Categories extends React.Component {
       horizontal
       showsHorizontalScrollIndicator={false}
       renderItem={({ item }) => (
-      <TouchableOpacity 
+      <TouchableOpacity
         style={[{padding: 5}, shadowStyles.shadowDown]}
         onPress={() => {
           var temp = this.state.categories
