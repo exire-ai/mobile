@@ -1,36 +1,52 @@
 const plans = {
-  getAllCategories: function(callback) {
-    fetch('https://exire-backend.herokuapp.com/plans/getAllCategories/', {
-      method: 'GET'
+  getAllCategories: function (callback) {
+    fetch("https://exire-backend.herokuapp.com/plans/getAllCategories/", {
+      method: "GET",
     })
-      .then(response => response.json())
-      .then(responseJson => {
+      .then((response) => response.json())
+      .then((responseJson) => {
         callback(responseJson);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(JSON.stringify(error));
         callback([]);
       });
   },
-  getByList: function(venues, callback) {
-    fetch('https://exire-backend.herokuapp.com/plans/getByList/', {
-      method: 'POST',
+  getByList: function (venues, callback) {
+    fetch("https://exire-backend.herokuapp.com/plans/getByList/", {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type' : 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ids: venues
+        ids: venues,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
       })
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      callback(responseJson);
-    })
-    .catch((error) => {
-      console.log(JSON.stringify(error));
-      callback(false);
-    })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
+  getRecommended: function (userID, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/plans/getRecommended/" + userID,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback([]);
+      });
   },
 };
 
