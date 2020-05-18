@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
+import { shadowStyles } from "../global/shadowStyles";
 
 export default class VenueContent extends Component {
   constructor(props) {
     super(props);
-    // console.log(props.venue);
     this.state = {
       venue: this.props.venue,
     };
@@ -25,17 +25,31 @@ export default class VenueContent extends Component {
             height: "100%",
             justifyContent: "flex-end",
           }}
-          activeOpacity={1.0}
+          activeOpacity={0.5}
           onPress={() => {
             this.props.onTap(this.state.venue);
           }}
         >
           <Text
-            style={{
-              color: "white",
-              marginBottom: 15,
+            style={[{
+              color: "#86f231",
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              fontFamily: "nunito-bold",
+              fontSize: 15
+            }, shadowStyles.shadowDown]}
+          >
+            {Math.ceil(this.state.venue.rank)}% Match
+          </Text>
+          <Text
+            style={[{
+              color: "#fff",
+              marginBottom: 10,
               marginLeft: 10,
-            }}
+              fontFamily: "nunito-semibold",
+              fontSize: 19
+            }, shadowStyles.shadowDown]}
           >
             {this.state.venue.title}
           </Text>

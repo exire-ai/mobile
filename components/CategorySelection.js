@@ -71,74 +71,11 @@ export default class CategorySelection extends Component {
 
   render() {
     const item = this.state.category;
-    console.log(item);
-    if (item.name == "all") {
-      return (
-        <View
-          style={[
-            {
-              borderRadius: 5,
-              backgroundColor: item.selected
-                ? colorScheme.primary
-                : colorScheme.componentBackground,
-              paddingHorizontal: 15,
-              alignItems: "center",
-              flexDirection: "row",
-              marginHorizontal: 5,
-              height: 40,
-            },
-            shadowStyles.shadowDown,
-          ]}
-        >
-          <Text
-            style={{
-              marginTop: -1,
-              fontFamily: "nunito-bold",
-              color: item.selected
-                ? colorScheme.primaryText
-                : colorScheme.darkText,
-              fontSize: 17,
-              paddingVertical: 3,
-            }}
-          >
-            All
-          </Text>
-        </View>
-      );
-    } else {
-      return (
-        <View
-          style={[
-            {
-              borderRadius: 5,
-              backgroundColor: item.selected
-                ? colorScheme.primary
-                : colorScheme.componentBackground,
-              paddingHorizontal: 15,
-              // paddingVertical: 9,
-              alignItems: "center",
-              flexDirection: "row",
-              marginHorizontal: 5,
-              height: 45,
-            },
-            shadowStyles.shadowDown,
-          ]}
-        >
-          <Text
-            style={{
-              marginTop: -1,
-              fontFamily: "nunito-bold",
-              color: item.selected
-                ? colorScheme.primaryText
-                : colorScheme.darkText,
-              fontSize: 17,
-              paddingVertical: 3,
-            }}
-          >
-            {nameDict[item.name][0] + nameDict[item.name][1]}
-          </Text>
-        </View>
-      );
-    }
+    return (
+      <View style={[{borderRadius: 5, backgroundColor: item.selected ? colorScheme.primary : colorScheme.componentBackground, paddingHorizontal: 15, paddingVertical: 9, alignItems: 'center', flexDirection: 'row'}, shadowStyles.shadowDown]}>
+        <Text style={{marginTop: -1, fontFamily: 'nunito-bold', color: item.selected ? colorScheme.primaryText : colorScheme.darkText, fontSize: 17}}>{item.name[0]} </Text>
+        <Text style={{marginTop: -1, fontSize: 19}}>{item.name[1]}</Text>
+      </View>
+    )
   }
 }
