@@ -7,6 +7,7 @@ import Chat from "../components/Chat";
 
 // Styles Imports
 import { shadowStyles } from "../global/shadowStyles";
+import { colorScheme } from "../global/colorScheme";
 import { chatsStyles } from "../global/chatsStyles";
 
 export default function Search({}) {
@@ -16,13 +17,14 @@ export default function Search({}) {
     >
       <Icon
         name="search"
-        color="#888"
+        color={colorScheme.lessDarkText}
         size={16}
         style={[shadowStyles.shadowDown, chatsStyles.icon]}
       />
       <TextInput
-        style={chatsStyles.textInput}
+        style={[chatsStyles.textInput, { width: '100%'} ]}
         placeholder={"Search..."}
+        placeholderTextColor={colorScheme.lessDarkText}
       ></TextInput>
     </View>
   );

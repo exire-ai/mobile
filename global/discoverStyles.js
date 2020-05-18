@@ -6,6 +6,6 @@ export const discoverStyles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colorScheme.backgroundColor
+        backgroundColor: colorScheme.background
     }
 })

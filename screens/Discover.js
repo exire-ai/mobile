@@ -1,10 +1,7 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useCallback } from "react";
 import {
   View,
-  Text,
   FlatList,
-  Image,
-  ImageBackground,
   AsyncStorage,
   TouchableOpacity,
 } from "react-native";
@@ -16,10 +13,7 @@ import CategorySelection from "../components/CategorySelection";
 
 // Styles Imports
 import { discoverStyles } from "../global/discoverStyles";
-import { signInStyles } from "../global/signInStyles";
-import { ThemeConsumer } from "react-native-elements";
 import { shadowStyles } from "../global/shadowStyles";
-import { chatsStyles } from "../global/chatsStyles";
 import { colorScheme } from "../global/colorScheme";
 
 const nameDict = {
@@ -103,6 +97,34 @@ export default class Discover extends Component {
     this.loadCategories();
   }
 
+  formatVenues = (result, callback) => {
+    var venues = [];
+    var doubleVenue = {};
+    var current = 0;
+    for (var i = 0; i < result.length; i++) {
+      if (current == 2) {
+        var singleVenue = {};
+        singleVenue.venue = result[i];
+        singleVenue.key = i.toString();
+        singleVenue.numItems = 1;
+        venues.push(singleVenue);
+        current = 0;
+      } else if (current == 1) {
+        doubleVenue.venue2 = result[i];
+        current++;
+      } else {
+        doubleVenue.venue1 = result[i];
+        doubleVenue.key = i.toString();
+        doubleVenue.numItems = 2;
+        venues.push(doubleVenue);
+        doubleVenue = {};
+        current++;
+      }
+    }
+    venues.reverse();
+    callback(venues)
+  }
+
   loadData = () => {
     this.setState({
       refreshing: true,
@@ -111,39 +133,17 @@ export default class Discover extends Component {
     AsyncStorage.getItem("userID").then((value) => {
       plans.getRecommended(value, (result) => {
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
-        var venues = [];
-        var doubleVenue = {};
-        var current = 0;
-        for (var i = 0; i < result.length; i++) {
-          if (current == 2) {
-            var singleVenue = {};
-            singleVenue.venue = result[i];
-            singleVenue.key = i.toString();
-            singleVenue.numItems = 1;
-            venues.push(singleVenue);
-
-            current = 0;
-          } else if (current == 1) {
-            doubleVenue.venue2 = result[i];
-
-            current++;
-          } else {
-            doubleVenue.venue1 = result[i];
-            doubleVenue.key = i.toString();
-            doubleVenue.numItems = 2;
-            venues.push(doubleVenue);
-            doubleVenue = {};
-            current++;
-          }
-        }
-        venues.reverse();
-        this.setState({
-          venues: [],
-        });
-        this.setState({
-          venues: venues,
-          refreshing: false,
-        });
+        this.formatVenues(result, (venues) =>{
+          console.log(this.state.selected)
+          this.setState({
+            venues: [],
+          });
+          this.setState({
+            allVenues: venues,
+            venues: venues,
+            refreshing: false
+          });
+        })
       });
     });
   };
@@ -193,6 +193,15 @@ export default class Discover extends Component {
                         temp[i].selected= false
                       }
                     }
+                  }
+                  var noneSelected = true
+                  for (var i in temp) {
+                    if (temp[i].selected == true) {
+                      noneSelected = false
+                    }
+                  }
+                  if (noneSelected) {
+                    temp.find(o => o.key === 'all').selected = true
                   }
                   this.setState({categories: temp})
                 }}

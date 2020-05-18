@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, AsyncStorage, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 
 import Plan from "../components/Plan"
 import { shadowStyles } from "../global/shadowStyles"
@@ -47,14 +47,33 @@ const data = [
 ]
 
 export default class Plans extends Component {
-  render() {
+  state = {
+    data: data,
+    refreshing: false
+  }
 
+  loadData = () => {
+    this.setState({
+      refreshing: true
+    })
+    setTimeout(() => {
+      this.setState({
+        refreshing: false
+      })
+    }, 300)
+  }
+
+  render() {
     return (
       <View style={plansStyles.container}>
         <FlatList
           style={plansStyles.list}
           data={data}
           showsVerticalScrollIndicator={false}
+          onRefresh={() => {
+            this.loadData();
+          }}
+          refreshing={this.state.refreshing}
           keyExtratctor={(item, index) => "key" + index + "name" + item.name}
           renderItem={({ item, index}) => (
             <Plan data={item} />

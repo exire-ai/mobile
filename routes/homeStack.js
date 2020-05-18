@@ -3,7 +3,7 @@ import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator} from "react-navigation-drawer";
 import { createMaterialTopTabNavigator } from "react-navigation-tabs";
 import React, { useState } from "react";
-import { TouchableOpacity, Image, useColorScheme } from "react-native";
+import { TouchableOpacity, Image, SafeAreaView, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Style Imports
@@ -16,6 +16,7 @@ import DiscoverStack from "./discoverStack";
 import PlansStack from "./plansStack";
 import ChatsStack from "./chatsStack";
 import Drawer from "../components/Drawer";
+import Logout from "../components/Logout";
 
 const screens = {
   Discover: {
@@ -130,7 +131,14 @@ const MainDrawerNavigator = createDrawerNavigator({
   hideStatusBar: true,
   drawerBackgroundColor: colorScheme.componentBackground,
   overlayColor: 'rgba(100,100,100,0.6)',
-  contentComponent: Drawer
+  contentComponent: ({ navigation }) => {
+    return (
+      <SafeAreaView style={{height: '100%', backgroundColor: colorScheme.footer}}>
+      <Drawer />
+      <Logout navigation={navigation}/>
+      </SafeAreaView>
+    )
+  }
 });
 
 export default createAppContainer(MainDrawerNavigator);

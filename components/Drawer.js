@@ -4,10 +4,9 @@ import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, Dim
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Style Imports
-import { navigationStyles } from "../global/navigationStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
-import { drawerStyles } from "../global/drawerStyles"; 
+import { drawerStyles } from "../global/drawerStyles";
 
 export default class Drawer extends Component {
   constructor(props) {
@@ -43,11 +42,10 @@ export default class Drawer extends Component {
       this.props.navigation.navigate("SignInStack");
     });
   };
-  
+
   render() {
     return (
       <View style={{height: '100%'}}>
-      <SafeAreaView>
         <View style={drawerStyles.container}>
           <Text style={drawerStyles.logoText}>exire</Text>
           <Image
@@ -102,19 +100,6 @@ export default class Drawer extends Component {
               </View>
             </View>
         </View>
-        {/* <DrawerItems {...props} /> */}
-      </SafeAreaView>
-      <TouchableOpacity 
-        style={drawerStyles.bottomButton}
-        onPress={this.logout}
-      >
-        <Icon
-          name="sign-out"
-          color={colorScheme.primaryText}
-          size={24}
-        />
-        <Text style={drawerStyles.bottomButtonText}>Logout</Text>
-      </TouchableOpacity>
       </View>
     );
   }

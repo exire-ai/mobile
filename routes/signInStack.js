@@ -56,6 +56,7 @@ const screens = {
         gestureEnabled: false,
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: 'center',
+        headerLeft: () => { return null }
       }
     }
   },

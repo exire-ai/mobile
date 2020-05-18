@@ -6,7 +6,7 @@ export const chatsStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: colorScheme.backgroundColor,
+    backgroundColor: colorScheme.background,
   },
   list: {
     flex: 1,
@@ -25,7 +25,7 @@ export const chatsStyles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   textInput: {
-    color: colorScheme.inactiveButton,
+    color: colorScheme.lessDarkText,
     fontSize: 16,
   },
   chatContainer: {

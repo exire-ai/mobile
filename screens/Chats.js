@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Components Imports
@@ -17,7 +10,6 @@ import { shadowStyles } from "../global/shadowStyles";
 import { chatsStyles } from "../global/chatsStyles";
 import { plansStyles } from "../global/plansStyles";
 import SearchBar from "../components/SearchBar";
-// import { SearchBar } from "react-native-paper";
 
 const data = [
   {
@@ -51,26 +43,25 @@ const data = [
   },
 ];
 
-function Search({}) {
-  return (
-    <View style={[chatsStyles.search, shadowStyles.shadowDown]}>
-      <Icon
-        name="search"
-        color="#888"
-        size={16}
-        style={[shadowStyles.shadowDown, chatsStyles.icon]}
-      />
-      <TextInput
-        style={chatsStyles.textInput}
-        placeholder={"Search..."}
-      ></TextInput>
-    </View>
-  );
-}
-
 export default class Chats extends Component {
   constructor(props) {
     super(props);
+  }
+
+  state = {
+    data: data,
+    refreshing: false
+  }
+
+  loadData = () => {
+    this.setState({
+      refreshing: true
+    })
+    setTimeout(() => {
+      this.setState({
+        refreshing: false
+      })
+    }, 300)
   }
 
   render() {
@@ -81,6 +72,10 @@ export default class Chats extends Component {
           style={chatsStyles.list}
           data={data}
           showsVerticalScrollIndicator={false}
+          onRefresh={() => {
+            this.loadData();
+          }}
+          refreshing={this.state.refreshing}
           keyExtratctor={(item, index) => "key" + index + "name" + item.name}
           renderItem={({ item, index }) => (
             <Chat
