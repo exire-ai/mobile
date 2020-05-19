@@ -69,7 +69,6 @@ export default class Plans extends Component {
   };
 
   planTapped = (plan) => {
-    console.log(plan);
     this.props.navigation.navigate("PlanDetail", plan);
   };
 
@@ -93,7 +92,6 @@ export default class Plans extends Component {
           style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => {
             this.props.navigation.navigate("CreatePlan");
-            console.log("New Plan Pressed");
           }}
         >
           <Text style={plansStyles.buttonText}>+</Text>

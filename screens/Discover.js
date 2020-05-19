@@ -130,12 +130,10 @@ export default class Discover extends Component {
     this.setState({
       refreshing: true,
     });
-    console.log("refreshing");
     AsyncStorage.getItem("userID").then((value) => {
       plans.getRecommended(value, (result) => {
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
         this.formatVenues(result, (venues) => {
-          console.log(this.state.selected);
           this.setState({
             venues: [],
           });

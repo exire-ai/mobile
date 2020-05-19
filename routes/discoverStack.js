@@ -38,6 +38,16 @@ const screens = {
 
 const DiscoverStack = createStackNavigator(screens, {
   initialRouteName: "Discover",
+  // navigationOptions: ({ navigation }) => {
+  //   let tabBarVisible = true;
+  //   let routeName = navigation.state.routes[navigation.state.index].routeName;
+  //   if (routeName == "ProductDetails") {
+  //     tabBarVisible = false;
+  //   }
+  //   return {
+  //     tabBarVisible,
+  //   };
+  // },
 });
 
 export default createAppContainer(DiscoverStack);
