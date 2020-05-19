@@ -4,6 +4,7 @@ import {
   FlatList,
   AsyncStorage,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import VenueContent from "../components/VenueContent";
 import plans from "../functions/plans";
@@ -15,6 +16,7 @@ import CategorySelection from "../components/CategorySelection";
 import { discoverStyles } from "../global/discoverStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
+import Venue from "./venue";
 
 const nameDict = {
   artmuseums: ["Art", "🎨"],
@@ -56,22 +58,22 @@ const nameDict = {
 };
 
 var format = (categories) => {
-  var temp = [{
-    name: ["All", ""],
-    key: "all",
-    selected: true
-  }]
+  var temp = [
+    {
+      name: ["All", ""],
+      key: "all",
+      selected: true,
+    },
+  ];
   for (var i in categories) {
-    temp.push(
-      {
-        name: nameDict[categories[i]],
-        key: categories[i],
-        selected: false
-      }
-    )
+    temp.push({
+      name: nameDict[categories[i]],
+      key: categories[i],
+      selected: false,
+    });
   }
-  return(temp)
-}
+  return temp;
+};
 
 export default class Discover extends Component {
   constructor(props) {
@@ -85,8 +87,7 @@ export default class Discover extends Component {
           key: "1",
         },
       ],
-      categories: [
-      ],
+      categories: [],
       selected: ["all"],
       refreshing: false,
     };
@@ -122,8 +123,8 @@ export default class Discover extends Component {
       }
     }
     venues.reverse();
-    callback(venues)
-  }
+    callback(venues);
+  };
 
   loadData = () => {
     this.setState({
@@ -133,17 +134,17 @@ export default class Discover extends Component {
     AsyncStorage.getItem("userID").then((value) => {
       plans.getRecommended(value, (result) => {
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
-        this.formatVenues(result, (venues) =>{
-          console.log(this.state.selected)
+        this.formatVenues(result, (venues) => {
+          console.log(this.state.selected);
           this.setState({
             venues: [],
           });
           this.setState({
             allVenues: venues,
             venues: venues,
-            refreshing: false
+            refreshing: false,
           });
-        })
+        });
       });
     });
   };
@@ -151,7 +152,7 @@ export default class Discover extends Component {
   loadCategories = () => {
     AsyncStorage.getItem("userID").then((value) => {
       users.getCategories(value, (result) => {
-        var categories = format(result)
+        var categories = format(result);
         this.setState({
           categories: categories,
         });
@@ -160,7 +161,7 @@ export default class Discover extends Component {
   };
 
   venueSelected = (venue) => {
-    console.log(venue.title);
+    this.props.navigation.navigate("Venue", venue);
   };
 
   render() {
@@ -173,46 +174,48 @@ export default class Discover extends Component {
           data={this.state.categories}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
-            return(
+            return (
               <TouchableOpacity
-                style={{height: '100%', paddingLeft: 7}}
+                style={{ height: "100%", paddingLeft: 7 }}
                 onPress={() => {
-                  var temp = this.state.categories
-                  temp.find(o => o.key === item.key).selected = !item.selected
-                  var noneSelected = true
+                  var temp = this.state.categories;
+                  temp.find(
+                    (o) => o.key === item.key
+                  ).selected = !item.selected;
+                  var noneSelected = true;
                   for (var i in temp) {
-                    if (temp[i].selected == true && temp[i].key != 'all') {
-                      noneSelected = false
+                    if (temp[i].selected == true && temp[i].key != "all") {
+                      noneSelected = false;
                     }
                   }
-                  if (item.key != 'all') {
-                    temp.find(o => o.key === 'all').selected = noneSelected
+                  if (item.key != "all") {
+                    temp.find((o) => o.key === "all").selected = noneSelected;
                   } else {
                     for (var i in temp) {
-                      if (temp[i].key != 'all') {
-                        temp[i].selected= false
+                      if (temp[i].key != "all") {
+                        temp[i].selected = false;
                       }
                     }
                   }
-                  var noneSelected = true
+                  var noneSelected = true;
                   for (var i in temp) {
                     if (temp[i].selected == true) {
-                      noneSelected = false
+                      noneSelected = false;
                     }
                   }
                   if (noneSelected) {
-                    temp.find(o => o.key === 'all').selected = true
+                    temp.find((o) => o.key === "all").selected = true;
                   }
-                  this.setState({categories: temp})
+                  this.setState({ categories: temp });
                 }}
               >
-                <CategorySelection category={item} />             
+                <CategorySelection category={item} />
               </TouchableOpacity>
             );
           }}
         />
         <FlatList
-          style={{width: '100%', marginHorizontal: 10, paddingTop: 5}}
+          style={{ width: "100%", marginHorizontal: 10, paddingTop: 5 }}
           data={this.state.venues}
           onRefresh={() => {
             this.loadData();
@@ -225,11 +228,14 @@ export default class Discover extends Component {
               }
               return (
                 <View
-                  style={[{
-                    flexDirection: "row",
-                    marginBottom: 10,
-                    marginHorizontal: 10
-                  }, shadowStyles.shadowDown]}
+                  style={[
+                    {
+                      flexDirection: "row",
+                      marginBottom: 10,
+                      marginHorizontal: 10,
+                    },
+                    shadowStyles.shadowDown,
+                  ]}
                 >
                   <View style={{ flex: 1 }}>
                     <View
@@ -265,14 +271,19 @@ export default class Discover extends Component {
               );
             } else {
               return (
-                <View style={[{ flex: 1, marginBottom: 10 }, shadowStyles.shadowDown]}>
+                <View
+                  style={[
+                    { flex: 1, marginBottom: 10 },
+                    shadowStyles.shadowDown,
+                  ]}
+                >
                   <View
                     style={{
                       backgroundColor: "#000",
                       height: 245,
                       borderRadius: 15,
                       overflow: "hidden",
-                      marginHorizontal: 10
+                      marginHorizontal: 10,
                     }}
                   >
                     <VenueContent

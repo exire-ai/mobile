@@ -1,9 +1,13 @@
-import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
-import SignInStack from './signInStack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
+import SignInStack from "./signInStack";
 // import ChatStack from './chatStack';
-import HomeStack from './homeStack';
-import LoadingScreen from '../screens/LoadingScreen';
+import HomeStack from "./homeStack";
+import LoadingScreen from "../screens/LoadingScreen";
+import MainDrawerNavigator from "./homeStack";
 
 const screens = {
   LoadingScreen: {
@@ -12,7 +16,7 @@ const screens = {
       return {
         headerShown: false,
       };
-    }
+    },
   },
   SignInStack: {
     screen: SignInStack,
@@ -21,24 +25,24 @@ const screens = {
         gestureEnabled: false,
         headerShown: false,
       };
-    }
+    },
   },
   HomeStack: {
-    screen: HomeStack,
+    screen: MainDrawerNavigator,
     navigationOptions: () => {
       return {
         gestureEnabled: false,
-        headerShown: false
+        headerShown: false,
       };
-    }
-  }
+    },
+  },
 };
 
 const MainStack = createStackNavigator(screens, {
-  initialRouteName: 'LoadingScreen',
+  initialRouteName: "LoadingScreen",
   defaultNavigationOptions: {
-    ...TransitionPresets.FadeFromBottomAndroid
-  }
+    ...TransitionPresets.FadeFromBottomAndroid,
+  },
 });
 
 export default createAppContainer(MainStack);

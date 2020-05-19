@@ -1,19 +1,24 @@
-import {
-  createStackNavigator,
-  TransitionPresets,
-} from "react-navigation-stack";
+import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import React from "react";
-import { Header, View } from "react-native";
 import Chats from "../screens/Chats";
 import Chat from "../screens/chat";
+import ProfileIcon from "../components/ProfileIcon";
+
+// Style Imports
+import { navigationStyles } from "../global/navigationStyles";
+import { shadowStyles } from "../global/shadowStyles";
 
 const screens = {
   Chats: {
     screen: Chats,
-    navigationOptions: () => {
+    navigationOptions: ({ navigation }) => {
       return {
-        headerShown: false,
+        headerShown: true,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: "center",
+        headerLeft: () => <ProfileIcon navigation={navigation} />,
       };
     },
   },
@@ -22,6 +27,9 @@ const screens = {
     navigationOptions: ({ navigation, screenProps }) => {
       return {
         headerShown: true,
+        headerShown: true,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
       };
     },
   },
@@ -29,9 +37,9 @@ const screens = {
 
 const ChatsStack = createStackNavigator(screens, {
   initialRouteName: "Chats",
-  defaultNavigationOptions: {
-    ...TransitionPresets.FadeFromBottomAndroid,
-  },
+  // defaultNavigationOptions: {
+  //   ...TransitionPresets.FadeFromBottomAndroid,
+  // },
 });
 
 export default createAppContainer(ChatsStack);

@@ -1,9 +1,12 @@
-import { createStackNavigator, TransitionPresets } from "react-navigation-stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-import { createDrawerNavigator} from "react-navigation-drawer";
+import { createDrawerNavigator } from "react-navigation-drawer";
 import { createMaterialTopTabNavigator } from "react-navigation-tabs";
 import React, { useState } from "react";
-import { TouchableOpacity, Image, SafeAreaView, View } from "react-native";
+import { TouchableOpacity, Image, SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Style Imports
@@ -22,6 +25,7 @@ const screens = {
   Discover: {
     screen: DiscoverStack,
     navigationOptions: ({ navigation }) => {
+      console.log(navigation);
       return {
         title: "",
         tabBarIcon: ({ tintColor }) => (
@@ -71,6 +75,7 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
     ...TransitionPresets.FadeFromBottomAndroid,
   },
   swipeEnabled: true,
+  timingConfig: 0,
   tabBarOptions: {
     activeTintColor: colorScheme.activeButton,
     inactiveTintColor: colorScheme.inactiveButton,
@@ -95,18 +100,17 @@ const HomeStack = createStackNavigator({
     screen: HomeTab,
     navigationOptions: ({ navigation }) => {
       return {
-        headerShown: true,
-        title: ["Discover", "Plans", 'Chats'][navigation.state.index],
+        headerShown: false,
+        title: ["Discover", "Plans", "Chats"][navigation.state.index],
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => {
-              console.log("open")
-              navigation.toggleDrawer()
-            }
-          }
+              console.log("open");
+              navigation.toggleDrawer();
+            }}
             style={navigationStyles.icon}
           >
             <Icon
@@ -122,23 +126,27 @@ const HomeStack = createStackNavigator({
   },
 });
 
-const MainDrawerNavigator = createDrawerNavigator({
-  Home: {
-    screen: HomeStack
+const MainDrawerNavigator = createDrawerNavigator(
+  {
+    Home: {
+      screen: HomeTab,
+    },
+  },
+  {
+    hideStatusBar: true,
+    drawerBackgroundColor: colorScheme.componentBackground,
+    overlayColor: "rgba(100,100,100,0.6)",
+    contentComponent: ({ navigation }) => {
+      return (
+        <SafeAreaView
+          style={{ height: "100%", backgroundColor: colorScheme.footer }}
+        >
+          <Drawer />
+          <Logout navigation={navigation} />
+        </SafeAreaView>
+      );
+    },
   }
-},
-{
-  hideStatusBar: true,
-  drawerBackgroundColor: colorScheme.componentBackground,
-  overlayColor: 'rgba(100,100,100,0.6)',
-  contentComponent: ({ navigation }) => {
-    return (
-      <SafeAreaView style={{height: '100%', backgroundColor: colorScheme.footer}}>
-      <Drawer />
-      <Logout navigation={navigation}/>
-      </SafeAreaView>
-    )
-  }
-});
+);
 
 export default createAppContainer(MainDrawerNavigator);
