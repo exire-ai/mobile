@@ -102,6 +102,7 @@ export default class Discover extends Component {
     var venues = [];
     var doubleVenue = {};
     var current = 0;
+    console.log(result[0]);
     for (var i = 0; i < result.length; i++) {
       if (current == 2) {
         var singleVenue = {};
@@ -122,6 +123,28 @@ export default class Discover extends Component {
         current++;
       }
     }
+    var test_onlineevent = {
+      numItems: 1,
+      key: "exiretestevent",
+      venue: {
+        category: "activity",
+        closed_days: [],
+        cost: 15,
+        description:
+          "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
+        imgURL:
+          "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
+        placeID: "testonlineevent",
+        rank: 92.6,
+        subcategory: "yoga",
+        title: "Open Soul",
+        subtitle: "Live Yoga Class",
+        type: "online-event",
+        subtype: "class",
+        duration: "1",
+      },
+    };
+    venues.push(test_onlineevent);
     venues.reverse();
     callback(venues);
   };

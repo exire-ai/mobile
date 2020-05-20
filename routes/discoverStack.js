@@ -6,6 +6,8 @@ import {
 import { createAppContainer } from "react-navigation";
 import Discover from "../screens/Discover";
 import Venue from "../screens/venue";
+import DateTime from "../screens/DateTime";
+
 import ProfileIcon from "../components/ProfileIcon";
 
 // Style Imports
@@ -31,7 +33,18 @@ const screens = {
       return {
         tabBarVisible: false,
         headerShown: false,
-        gestureEnabled: false
+        gestureEnabled: false,
+      };
+    },
+  },
+  DateTime: {
+    screen: DateTime,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: "center",
       };
     },
   },
