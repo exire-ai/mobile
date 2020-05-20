@@ -39,7 +39,7 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerShown: true,
-        headerLeft: () => <ProfileIcon navigation={navigation} />,
+        headerTintColor: "white",
       };
     },
   },
@@ -52,7 +52,7 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerShown: true,
-        headerLeft: () => <ProfileIcon navigation={navigation} />,
+        headerTintColor: "white",
       };
     },
   },
