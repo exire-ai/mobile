@@ -10,10 +10,8 @@ import {
   Button,
   Image,
 } from "react-native";
-import {
-  SafeAreaView
-} from 'react-navigation'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { SafeAreaView } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import { signInStyles } from "../global/signInStyles";
 import { textStyles } from "../global/textStyles";
@@ -96,39 +94,42 @@ export default class Venue extends Component {
             source={{ uri: this.state.venue.imgURL }}
             style={{ width: "100%", height: "100%" }}
           >
-//             <TouchableOpacity
-//               style={{ padding: 15, marginLeft: 15, marginTop: 40 }}
-//               onPress={() => {
-//                 this.props.navigation.pop();
-//               }}
-//             >
-//               <Text
-//                 style={{
-//                   color: "white",
-//                   fontSize: 32,
-//                   shadowColor: "black",
-//                   shadowRadius: 5,
-//                   shadowOpacity: 0.3,
-//                   shadowOffset: { width: 0, height: 2 },
-//                 }}
-//               >
-//                 X
-//               </Text>
-//             </TouchableOpacity>
-            <SafeAreaView>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={[navigationStyles.icon]}>
-              <Icon
-                name='chevron-left'
-                color='#FFF'
-                size={32}
+            {/* <TouchableOpacity
+              style={{ padding: 15, marginLeft: 15, marginTop: 40 }}
+              onPress={() => {
+                this.props.navigation.pop();
+              }}
+            >
+              <Text
                 style={{
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 1 },
+                  color: "white",
+                  fontSize: 32,
+                  shadowColor: "black",
+                  shadowRadius: 5,
                   shadowOpacity: 0.3,
-                  shadowRadius: 1,
+                  shadowOffset: { width: 0, height: 2 },
                 }}
-              />
-            </TouchableOpacity>
+              >
+                X
+              </Text>
+            </TouchableOpacity> */}
+            <SafeAreaView>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.goBack()}
+                style={[navigationStyles.icon, { padding: 15 }]}
+              >
+                <Icon
+                  name="chevron-left"
+                  color="#FFF"
+                  size={32}
+                  style={{
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 1,
+                  }}
+                />
+              </TouchableOpacity>
             </SafeAreaView>
           </ImageBackground>
         </View>
