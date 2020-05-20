@@ -21,4 +21,9 @@ export const textStyles = StyleSheet.create({
     fontSize: 18,
     color: "#888",
   },
+  buttonText: {
+    fontFamily: "nunito-bold",
+    fontSize: 20,
+    color: "#fff",
+  },
 });
