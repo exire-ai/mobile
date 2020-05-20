@@ -34,8 +34,8 @@ export default class Chats extends Component {
   componentDidMount() {
     // not using observer bc can't get return / callback / promise / state update working
     this._interval = setInterval(() => {
-      // this.loadData(false)
-    }, 100000);
+      this.loadData(false)
+    }, 3000);
   }
 
   componentWillUnmount() {
@@ -96,7 +96,7 @@ export default class Chats extends Component {
               time={item.messages.length > 0 ? this.timeConvert(item.messages[item.messages.length - 1].time) : ''}
               message={item.messages.length > 0 ? item.messages[item.messages.length - 1].message : "Send your first message!"}
               navigate={() => {
-                this.props.navigation.navigate("Chat", {chatID: item.chatID, userID: this.state.userID});
+                this.props.navigation.navigate("Chat", {chatID: item.chatID, userID: this.state.userID, name: item.name});
               }}
             />
           )}

@@ -8,8 +8,13 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
+import {
+  SafeAreaView
+} from 'react-navigation'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import { signInStyles } from "../global/signInStyles";
+import { navigationStyles } from "../global/navigationStyles";
 
 async function openLink(url) {
   try {
@@ -84,7 +89,23 @@ export default class Venue extends Component {
           <ImageBackground
             source={{ uri: this.state.venue.imgURL }}
             style={{ width: "100%", height: "100%" }}
-          ></ImageBackground>
+          >
+            <SafeAreaView>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={[navigationStyles.icon]}>
+              <Icon
+                name='chevron-left'
+                color='#FFF'
+                size={32}
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 1,
+                }}
+              />
+            </TouchableOpacity>
+            </SafeAreaView>
+          </ImageBackground>
         </View>
         <View
           style={{

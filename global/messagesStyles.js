@@ -18,7 +18,8 @@ export const messagesStyles = StyleSheet.create({
         height: 48, 
         width: 48, 
         borderRadius: 24,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        backgroundColor: colorScheme.lessDarkText
     },
     name: {
         fontFamily: "nunito-bold", 

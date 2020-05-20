@@ -33,8 +33,8 @@ export function Message({
   }
   var MessageObj = (
     <View style={[messagesStyles.chatContainer]}>
-    <View style={{paddingLeft: 6, flexDirection: 'row'}}>
-      <View style={[messagesStyles.profileImage, shadowStyles.shadowDown]}>
+    <View style={[{paddingLeft: 6, flexDirection: 'row'}, shadowStyles.shadowDown]}>
+      <View style={[messagesStyles.profileImage]}>
         <ImageBackground source={{uri: imgURL}} style={{width: 48, height: 48}}>
         </ImageBackground>
       </View>

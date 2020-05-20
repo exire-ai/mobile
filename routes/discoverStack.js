@@ -31,6 +31,7 @@ const screens = {
       return {
         tabBarVisible: false,
         headerShown: false,
+        gestureEnabled: false
       };
     },
   },

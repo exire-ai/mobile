@@ -1,5 +1,6 @@
 import React, { setState, useCallback, useEffect } from "react";
 import { View, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, TouchableOpacity, AsyncStorage } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import { Message } from "../components/message";
 import { MessageClass } from "../components/messageClass";
@@ -10,6 +11,7 @@ import dialogflow from "../functions/dialogflow";
 // FIRESTORE
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { shadow } from "react-native-paper";
 
 export default class Chat extends React.Component {
   db = firebase.firestore();
@@ -24,7 +26,7 @@ export default class Chat extends React.Component {
   componentDidMount() {
     // not using observer bc can't get return / callback / promise / state update working
     this._interval = setInterval(() => {
-      // this.getChat()
+      this.getChat()
     }, 5000);
   }
 
@@ -192,7 +194,7 @@ export default class Chat extends React.Component {
             style={styles.list}
             data={this.state.messages}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => "key" + index + "time" + item.senderID}
+            keyExtractor={(item, index) => "time" + item.time}
             inverted={this.state.inverse == 1 ? false : -1}
             renderItem={({ item, index }) => {
               if (item.special.hasOwnProperty('venues')) {
@@ -207,6 +209,7 @@ export default class Chat extends React.Component {
                       (o) => o.userID == item.userID
                     ).imgURL}
                     special={item.special}
+                    navigation={this.props.navigation}
                   />
                 )
               } else {
@@ -241,7 +244,9 @@ export default class Chat extends React.Component {
                 borderRadius: 22.5,
                 position: 'absolute',
                 right: 5,
-                flex: .2
+                flex: .2,
+                alignItems: 'center',
+                justifyContent: 'center'
               }]}
               onPress={() => {
                 if (this.state.text.length > 1) {
@@ -249,6 +254,12 @@ export default class Chat extends React.Component {
                 }
               }}
             >
+              <Icon
+                name='chevron-right'
+                color='#FFF'
+                size={28}
+                style={[shadowStyles.shadowDown, {paddingLeft: 3, paddingTop: 3}]}
+              />
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
