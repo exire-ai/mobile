@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
 
 // Style Imports
@@ -33,24 +33,29 @@ function Venue({ venues }) {
   );
 }
 
-export default function Plan({ data, onTap }) {
-  var plan = (
-    <TouchableOpacity
-      style={{ alignItems: "center", paddingTop: 10 }}
-      onPress={() => {
-        onTap("plan");
-      }}
-    >
-      <View style={[plansStyles.component, shadowStyles.shadowDown]}>
-        <View style={plansStyles.textContainer}>
-          <Text style={plansStyles.name}>{data.name}</Text>
-          <Text style={plansStyles.time}>{data.time}</Text>
+export default class Plan extends Component {
+  render() {
+    let data = this.props.data;
+    var plan = (
+      <TouchableOpacity
+        style={{ alignItems: "center", paddingTop: 10 }}
+        onPress={() => {
+          this.props.onTap(data);
+        }}
+      >
+        <View style={[plansStyles.component, shadowStyles.shadowDown]}>
+          <View style={plansStyles.textContainer}>
+            <Text style={plansStyles.name}>{data.name}</Text>
+            <Text style={plansStyles.time}>
+              {data.date + " at " + data.time}
+            </Text>
+          </View>
+          <View style={plansStyles.venueContainer}>
+            <Venue venues={data.venues} />
+          </View>
         </View>
-        <View style={plansStyles.venueContainer}>
-          <Venue venues={data.venues} />
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-  return plan;
+      </TouchableOpacity>
+    );
+    return plan;
+  }
 }
