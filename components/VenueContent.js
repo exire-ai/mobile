@@ -12,7 +12,6 @@ export default class VenueContent extends Component {
   }
 
   titleTextView = (title, subtitle) => {
-    console.log(subtitle);
     if (subtitle) {
       return (
         <Text

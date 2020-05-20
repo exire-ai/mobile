@@ -11,7 +11,6 @@ import dialogflow from "../functions/dialogflow";
 // FIRESTORE
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { shadow } from "react-native-paper";
 
 export default class Chat extends React.Component {
   db = firebase.firestore();
@@ -27,7 +26,7 @@ export default class Chat extends React.Component {
     // not using observer bc can't get return / callback / promise / state update working
     this._interval = setInterval(() => {
       this.getChat()
-    }, 5000);
+    }, 50000);
   }
 
   componentWillUnmount() {

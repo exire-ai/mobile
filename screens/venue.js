@@ -7,8 +7,8 @@ import {
   Keyboard,
   TouchableOpacity,
   Linking,
-  Button,
   Image,
+  Platform
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -18,6 +18,7 @@ import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { shadow } from "react-native-paper";
 import { navigationStyles } from "../global/navigationStyles";
+import { colorScheme } from "../global/colorScheme";
 // import { Button } from "react-native-paper";
 
 async function openLink(url) {
@@ -61,6 +62,7 @@ function MoreInfo({ url }) {
         style={[
           signInStyles.button,
           { position: "absolute", bottom: "5%", width: "85%", left: "7.5%" },
+          shadowStyles.shadowDown
         ]}
         onPress={() => {
           linkOpen(url);
@@ -130,7 +132,7 @@ export default class Venue extends Component {
     if (this.state.venue.type == "online-event") {
       return (
         <View style={styles.container}>
-          <View style={{ flex: 0.35, flexDirection: "row" }}>
+          <View style={[{ flex: 0.35, flexDirection: "row" }, shadowStyles.shadowDown]}>
             <ImageBackground
               source={{ uri: this.state.venue.imgURL }}
               style={{ width: "100%", height: "100%" }}
@@ -142,14 +144,9 @@ export default class Venue extends Component {
                 >
                   <Icon
                     name="chevron-left"
-                    color="#FFF"
+                    color={colorScheme.primaryText}
                     size={32}
-                    style={{
-                      shadowColor: "#000",
-                      shadowOffset: { width: 0, height: 1 },
-                      shadowOpacity: 0.3,
-                      shadowRadius: 1,
-                    }}
+                    style={shadowStyles.shadowDown}
                   />
                 </TouchableOpacity>
               </SafeAreaView>
@@ -158,54 +155,49 @@ export default class Venue extends Component {
           <View
             style={{
               flex: 0.65,
-              width: "90%",
-              marginLeft: 5,
+              width: "100%",
+              marginHorizontal: 10,
               marginTop: 15,
-              alignItems: "flex-start",
+              alignItems: "center",
               flexDirection: "column",
             }}
           >
-            <Text style={[textStyles.titleText, { textAlign: "left" }]}>
-              {this.state.venue.title}
-            </Text>
-            <Text style={[textStyles.titleText, { textAlign: "left" }]}>
-              {this.state.venue.subtitle}
-            </Text>
-            <Text
-              style={[
-                textStyles.subBodyText,
-                { textAlign: "left", marginTop: 5 },
-              ]}
-            >
-              {this.state.venue.description}
-            </Text>
-            <View style={{ flexDirection: "row", marginTop: 5 }}>
-              <Image
-                style={{ width: 16, height: 16, marginTop: 4, marginRight: 10 }}
-                source={require("../assets/clock.png")}
-              />
-              <Text style={textStyles.minorText}>
-                {this.state.venue.duration + " hr"}
+            <View style={{ borderBottomColor: colorScheme.veryLight, borderBottomWidth: 1, paddingBottom: 10, width: '95%' }}>
+              <Text style={[textStyles.titleText, { textAlign: "left" }]}>
+                {this.state.venue.title}
               </Text>
+              <Text style={[textStyles.titleText, { textAlign: "left", fontSize: 22, color: colorScheme.lessDarkText }]}>
+                {this.state.venue.subtitle}
+              </Text>
+              <Text
+                style={[
+                  textStyles.subBodyText,
+                  { textAlign: "left", marginTop: 5 },
+                ]}
+              >
+                {this.state.venue.description}
+              </Text>
+              <View style={{ flexDirection: "row", marginTop: 5 }}>
+                <Image
+                  style={{ width: 16, height: 16, marginTop: 4, marginRight: 10 }}
+                  source={require("../assets/clock.png")}
+                />
+                <Text style={textStyles.minorText}>
+                  {this.state.venue.duration + " hr"}
+                </Text>
+              </View>
             </View>
-            {/* ----Line Separator---- */}
-            <View
-              style={{
-                width: "100%",
-                height: 1,
-                backgroundColor: "#DDD",
-                marginTop: 15,
-              }}
-            ></View>
           </View>
           <View
             style={{
               width: "100%",
               position: "absolute",
               height: 100,
-              bottom: 0,
+              bottom: 10,
               flexDirection: "row",
               flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <Text
@@ -219,9 +211,8 @@ export default class Venue extends Component {
             <View
               style={{
                 flex: 0.5,
-                backgroundColor: "white",
                 alignItems: "center",
-                justifyContent: "flex-start",
+                justifyContent: "center"
               }}
             >
               <TouchableOpacity
@@ -231,7 +222,7 @@ export default class Venue extends Component {
                 style={[
                   shadowStyles.shadowDown,
                   {
-                    backgroundColor: "#007aff",
+                    backgroundColor: colorScheme.activeButton,
                     width: "90%",
                     padding: 10,
                     justifyContent: "center",
@@ -246,191 +237,279 @@ export default class Venue extends Component {
           </View>
         </View>
       );
-    }
-    return (
-      <View style={styles.container}>
-        <View style={{ flex: 0.35, flexDirection: "row" }}>
-          <ImageBackground
-            source={{ uri: this.state.venue.imgURL }}
-            style={{ width: "100%", height: "100%" }}
-          >
-            {/* <TouchableOpacity
-              style={{ padding: 15, marginLeft: 15, marginTop: 40 }}
+    } else {
+      if (this.state.venue.latitude != 0 && this.state.venue.latitude != null && this.state.venue.longitude != 0 && this.state.venue.longitude != null) {
+        var navigationButton = (
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity
+              style={[shadowStyles.shadowDown, {
+                backgroundColor: colorScheme.button,
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginHorizontal: 10
+              }]}
               onPress={() => {
-                this.props.navigation.pop();
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 32,
-                  shadowColor: "black",
-                  shadowRadius: 5,
-                  shadowOpacity: 0.3,
-                  shadowOffset: { width: 0, height: 2 },
-                }}
-              >
-                X
-              </Text>
-            </TouchableOpacity> */}
-            <SafeAreaView>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.goBack()}
-                style={[navigationStyles.icon, { padding: 15 }]}
-              >
-                <Icon
-                  name="chevron-left"
-                  color="#FFF"
-                  size={32}
-                  style={{
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 1 },
-                    shadowOpacity: 0.3,
-                    shadowRadius: 1,
-                  }}
-                />
-              </TouchableOpacity>
-            </SafeAreaView>
-          </ImageBackground>
-        </View>
-        <View
-          style={{
-            flex: 0.65,
-            width: "90%",
-            marginLeft: 5,
-            marginTop: 15,
-            alignItems: "flex-start",
-            flexDirection: "column",
-          }}
-        >
-          <Text style={[textStyles.titleText, { textAlign: "left" }]}>
-            {this.state.venue.title}
-          </Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text
-              style={[
-                textStyles.minorText,
-                { textAlign: "left", marginRight: 10, marginTop: 4 },
-              ]}
-            >
-              {nameDict[this.state.venue.subcategory][0]}
-            </Text>
-            <View
-              style={{
-                width: 4,
-                height: 4,
-                backgroundColor: "#444",
-                marginTop: 4,
-                borderRadius: 2,
-                marginRight: 10,
-              }}
-            ></View>
-            <Text
-              style={[
-                textStyles.minorText,
-                { textAlign: "left", marginTop: 5 },
-              ]}
-            >
-              {this.state.venue.cost > 15
-                ? this.state.venue.cost > 30
-                  ? this.state.venue.cost > 60
-                    ? "$$$$"
-                    : "$$$"
-                  : "$$"
-                : "$"}
-            </Text>
-          </View>
-          <Text
-            style={[
-              textStyles.minorText,
-              {
-                textAlign: "left",
-                marginTop: 5,
-              },
-            ]}
-          >
-            Open Today{" "}
-            {this.state.venue.open > 24
-              ? this.state.venue.open - 24 + " AM "
-              : this.state.venue.open > 12
-              ? this.state.venue.open - 12 + " PM "
-              : this.state.venue.open + " AM "}
-            -{" "}
-            {this.state.venue.closed > 24
-              ? this.state.venue.closed - 24 + " AM"
-              : this.state.venue.closed > 12
-              ? this.state.venue.closed - 12 + " PM"
-              : this.state.venue.closed + " AM"}
-          </Text>
+                Linking.openURL(Platform.select({
+                  ios: 'http://maps.apple.com/maps/?q=' + this.state.venue.latitude + "," + this.state.venue.longitude,
+                  android: 'http://maps.google.com/maps/search/query=' + this.state.venue.latitude + "," + this.state.venue.longitude
 
-          <Text
-            style={[
-              textStyles.subBodyText,
-              { textAlign: "left", marginTop: 5 },
-            ]}
+                }))
+              }}
+            >
+              <Icon
+                name='map-pin'
+                color={colorScheme.primaryText}
+                size={28}
+                style={[shadowStyles.shadowDown, { paddingLeft: 1, paddingTop: 1 }]}
+              />
+            </TouchableOpacity>
+            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>Directions</Text>
+          </View>
+        )
+      } else {
+        var navigationButton = (null)
+      }
+      if (this.state.venue.latitude != 0 && this.state.venue.latitude != null && this.state.venue.longitude != 0 && this.state.venue.longitude != null) {
+        var uberButton = (
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity
+              style={[shadowStyles.shadowDown, {
+                backgroundColor: '#111',
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginHorizontal: 10
+              }]}
+              onPress={() => {
+                Linking.openURL('https://m.uber.com/ul/?client_id=exire&action=setPickup&dropoff[latitude]=' + this.state.venue.latitude + '&dropoff[longitude]=' + this.state.venue.longitude)
+              }
+              }
+            >
+              <Image
+                style={[{ width: 32, height: 32, tintColor: colorScheme.primaryText }, shadowStyles.shadowDown]}
+                source={require("../assets/icons/uber.png")}
+              />
+            </TouchableOpacity>
+            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>Uber</Text>
+          </View>
+        )
+      } else {
+        var uberButton = (null)
+      }
+      if (this.state.venue.latitude != 0 && this.state.venue.latitude != null && this.state.venue.longitude != 0 && this.state.venue.longitude != null) {
+        var lyftButton = (
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity
+              style={[shadowStyles.shadowDown, {
+                backgroundColor: '#FF1493',
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginHorizontal: 10
+              }]}
+              onPress={() => {
+                Linking.openURL('lyft://ridetype?id=lyft&destination[latitude]=' + this.state.venue.latitude + '&destination[longitude]=' + this.state.venue.longitude)
+              }
+              }
+            >
+              <Image
+                style={[{ width: 34, height: 24, tintColor: colorScheme.primaryText, marginTop: 4 }, shadowStyles.shadowDown]}
+                source={require("../assets/icons/lyft.png")}
+              />
+            </TouchableOpacity>
+            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>Lyft</Text>
+          </View>
+        )
+      } else {
+        var lyftButton = (null)
+      }
+      if (this.state.venue.accessURL != null && this.state.venue.accessURL != '') {
+        var infoButton = (
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity
+              style={[shadowStyles.shadowDown, {
+                backgroundColor: colorScheme.primary,
+                height: 50,
+                width: 50,
+                borderRadius: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginHorizontal: 10
+              }]}
+              onPress={() => { Linking.openURL(this.state.venue.accessURL)}
+              }
+            >
+              <Icon
+                name='info'
+                color={colorScheme.primaryText}
+                size={32}
+                style={[shadowStyles.shadowDown, { paddingTop: 2 }]}
+              />
+            </TouchableOpacity>
+            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>More Info</Text>
+          </View>
+        )
+      } else {
+        var infoButton = (null)
+      }
+      return (
+        <View style={styles.container}>
+          <View style={[{ flex: 0.35, flexDirection: "row" }, shadowStyles.shadowDown]}>
+            <ImageBackground
+              source={{ uri: this.state.venue.imgURL }}
+              style={{ width: "100%", height: "100%" }}
+            >
+              <SafeAreaView>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.goBack()}
+                  style={[navigationStyles.icon, { padding: 15 }]}
+                >
+                  <Icon
+                    name="chevron-left"
+                    color={colorScheme.primaryText}
+                    size={32}
+                    style={shadowStyles.shadowDown}
+                  />
+                </TouchableOpacity>
+              </SafeAreaView>
+            </ImageBackground>
+          </View>
+          <View
+            style={{
+              flex: 0.65,
+              width: "100%",
+              marginHorizontal: 10,
+              marginTop: 15,
+              flexDirection: "column",
+              alignItems: 'center'
+            }}
           >
-            {this.state.venue.description}
-          </Text>
-          {/* <MoreInfo url={this.state.venue.accessURL} /> */}
-          {/* ----Line Separator---- */}
+            <View style={{ borderBottomColor: colorScheme.veryLight, borderBottomWidth: 1, paddingBottom: 10, width: '95%' }}>
+              <Text style={[textStyles.titleText, { textAlign: "left" }]}>
+                {this.state.venue.title}
+              </Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text
+                  style={[
+                    textStyles.minorText,
+                    { textAlign: "left", marginRight: 10, marginTop: 4 },
+                  ]}
+                >
+                  {nameDict[this.state.venue.subcategory][0]}
+                </Text>
+                <View
+                  style={{
+                    width: 4,
+                    height: 4,
+                    backgroundColor: colorScheme.darkText,
+                    marginTop: 4,
+                    borderRadius: 2,
+                    marginRight: 10,
+                  }}
+                ></View>
+                <Text
+                  style={[
+                    textStyles.minorText,
+                    { textAlign: "left", marginTop: 5 },
+                  ]}
+                >
+                  {this.state.venue.cost > 15
+                    ? this.state.venue.cost > 30
+                      ? this.state.venue.cost > 60
+                        ? "$$$$"
+                        : "$$$"
+                      : "$$"
+                    : "$"}
+                </Text>
+              </View>
+              <Text
+                style={[
+                  textStyles.minorText,
+                  {
+                    textAlign: "left",
+                    marginTop: 5,
+                  },
+                ]}
+              >
+                Open Today{" "}
+                {this.state.venue.open > 24
+                  ? this.state.venue.open - 24 + " AM "
+                  : this.state.venue.open > 12
+                    ? this.state.venue.open - 12 + " PM "
+                    : this.state.venue.open + " AM "}
+            -{" "}
+                {this.state.venue.closed > 24
+                  ? this.state.venue.closed - 24 + " AM"
+                  : this.state.venue.closed > 12
+                    ? this.state.venue.closed - 12 + " PM"
+                    : this.state.venue.closed + " AM"}
+              </Text>
+
+              <Text
+                style={[
+                  textStyles.subBodyText,
+                  { textAlign: "left", marginTop: 5 },
+                ]}
+              >
+                {this.state.venue.description}
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', width: '100%', marginVertical: 10 }}>
+              {navigationButton}
+              {uberButton}
+              {lyftButton}
+              {infoButton}
+            </View>
+          </View>
           <View
             style={{
               width: "100%",
-              height: 1,
-              backgroundColor: "#DDD",
-              marginTop: 15,
+              position: "absolute",
+              bottom: 0,
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              marginBottom: 25,
             }}
-          ></View>
-          {/* ----Direction Bubble, png has clipping issue-----
-
-          <TouchableOpacity style={{ padding: 10 }}>
-            <Image
-              style={{ height: 42, width: 42, marginTop: 15 }}
-              source={require("../assets/directions.png")}
-            />
-          </TouchableOpacity> */}
-        </View>
-        <View
-          style={{
-            width: "100%",
-            position: "absolute",
-            // height: 100,
-            bottom: 0,
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            marginBottom: 25,
-          }}
-        >
-          <Text
-            style={[
-              textStyles.subBodyText,
-              { width: "70%", textAlign: "center", fontSize: 14 },
-            ]}
           >
-            We can't book this for you, but you can add it to a plan!
+            <Text
+              style={[
+                textStyles.subBodyText,
+                { width: "95%", textAlign: "center", fontSize: 14 },
+              ]}
+            >
+              We can't book this for you, but you can add it to a plan!
           </Text>
-          <TouchableOpacity
-            style={[
-              shadowStyles.shadowDown,
-              {
-                height: 50,
-                marginTop: 10,
-                backgroundColor: "#007aff",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "85%",
-                borderRadius: 10,
-                shadowRadius: 10,
-                shadowOffset: { width: 0, height: 2 },
-              },
-            ]}
-          >
-            <Text style={textStyles.buttonText}>Planning a visit?</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  height: 50,
+                  marginTop: 10,
+                  backgroundColor: colorScheme.activeButton,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "90%",
+                  borderRadius: 10,
+                  shadowRadius: 10,
+                  shadowOffset: { width: 0, height: 2 },
+                  marginBottom: 10
+                },
+              ]}
+            >
+              <Text style={textStyles.buttonText}>Planning a visit?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
@@ -439,6 +518,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colorScheme.componentBackground,
   },
 });
