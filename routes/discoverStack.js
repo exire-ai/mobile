@@ -33,8 +33,6 @@ const screens = {
       return {
         tabBarVisible: false,
         headerShown: false,
-<<<<<<< Updated upstream
-=======
         gestureEnabled: false,
       };
     },
@@ -47,7 +45,6 @@ const screens = {
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
->>>>>>> Stashed changes
       };
     },
   },

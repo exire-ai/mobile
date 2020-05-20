@@ -9,12 +9,14 @@ import {
   Linking,
   Button,
   Image,
+  SafeAreaView,
 } from "react-native";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import { signInStyles } from "../global/signInStyles";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { shadow } from "react-native-paper";
+import { navigationStyles } from "../global/navigationStyles";
 // import { Button } from "react-native-paper";
 
 async function openLink(url) {
