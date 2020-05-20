@@ -75,8 +75,8 @@ export default class Chats extends Component {
           renderItem={({ item, index }) => (
             <Chat
               name={item.name}
-              time={item.messages.length > 0 ? this.timeConvert(item.messages[0].time) : ''}
-              message={item.messages.length > 0 ? item.messages[0].message : "Send your first message!"}
+              time={item.messages.length > 0 ? this.timeConvert(item.messages[item.messages.length - 1].time) : ''}
+              message={item.messages.length > 0 ? item.messages[item.messages.length - 1].message : "Send your first message!"}
               navigate={() => {
                 this.props.navigation.navigate("Chat", {chatID: 'test'});
               }}

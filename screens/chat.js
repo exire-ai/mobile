@@ -134,7 +134,7 @@ export default class Chat extends React.Component {
   
   timeConvert(unix) {
     var now = Math.round(new Date().getTime()/1000)
-    var res = new Date(unix * 1000)
+    var res = new Date(unix)
     if (unix + 86400 > now) {
       var hours = res.getHours()
       return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + res.getMinutes() + (hours > 12 ? "pm" : "am") 
@@ -162,7 +162,7 @@ export default class Chat extends React.Component {
             renderItem={({ item, index }) => (
               <Message
                 message={item.message}
-                name={this.state.users.find(
+                name={item.userID == this.state.userID ? "You" : this.state.users.find(
                   (o) => o.userID == item.userID
                 ).name}
                 time={this.timeConvert(item.time)}

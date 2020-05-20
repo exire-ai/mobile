@@ -28,7 +28,7 @@ export default function Chat({
             <Text style={chatsStyles.name}>{name}</Text>
             <Text style={[chatsStyles.text, {position: 'absolute', right: 10}]}>{time}</Text>
           </View>
-          <Text style={[chatsStyles.text, { marginTop: -1}]}>{message}</Text>
+          <Text numberOfLines={1} style={[chatsStyles.text, { marginTop: -1}]}>{message}</Text>
         </View>
       </View>
     </TouchableOpacity>
