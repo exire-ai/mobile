@@ -27,7 +27,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       var tabBarVisible = true;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if ((routeName == "Venue", "DateTime")) {
+      if (routeName == "Venue" || routeName == "DateTime") {
         tabBarVisible = false;
       }
       return {
@@ -61,7 +61,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       var tabBarVisible = true;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if (routeName == "Chat") {
+      if (routeName == "Chat" || routeName == "Venue") {
         tabBarVisible = false;
       }
       return {

@@ -209,7 +209,10 @@ export default class Venue extends Component {
             }}
           >
             <Text
-              style={[{ flex: 0.5, textAlign: "center" }, textStyles.minorText]}
+              style={[
+                textStyles.minorText,
+                { flex: 0.5, textAlign: "center", fontFamily: "nunito-bold" },
+              ]}
             >
               {"From $" + this.state.venue.cost + " per person"}
             </Text>
