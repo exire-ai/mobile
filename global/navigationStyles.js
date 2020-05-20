@@ -15,6 +15,7 @@ export const navigationStyles = StyleSheet.create({
     fontFamily: 'nunito-semibold',
     fontSize: 24,
     fontWeight: '500',
+    width: '100%'
   },
   footer: {
     backgroundColor: colorScheme.footer,

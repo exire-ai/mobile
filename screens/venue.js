@@ -10,12 +10,17 @@ import {
   Button,
   Image,
 } from "react-native";
+import {
+  SafeAreaView
+} from 'react-navigation'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import { signInStyles } from "../global/signInStyles";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { shadow } from "react-native-paper";
 // import { Button } from "react-native-paper";
+import { navigationStyles } from "../global/navigationStyles";
 
 async function openLink(url) {
   try {
@@ -91,25 +96,40 @@ export default class Venue extends Component {
             source={{ uri: this.state.venue.imgURL }}
             style={{ width: "100%", height: "100%" }}
           >
-            <TouchableOpacity
-              style={{ padding: 15, marginLeft: 15, marginTop: 40 }}
-              onPress={() => {
-                this.props.navigation.pop();
-              }}
-            >
-              <Text
+//             <TouchableOpacity
+//               style={{ padding: 15, marginLeft: 15, marginTop: 40 }}
+//               onPress={() => {
+//                 this.props.navigation.pop();
+//               }}
+//             >
+//               <Text
+//                 style={{
+//                   color: "white",
+//                   fontSize: 32,
+//                   shadowColor: "black",
+//                   shadowRadius: 5,
+//                   shadowOpacity: 0.3,
+//                   shadowOffset: { width: 0, height: 2 },
+//                 }}
+//               >
+//                 X
+//               </Text>
+//             </TouchableOpacity>
+            <SafeAreaView>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={[navigationStyles.icon]}>
+              <Icon
+                name='chevron-left'
+                color='#FFF'
+                size={32}
                 style={{
-                  color: "white",
-                  fontSize: 32,
-                  shadowColor: "black",
-                  shadowRadius: 5,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 1 },
                   shadowOpacity: 0.3,
-                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 1,
                 }}
-              >
-                X
-              </Text>
+              />
             </TouchableOpacity>
+            </SafeAreaView>
           </ImageBackground>
         </View>
         <View
