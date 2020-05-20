@@ -36,8 +36,8 @@ export default class PlanDetail extends Component {
               flex: 0.65,
               alignItems: "flex-start",
               justifyContent: "flex-start",
-              marginLeft: 25,
-              width: "100%",
+              marginLeft: 5,
+              width: "90%",
             }}
           >
             <Text
