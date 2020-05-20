@@ -11,6 +11,41 @@ export default class VenueContent extends Component {
     };
   }
 
+  titleTextView = (title, subtitle) => {
+    console.log(subtitle);
+    if (subtitle) {
+      return (
+        <Text
+          style={[
+            {
+              color: "#fff",
+              fontFamily: "nunito-bold",
+              fontSize: 24,
+            },
+            shadowStyles.shadowDown,
+          ]}
+        >
+          {this.state.venue.title}
+        </Text>
+      );
+    } else {
+      return (
+        <Text
+          style={[
+            {
+              color: "#fff",
+              fontFamily: "nunito-bold",
+              fontSize: 18,
+            },
+            shadowStyles.shadowDown,
+          ]}
+        >
+          {this.state.venue.title}
+        </Text>
+      );
+    }
+  };
+
   subTextView = (subtitle) => {
     return (
       <Text
@@ -70,18 +105,10 @@ export default class VenueContent extends Component {
               marginLeft: 10,
             }}
           >
-            <Text
-              style={[
-                {
-                  color: "#fff",
-                  fontFamily: "nunito-bold",
-                  fontSize: 24,
-                },
-                shadowStyles.shadowDown,
-              ]}
-            >
-              {this.state.venue.title}
-            </Text>
+            {this.titleTextView(
+              this.state.venue.title,
+              this.state.venue.subtitle != null
+            )}
             {this.state.venue.subtitle != null
               ? this.subTextView(this.state.venue.subtitle)
               : null}

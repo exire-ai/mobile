@@ -5,7 +5,8 @@ import React from "react";
 import Chats from "../screens/Chats";
 import Chat from "../screens/chat";
 import ProfileIcon from "../components/ProfileIcon";
-import Venue from "../screens/venue";
+
+import Venue from "../screens/venueChat";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Style Imports
@@ -30,7 +31,7 @@ const screens = {
     navigationOptions: ({ navigation, screenProps }) => {
       return {
         headerShown: true,
-        headerShown: true,
+        title: navigation.getParam("name"),
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         title: navigation.getParam("name"),
@@ -70,7 +71,6 @@ const screens = {
 
 const ChatsStack = createStackNavigator(screens, {
   initialRouteName: "Chats",
-
   defaultNavigationOptions: {
     tabBarVisible: false,
   },

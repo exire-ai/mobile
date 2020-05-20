@@ -11,6 +11,7 @@ export default function Chat({
   message,
   navigate
 }) {
+  const notification = false
   var chat = (
     <TouchableOpacity 
       style={{alignItems: 'center'}}
@@ -18,7 +19,7 @@ export default function Chat({
     >
       <View style={[chatsStyles.chatContainer]}>
         <View style={{flexDirection: 'column', alignSelf: 'center'}}>
-          <View style={chatsStyles.notification}></View>
+          <View style={[chatsStyles.notification, {opacity: notification ? 100 : 0}]}></View>
         </View>
         <View style={{paddingLeft: 6, flexDirection: 'row', alignSelf: 'center'}}>
           <View style={[chatsStyles.profileImage, shadowStyles.shadowDown]}></View>

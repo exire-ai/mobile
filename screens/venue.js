@@ -9,8 +9,9 @@ import {
   Linking,
   Button,
   Image,
-  SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import { signInStyles } from "../global/signInStyles";
 import { textStyles } from "../global/textStyles";
@@ -250,7 +251,7 @@ export default class Venue extends Component {
             source={{ uri: this.state.venue.imgURL }}
             style={{ width: "100%", height: "100%" }}
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{ padding: 15, marginLeft: 15, marginTop: 40 }}
               onPress={() => {
                 this.props.navigation.pop();
@@ -268,7 +269,25 @@ export default class Venue extends Component {
               >
                 X
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <SafeAreaView>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.goBack()}
+                style={[navigationStyles.icon, { padding: 15 }]}
+              >
+                <Icon
+                  name="chevron-left"
+                  color="#FFF"
+                  size={32}
+                  style={{
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 1,
+                  }}
+                />
+              </TouchableOpacity>
+            </SafeAreaView>
           </ImageBackground>
         </View>
         <View
