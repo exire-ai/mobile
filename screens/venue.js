@@ -71,6 +71,45 @@ function MoreInfo({ url }) {
   }
 }
 
+const nameDict = {
+  artmuseums: ["Art", "🎨"],
+  museums: ["Museums", "🖼️"],
+  wine_bars: ["Wine", "🍷"],
+  speakeasies: ["Speakeasies", "🥃"],
+  japanese: ["Japanese", "🍱"],
+  bars: ["Bars", "🍺"],
+  barbeque: ["Barbeque", "🍖"],
+  extreme: ["Extreme", "🧨"],
+  cafe: ["Cafe", "☕"],
+  bakeries: ["Bakeries", "🥖"],
+  danceclubs: ["Clubs", "​🍾​"],
+  tea: ["Tea", "🍵"],
+  chinese: ["Chinese", "🥡"],
+  newamerican: ["American", "🥩"],
+  poke: ["Poke", "🍚"],
+  acaibowl: ["Acai", "🍓"],
+  burgers: ["Burgers", "🍔"],
+  dancing: ["Dancing", "💃"],
+  pizza: ["Pizza", "🍕"],
+  yoga: ["Yoga", "🧘"],
+  karaoke: ["Karaoke", "🎤"],
+  icecream: ["Ice Cream", "🍦"],
+  arcades: ["Arcades", "👾"],
+  mexican: ["Mexican", "🌮"],
+  oriental: ["Indian", "🇮🇳"],
+  sushi: ["Sushi", "🍣"],
+  markets: ["Markets", "🏬"],
+  parks: ["Parks", "🌲"],
+  sandwiches: ["Sandwiches", "🥪"],
+  artgalleries: ["Galleries", "🖌️"],
+  gelato: ["Gelato", "🍨"],
+  italian: ["Italian", "🍝"],
+  spa: ["Spa", "🧖‍♀️"],
+  cocktailbars: ["Cocktails", "🍸"],
+  pubs: ["Pubs", "🍻"],
+  rockclimbing: ["Rock Climbing", "🧗"],
+};
+
 export default class Venue extends Component {
   constructor(props) {
     super(props);
@@ -84,6 +123,124 @@ export default class Venue extends Component {
   }
 
   render() {
+    console.log(this.state.venue.type);
+    if (this.state.venue.type == "online-event") {
+      return (
+        <View style={styles.container}>
+          <View style={{ flex: 0.35, flexDirection: "row" }}>
+            <ImageBackground
+              source={{ uri: this.state.venue.imgURL }}
+              style={{ width: "100%", height: "100%" }}
+            >
+              <SafeAreaView>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.goBack()}
+                  style={[navigationStyles.icon, { padding: 15 }]}
+                >
+                  <Icon
+                    name="chevron-left"
+                    color="#FFF"
+                    size={32}
+                    style={{
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.3,
+                      shadowRadius: 1,
+                    }}
+                  />
+                </TouchableOpacity>
+              </SafeAreaView>
+            </ImageBackground>
+          </View>
+          <View
+            style={{
+              flex: 0.65,
+              width: "90%",
+              marginLeft: 5,
+              marginTop: 15,
+              alignItems: "flex-start",
+              flexDirection: "column",
+            }}
+          >
+            <Text style={[textStyles.titleText, { textAlign: "left" }]}>
+              {this.state.venue.title}
+            </Text>
+            <Text style={[textStyles.titleText, { textAlign: "left" }]}>
+              {this.state.venue.subtitle}
+            </Text>
+            <Text
+              style={[
+                textStyles.subBodyText,
+                { textAlign: "left", marginTop: 5 },
+              ]}
+            >
+              {this.state.venue.description}
+            </Text>
+            <View style={{ flexDirection: "row", marginTop: 5 }}>
+              <Image
+                style={{ width: 16, height: 16, marginTop: 4, marginRight: 10 }}
+                source={require("../assets/clock.png")}
+              />
+              <Text style={textStyles.minorText}>
+                {this.state.venue.duration + " hr"}
+              </Text>
+            </View>
+            {/* ----Line Separator---- */}
+            <View
+              style={{
+                width: "100%",
+                height: 1,
+                backgroundColor: "#DDD",
+                marginTop: 15,
+              }}
+            ></View>
+          </View>
+          <View
+            style={{
+              width: "100%",
+              position: "absolute",
+              height: 100,
+              bottom: 0,
+              flexDirection: "row",
+              flex: 1,
+            }}
+          >
+            <Text
+              style={[{ flex: 0.5, textAlign: "center" }, textStyles.minorText]}
+            >
+              {"From $" + this.state.venue.cost + " per person"}
+            </Text>
+            <View
+              style={{
+                flex: 0.5,
+                backgroundColor: "white",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.navigation.navigate("DateTime");
+                }}
+                style={[
+                  shadowStyles.shadowDown,
+                  {
+                    backgroundColor: "#007aff",
+                    width: "90%",
+                    padding: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 7,
+                  },
+                ]}
+              >
+                <Text style={textStyles.buttonText}>See times</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <View style={{ flex: 0.35, flexDirection: "row" }}>
@@ -132,7 +289,7 @@ export default class Venue extends Component {
                 { textAlign: "left", marginRight: 10, marginTop: 4 },
               ]}
             >
-              {this.state.venue.subcategory}
+              {nameDict[this.state.venue.subcategory][0]}
             </Text>
             <View
               style={{
@@ -159,6 +316,28 @@ export default class Venue extends Component {
                 : "$"}
             </Text>
           </View>
+          <Text
+            style={[
+              textStyles.minorText,
+              {
+                textAlign: "left",
+                marginTop: 5,
+              },
+            ]}
+          >
+            Open Today{" "}
+            {this.state.venue.open > 24
+              ? this.state.venue.open - 24 + " AM "
+              : this.state.venue.open > 12
+              ? this.state.venue.open - 12 + " PM "
+              : this.state.venue.open + " AM "}
+            -{" "}
+            {this.state.venue.closed > 24
+              ? this.state.venue.closed - 24 + " AM"
+              : this.state.venue.closed > 12
+              ? this.state.venue.closed - 12 + " PM"
+              : this.state.venue.closed + " AM"}
+          </Text>
 
           <Text
             style={[
@@ -226,37 +405,6 @@ export default class Venue extends Component {
             <Text style={textStyles.buttonText}>Planning a visit?</Text>
           </TouchableOpacity>
         </View>
-        {/* <View
-          style={{
-            width: "100%",
-            position: "absolute",
-            backgroundColor: "red",
-            height: 100,
-            bottom: 0,
-            flexDirection: "row",
-            flex: 1,
-          }}
-        >
-          <Text style={{ flex: 0.5 }}>From $22 per person</Text>
-          <View
-            style={{
-              flex: 0.5,
-              backgroundColor: "white",
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#007aff",
-                width: "90%",
-                padding: 10,
-              }}
-            >
-              <Text>Planning to go?</Text>
-            </TouchableOpacity>
-          </View> 
-        </View> */}
       </View>
     );
   }
