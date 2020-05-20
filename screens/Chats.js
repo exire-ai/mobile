@@ -19,8 +19,10 @@ export default class Chats extends Component {
   constructor(props) {
     super(props);
     AsyncStorage.getItem("userID").then((value) => {
-      this.state.userID = value;
-      this.loadData()
+      this.setState({
+        userID: value
+      })
+      this.loadData(false)
     })
   }
 
@@ -29,16 +31,31 @@ export default class Chats extends Component {
     refreshing: false
   }
 
-  loadData = () => {
-    this.setState({
-      refreshing: true
-    })
+  componentDidMount() {
+    // not using observer bc can't get return / callback / promise / state update working
+    this._interval = setInterval(() => {
+      // this.loadData(false)
+    }, 100000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._interval)
+  }
+
+  loadData = (refresh) => {
+    if (refresh) {
+      this.setState({
+        refreshing: true
+      })
+    }
     this.db.collection('chats')
     .where("users", "array-contains", this.state.userID)
     .get()
     .then(querySnapshot => {
-      // console.log(querySnapshot)
-      const data = querySnapshot.docs.map(doc => doc.data());
+      const data = querySnapshot.docs.map(doc => { 
+        var temp = doc.data() 
+        return temp
+      });
       this.setState({
         refreshing: false,
         data: data
@@ -48,10 +65,11 @@ export default class Chats extends Component {
 
   timeConvert(unix) {
     var now = Math.round(new Date().getTime()/1000)
-    var res = new Date(unix * 1000)
+    var res = new Date(unix)
     if (unix + 86400 > now) {
       var hours = res.getHours()
-      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + res.getMinutes() + (hours > 12 ? "pm" : "am") 
+      var minutes = res.getMinutes()
+      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? '0' : '') + minutes + (hours > 12 ? "pm" : "am") 
     } else if (unix + 518400 > now) {
       return res.getDay()
     } else {
@@ -68,17 +86,17 @@ export default class Chats extends Component {
           data={this.state.data}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
-            this.loadData();
+            this.loadData(true);
           }}
           refreshing={this.state.refreshing}
-          keyExtratctor={(item, index) => "key" + index}
+          keyExtratctor={(item, index) => "key" + item.name}
           renderItem={({ item, index }) => (
             <Chat
               name={item.name}
               time={item.messages.length > 0 ? this.timeConvert(item.messages[item.messages.length - 1].time) : ''}
               message={item.messages.length > 0 ? item.messages[item.messages.length - 1].message : "Send your first message!"}
               navigate={() => {
-                this.props.navigation.navigate("Chat", {chatID: 'test'});
+                this.props.navigation.navigate("Chat", {chatID: item.chatID, userID: this.state.userID});
               }}
             />
           )}
