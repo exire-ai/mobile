@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text} from 'react-native';
+import { View, Text, ImageBackground} from 'react-native';
 
 // Styles Imports
 import { shadowStyles } from '../global/shadowStyles';
@@ -10,6 +10,7 @@ export function Message({
   name,
   message,
   time,
+  imgURL
 }) {
   if (message.includes('@Emma')) {
     var temp = message.split("@Emma")
@@ -33,7 +34,10 @@ export function Message({
   var MessageObj = (
     <View style={[messagesStyles.chatContainer]}>
     <View style={{paddingLeft: 6, flexDirection: 'row'}}>
-      <View style={[messagesStyles.profileImage, shadowStyles.shadowDown]}></View>
+      <View style={[messagesStyles.profileImage, shadowStyles.shadowDown]}>
+        <ImageBackground source={{uri: imgURL}} style={{width: 48, height: 48}}>
+        </ImageBackground>
+      </View>
     </View>
     <View style={{flex: 1, paddingTop: 8, paddingLeft: 8}}>
       <View style={{flexDirection: 'row', width: '100%', alignItems: 'center'}}>

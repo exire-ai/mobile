@@ -6,7 +6,9 @@ import { shadowStyles } from "../global/shadowStyles";
 import { chatsStyles } from "../global/chatsStyles";
 
 export default function Chat({
-  data,
+  name,
+  time,
+  message,
   navigate
 }) {
   var chat = (
@@ -23,10 +25,10 @@ export default function Chat({
         </View>
         <View style={{flex: 1, paddingTop: 8, paddingLeft: 8}}>
           <View style={{flexDirection: 'row', width: '100%', alignItems: 'center'}}>
-            <Text style={chatsStyles.name}>{data.name}</Text>
-            <Text style={[chatsStyles.text, {paddingLeft: 27}]}>{data.time}</Text>
+            <Text style={chatsStyles.name}>{name}</Text>
+            <Text style={[chatsStyles.text, {position: 'absolute', right: 10}]}>{time}</Text>
           </View>
-          <Text style={[chatsStyles.text, { marginTop: -1}]}>{data.message}</Text>
+          <Text style={[chatsStyles.text, { marginTop: -1}]}>{message}</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Components Imports
@@ -11,45 +11,21 @@ import { chatsStyles } from "../global/chatsStyles";
 import { plansStyles } from "../global/plansStyles";
 import SearchBar from "../components/SearchBar";
 
-const data = [
-  {
-    name: "Emma (personal assistant)",
-    people: [
-      {
-        name: "Elayna",
-        imageURL:
-          "https://www.rsaconference.com/-/media/rsac/import/expertimages/2019/12/17/20/40/ian-goodfellow.jpg?mw=300&mh=300&hash=DD20512641B958BF015B012AB1E1C754A34345E0",
-      },
-      {
-        name: "Riley",
-        imageURL:
-          "https://www.rsaconference.com/-/media/rsac/import/expertimages/2019/12/17/20/40/ian-goodfellow.jpg?mw=300&mh=300&hash=DD20512641B958BF015B012AB1E1C754A34345E0",
-      },
-    ],
-    time: "5:30 PM",
-    message: "Hello Hayden! I can help you create ...",
-  },
-  {
-    name: "Emma (personal assistant)",
-    people: [
-      {
-        name: "Emma",
-        imageURL:
-          "https://www.rsaconference.com/-/media/rsac/import/expertimages/2019/12/17/20/40/ian-goodfellow.jpg?mw=300&mh=300&hash=DD20512641B958BF015B012AB1E1C754A34345E0",
-      },
-    ],
-    time: "5:30 PM",
-    message: "Hello Hayden! I can help you create ...",
-  },
-];
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 export default class Chats extends Component {
+  db = firebase.firestore();
   constructor(props) {
     super(props);
+    AsyncStorage.getItem("userID").then((value) => {
+      this.state.userID = value;
+      this.loadData()
+    })
   }
 
   state = {
-    data: data,
+    data: [],
     refreshing: false
   }
 
@@ -57,11 +33,30 @@ export default class Chats extends Component {
     this.setState({
       refreshing: true
     })
-    setTimeout(() => {
+    this.db.collection('chats')
+    .where("users", "array-contains", this.state.userID)
+    .get()
+    .then(querySnapshot => {
+      // console.log(querySnapshot)
+      const data = querySnapshot.docs.map(doc => doc.data());
       this.setState({
-        refreshing: false
+        refreshing: false,
+        data: data
       })
-    }, 300)
+    })
+  }
+
+  timeConvert(unix) {
+    var now = Math.round(new Date().getTime()/1000)
+    var res = new Date(unix * 1000)
+    if (unix + 86400 > now) {
+      var hours = res.getHours()
+      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + res.getMinutes() + (hours > 12 ? "pm" : "am") 
+    } else if (unix + 518400 > now) {
+      return res.getDay()
+    } else {
+      return res.getMonth() + "/" + res.getDay()
+    }
   }
 
   render() {
@@ -70,20 +65,20 @@ export default class Chats extends Component {
         <SearchBar />
         <FlatList
           style={chatsStyles.list}
-          data={data}
+          data={this.state.data}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
             this.loadData();
           }}
           refreshing={this.state.refreshing}
-          keyExtratctor={(item, index) => "key" + index + "name" + item.name}
+          keyExtratctor={(item, index) => "key" + index}
           renderItem={({ item, index }) => (
             <Chat
-              data={item}
+              name={item.name}
+              time={item.messages.length > 0 ? this.timeConvert(item.messages[0].time) : ''}
+              message={item.messages.length > 0 ? item.messages[0].message : "Send your first message!"}
               navigate={() => {
-                this.props.navigation.setParams({ routeName: "yooo" });
-                console.log(this.props.navigation);
-                this.props.navigation.navigate("Chat");
+                this.props.navigation.navigate("Chat", {chatID: 'test'});
               }}
             />
           )}

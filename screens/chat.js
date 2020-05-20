@@ -6,35 +6,59 @@ import { colorScheme } from "../global/colorScheme";
 import { shadowStyles } from "../global/shadowStyles";
 import dialogflow from "../functions/dialogflow";
 
+// FIRESTORE
+// import firestore from '@react-native-firebase/firestore';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 export default class Chat extends React.Component {
+  db = firebase.firestore();
   constructor(props) {
     super(props);
     AsyncStorage.getItem("userID").then((value) => {
       this.state.userID = value;
     })
+    this.getChat()
   }
 
   state = {
-    messages: [
-      {
-        name: "Emma",
-        message:
-          "Hello! I’m here to help creating plans. To ask me questions, just tag me with @Emma and I can help you: discover things to do, find when everyone is free, create a plan, and much more!",
-        time: "5:31pm",
-      },
-    ],
+    messages: [],
     text: '',
-    inverse: 1
+    inverse: 1,
+    chatID : 'Dc0rmQsGtRZevyQeT1kG'
   };
+
+  getChat() {
+    this.db.collection('chats')
+      .doc(this.state.chatID)
+      .get()
+      .then(doc => {
+        var data = doc.data()
+        this.setState({
+          messages: data.messages,
+          users: data.userData,
+          owner: this.state.userID == data.ownerID ? true : false,
+          name: data.name
+        })
+      })
+  }
+
+  addMessage(message) {
+    this.db.collection('chats')
+      .doc(this.state.chatID)
+      .update({
+        messages: firebase.firestore.FieldValue.arrayUnion(message)
+      })
+  }
 
   sendMessage = () => {
     var messages = this.state.messages
     var message = {
-      name: 'You',
+      userID: this.state.userID,
       message: this.state.text,
-      time: '6:51pm'
+      time: Math.round(new Date().getTime()),
+      special: {}
     }
-    console.log(this.state.inverse)
     if (this.state.inverse == 1) {
       messages.push(message)
     } else {
@@ -50,6 +74,7 @@ export default class Chat extends React.Component {
     }
     this.clearText()
     this.checkSize()
+    this.addMessage(message)
   }
 
   clearText = () => {
@@ -68,10 +93,8 @@ export default class Chat extends React.Component {
   }
 
   emma = (message) => {
-    console.log(this.state.userID, message)
     dialogflow.sendMessage(this.state.userID, message, (data) => {
       var parsedData;
-      console.log(data)
       try {
         parsedData = JSON.parse(data.fulfillmentText);
       } catch (e) {
@@ -91,8 +114,8 @@ export default class Chat extends React.Component {
 
       var newMessage = {
         message: parsedData.text,
-        name: "Emma",
-        venues: [],
+        userID: "emma",
+        special: {},
         time: Math.round(new Date().getTime()),
       };
       var messages = this.state.messages
@@ -105,7 +128,21 @@ export default class Chat extends React.Component {
         messages: messages
       })
       this.checkSize()
+      this.addMessage(newMessage)
     })
+  }
+  
+  timeConvert(unix) {
+    var now = Math.round(new Date().getTime()/1000)
+    var res = new Date(unix * 1000)
+    if (unix + 86400 > now) {
+      var hours = res.getHours()
+      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + res.getMinutes() + (hours > 12 ? "pm" : "am") 
+    } else if (unix + 518400 > now) {
+      return res.getDay()
+    } else {
+      return res.getMonth() + "/" + res.getDay()
+    }
   }
 
   render() {
@@ -120,13 +157,18 @@ export default class Chat extends React.Component {
             style={styles.list}
             data={this.state.messages}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => "key" + index + "time" + item.name}
+            keyExtractor={(item, index) => "key" + index + "time" + item.senderID}
             inverted={this.state.inverse == 1 ? false : -1}
             renderItem={({ item, index }) => (
               <Message
                 message={item.message}
-                name={item.name}
-                time={item.time}
+                name={this.state.users.find(
+                  (o) => o.userID == item.userID
+                ).name}
+                time={this.timeConvert(item.time)}
+                imgURL={this.state.users.find(
+                  (o) => o.userID == item.userID
+                ).imgURL}
               />
             )}
           />

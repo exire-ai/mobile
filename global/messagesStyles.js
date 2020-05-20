@@ -15,10 +15,10 @@ export const messagesStyles = StyleSheet.create({
     },
     profileImage: {
         marginTop: 15,
-        backgroundColor: colorScheme.primary, 
         height: 48, 
         width: 48, 
-        borderRadius: 24
+        borderRadius: 24,
+        overflow: 'hidden'
     },
     name: {
         fontFamily: "nunito-bold", 

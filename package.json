@@ -10,6 +10,9 @@
   "dependencies": {
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/masked-view": "^0.1.7",
+    "@react-native-firebase/app": "^7.0.1",
+    "@react-native-firebase/auth": "^7.0.2",
+    "@react-native-firebase/firestore": "^7.0.1",
     "@react-navigation/drawer": "^5.4.0",
     "@react-navigation/native": "^5.0.9",
     "expo": "~36.0.0",
@@ -26,6 +29,7 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-animated-ellipsis": "^2.0.0",
+    "react-native-appearance": "~0.3.1",
     "react-native-autogrow-input": "^0.2.1",
     "react-native-cached-image": "^1.4.3",
     "react-native-dark-mode": "^0.2.2",
@@ -56,8 +60,7 @@
     "react-navigation-material-bottom-tabs": "^2.2.12",
     "react-navigation-stack": "^2.2.3",
     "react-navigation-tabs": "^2.8.13",
-    "react-navigation-transitions": "^1.0.12",
-    "react-native-appearance": "~0.3.1"
+    "react-navigation-transitions": "^1.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
