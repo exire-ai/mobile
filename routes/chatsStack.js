@@ -63,6 +63,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerShown: false,
+        gestureEnabled: false
       };
     },
   },

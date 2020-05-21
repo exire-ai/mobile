@@ -19,7 +19,6 @@ import { shadowStyles } from "../global/shadowStyles";
 import { shadow } from "react-native-paper";
 import { navigationStyles } from "../global/navigationStyles";
 import { colorScheme } from "../global/colorScheme";
-// import { Button } from "react-native-paper";
 
 async function openLink(url) {
   try {

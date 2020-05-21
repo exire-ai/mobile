@@ -7,8 +7,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import GetStarted from '../screens/getStarted';
 import PhoneInput from '../screens/phoneInput';
 import TextVerification from '../screens/textVerification';
+import Name from '../screens/name';
 import ActivityPreference from '../screens/activityPreference';
 import FoodPreference from '../screens/foodPreference';
+import { colorScheme } from "../global/colorScheme";
+import { shadowStyles } from '../global/shadowStyles';
 
 const screens = {
   GetStarted: {
@@ -23,26 +26,7 @@ const screens = {
     screen: PhoneInput,
     navigationOptions: ({ navigation }) => {
       return {
-        headerShown: true,
-        title: 'Phone Number',
-        headerStyle: navigationStyles.header,
-        headerTitleStyle: navigationStyles.headerTitle,
-        headerTitleAlign: 'center',
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('GetStarted')} style={navigationStyles.icon}>
-            <Icon
-              name='chevron-left'
-              color='#FFF'
-              size={32}
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 1 },
-                shadowOpacity: 0.3,
-                shadowRadius: 1,
-              }}
-            />
-          </TouchableOpacity>
-        ),
+        headerShown: false
       }
     }
   },
@@ -50,13 +34,15 @@ const screens = {
     screen: TextVerification,
     navigationOptions: ({ navigation }) => {
       return {
-        headerShown: true,
-        title: 'Verification',
-        headerStyle: navigationStyles.header,
-        gestureEnabled: false,
-        headerTitleStyle: navigationStyles.headerTitle,
-        headerTitleAlign: 'center',
-        headerLeft: () => { return null }
+        headerShown: false
+      }
+    }
+  },
+  Name: {
+    screen: Name,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: false
       }
     }
   },
@@ -70,7 +56,24 @@ const screens = {
         gestureEnabled: false,
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: 'center',
-        headerLeft: () => { return null }
+        headerLeft: () => {
+          var tempFunc;
+          if (navigation.dangerouslyGetParent().state.routes[0].routeName == 'GetStarted') {
+            tempFunc = () => navigation.navigate("GetStarted")
+          } else {
+            tempFunc = () => navigation.goBack()
+          }
+          return (
+            <TouchableOpacity onPress={tempFunc} style={navigationStyles.icon}>
+              <Icon
+                name='chevron-left'
+                color='#FFF'
+                size={32}
+                style={shadowStyles.shadowDown}
+              />
+            </TouchableOpacity>
+          )
+        }
       }
     }
   },
@@ -84,17 +87,12 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: 'center',
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('ActivityPreference')} style={navigationStyles.icon}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={navigationStyles.icon}>
             <Icon
               name='chevron-left'
               color='#FFF'
               size={32}
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 1 },
-                shadowOpacity: 0.3,
-                shadowRadius: 1,
-              }}
+              style={shadowStyles.shadowDown}
             />
           </TouchableOpacity>
           ),

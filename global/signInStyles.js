@@ -8,32 +8,29 @@ export const signInStyles = StyleSheet.create({
     justifyContent: 'center'
   },
   headerText: {
-    fontFamily: 'karla-regular',
+    fontFamily: 'nunito-regular',
     fontSize: 30,
-    color: colorScheme.darkText,
-    fontWeight: '600'
+    color: colorScheme.lessDarkText,
   },
   subHeaderText: {
-    fontFamily: 'karla-regular',
+    fontFamily: 'nunito-regular',
     fontSize: 18,
-    color: colorScheme.lessDarkText,
+    color: colorScheme.lesserDarkText,
     padding: '5%',
-    fontWeight: '400',
     textAlign: 'center'
   },
   input: {
     width: '85%',
-    borderWidth: 1,
-    borderColor: colorScheme.lessDarkText,
     margin: 8,
     padding: 18,
     borderRadius: 35,
-    fontSize: 24,
+    fontSize: 28,
+    color: colorScheme.lessDarkText
   },
   button: {
     backgroundColor: colorScheme.primary,
     width: '45%',
-    padding: 18,
+    padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
@@ -42,9 +39,8 @@ export const signInStyles = StyleSheet.create({
     shadowRadius: 1,
   },
   buttonText: {
-    fontFamily: 'karla-bold',
+    fontFamily: 'nunito-semibold',
     color: colorScheme.primaryText,
     fontSize: 24,
-    fontWeight: '500'
   }
 });

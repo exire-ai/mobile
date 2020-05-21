@@ -9,40 +9,29 @@ import { colorScheme } from "../global/colorScheme";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function TextVerification({ navigation }) {
-  const data = navigation.getParam("data").data;
-  const userExist = navigation.getParam("userExist");
+export default function Name({ navigation }) {
+  const number = navigation.getParam("number");
+  const userID = navigation.getParam("userID");
+  const categories = navigation.getParam("categories");
+
+  function next() {
+    users.createUser(userID, value, number, (result) => {
+      AsyncStorage.setItem("userID", userID);
+      AsyncStorage.setItem("name", value);
+      AsyncStorage.setItem("number", number);
+      navigation.navigate("ActivityPreference", {
+        userID: userID,
+        categories: categories,
+        userCategories: [],
+      });
+    });
+  }
 
   const [value, changeText] = React.useState("");
-  const [errorMsg, changeErrorMsg] = React.useState("#fff");
-
-  var userID = uuid.v4();
-
-  function onChangeText(text) {
-    changeText(text);
-    if (text == data.code) {
-      if (!userExist) {
-        navigation.navigate("Name", {
-          userID: userID,
-          number: data.number,
-          categories: navigation.getParam("categories")
-        })
-      } else {
-        users.getByNumber(data.number, (result) => {
-          AsyncStorage.setItem("userID", result.userID);
-          AsyncStorage.setItem("name", result.name);
-          AsyncStorage.setItem("number", data.number);
-          navigation.navigate("HomeStack");
-        });
-      }
-    } else {
-      changeErrorMsg(text.length > 5 ? "#8b0000" : "#fff");
-    }
-  }
   return (
         <View style={{height: '100%', width: '100%', backgroundColor: colorScheme.footer}}>
         <SafeAreaView style={styles.container}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={[navigationStyles.icon, { width: '100%' }]}>
+          <TouchableOpacity onPress={() => navigation.navigate("PhoneInput")} style={[navigationStyles.icon, { width: '100%' }]}>
             <Icon
               name='chevron-left'
               color={colorScheme.lessDarkText}
@@ -52,20 +41,20 @@ export default function TextVerification({ navigation }) {
           </TouchableOpacity>
           <View style={{ height: 500, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
             <View style={signInStyles.textContainer}>
-              <Text style={signInStyles.headerText}>What's your code?</Text>
+              <Text style={signInStyles.headerText}>What's your name?</Text>
               <Text style={signInStyles.subHeaderText}>
-              You should receive an SMS verification code shortly.
+              This is so your friends know it's you.
             </Text>
             </View>
             <View style={{alignItems: 'center'}}>
             <TextInput
               style={signInStyles.input}
               style={signInStyles.input}
-              keyboardType={"phone-pad"}
-              placeholder="123456"
+              keyboardType={"name-phone-pad"}
+              placeholder="Your Name"
               textAlign={"left"}
               autoFocus={true}
-              onChangeText={(text) => onChangeText(text)}
+              onChangeText={(text) => changeText(text)}
               value={value}
               selectionColor={colorScheme.button}
               placeholderTextColor={colorScheme.veryLight}
@@ -85,7 +74,7 @@ export default function TextVerification({ navigation }) {
               marginLeft: '82%',
               marginBottom: 20
             }]}
-            onPress={console.log("next tapped")}
+            onPress={next}
           >
             <Icon
               name='chevron-right'

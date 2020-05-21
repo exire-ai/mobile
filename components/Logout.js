@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { NavigationActions } from 'react-navigation'
 
 // Style Imports
 import { shadowStyles } from "../global/shadowStyles";
@@ -9,7 +10,7 @@ import { drawerStyles } from "../global/drawerStyles";
 
 const logout = (navigation) => {
   AsyncStorage.multiSet([["name", ""], ["userID", ""]], () => {
-    navigation.navigate("SignInStack");
+    navigation.navigate("SignInStack", {}, NavigationActions.navigate({routeName: "GetStarted"}));
   });
 };
 
