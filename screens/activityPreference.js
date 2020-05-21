@@ -5,11 +5,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Dimensions,
   Image,
 } from "react-native";
 import ProgressiveImage from "../components/ProgressiveImage";
 import { signInStyles } from "../global/signInStyles";
+import { colorScheme } from "../global/colorScheme";
+import { shadowStyles } from "../global/shadowStyles";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function Category({
   key,
@@ -24,22 +26,42 @@ function Category({
   function renderSelectedImage() {
     if (selected) {
       return (
-        <Image
-          style={{
-            height: 50,
-            width: 50,
-          }}
-          source={require("../assets/check.png")}
-        />
+        <View
+          style={[{
+            width: 35,
+            height: 35,
+            backgroundColor: colorScheme.activeButton,
+            position: 'absolute',
+            right: 10,
+            top: 10,
+            borderRadius: 17.5
+          }, shadowStyles.shadowDown]}
+        >
+          <Icon
+            name='check'
+            color={colorScheme.primaryText}
+            size={28}
+            style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 4 }]}
+          />
+        </View>
       );
     } else {
-      return null;
+      return (<View
+        style={{
+          height: 20,
+          width: 20,
+          position: 'absolute',
+          right: 10,
+          top: 10,
+          width: '100%'
+        }}
+      />)
     }
   }
 
   return (
     <View style={styles.itemContainer}>
-      <TouchableOpacity onPress={() => onSelect(key)}>
+      <TouchableOpacity activeOpacity={.8} onPress={() => onSelect(key)}>
         <ProgressiveImage
           thumbnailSource={{ uri: lowUrl }}
           source={{ uri: ogUrl }}
@@ -50,9 +72,7 @@ function Category({
           style={[
             styles.itemContent,
             {
-              backgroundColor: selected
-                ? "rgba(0,0,169,.65)"
-                : "rgba(0,0,0,.15)",
+              backgroundColor: selected ? "rgba(0,0,0,.35)" : "rgba(0,0,0,.15)",
               blurRadius: selected ? 1 : 0,
             },
           ]}
@@ -133,16 +153,21 @@ export default class CategoryPreference extends React.Component {
       selectedCategories: priorSelected(),
       categoryData: categoryData,
       userCategories: userCategories,
+      seletected: []
     };
   }
 
   next = () => {
-    this.props.navigation.navigate("FoodPreference", {
-      userID: this.props.navigation.state.params.userID,
-      categoryData: this.state.categoryData,
-      selected: this.state.selectedCategories,
-      userCategories: this.state.userCategories,
-    });
+    if (this.state.selectedCategories.length > 2) {
+      this.props.navigation.navigate("FoodPreference", {
+        userID: this.props.navigation.state.params.userID,
+        categoryData: this.state.categoryData,
+        selected: this.state.selectedCategories,
+        userCategories: this.state.userCategories,
+      });
+    } else {
+      console.log("warning, not enough selected")
+    }
   };
 
   render() {
@@ -150,11 +175,10 @@ export default class CategoryPreference extends React.Component {
       <View style={styles.container}>
         <Text
           style={[
-            signInStyles.subHeaderText,
-            { padding: "5%", backgroundColor: "#eee", width: "100%" },
+            { width: "100%", paddingHorizontal: 50, paddingVertical: 10, textAlign: 'center', fontFamily: 'nunito-semibold', fontSize: 19, color: colorScheme.darkText},
           ]}
         >
-          Tell us what you are interested in!
+          Choose at least 3 interests to set up your recommendations
         </Text>
         <FlatList
           style={styles.list}
@@ -194,7 +218,7 @@ export default class CategoryPreference extends React.Component {
             />
           )}
         />
-        <TouchableOpacity style={styles.doneButton} onPress={this.next}>
+        <TouchableOpacity style={[styles.doneButton, {backgroundColor: this.state.selectedCategories.length > 2 ? colorScheme.button : colorScheme.activeButton}]} onPress={this.next}>
           <Text style={signInStyles.buttonText}>Next</Text>
         </TouchableOpacity>
       </View>
@@ -205,7 +229,7 @@ export default class CategoryPreference extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colorScheme.componentBackground,
     alignItems: "center",
   },
   buttonText: {
@@ -219,7 +243,6 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
   },
   doneButton: {
-    backgroundColor: "#3597e9",
     width: "100%",
     height: 80,
     alignItems: "center",
@@ -228,16 +251,15 @@ const styles = StyleSheet.create({
   itemContainer: {
     flex: 1,
     flexDirection: "column",
-    borderRadius: 16,
-    margin: Dimensions.get("screen").width * 0.025,
-    height: Dimensions.get("screen").width * 0.45,
+    borderRadius: 10,
+    marginTop: 5,
+    marginLeft: 5,
+    height: 195,
     overflow: "hidden",
   },
   itemContent: {
     width: "100%",
     aspectRatio: 1,
-    justifyContent: "center",
-    alignItems: "center",
     position: "absolute",
     top: 0,
     left: 0,
@@ -247,13 +269,15 @@ const styles = StyleSheet.create({
   itemText: {
     fontFamily: "nunito-semibold",
     color: "white",
-    fontSize: 28,
-    fontWeight: "600",
+    fontSize: 26,
     marginHorizontal: 8,
     textAlign: "center",
+    marginTop: 85
   },
   list: {
     flex: 1,
-    width: "100%",
+    width: "97%",
+    alignContent: 'center',
+    paddingRight: 5
   },
 });

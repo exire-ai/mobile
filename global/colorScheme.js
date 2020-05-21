@@ -19,7 +19,7 @@ export const colorScheme = {
   logo: '#3597e9'
 }
 
-export const darkcolorScheme = {
+export const dcolorScheme = {
   primary: '#243451',
   background: '#191e28',
   button: '#328232',
