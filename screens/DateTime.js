@@ -116,8 +116,8 @@ export default class DateTime extends Component {
   }
 
   selectedDate = (day) => {
-    const selectedDate = { [day.dateString]: { selected: true } };
-    var obj = {};
+    // const selectedDate = { [day.dateString]: { selected: true } };
+    var obj = null;
     for (var i = 0; i < availableBookings.length; i++) {
       if (availableBookings[i].date == day.dateString) {
         obj = availableBookings[i];

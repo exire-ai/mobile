@@ -45,8 +45,7 @@ export default class BookingInvite extends Component {
           >
             <TouchableOpacity
               onPress={() => {
-                // this.props.navigation.navigate("DateTime");
-                console.log("NAVIGATE NOW");
+                this.props.navigation.navigate("ReviewPurchase");
               }}
               style={[
                 shadowStyles.shadowDown,

@@ -8,6 +8,7 @@ import Discover from "../screens/Discover";
 import Venue from "../screens/venue";
 import DateTime from "../screens/DateTime";
 import BookingInvite from "../screens/BookingInvite";
+import ReviewPurchase from "../screens/ReviewPurchase";
 
 import ProfileIcon from "../components/ProfileIcon";
 
@@ -59,6 +60,19 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerTitle: "Invite",
+        headerTintColor: "white",
+      };
+    },
+  },
+  ReviewPurchase: {
+    screen: ReviewPurchase,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: "center",
+        headerTitle: "Review Purchase",
         headerTintColor: "white",
       };
     },

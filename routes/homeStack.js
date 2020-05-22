@@ -30,7 +30,8 @@ const screens = {
       if (
         routeName == "Venue" ||
         routeName == "DateTime" ||
-        routeName == "BookingInvite"
+        routeName == "BookingInvite" ||
+        routeName == "ReviewPurchase"
       ) {
         tabBarVisible = false;
       }
