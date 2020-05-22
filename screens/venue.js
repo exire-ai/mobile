@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Linking,
   Image,
-  Platform
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -61,7 +61,7 @@ function MoreInfo({ url }) {
         style={[
           signInStyles.button,
           { position: "absolute", bottom: "5%", width: "85%", left: "7.5%" },
-          shadowStyles.shadowDown
+          shadowStyles.shadowDown,
         ]}
         onPress={() => {
           linkOpen(url);
@@ -131,7 +131,12 @@ export default class Venue extends Component {
     if (this.state.venue.type == "online-event") {
       return (
         <View style={styles.container}>
-          <View style={[{ flex: 0.35, flexDirection: "row" }, shadowStyles.shadowDown]}>
+          <View
+            style={[
+              { flex: 0.35, flexDirection: "row" },
+              shadowStyles.shadowDown,
+            ]}
+          >
             <ImageBackground
               source={{ uri: this.state.venue.imgURL }}
               style={{ width: "100%", height: "100%" }}
@@ -161,11 +166,27 @@ export default class Venue extends Component {
               flexDirection: "column",
             }}
           >
-            <View style={{ borderBottomColor: colorScheme.veryLight, borderBottomWidth: 1, paddingBottom: 10, width: '95%' }}>
+            <View
+              style={{
+                borderBottomColor: colorScheme.veryLight,
+                borderBottomWidth: 1,
+                paddingBottom: 10,
+                width: "95%",
+              }}
+            >
               <Text style={[textStyles.titleText, { textAlign: "left" }]}>
                 {this.state.venue.title}
               </Text>
-              <Text style={[textStyles.titleText, { textAlign: "left", fontSize: 22, color: colorScheme.lessDarkText }]}>
+              <Text
+                style={[
+                  textStyles.titleText,
+                  {
+                    textAlign: "left",
+                    fontSize: 22,
+                    color: colorScheme.lessDarkText,
+                  },
+                ]}
+              >
                 {this.state.venue.subtitle}
               </Text>
               <Text
@@ -178,7 +199,12 @@ export default class Venue extends Component {
               </Text>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
                 <Image
-                  style={{ width: 16, height: 16, marginTop: 4, marginRight: 10 }}
+                  style={{
+                    width: 16,
+                    height: 16,
+                    marginTop: 4,
+                    marginRight: 10,
+                  }}
                   source={require("../assets/clock.png")}
                 />
                 <Text style={textStyles.minorText}>
@@ -195,8 +221,8 @@ export default class Venue extends Component {
               bottom: 10,
               flexDirection: "row",
               flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center'
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Text
@@ -211,12 +237,12 @@ export default class Venue extends Component {
               style={{
                 flex: 0.5,
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
             >
               <TouchableOpacity
                 onPress={() => {
-                  this.props.navigation.navigate("DateTime");
+                  this.props.navigation.navigate("DateTime", this.state.venue);
                 }}
                 style={[
                   shadowStyles.shadowDown,
@@ -237,130 +263,225 @@ export default class Venue extends Component {
         </View>
       );
     } else {
-      if (this.state.venue.latitude != 0 && this.state.venue.latitude != null && this.state.venue.longitude != 0 && this.state.venue.longitude != null) {
+      if (
+        this.state.venue.latitude != 0 &&
+        this.state.venue.latitude != null &&
+        this.state.venue.longitude != 0 &&
+        this.state.venue.longitude != null
+      ) {
         var navigationButton = (
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <TouchableOpacity
-              style={[shadowStyles.shadowDown, {
-                backgroundColor: colorScheme.button,
-                height: 50,
-                width: 50,
-                borderRadius: 25,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginHorizontal: 10
-              }]}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor: colorScheme.button,
+                  height: 50,
+                  width: 50,
+                  borderRadius: 25,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginHorizontal: 10,
+                },
+              ]}
               onPress={() => {
-                Linking.openURL(Platform.select({
-                  ios: 'http://maps.apple.com/maps/?q=' + this.state.venue.latitude + "," + this.state.venue.longitude,
-                  android: 'http://maps.google.com/maps/search/query=' + this.state.venue.latitude + "," + this.state.venue.longitude
-
-                }))
+                Linking.openURL(
+                  Platform.select({
+                    ios:
+                      "http://maps.apple.com/maps/?q=" +
+                      this.state.venue.latitude +
+                      "," +
+                      this.state.venue.longitude,
+                    android:
+                      "http://maps.google.com/maps/search/query=" +
+                      this.state.venue.latitude +
+                      "," +
+                      this.state.venue.longitude,
+                  })
+                );
               }}
             >
               <Icon
-                name='map-pin'
+                name="map-pin"
                 color={colorScheme.primaryText}
                 size={28}
-                style={[shadowStyles.shadowDown, { paddingLeft: 1, paddingTop: 1 }]}
+                style={[
+                  shadowStyles.shadowDown,
+                  { paddingLeft: 1, paddingTop: 1 },
+                ]}
               />
             </TouchableOpacity>
-            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>Directions</Text>
+            <Text
+              style={{
+                color: colorScheme.darkText,
+                fontFamily: "nunito-regular",
+              }}
+            >
+              Directions
+            </Text>
           </View>
-        )
+        );
       } else {
-        var navigationButton = (null)
+        var navigationButton = null;
       }
-      if (this.state.venue.latitude != 0 && this.state.venue.latitude != null && this.state.venue.longitude != 0 && this.state.venue.longitude != null) {
+      if (
+        this.state.venue.latitude != 0 &&
+        this.state.venue.latitude != null &&
+        this.state.venue.longitude != 0 &&
+        this.state.venue.longitude != null
+      ) {
         var uberButton = (
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <TouchableOpacity
-              style={[shadowStyles.shadowDown, {
-                backgroundColor: '#111',
-                height: 50,
-                width: 50,
-                borderRadius: 25,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginHorizontal: 10
-              }]}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor: "#111",
+                  height: 50,
+                  width: 50,
+                  borderRadius: 25,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginHorizontal: 10,
+                },
+              ]}
               onPress={() => {
-                Linking.openURL('https://m.uber.com/ul/?client_id=exire&action=setPickup&dropoff[latitude]=' + this.state.venue.latitude + '&dropoff[longitude]=' + this.state.venue.longitude)
-              }
-              }
+                Linking.openURL(
+                  "https://m.uber.com/ul/?client_id=exire&action=setPickup&dropoff[latitude]=" +
+                    this.state.venue.latitude +
+                    "&dropoff[longitude]=" +
+                    this.state.venue.longitude
+                );
+              }}
             >
               <Image
-                style={[{ width: 32, height: 32, tintColor: colorScheme.primaryText }, shadowStyles.shadowDown]}
+                style={[
+                  { width: 32, height: 32, tintColor: colorScheme.primaryText },
+                  shadowStyles.shadowDown,
+                ]}
                 source={require("../assets/icons/uber.png")}
               />
             </TouchableOpacity>
-            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>Uber</Text>
+            <Text
+              style={{
+                color: colorScheme.darkText,
+                fontFamily: "nunito-regular",
+              }}
+            >
+              Uber
+            </Text>
           </View>
-        )
+        );
       } else {
-        var uberButton = (null)
+        var uberButton = null;
       }
-      if (this.state.venue.latitude != 0 && this.state.venue.latitude != null && this.state.venue.longitude != 0 && this.state.venue.longitude != null) {
+      if (
+        this.state.venue.latitude != 0 &&
+        this.state.venue.latitude != null &&
+        this.state.venue.longitude != 0 &&
+        this.state.venue.longitude != null
+      ) {
         var lyftButton = (
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <TouchableOpacity
-              style={[shadowStyles.shadowDown, {
-                backgroundColor: '#FF1493',
-                height: 50,
-                width: 50,
-                borderRadius: 25,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginHorizontal: 10
-              }]}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor: "#FF1493",
+                  height: 50,
+                  width: 50,
+                  borderRadius: 25,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginHorizontal: 10,
+                },
+              ]}
               onPress={() => {
-                Linking.openURL('lyft://ridetype?id=lyft&destination[latitude]=' + this.state.venue.latitude + '&destination[longitude]=' + this.state.venue.longitude)
-              }
-              }
+                Linking.openURL(
+                  "lyft://ridetype?id=lyft&destination[latitude]=" +
+                    this.state.venue.latitude +
+                    "&destination[longitude]=" +
+                    this.state.venue.longitude
+                );
+              }}
             >
               <Image
-                style={[{ width: 34, height: 24, tintColor: colorScheme.primaryText, marginTop: 4 }, shadowStyles.shadowDown]}
+                style={[
+                  {
+                    width: 34,
+                    height: 24,
+                    tintColor: colorScheme.primaryText,
+                    marginTop: 4,
+                  },
+                  shadowStyles.shadowDown,
+                ]}
                 source={require("../assets/icons/lyft.png")}
               />
             </TouchableOpacity>
-            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>Lyft</Text>
+            <Text
+              style={{
+                color: colorScheme.darkText,
+                fontFamily: "nunito-regular",
+              }}
+            >
+              Lyft
+            </Text>
           </View>
-        )
+        );
       } else {
-        var lyftButton = (null)
+        var lyftButton = null;
       }
-      if (this.state.venue.accessURL != null && this.state.venue.accessURL != '') {
+      if (
+        this.state.venue.accessURL != null &&
+        this.state.venue.accessURL != ""
+      ) {
         var infoButton = (
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <TouchableOpacity
-              style={[shadowStyles.shadowDown, {
-                backgroundColor: colorScheme.primary,
-                height: 50,
-                width: 50,
-                borderRadius: 25,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginHorizontal: 10
-              }]}
-              onPress={() => { Linking.openURL(this.state.venue.accessURL)}
-              }
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor: colorScheme.primary,
+                  height: 50,
+                  width: 50,
+                  borderRadius: 25,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginHorizontal: 10,
+                },
+              ]}
+              onPress={() => {
+                Linking.openURL(this.state.venue.accessURL);
+              }}
             >
               <Icon
-                name='info'
+                name="info"
                 color={colorScheme.primaryText}
                 size={32}
                 style={[shadowStyles.shadowDown, { paddingTop: 2 }]}
               />
             </TouchableOpacity>
-            <Text style={{ color: colorScheme.darkText, fontFamily: 'nunito-regular' }}>More Info</Text>
+            <Text
+              style={{
+                color: colorScheme.darkText,
+                fontFamily: "nunito-regular",
+              }}
+            >
+              More Info
+            </Text>
           </View>
-        )
+        );
       } else {
-        var infoButton = (null)
+        var infoButton = null;
       }
       return (
         <View style={styles.container}>
-          <View style={[{ flex: 0.35, flexDirection: "row" }, shadowStyles.shadowDown]}>
+          <View
+            style={[
+              { flex: 0.35, flexDirection: "row" },
+              shadowStyles.shadowDown,
+            ]}
+          >
             <ImageBackground
               source={{ uri: this.state.venue.imgURL }}
               style={{ width: "100%", height: "100%" }}
@@ -387,10 +508,17 @@ export default class Venue extends Component {
               marginHorizontal: 10,
               marginTop: 15,
               flexDirection: "column",
-              alignItems: 'center'
+              alignItems: "center",
             }}
           >
-            <View style={{ borderBottomColor: colorScheme.veryLight, borderBottomWidth: 1, paddingBottom: 10, width: '95%' }}>
+            <View
+              style={{
+                borderBottomColor: colorScheme.veryLight,
+                borderBottomWidth: 1,
+                paddingBottom: 10,
+                width: "95%",
+              }}
+            >
               <Text style={[textStyles.titleText, { textAlign: "left" }]}>
                 {this.state.venue.title}
               </Text>
@@ -441,14 +569,14 @@ export default class Venue extends Component {
                 {this.state.venue.open > 24
                   ? this.state.venue.open - 24 + " AM "
                   : this.state.venue.open > 12
-                    ? this.state.venue.open - 12 + " PM "
-                    : this.state.venue.open + " AM "}
-            -{" "}
+                  ? this.state.venue.open - 12 + " PM "
+                  : this.state.venue.open + " AM "}
+                -{" "}
                 {this.state.venue.closed > 24
                   ? this.state.venue.closed - 24 + " AM"
                   : this.state.venue.closed > 12
-                    ? this.state.venue.closed - 12 + " PM"
-                    : this.state.venue.closed + " AM"}
+                  ? this.state.venue.closed - 12 + " PM"
+                  : this.state.venue.closed + " AM"}
               </Text>
 
               <Text
@@ -460,7 +588,15 @@ export default class Venue extends Component {
                 {this.state.venue.description}
               </Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', width: '100%', marginVertical: 10 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-evenly",
+                width: "100%",
+                marginVertical: 10,
+              }}
+            >
               {navigationButton}
               {uberButton}
               {lyftButton}
@@ -485,7 +621,7 @@ export default class Venue extends Component {
               ]}
             >
               We can't book this for you, but you can add it to a plan!
-          </Text>
+            </Text>
             <TouchableOpacity
               style={[
                 shadowStyles.shadowDown,
@@ -499,7 +635,7 @@ export default class Venue extends Component {
                   borderRadius: 10,
                   shadowRadius: 10,
                   shadowOffset: { width: 0, height: 2 },
-                  marginBottom: 10
+                  marginBottom: 10,
                 },
               ]}
             >

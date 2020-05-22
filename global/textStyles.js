@@ -31,4 +31,9 @@ export const textStyles = StyleSheet.create({
     fontSize: 14,
     color: "#000",
   },
+  simpleText: {
+    fontFamily: "nunito-light",
+    fontSize: 16,
+    color: "#000",
+  },
 });

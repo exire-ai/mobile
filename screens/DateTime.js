@@ -89,8 +89,10 @@ const months = {
 export default class DateTime extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       selectedDate: null,
+      venue: this.props.navigation.state.params,
     };
   }
 
@@ -132,7 +134,11 @@ export default class DateTime extends Component {
   };
 
   selectedSlot = (slot) => {
-    this.props.navigation.navigate("BookingInvite", slot);
+    var order = {};
+    order.booking = slot;
+    order.booking.date = this.state.selectedDate.date;
+    order.venue = this.state.venue;
+    this.props.navigation.navigate("BookingInvite", order);
   };
 
   enabledDates = () => {

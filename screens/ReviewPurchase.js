@@ -3,13 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
+import DateFormatter from "../global/DateFormatter";
+
+var formatter = new DateFormatter();
+console.log(formatter.getCurrentDate());
 
 export default class ReviewPurchase extends Component {
   constructor(props) {
     super(props);
+
     console.log(this.props.navigation.state.params);
     this.state = {
-      booking: this.props.navigation.state.params,
+      booking: this.props.navigation.state.params.booking,
+      numAttendees: this.props.navigation.state.params.numAttendees,
+      venue: this.props.navigation.state.params.venue,
     };
   }
   render() {
@@ -24,19 +31,24 @@ export default class ReviewPurchase extends Component {
               marginLeft: 15,
             }}
           >
-            <Text style={textStyles.subTitle}>Open Soul</Text>
-            <Text style={textStyles.subTitle}>Live Yoga Class</Text>
-            <Text style={([textStyles.minorText], { fontSize: 14 })}>
-              Wednesday May 10th
+            <Text style={textStyles.subTitle}>{this.state.venue.title}</Text>
+            <Text
+              style={[textStyles.subTitle, { marginTop: 0, marginBottom: 10 }]}
+            >
+              {this.state.venue.subtitle}
             </Text>
             <Text style={([textStyles.minorText], { fontSize: 14 })}>
-              10:00 AM - 11:00 AM (EDT)
+              {formatter.formattedDate(this.state.booking.date)}
+            </Text>
+            <Text style={([textStyles.minorText], { fontSize: 14 })}>
+              {formatter.formattedHour(this.state.booking.startTime)} -{" "}
+              {formatter.formattedHour(this.state.booking.endTime)}
             </Text>
           </View>
           <View style={{ flex: 0.4, padding: 10, margin: 5 }}>
             <Image
               style={{ width: 120, height: 80 }}
-              source={require("../assets/getStarted0.jpg")}
+              source={{ uri: this.state.venue.imgURL }}
             />
           </View>
         </View>
@@ -60,10 +72,10 @@ export default class ReviewPurchase extends Component {
           }}
         >
           <Text style={[textStyles.subBodyText, { color: "#444" }]}>
-            $15.00 x 3 guests
+            {"$15.00 x " + this.state.numAttendees + " guests"}
           </Text>
           <Text style={[textStyles.subBodyText, { color: "#444" }]}>
-            $45.00
+            {"$" + this.state.numAttendees * this.state.booking.cost}
           </Text>
         </View>
 
@@ -85,8 +97,10 @@ export default class ReviewPurchase extends Component {
             padding: 15,
           }}
         >
-          <Text style={[textStyles.subTitle]}>$15.00 x 3 guests</Text>
-          <Text style={[textStyles.subTitle]}>$45.00</Text>
+          <Text style={[textStyles.subTitle]}>Total (USD)</Text>
+          <Text style={[textStyles.subTitle]}>
+            {"$" + this.state.numAttendees * this.state.booking.cost}
+          </Text>
         </View>
 
         {/*----- Floating Action Button -----*/}
