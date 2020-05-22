@@ -26,4 +26,9 @@ export const textStyles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
   },
+  smallSubTitleText: {
+    fontFamily: "nunito-semibold",
+    fontSize: 14,
+    color: "#000",
+  },
 });

@@ -27,7 +27,11 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       var tabBarVisible = true;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if (routeName == "Venue" || routeName == "DateTime") {
+      if (
+        routeName == "Venue" ||
+        routeName == "DateTime" ||
+        routeName == "BookingInvite"
+      ) {
         tabBarVisible = false;
       }
       return {

@@ -7,6 +7,7 @@ import { createAppContainer } from "react-navigation";
 import Discover from "../screens/Discover";
 import Venue from "../screens/venue";
 import DateTime from "../screens/DateTime";
+import BookingInvite from "../screens/BookingInvite";
 
 import ProfileIcon from "../components/ProfileIcon";
 
@@ -45,6 +46,20 @@ const screens = {
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
+        headerTintColor: "white",
+      };
+    },
+  },
+  BookingInvite: {
+    screen: BookingInvite,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: "center",
+        headerTitle: "Invite",
+        headerTintColor: "white",
       };
     },
   },
