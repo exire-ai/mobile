@@ -16,17 +16,23 @@ export default class Chat extends React.Component {
   db = firebase.firestore();
   constructor(props) {
     super(props);
-    AsyncStorage.getItem("userID").then((value) => {
-      this.getChat()
-      // this.listenChat()
-    })
   }
 
   componentDidMount() {
     // not using observer bc can't get return / callback / promise / state update working
+    AsyncStorage.multiGet(["userID", "name", "profileImg", "number"]).then((value) => {
+      this.setState({
+        userID: value[0][1],
+        name: value[1][1],
+        profileImg: value[2][1],
+        number: value[3][1]
+      })
+      this.getChat()
+      this.updateUserData()
+    })
     this._interval = setInterval(() => {
       this.getChat()
-    }, 50000);
+    }, 5000);
   }
 
   componentWillUnmount() {
@@ -74,6 +80,29 @@ export default class Chat extends React.Component {
       })
   }
 
+  updateUserData() {
+    var userData = {
+      userID: this.state.userID,
+      number: this.state.number,
+      name: this.state.name,
+      imgURL: this.state.profileImg
+    }
+    this.db.collection('chats')
+      .where("chatID", "==", this.state.chatID)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data().userData;
+          console.log()
+          data = data.filter(function(o) { return o.number != userData.number });
+          data.push(userData)
+          this.db.collection("chats").doc(doc.id).update({
+            userData: data
+          })
+        })
+      })
+  }
+
   onListen(doc) {
     var data = doc.data()
     console.log('message added:', data.messages[data.messages.length - 1])
@@ -102,7 +131,7 @@ export default class Chat extends React.Component {
     this.setState({
       messages: messages
     })
-    if (this.state.text.includes('@Emma') || this.state.text.includes('@emma')) {
+    if (this.state.text.includes('@Emma') || this.state.text.includes('@emma') || this.state.users.length == 2) {
       var temp = this.state.text.replace("@Emma", '')
       temp = temp.replace("@emma", '')
       this.emma(temp)

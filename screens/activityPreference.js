@@ -218,9 +218,28 @@ export default class CategoryPreference extends React.Component {
             />
           )}
         />
-        <TouchableOpacity style={[styles.doneButton, {backgroundColor: this.state.selectedCategories.length > 2 ? colorScheme.button : colorScheme.activeButton}]} onPress={this.next}>
-          <Text style={signInStyles.buttonText}>Next</Text>
-        </TouchableOpacity>
+        <View behavior={'padding'} style={{ flexDirection: 'row', alignItems: 'flex-end', position: 'absolute',
+              right: 20,
+              bottom: 20 }}>
+          <TouchableOpacity
+            style={[shadowStyles.shadowDown, {
+              backgroundColor: this.state.selectedCategories.length > 2 ? colorScheme.button : colorScheme.activeButton,
+              height: 65,
+              width: 65,
+              borderRadius: 32.5,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }]}
+            onPress={this.next}
+          >
+            <Icon
+              name='chevron-right'
+              color='#FFF'
+              size={36}
+              style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 3 }]}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -243,8 +262,11 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
   },
   doneButton: {
-    width: "100%",
-    height: 80,
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    height: 40,
+    width: 40,
     alignItems: "center",
     paddingTop: 15,
   },
@@ -278,6 +300,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "97%",
     alignContent: 'center',
-    paddingRight: 5
+    paddingRight: 5,
+    height: '100%'
   },
 });

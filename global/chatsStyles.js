@@ -42,10 +42,12 @@ export const chatsStyles = StyleSheet.create({
     borderRadius: 5,
   },
   profileImage: {
-    backgroundColor: colorScheme.primary,
-    height: 48,
-    width: 48,
+    height: 48, 
+    width: 48, 
     borderRadius: 24,
+    marginTop: 11,
+    overflow: 'hidden',
+    backgroundColor: colorScheme.lessDarkText
   },
   name: {
     fontFamily: "nunito-bold",

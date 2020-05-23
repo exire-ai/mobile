@@ -18,11 +18,14 @@ export default class Chats extends Component {
   db = firebase.firestore();
   constructor(props) {
     super(props);
-    AsyncStorage.getItem("userID").then((value) => {
-      this.setState({
-        userID: value
+    AsyncStorage.getItem("userID").then(userID => {
+      AsyncStorage.getItem("number").then(number => {
+        this.setState({
+          userID: userID,
+          number: number
+        })
+        this.loadData(false)
       })
-      this.loadData(false)
     })
   }
 
@@ -35,7 +38,7 @@ export default class Chats extends Component {
     // not using observer bc can't get return / callback / promise / state update working
     this._interval = setInterval(() => {
       this.loadData(false)
-    }, 3000);
+    }, 30000);
   }
 
   componentWillUnmount() {
@@ -49,7 +52,7 @@ export default class Chats extends Component {
       })
     }
     this.db.collection('chats')
-    .where("users", "array-contains", this.state.userID)
+    .where("users", "array-contains", this.state.number)
     .get()
     .then(querySnapshot => {
       const data = querySnapshot.docs.map(doc => { 
@@ -83,7 +86,7 @@ export default class Chats extends Component {
         <SearchBar />
         <FlatList
           style={chatsStyles.list}
-          data={this.state.data}
+          data={this.state.data.sort((a, b) => b.messages[b.messages.length-1].time - a.messages[a.messages.length-1].time)}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
             this.loadData(true);
@@ -98,13 +101,14 @@ export default class Chats extends Component {
               navigate={() => {
                 this.props.navigation.navigate("Chat", {chatID: item.chatID, userID: this.state.userID, name: item.name});
               }}
+              imgURL={item.userData[item.userData.length - 1].imgURL}
             />
           )}
         />
         <TouchableOpacity
           style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => {
-            console.log("New Chat");
+            this.props.navigation.navigate("CreateChat");
           }}
         >
           <Text style={plansStyles.buttonText}>+</Text>

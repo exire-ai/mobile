@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet, TextInput, AsyncStorage, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 var uuid = require("uuid");
 import users from "../functions/users";
+import chats from "../functions/chats";
 import { signInStyles } from "../global/signInStyles";
 import { navigationStyles } from "../global/navigationStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const cuteDogs = [
+  'https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp',
+  'https://post.healthline.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg',
+  'https://cdn.sanity.io/images/0vv8moc6/dvm360/81e9bbc1fe445afd4c888497d6e8e4d8abcd9029-450x274.jpg',
+  'https://t2.ea.ltmcdn.com/en/images/5/1/4/types_and_breeds_of_husky_dogs_1415_orig.jpg',
+  'https://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg'
+]
 
 export default function Name({ navigation }) {
   const number = navigation.getParam("number");
@@ -16,14 +25,19 @@ export default function Name({ navigation }) {
 
   function next() {
     users.createUser(userID, value, number, (result) => {
+      var profileImg = cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
       AsyncStorage.setItem("userID", userID);
       AsyncStorage.setItem("name", value);
       AsyncStorage.setItem("number", number);
+      AsyncStorage.setItem("profileImg", profileImg)
       navigation.navigate("ActivityPreference", {
         userID: userID,
         categories: categories,
         userCategories: [],
       });
+      chats.createChat("Emma (Personal Concierge)", value, userID, number, profileImg, [], (docID, chatID) => {
+        console.log(docID, chatID)
+      })
     });
   }
 

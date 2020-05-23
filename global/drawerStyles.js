@@ -34,7 +34,7 @@ export const drawerStyles = StyleSheet.create({
   mediumText: {
     color: colorScheme.lessDarkText,
     fontSize: 16,
-    fontFamily: 'nunito-bold'
+    fontFamily: 'nunito-semibold'
   },
   smallText: {
     color: colorScheme.lessDarkText,

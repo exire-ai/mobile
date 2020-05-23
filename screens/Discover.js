@@ -94,8 +94,11 @@ export default class Discover extends Component {
   }
 
   componentDidMount() {
-    this.loadData();
-    this.loadCategories();
+    AsyncStorage.getItem("userID").then(userID => {
+      this.setState({userID: userID})
+      this.loadCategories();
+      this.loadData();
+    })
   }
 
   formatVenues = (result, callback) => {
@@ -173,6 +176,7 @@ export default class Discover extends Component {
   loadCategories = () => {
     AsyncStorage.getItem("userID").then((value) => {
       users.getCategories(value, (result) => {
+        console.log(value, result)
         var categories = format(result);
         this.setState({
           categories: categories,

@@ -221,9 +221,28 @@ export default class CategoryPreference extends React.Component {
             />
           )}
         />
-        <TouchableOpacity style={[styles.doneButton, { backgroundColor: this.state.selectedCategories.length > 2 ? colorScheme.button : colorScheme.activeButton}]} onPress={() => { this.next(this.state.selectedCategories)}}>
-          <Text style={signInStyles.buttonText}>Next</Text>
-        </TouchableOpacity>
+        <View behavior={'padding'} style={{ flexDirection: 'row', alignItems: 'flex-end', position: 'absolute',
+              right: 20,
+              bottom: 20 }}>
+          <TouchableOpacity
+            style={[shadowStyles.shadowDown, {
+              backgroundColor: this.state.selectedCategories.length > 2 ? colorScheme.button : colorScheme.activeButton,
+              height: 65,
+              width: 65,
+              borderRadius: 32.5,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }]}
+            onPress={() => { this.next(this.state.selectedCategories) }}
+          >
+            <Icon
+              name='chevron-right'
+              color='#FFF'
+              size={36}
+              style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 3 }]}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }

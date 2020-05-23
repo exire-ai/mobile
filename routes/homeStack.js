@@ -66,7 +66,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       var tabBarVisible = true;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if (routeName == "Chat" || routeName == "Venue") {
+      if (routeName == "Chat" || routeName == "Venue" || routeName == "CreateChat" ) {
         tabBarVisible = false;
       }
       return {
@@ -116,7 +116,7 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
 //     screen: HomeTab,
 //     navigationOptions: ({ navigation }) => {
 //       return {
-//         headerShown: false,
+//         headerShown: true,
 //         title: ["Discover", "Plans", "Chats"][navigation.state.index],
 //         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
 //         headerTitleStyle: navigationStyles.headerTitle,
