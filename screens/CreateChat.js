@@ -29,6 +29,12 @@ export default class CreateChat extends React.Component {
     number: "",
   }
 
+  componentDidMount() {
+    AsyncStorage.getItem("name").then(name => {
+      this.setState({"name" : name})
+    })
+  }
+
   createGroup = () => {
     if (this.state.chatName.length > 3) {
       AsyncStorage.getItem("name").then(name => {
@@ -70,6 +76,10 @@ export default class CreateChat extends React.Component {
             profileImg: cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
           })
           this.setState({otherUsers: temp})
+        } else {
+          users.sendTextMsg(text, this.state.name + " added you to the group " + this.state.chatName + " on Exire, download the app now at https://exire.ai to join!", (result) => {
+            console.log(result)
+          })
         }
       })
     }

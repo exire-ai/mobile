@@ -255,6 +255,27 @@ const users = {
         callback(false);
       });
   },
+  sendTextMsg: function (number, message, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/external/sendTextMsg/" + number,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({message: message})
+      },
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
 };
 
 export default users;
