@@ -66,7 +66,7 @@ function Category({
       <TouchableOpacity activeOpacity={.8} onPress={() => onSelect(key)}>
         <ProgressiveImage
           thumbnailSource={{ uri: lowUrl }}
-          source={{ uri: ogUrl }}
+          source={{ uri: url }}
           style={{ width: "100%", height: "100%", borderRadius: 8 }}
           resizeMode="cover"
         />
@@ -162,7 +162,8 @@ export default class CategoryPreference extends React.Component {
   next = (selected) => {
     console.log(selected)
     if (selected.length > 2) {
-      selected = selected.concat(this.props.navigation.state.params.selected);
+      var temp = this.props.navigation.state.params.selected
+      selected = temp.concat(selected);
       var userID = this.props.navigation.state.params.userID;
       users.updateCategories(userID, selected, () => {
         AsyncStorage.setItem("userID", userID);

@@ -276,6 +276,54 @@ const users = {
         callback(false);
       });
   },
+  getFriends: function (userID, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/getFriends/" + userID,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
+  deleteFriend: function (userID, otherUserID, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/deleteFriend/" + userID + "/" + otherUserID,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
+  addFriend: function (userID, otherUserID, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/addFriend/" + userID + "/" + otherUserID,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
 };
 
 export default users;

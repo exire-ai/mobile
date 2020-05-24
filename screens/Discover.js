@@ -79,17 +79,9 @@ export default class Discover extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      venues: [
-        {
-          venue1: { title: "sushi damo", type: "venue" },
-          venue2: { title: "maru karaoke", type: "venue" },
-          numItems: 2,
-          key: "1",
-        },
-      ],
       categories: [],
       selected: ["all"],
-      refreshing: false,
+      refreshing: true,
     };
   }
 
@@ -105,7 +97,6 @@ export default class Discover extends Component {
     var venues = [];
     var doubleVenue = {};
     var current = 0;
-    console.log(result[0]);
     for (var i = 0; i < result.length; i++) {
       if (current == 2) {
         var singleVenue = {};
@@ -158,6 +149,7 @@ export default class Discover extends Component {
     });
     AsyncStorage.getItem("userID").then((value) => {
       plans.getRecommended(value, (result) => {
+        this.setState({ rawVenues: result})
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
         this.formatVenues(result, (venues) => {
           this.setState({
@@ -176,7 +168,6 @@ export default class Discover extends Component {
   loadCategories = () => {
     AsyncStorage.getItem("userID").then((value) => {
       users.getCategories(value, (result) => {
-        console.log(value, result)
         var categories = format(result);
         this.setState({
           categories: categories,
@@ -188,6 +179,32 @@ export default class Discover extends Component {
   venueSelected = (venue) => {
     this.props.navigation.navigate("Venue", venue);
   };
+
+  filterCategories = () => {
+    var rawVenues = this.state.rawVenues
+    var categories = this.state.categories
+    var selected = []
+    for (var i = 0; i < categories.length; i++) {
+      if (categories[i].selected) {
+        selected.push(categories[i].key)
+      }
+    }
+    console.log(selected)
+    if (selected.length == 1 && selected.includes("all")) {
+      this.formatVenues(rawVenues, (venues) => {
+        this.setState({
+          venues: venues,
+        });
+      });
+    } else {
+      var filteredVenues = rawVenues.filter(venue => selected.includes(venue.subcategory))
+      this.formatVenues(filteredVenues, (venues) => {
+        this.setState({
+          venues: venues,
+        });
+      });
+    }
+  }
 
   render() {
     return (
@@ -232,6 +249,7 @@ export default class Discover extends Component {
                     temp.find((o) => o.key === "all").selected = true;
                   }
                   this.setState({ categories: temp });
+                  this.filterCategories()
                 }}
               >
                 <CategorySelection category={item} />
@@ -241,6 +259,7 @@ export default class Discover extends Component {
         />
         <FlatList
           style={{ width: "100%", marginHorizontal: 10, paddingTop: 5 }}
+          contentContainerStyle={{justifyContent: 'flex-start'}}
           data={this.state.venues}
           onRefresh={() => {
             this.loadData();

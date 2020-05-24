@@ -547,13 +547,15 @@ export default class Venue extends Component {
                     { textAlign: "left", marginTop: 5 },
                   ]}
                 >
-                  {this.state.venue.cost > 15
-                    ? this.state.venue.cost > 30
-                      ? this.state.venue.cost > 60
-                        ? "$$$$"
-                        : "$$$"
-                      : "$$"
-                    : "$"}
+                  {this.state.venue.cost != 0
+                    ? this.state.venue.cost > 15
+                      ? this.state.venue.cost > 30
+                        ? this.state.venue.cost > 60
+                          ? "$$$$"
+                          : "$$$"
+                        : "$$"
+                      : "$"
+                    : "Free"}
                 </Text>
               </View>
               <Text
