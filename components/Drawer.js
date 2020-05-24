@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import { RNS3 } from 'react-native-s3-upload';
 import plans from "../functions/plans";
 import users from "../functions/users";
 
@@ -63,10 +64,38 @@ export default class Drawer extends Component {
       quality: 1
     });
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
-      AsyncStorage.setItem("profileImg", result.uri)
-      this.setState({
-        profile: { uri: result.uri }
+      var file = {
+        uri: result.uri,
+        name: this.state.userID + ".png",
+        type: "image/png"
+      }
+      var options = {
+        keyPrefix: "uploads/",
+        bucket: "exirevideo",
+        region: "us-east-2",
+        accessKey: "AKIA2KE66HVRD2Y6W6UZ",
+        secretKey: "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",
+        successActionStatus: 201
+      }
+      console.log(file)
+      RNS3.put(file, options).then(response => {
+        console.log(response)
+        if (response.status !== 201) {
+          console.log("error")
+        } else {
+          var temp = "https://media2.govtech.com/images/940*712/SHUTTERSTOCK_LOADING_SYMBOL_BROADBAND_INTERNET_SPEED.jpg"
+          this.setState({ image: temp });
+          this.setState({
+            profile: { uri: temp }
+          })
+          setTimeout( () => {
+            this.setState({ image: response.body.postResponse.location });
+          AsyncStorage.setItem("profileImg", response.body.postResponse.location)
+          this.setState({
+            profile: { uri: response.body.postResponse.location }
+          })
+          }, 200)
+        }
       })
     };
   }
