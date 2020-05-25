@@ -61,7 +61,8 @@ export default class Chat extends React.Component {
           messages: data.messages,
           users: data.userData,
           owner: this.props.navigation.state.params.userID == data.ownerID ? true : false,
-          name: data.name
+          name: data.name,
+          data: data
         })
         this.checkSize(true)
       })

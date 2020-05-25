@@ -1,6 +1,6 @@
 import { SafeAreaView, withNavigation } from "react-navigation";
 import React, { Component } from "react";
-import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, Dimensions, TextInput, Keyboard } from "react-native";
+import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, Dimensions, TextInput, Keyboard, FlatList } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -14,16 +14,24 @@ import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
 import { drawerStyles } from "../global/drawerStyles";
 
+const cuteDogs = [
+  'https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp',
+  'https://post.healthline.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg',
+  'https://cdn.sanity.io/images/0vv8moc6/dvm360/81e9bbc1fe445afd4c888497d6e8e4d8abcd9029-450x274.jpg',
+  'https://t2.ea.ltmcdn.com/en/images/5/1/4/types_and_breeds_of_husky_dogs_1415_orig.jpg',
+  'https://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg'
+]
+
 export default class Drawer extends Component {
+  state = {
+    profile: require('../assets/profile.jpg'),
+    name: "Hayden",
+    points: '4,300',
+    plans: '32',
+    friends: []
+  };
   constructor(props) {
     super(props);
-    this.state = {
-      profile: require('../assets/profile.jpg'),
-      name: "Hayden",
-      friends: '75',
-      points: '4,300',
-      plans: '32'
-    };
     AsyncStorage.getItem("userID").then((value) => {
       this.state.userID = value;
     });
@@ -43,8 +51,16 @@ export default class Drawer extends Component {
     })
   }
 
+  componentDidMount() {
+    AsyncStorage.getItem("userID").then((value) => {
+      users.getFriends(value, data => {
+        this.setState({ friends: data })
+      })
+    });
+  }
+
   logout = () => {
-    AsyncStorage.multiSet([["name", ""], ["userID", ""], ["number",""], ["profileImg",""]], () => {
+    AsyncStorage.multiSet([["name", ""], ["userID", ""], ["number", ""], ["profileImg", ""]], () => {
       this.props.navigation.navigate("SignInStack");
     });
   };
@@ -77,24 +93,21 @@ export default class Drawer extends Component {
         secretKey: "Dkxr8PVsdv3QIDUm+INg4Bbqik17MLjhngYmN1eh",
         successActionStatus: 201
       }
-      console.log(file)
+      var temp = "https://www.nrecosite.com/img/img-loading.gif"
+      this.setState({ image: temp });
+      this.setState({
+        profile: { uri: temp }
+      })
       RNS3.put(file, options).then(response => {
         console.log(response)
         if (response.status !== 201) {
           console.log("error")
         } else {
-          var temp = "https://media2.govtech.com/images/940*712/SHUTTERSTOCK_LOADING_SYMBOL_BROADBAND_INTERNET_SPEED.jpg"
-          this.setState({ image: temp });
-          this.setState({
-            profile: { uri: temp }
-          })
-          setTimeout( () => {
-            this.setState({ image: response.body.postResponse.location });
+          this.setState({ image: response.body.postResponse.location });
           AsyncStorage.setItem("profileImg", response.body.postResponse.location)
           this.setState({
             profile: { uri: response.body.postResponse.location }
           })
-          }, 200)
         }
       })
     };
@@ -146,7 +159,7 @@ export default class Drawer extends Component {
             source={require("../assets/icons/exire.png")}
           />
           <TouchableOpacity
-            onPress={ this.updateCategories }
+            onPress={this.updateCategories}
             style={[shadowStyles.shadowRight, { position: 'absolute', right: 15 }]}
           >
             <Icon
@@ -183,7 +196,8 @@ export default class Drawer extends Component {
               onSubmitEditing={this.updateName}
             />
           </View>
-          <View style={drawerStyles.profileInfo}>
+          <View style={[drawerStyles.profileInfo, { height: 10 }]}>
+            {/* <View style={drawerStyles.profileInfo}>
             <View style={{ alignItems: 'center' }}>
               <Text style={[drawerStyles.mediumText]}>{this.state.friends}</Text>
               <Text style={[drawerStyles.smallText]}>Friends</Text>
@@ -195,7 +209,37 @@ export default class Drawer extends Component {
             <View style={{ alignItems: 'center' }}>
               <Text style={[drawerStyles.mediumText]}>{this.state.plans}</Text>
               <Text style={[drawerStyles.smallText]}>Plans</Text>
-            </View>
+            </View> */}
+          </View>
+          <View style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
+            <Text style={drawerStyles.largeText}>Friends</Text>
+            <FlatList
+              style={{ width: '100%' }}
+              contentContainerStyle={{ marginTop: 5 }}
+              data={this.state.friends}
+              showsVerticalScrollIndicator={false}
+              keyExtratctor={(item, index) => "number" + item.number}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity style={{ height: 70, backgroundColor: colorScheme.veryLight, width: '100%', alignItems: 'center', borderRadius: 15, flexDirection: 'row', paddingHorizontal: 10 }}>
+                  <View style={[{ height: 50, width: 50, borderRadius: 25, overflow: 'hidden' }, shadowStyles.shadowDown]}>
+                    <ImageBackground source={{ uri: cuteDogs[Math.floor(Math.random() * cuteDogs.length)] }} style={{ width: 50, height: 50 }}>
+                    </ImageBackground>
+                  </View>
+                  <View style={{ padding: 10 }}>
+                    <Text style={{ fontFamily: 'nunito-bold', color: colorScheme.darkText, fontSize: 17 }}>{
+                      item.name == "" ?
+                        "Pending"
+                        : item.userID == this.state.userID ? "You" : item.name
+                    }</Text>
+                    <Text style={{ fontFamily: 'nunito-semibold', color: colorScheme.darkText, fontSize: 16, paddingTop: -3 }}>
+                      {item.number != 1000 ?
+                        ("(" + item.number.toString().substring(0, 3) + ") " + item.number.toString().substring(3, 6) + "-" + item.number.toString().substring(6, 10))
+                        : ""
+                      }</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
           </View>
         </View>
       </View>

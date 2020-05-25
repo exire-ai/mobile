@@ -8,10 +8,12 @@ import Chat from "../screens/chat";
 import Venue from "../screens/venue";
 import CreateChat from "../screens/CreateChat";
 import ProfileIcon from "../components/ProfileIcon";
+import ChatInfo from "../screens/ChatInfo";
 
 // Style Imports
 import { navigationStyles } from "../global/navigationStyles";
 import { shadowStyles } from "../global/shadowStyles";
+import { colorScheme } from "../global/colorScheme";
 
 const screens = {
   Chats: {
@@ -42,7 +44,20 @@ const screens = {
           >
             <Icon
               name="chevron-left"
-              color="#FFF"
+              color={colorScheme.primaryText}
+              size={32}
+              style={shadowStyles.shadowDown}
+            />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ChatInfo', {data: navigation.getParam('data')})}
+            style={[{paddingBottom: 4, paddingRight: 16}]}
+          >
+            <Icon
+              name="info-circle"
+              color={colorScheme.primaryText}
               size={32}
               style={shadowStyles.shadowDown}
             />
@@ -78,12 +93,32 @@ const screens = {
               name="chevron-left"
               color="#FFF"
               size={32}
-              style={{
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 1 },
-                shadowOpacity: 0.3,
-                shadowRadius: 1,
-              }}
+              style={shadowStyles.shadowDown}
+            />
+          </TouchableOpacity>
+        ),
+      };
+    },
+  },
+  ChatInfo: {
+    screen: ChatInfo,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        title: navigation.getParam("data").name,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={[navigationStyles.icon]}
+          >
+            <Icon
+              name="chevron-left"
+              color="#FFF"
+              size={32}
+              style={shadowStyles.shadowDown}
             />
           </TouchableOpacity>
         ),

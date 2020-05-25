@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Text, View, TouchableOpacity, AsyncStorage, KeyboardAvoidingView, TextInput, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import chats from "../functions/chats"
@@ -9,6 +9,8 @@ import { signInStyles } from "../global/signInStyles"
 import { chatsStyles } from "../global/chatsStyles";
 import { FlatList } from "react-native-gesture-handler";
 import users from "../functions/users";
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 const cuteDogs = [
   'https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp',
@@ -19,6 +21,8 @@ const cuteDogs = [
 ]
 
 export default class CreateChat extends React.Component {
+  db = firebase.firestore();
+
   constructor(props) {
     super(props)
   }
@@ -35,6 +39,19 @@ export default class CreateChat extends React.Component {
     })
   }
 
+  getChat(chatID, callback) {
+    this.db.collection('chats')
+      .where("chatID", "==", chatID)
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => {
+          var temp = doc.data()
+          return temp
+        })[0];
+        callback(data)
+      })
+  }
+
   createGroup = () => {
     if (this.state.chatName.length > 3) {
       AsyncStorage.getItem("name").then(name => {
@@ -42,7 +59,9 @@ export default class CreateChat extends React.Component {
           AsyncStorage.getItem("profileImg").then(profileImg => {
             AsyncStorage.getItem("number").then(number => {
               chats.createChat(this.state.chatName, name, userID, number, profileImg, this.state.otherUsers, (docID, chatID) => {
-                this.props.navigation.navigate("Chat", {chatID: chatID, userID: userID, name: this.state.chatName});
+                this.getChat(chatID, data => {
+                  this.props.navigation.navigate("Chat", {chatID: chatID, userID: userID, name: this.state.chatName, data: data});
+                })
               })
             })
           })
@@ -60,7 +79,7 @@ export default class CreateChat extends React.Component {
         name: "",
         number: text,
         userID: "",
-        profileImg: ""
+        imgURL: ""
       })
       this.setState({ otherUsers: temp })
       this.setState({ number: "" })
@@ -73,7 +92,7 @@ export default class CreateChat extends React.Component {
             name: result.name,
             number: text,
             userID: result.userID,
-            profileImg: cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
+            imgURL: cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
           })
           this.setState({otherUsers: temp})
         } else {

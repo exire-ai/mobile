@@ -66,7 +66,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       var tabBarVisible = true;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if (routeName == "Chat" || routeName == "Venue" || routeName == "CreateChat" ) {
+      if (routeName == "Chat" || routeName == "Venue" || routeName == "CreateChat" || routeName == "ChatInfo" ) {
         tabBarVisible = false;
       }
       return {
