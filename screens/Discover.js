@@ -117,28 +117,28 @@ export default class Discover extends Component {
         current++;
       }
     }
-    var test_onlineevent = {
-      numItems: 1,
-      key: "exiretestevent",
-      venue: {
-        category: "activity",
-        closed_days: [],
-        cost: 15,
-        description:
-          "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
-        imgURL:
-          "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
-        placeID: "testonlineevent",
-        rank: 92.6,
-        subcategory: "yoga",
-        title: "Open Soul",
-        subtitle: "Live Yoga Class",
-        type: "online-event",
-        subtype: "class",
-        duration: "1",
-      },
-    };
-    venues.push(test_onlineevent);
+    // var test_onlineevent = {
+    //   numItems: 1,
+    //   key: "exiretestevent",
+    //   venue: {
+    //     category: "activity",
+    //     closed_days: [],
+    //     cost: 15,
+    //     description:
+    //       "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
+    //     imgURL:
+    //       "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
+    //     placeID: "testonlineevent",
+    //     rank: 92.6,
+    //     subcategory: "yoga",
+    //     title: "Open Soul",
+    //     subtitle: "Live Yoga Class",
+    //     type: "online-event",
+    //     subtype: "class",
+    //     duration: "1",
+    //   },
+    // };
+    // venues.push(test_onlineevent);
     venues.reverse();
     callback(venues);
   };
@@ -148,7 +148,8 @@ export default class Discover extends Component {
       refreshing: true,
     });
     AsyncStorage.getItem("userID").then((value) => {
-      plans.getRecommended(value, (result) => {
+      // orginallly getRecommend(value
+      plans.getByHierCategory("activity", (result) => {
         this.setState({ rawVenues: result})
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
         this.formatVenues(result, (venues) => {
@@ -209,7 +210,7 @@ export default class Discover extends Component {
   render() {
     return (
       <View style={discoverStyles.container}>
-        <Search />
+        {/*<Search />
         <FlatList
           horizontal={true}
           style={{ paddingTop: 3, paddingLeft: 3, height: 60 }}
@@ -256,9 +257,9 @@ export default class Discover extends Component {
               </TouchableOpacity>
             );
           }}
-        />
+        />*/}
         <FlatList
-          style={{ width: "100%", marginHorizontal: 10, paddingTop: 5 }}
+          style={{ width: "100%", marginHorizontal: 10, paddingTop: 10 }}
           contentContainerStyle={{justifyContent: 'flex-start'}}
           data={this.state.venues}
           onRefresh={() => {

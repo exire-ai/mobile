@@ -30,13 +30,14 @@ export default function Name({ navigation }) {
       AsyncStorage.setItem("name", value);
       AsyncStorage.setItem("number", number);
       AsyncStorage.setItem("profileImg", profileImg)
-      navigation.navigate("ActivityPreference", {
-        userID: userID,
-        categories: categories,
-        userCategories: [],
-      });
+      // navigation.navigate("ActivityPreference", {
+      //   userID: userID,
+      //   categories: categories,
+      //   userCategories: [],
+      // });
       chats.createChat("Emma (Personal Concierge)", value, userID, number, profileImg, [], (docID, chatID) => {
         console.log(docID, chatID)
+        navigation.navigate("HomeStack")
       })
     });
   }
