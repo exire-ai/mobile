@@ -76,7 +76,7 @@ export default class PlanDetail extends Component {
             </View>
             {this.state.booking.watchURL != null ? watchButton : null}
             {/* <View style={{ marginTop: 10 }}>
-            <Text style={textStyles.subTitle}>Who's Attending</Text>
+            <Text style={textStyles.subTitle}>Who"s Attending</Text>
 
           </View> */}
           </View>

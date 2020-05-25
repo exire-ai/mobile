@@ -12,7 +12,7 @@ import { colorScheme } from "../global/colorScheme";
 export default class ProfileIcon extends Component {
   render() {
     return (
-      <TouchableOpacity
+      <TouchableOpacity activeOpacity={.5}
         onPress={() => {
           console.log("open");
           this.props.navigation.toggleDrawer();

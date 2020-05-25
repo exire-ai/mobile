@@ -57,7 +57,7 @@ function linkOpen(url) {
 function MoreInfo({ url }) {
   if (url != "" && url != null) {
     return (
-      <TouchableOpacity
+      <TouchableOpacity activeOpacity={.5}
         style={[
           signInStyles.button,
           { position: "absolute", bottom: "5%", width: "85%", left: "7.5%" },
@@ -112,6 +112,7 @@ const nameDict = {
   cocktailbars: ["Cocktails", "🍸"],
   pubs: ["Pubs", "🍻"],
   rockclimbing: ["Rock Climbing", "🧗"],
+  comedyclubs: ["Comedy Clubs", "🤣"]
 };
 
 export default class Venue extends Component {
@@ -142,7 +143,7 @@ export default class Venue extends Component {
               style={{ width: "100%", height: "100%" }}
             >
               <SafeAreaView>
-                <TouchableOpacity
+                <TouchableOpacity activeOpacity={.5}
                   onPress={() => this.props.navigation.goBack()}
                   style={[navigationStyles.icon, { padding: 15 }]}
                 >
@@ -240,7 +241,7 @@ export default class Venue extends Component {
                 justifyContent: "center",
               }}
             >
-              <TouchableOpacity
+              <TouchableOpacity activeOpacity={.5}
                 onPress={() => {
                   this.props.navigation.navigate("DateTime", this.state.venue);
                 }}
@@ -271,7 +272,7 @@ export default class Venue extends Component {
       ) {
         var navigationButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -332,7 +333,7 @@ export default class Venue extends Component {
       ) {
         var uberButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -383,7 +384,7 @@ export default class Venue extends Component {
       ) {
         var lyftButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -437,7 +438,7 @@ export default class Venue extends Component {
       ) {
         var infoButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -487,7 +488,7 @@ export default class Venue extends Component {
               style={{ width: "100%", height: "100%" }}
             >
               <SafeAreaView>
-                <TouchableOpacity
+                <TouchableOpacity activeOpacity={.5}
                   onPress={() => this.props.navigation.goBack()}
                   style={[navigationStyles.icon, { padding: 15 }]}
                 >
@@ -622,9 +623,9 @@ export default class Venue extends Component {
                 { width: "95%", textAlign: "center", fontSize: 14 },
               ]}
             >
-              We can't book this for you, but you can add it to a plan!
+              We can"t book this for you, but you can add it to a plan!
             </Text>
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               style={[
                 shadowStyles.shadowDown,
                 {

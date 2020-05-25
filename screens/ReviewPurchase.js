@@ -123,7 +123,7 @@ export default class ReviewPurchase extends Component {
               justifyContent: "center",
             }}
           >
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               onPress={() => {
                 // this.props.navigation.navigate("DateTime");
                 console.log("NAVIGATE NOW");

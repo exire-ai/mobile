@@ -1,13 +1,13 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, ImageBackground, BackHandler } from 'react-native';
-import { getStartedStyles } from '../global/getStartedStyles';
+import React from "react";
+import { Text, View, TouchableOpacity, ImageBackground, BackHandler } from "react-native";
+import { getStartedStyles } from "../global/getStartedStyles";
 
 export default class GetStarted extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      imageHolder: [require('../assets/getStarted0.jpg'), require('../assets/getStarted1.jpg')],
+      imageHolder: [require("../assets/getStarted0.jpg"), require("../assets/getStarted1.jpg")],
       currentIndex: 0
     }
     setInterval(() => {
@@ -16,11 +16,11 @@ export default class GetStarted extends React.Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -29,15 +29,15 @@ export default class GetStarted extends React.Component {
 
   render() {
     return (
-      <ImageBackground source={this.state.imageHolder[this.state.currentIndex]} style={{width: '100%', height: '100%'}}>
+      <ImageBackground source={this.state.imageHolder[this.state.currentIndex]} style={{width: "100%", height: "100%"}}>
       <View style={getStartedStyles.container}>
         <Text style={getStartedStyles.headerText}>exire</Text>
         <Text style={getStartedStyles.subHeaderText}>Going out made simple</Text>
         <View style={getStartedStyles.bottom}>
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             style={getStartedStyles.getStartedButton}
             activeOpacity={0.75}
-            onPress={() => { this.props.navigation.navigate('PhoneInput')}}
+            onPress={() => { this.props.navigation.navigate("PhoneInput")}}
           >
             <Text style={getStartedStyles.buttonText}>Get Started</Text>
           </TouchableOpacity>

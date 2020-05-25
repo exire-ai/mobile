@@ -1,7 +1,7 @@
 const venues = {
   get: function(placeID, callback) {
-    fetch('https://exire-backend.herokuapp.com/venues/get/' + placeID, {
-      method: 'GET'
+    fetch("https://exire-backend.herokuapp.com/venues/get/" + placeID, {
+      method: "GET"
     })
       .then(response => response.json())
       .then(responseJson => {

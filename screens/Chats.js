@@ -11,8 +11,8 @@ import { chatsStyles } from "../global/chatsStyles";
 import { plansStyles } from "../global/plansStyles";
 import SearchBar from "../components/SearchBar";
 
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 export default class Chats extends Component {
   db = firebase.firestore();
@@ -35,7 +35,7 @@ export default class Chats extends Component {
   }
 
   componentDidMount() {
-    // not using observer bc can't get return / callback / promise / state update working
+    // not using observer bc can"t get return / callback / promise / state update working
     this._interval = setInterval(() => {
       this.loadData(false)
     }, 30000);
@@ -51,7 +51,7 @@ export default class Chats extends Component {
         refreshing: true
       })
     }
-    this.db.collection('chats')
+    this.db.collection("chats")
     .where("users", "array-contains", this.state.number)
     .get()
     .then(querySnapshot => {
@@ -72,7 +72,7 @@ export default class Chats extends Component {
     if (unix + 86400 > now) {
       var hours = res.getHours()
       var minutes = res.getMinutes()
-      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? '0' : '') + minutes + (hours > 12 ? "pm" : "am") 
+      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? "0" : "") + minutes + (hours > 12 ? "pm" : "am") 
     } else if (unix + 518400 > now) {
       return res.getDay()
     } else {
@@ -96,7 +96,7 @@ export default class Chats extends Component {
           renderItem={({ item, index }) => (
             <Chat
               name={item.name}
-              time={item.messages.length > 0 ? this.timeConvert(item.messages[item.messages.length - 1].time) : ''}
+              time={item.messages.length > 0 ? this.timeConvert(item.messages[item.messages.length - 1].time) : ""}
               message={item.messages.length > 0 ? item.messages[item.messages.length - 1].message : "Send your first message!"}
               navigate={() => {
                 this.props.navigation.navigate("Chat", {chatID: item.chatID, userID: this.state.userID, name: item.name, data: item});
@@ -105,7 +105,7 @@ export default class Chats extends Component {
             />
           )}
         />
-        <TouchableOpacity
+        <TouchableOpacity activeOpacity={.5}
           style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => {
             this.props.navigation.navigate("CreateChat");

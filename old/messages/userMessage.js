@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import {
   Text,
   View,
-} from 'react-native';
-import { messageStyles } from '../../global/messageStyles';
+} from "react-native";
+import { messageStyles } from "../../global/messageStyles";
 
 export function UserMessage({
   message,
@@ -17,11 +17,11 @@ export function UserMessage({
             { marginBottom: spaceBelow, marginTop: spaceAbove },
         ]}
     >
-        <View style={[messageStyles.message, { backgroundColor: '#3597e9' }]}>
+        <View style={[messageStyles.message, { backgroundColor: "#3597e9" }]}>
             <Text
             style={[
                 messageStyles.messsageText,
-                { color: '#fff', alignSelf: 'flex-end' },
+                { color: "#fff", alignSelf: "flex-end" },
             ]}
             >
                 {message}

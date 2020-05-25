@@ -11,7 +11,7 @@ import ProgressiveImage from "../components/ProgressiveImage";
 import { signInStyles } from "../global/signInStyles";
 import { colorScheme } from "../global/colorScheme";
 import { shadowStyles } from "../global/shadowStyles";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 function Category({
   key,
@@ -31,14 +31,14 @@ function Category({
             width: 35,
             height: 35,
             backgroundColor: colorScheme.activeButton,
-            position: 'absolute',
+            position: "absolute",
             right: 10,
             top: 10,
             borderRadius: 17.5
           }, shadowStyles.shadowDown]}
         >
           <Icon
-            name='check'
+            name="check"
             color={colorScheme.primaryText}
             size={28}
             style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 4 }]}
@@ -50,10 +50,10 @@ function Category({
         style={{
           height: 20,
           width: 20,
-          position: 'absolute',
+          position: "absolute",
           right: 10,
           top: 10,
-          width: '100%'
+          width: "100%"
         }}
       />)
     }
@@ -61,7 +61,7 @@ function Category({
 
   return (
     <View style={styles.itemContainer}>
-      <TouchableOpacity activeOpacity={.8} onPress={() => onSelect(key)}>
+      <TouchableOpacity activeOpacity={.5} onPress={() => onSelect(key)}>
         <ProgressiveImage
           thumbnailSource={{ uri: lowUrl }}
           source={{ uri: ogUrl }}
@@ -175,7 +175,7 @@ export default class CategoryPreference extends React.Component {
       <View style={styles.container}>
         <Text
           style={[
-            { width: "100%", paddingHorizontal: 50, paddingVertical: 10, textAlign: 'center', fontFamily: 'nunito-semibold', fontSize: 19, color: colorScheme.darkText},
+            { width: "100%", paddingHorizontal: 50, paddingVertical: 10, textAlign: "center", fontFamily: "nunito-semibold", fontSize: 19, color: colorScheme.darkText},
           ]}
         >
           Choose at least 3 interests to set up your recommendations
@@ -218,23 +218,23 @@ export default class CategoryPreference extends React.Component {
             />
           )}
         />
-        <View behavior={'padding'} style={{ flexDirection: 'row', alignItems: 'flex-end', position: 'absolute',
+        <View behavior={"padding"} style={{ flexDirection: "row", alignItems: "flex-end", position: "absolute",
               right: 20,
               bottom: 20 }}>
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             style={[shadowStyles.shadowDown, {
               backgroundColor: this.state.selectedCategories.length > 2 ? colorScheme.button : colorScheme.activeButton,
               height: 65,
               width: 65,
               borderRadius: 32.5,
-              alignItems: 'center',
-              justifyContent: 'center'
+              alignItems: "center",
+              justifyContent: "center"
             }]}
             onPress={this.next}
           >
             <Icon
-              name='chevron-right'
-              color='#FFF'
+              name="chevron-right"
+              color="#FFF"
               size={36}
               style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 3 }]}
             />
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
   },
   doneButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 20,
     bottom: 20,
     height: 40,
@@ -299,8 +299,8 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     width: "97%",
-    alignContent: 'center',
+    alignContent: "center",
     paddingRight: 5,
-    height: '100%'
+    height: "100%"
   },
 });

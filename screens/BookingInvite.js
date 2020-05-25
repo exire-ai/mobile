@@ -31,7 +31,7 @@ export default class BookingInvite extends Component {
 
   minusButton = () => {
     return (
-      <TouchableOpacity style={{ padding: 5 }} onPress={this.removeAttendee}>
+      <TouchableOpacity activeOpacity={.5} style={{ padding: 5 }} onPress={this.removeAttendee}>
         <Image
           source={require("../assets/minus.png")}
           style={{ width: 24, height: 24 }}
@@ -113,7 +113,7 @@ export default class BookingInvite extends Component {
           }}
         >
           <Text style={[textStyles.simpleText]}>Add another friend</Text>
-          <TouchableOpacity style={{ padding: 5 }} onPress={this.addAttendee}>
+          <TouchableOpacity activeOpacity={.5} style={{ padding: 5 }} onPress={this.addAttendee}>
             <Image
               source={require("../assets/plus.png")}
               style={{ width: 24, height: 24 }}
@@ -148,7 +148,7 @@ export default class BookingInvite extends Component {
               justifyContent: "center",
             }}
           >
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               onPress={this.continue}
               style={[
                 shadowStyles.shadowDown,

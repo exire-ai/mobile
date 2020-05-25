@@ -99,7 +99,7 @@ export default class Chat extends React.Component {
         return;
       } else if (this.state.recallCounter >= 3 && parsedData.text == "") {
         parsedData.text =
-          "Sorry I'm experiencing connectivity issues, please send that again!";
+          "Sorry I"m experiencing connectivity issues, please send that again!";
         this.state.recallCounter = 0;
       } else {
         this.state.recallCounter = 0;

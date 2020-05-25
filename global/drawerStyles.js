@@ -1,13 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { colorScheme } from './colorScheme';
+import { colorScheme } from "./colorScheme";
 
 export const drawerStyles = StyleSheet.create({
   container: {
     height: 60,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 15,
-    alignItems: 'center',
+    alignItems: "center",
     borderBottomColor: colorScheme.veryLight,
     borderBottomWidth: 1,
   },
@@ -24,44 +24,44 @@ export const drawerStyles = StyleSheet.create({
     color: colorScheme.logo,
     fontSize: 32,
     paddingRight: 10,
-    fontFamily: 'nunito-semibold'
+    fontFamily: "nunito-semibold"
   },
   largeText: {
     color: colorScheme.lessDarkText,
     fontSize: 24,
-    fontFamily: 'nunito-semibold'
+    fontFamily: "nunito-semibold"
   },
   mediumText: {
     color: colorScheme.lessDarkText,
     fontSize: 16,
-    fontFamily: 'nunito-semibold'
+    fontFamily: "nunito-semibold"
   },
   smallText: {
     color: colorScheme.lessDarkText,
     fontSize: 13,
-    fontFamily: 'nunito-semibold'
+    fontFamily: "nunito-semibold"
   },
   profileInfo: {
     height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    borderBottomColor: '#ddd',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    borderBottomColor: "#ddd",
     borderBottomWidth: 1,
-    width: '100%'
+    width: "100%"
   },
   bottomButton: {
-    width: '100%',
+    width: "100%",
     backgroundColor: colorScheme.button,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     height: 70, 
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     paddingHorizontal: 25
   },
   bottomButtonText: {
     color: colorScheme.primaryText,
-    fontFamily: 'nunito-semibold',
+    fontFamily: "nunito-semibold",
     fontSize: 24,
     paddingLeft: 5
   }

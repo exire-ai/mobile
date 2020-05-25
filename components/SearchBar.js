@@ -22,7 +22,7 @@ export default function Search({}) {
         style={[shadowStyles.shadowDown, chatsStyles.icon]}
       />
       <TextInput
-        style={[chatsStyles.textInput, { width: '100%'} ]}
+        style={[chatsStyles.textInput, { width: "100%"} ]}
         placeholder={"Search..."}
         placeholderTextColor={colorScheme.lessDarkText}
       ></TextInput>

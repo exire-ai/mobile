@@ -11,9 +11,9 @@ import {
   ImageBackground,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
 import plans from "../functions/plans";
 import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
@@ -109,7 +109,7 @@ var categoryData = (categories) => {
           : Math.floor(Math.random() * colorList.length)
       ],
     };
-    if ((newArray.length * 56) / 3> Dimensions.get('screen').height*.48) {
+    if ((newArray.length * 56) / 3> Dimensions.get("screen").height*.48) {
       break breakLoop;
     }
     newArray.push(temp);
@@ -121,7 +121,7 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile: require('../assets/profile.jpg'),
+      profile: require("../assets/profile.jpg"),
       user: this.props.navigation.state.params,
       categories: categoryData(this.props.navigation.state.params.categories),
       name: ""
@@ -188,15 +188,15 @@ export default class Profile extends Component {
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
       }
     }
   }
 
   profileChange = async () => {
-    AsyncStorage.getItem('profile', data => {
-      if (data == null || data == '') {
+    AsyncStorage.getItem("profile", data => {
+      if (data == null || data == "") {
         this.getPermissionAsync()
         this.pickImage()
       } else {
@@ -234,8 +234,8 @@ export default class Profile extends Component {
                 borderRadius: Math.round(Dimensions.get("window").height) * 0.085,
               }}
             >
-              <TouchableOpacity
-                style={{width: '100%', height: '100%'}}
+              <TouchableOpacity activeOpacity={.5}
+                style={{width: "100%", height: "100%"}}
                 onPress={this.pickImage}
               >
               </TouchableOpacity>
@@ -262,7 +262,7 @@ export default class Profile extends Component {
             {/* <Text style={[signInStyles.headerText, { color: "#fff" }]}>
               Frodo Baggins
             </Text> */}
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               style={styles.button}
               onPress={this.updateCategories}
             >
@@ -296,7 +296,7 @@ export default class Profile extends Component {
             keyExtractor={(item) => item.code}
             renderItem={({ item }) => (
               <View style={{ paddingVertical: 8 }}>
-                <TouchableOpacity
+                <TouchableOpacity activeOpacity={.5}
                   style={{
                     backgroundColor: item.color.background,
                     paddingVertical: 15,

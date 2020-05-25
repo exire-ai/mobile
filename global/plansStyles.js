@@ -1,25 +1,25 @@
 import { StyleSheet } from "react-native";
-import { colorScheme } from './colorScheme';
+import { colorScheme } from "./colorScheme";
 
 export const plansStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     backgroundColor: colorScheme.background
   },
   list: {
     flex: 1,
-    width: '100%',
+    width: "100%",
   },
   newPlan: {
     backgroundColor: colorScheme.button, 
     height: 60, 
     width: 60, 
     borderRadius: 30, 
-    alignItems: 'center', 
-    alignSelf: 'flex-end', 
-    marginRight: '2.5%', 
-    marginBottom: '2.5%'
+    alignItems: "center", 
+    alignSelf: "flex-end", 
+    marginRight: "2.5%", 
+    marginBottom: "2.5%"
   },
   buttonText: {
     fontFamily: "nunito-bold", 
@@ -29,16 +29,16 @@ export const plansStyles = StyleSheet.create({
   },
   venue: {
     height: 115, 
-    width: '100%', 
-    justifyContent: 'center', 
+    width: "100%", 
+    justifyContent: "center", 
     paddingRight: 10
   },
   component: {
     height: 130.39, 
-    width: '95%', 
+    width: "95%", 
     backgroundColor: colorScheme.componentBackground, 
-    flexDirection: 'row', 
-    alignItems: 'flex-start', 
+    flexDirection: "row", 
+    alignItems: "flex-start", 
     borderRadius: 13.29
   },
   name: {
@@ -58,7 +58,7 @@ export const plansStyles = StyleSheet.create({
   },
   venueContainer: {
     flex: .3, 
-    justifyContent: 'flex-end', 
+    justifyContent: "flex-end", 
     paddingVertical: 7.5
   }
 });

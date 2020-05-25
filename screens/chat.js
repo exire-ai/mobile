@@ -9,8 +9,8 @@ import { shadowStyles } from "../global/shadowStyles";
 import dialogflow from "../functions/dialogflow";
 
 // FIRESTORE
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 export default class Chat extends React.Component {
   db = firebase.firestore();
@@ -19,7 +19,7 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
-    // not using observer bc can't get return / callback / promise / state update working
+    // not using observer bc can"t get return / callback / promise / state update working
     AsyncStorage.multiGet(["userID", "name", "profileImg", "number"]).then((value) => {
       this.setState({
         userID: value[0][1],
@@ -42,14 +42,14 @@ export default class Chat extends React.Component {
 
   state = {
     messages: [],
-    text: '',
+    text: "",
     inverse: 1,
     chatID: this.props.navigation.state.params.chatID,
     userID: this.props.navigation.state.params.userID
   };
 
   getChat() {
-    this.db.collection('chats')
+    this.db.collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
       .then(querySnapshot => {
@@ -69,7 +69,7 @@ export default class Chat extends React.Component {
   }
 
   addMessage(message) {
-    this.db.collection('chats')
+    this.db.collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
       .then(querySnapshot => {
@@ -88,7 +88,7 @@ export default class Chat extends React.Component {
       name: this.state.name,
       imgURL: this.state.profileImg
     }
-    this.db.collection('chats')
+    this.db.collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
       .then(querySnapshot => {
@@ -106,12 +106,12 @@ export default class Chat extends React.Component {
 
   onListen(doc) {
     var data = doc.data()
-    console.log('message added:', data.messages[data.messages.length - 1])
+    console.log("message added:", data.messages[data.messages.length - 1])
   }
 
-  // won't work at all rn bc changed the chatID querying technique
+  // won"t work at all rn bc changed the chatID querying technique
   listenChat() {
-    const subscriber = this.db.collection('chats')
+    const subscriber = this.db.collection("chats")
       .doc(this.state.chatID)
       .onSnapshot(this.onListen);
   }
@@ -132,9 +132,9 @@ export default class Chat extends React.Component {
     this.setState({
       messages: messages
     })
-    if (this.state.text.includes('@Emma') || this.state.text.includes('@emma') || this.state.users.length == 2) {
-      var temp = this.state.text.replace("@Emma", '')
-      temp = temp.replace("@emma", '')
+    if (this.state.text.includes("@Emma") || this.state.text.includes("@emma") || this.state.users.length == 2) {
+      var temp = this.state.text.replace("@Emma", "")
+      temp = temp.replace("@emma", "")
       this.emma(temp)
     }
     this.clearText()
@@ -203,7 +203,7 @@ export default class Chat extends React.Component {
     if (unix + 86400 > now) {
       var hours = res.getHours()
       var minutes = res.getMinutes()
-      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? '0' : '') + minutes + (hours > 12 ? "pm" : "am")
+      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? "0" : "") + minutes + (hours > 12 ? "pm" : "am")
     } else if (unix + 518400 > now) {
       return res.getDay()
     } else {
@@ -226,7 +226,7 @@ export default class Chat extends React.Component {
             keyExtractor={(item, index) => "time" + item.time}
             inverted={this.state.inverse == 1 ? false : -1}
             renderItem={({ item, index }) => {
-              if (item.special.hasOwnProperty('venues')) {
+              if (item.special.hasOwnProperty("venues")) {
                 return (
                   <MessageClass
                     message={item.message}
@@ -258,24 +258,24 @@ export default class Chat extends React.Component {
               }
             }}
           />
-          <View style={{ margin: 10, marginBottom: 20, backgroundColor: colorScheme.background, borderRadius: 25, alignItems: 'center', flexDirection: 'row' }}>
+          <View style={{ margin: 10, marginBottom: 20, backgroundColor: colorScheme.background, borderRadius: 25, alignItems: "center", flexDirection: "row" }}>
             <TextInput
               placeholder={"Say something..."}
               style={{ paddingVertical: 15, marginLeft: 20, color: colorScheme.darkText, fontSize: 17, flex: .8 }}
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
             />
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
               style={[shadowStyles.shadowDown, {
                 backgroundColor: this.state.text.length > 1 ? colorScheme.button : colorScheme.primary,
                 height: 45,
                 width: 45,
                 borderRadius: 22.5,
-                position: 'absolute',
+                position: "absolute",
                 right: 5,
                 flex: .2,
-                alignItems: 'center',
-                justifyContent: 'center'
+                alignItems: "center",
+                justifyContent: "center"
               }]}
               onPress={() => {
                 if (this.state.text.length > 1) {
@@ -284,8 +284,8 @@ export default class Chat extends React.Component {
               }}
             >
               <Icon
-                name='chevron-right'
-                color='#FFF'
+                name="chevron-right"
+                color="#FFF"
                 size={28}
                 style={[shadowStyles.shadowDown, {paddingLeft: 3, paddingTop: 3}]}
               />

@@ -4,7 +4,7 @@ import {
 } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import SignInStack from "./signInStack";
-// import ChatStack from './chatStack';
+// import ChatStack from "./chatStack";
 import HomeStack from "./homeStack";
 import LoadingScreen from "../screens/LoadingScreen";
 import MainDrawerNavigator from "./homeStack";

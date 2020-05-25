@@ -46,7 +46,7 @@ export const chatsStyles = StyleSheet.create({
     width: 48, 
     borderRadius: 24,
     marginTop: 11,
-    overflow: 'hidden',
+    overflow: "hidden",
     backgroundColor: colorScheme.lessDarkText
   },
   name: {

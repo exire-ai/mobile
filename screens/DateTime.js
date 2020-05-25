@@ -236,7 +236,7 @@ export default class DateTime extends Component {
                       {"$" + item.cost + " per person"}
                     </Text>
                   </View>
-                  <TouchableOpacity
+                  <TouchableOpacity activeOpacity={.5}
                     style={{
                       backgroundColor: colorScheme.activeButton,
                       paddingVertical: 7.5,

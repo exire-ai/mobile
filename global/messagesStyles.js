@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { colorScheme } from './colorScheme';
+import { StyleSheet } from "react-native";
+import { colorScheme } from "./colorScheme";
 
 export const messagesStyles = StyleSheet.create({
     textInput: {
@@ -7,9 +7,9 @@ export const messagesStyles = StyleSheet.create({
         fontSize: 16
     },
     chatContainer: {
-        width: '100%', 
-        flexDirection: 'row', 
-        alignItems: 'flex-start', 
+        width: "100%", 
+        flexDirection: "row", 
+        alignItems: "flex-start", 
         paddingLeft: 10,
         paddingRight: 13
     },
@@ -18,7 +18,7 @@ export const messagesStyles = StyleSheet.create({
         height: 48, 
         width: 48, 
         borderRadius: 24,
-        overflow: 'hidden',
+        overflow: "hidden",
         backgroundColor: colorScheme.lessDarkText
     },
     name: {

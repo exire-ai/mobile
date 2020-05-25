@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colorScheme } from './colorScheme';
+import { colorScheme } from "./colorScheme";
 
 export const miniVenueStyles = StyleSheet.create({
   venueContainer: {
@@ -19,8 +19,8 @@ export const miniVenueStyles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "rgba(0,0,0,.35)",
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     paddingLeft: 5,
     paddingBottom: 5
   },

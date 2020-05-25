@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState, useCallback } from "react";
+import { View, Text, TouchableOpacity, FlatList } from "react-native";
 
 // Styles Imports
 import { shadowStyles } from "../global/shadowStyles";
 import { chatsStyles } from "../global/chatsStyles";
-import { colorScheme } from '../global/colorScheme';
+import { colorScheme } from "../global/colorScheme";
 
 const nameDict = {
   artmuseums: ["Art", "🎨"],
@@ -75,27 +75,27 @@ export default class Categories extends React.Component {
   render() {
     return (
     <FlatList
-      style={{width: '100%', paddingLeft: 7, paddingTop: 3}}
+      style={{width: "100%", paddingLeft: 7, paddingTop: 3}}
       data={this.state.categories}
       horizontal
       showsHorizontalScrollIndicator={false}
       renderItem={({ item }) => (
-      <TouchableOpacity
+      <TouchableOpacity activeOpacity={.5}
         style={[{padding: 5}, shadowStyles.shadowDown]}
         onPress={() => {
           var temp = this.state.categories
           temp.find(o => o.key === item.key).selected = !item.selected
           var noneSelected = true
           for (var i in temp) {
-            if (temp[i].selected == true && temp[i].key != 'all') {
+            if (temp[i].selected == true && temp[i].key != "all") {
               noneSelected = false
             }
           }
-          if (item.key != 'all') {
-            temp.find(o => o.key === 'all').selected = noneSelected
+          if (item.key != "all") {
+            temp.find(o => o.key === "all").selected = noneSelected
           } else {
             for (var i in temp) {
-              if (temp[i].key != 'all') {
+              if (temp[i].key != "all") {
                 temp[i].selected= false
               }
             }
@@ -103,8 +103,8 @@ export default class Categories extends React.Component {
           this.setState({categories: temp})
         }}
       >
-          <View style={{borderRadius: 5, backgroundColor: item.selected ? colorScheme.primary : colorScheme.componentBackground, paddingHorizontal: 15, paddingVertical: 9, alignItems: 'center', flexDirection: 'row'}}>
-            <Text style={{marginTop: -1, fontFamily: 'nunito-bold', color: item.selected ? colorScheme.primaryText : colorScheme.darkText, fontSize: 17}}>{item.name[0]} </Text>
+          <View style={{borderRadius: 5, backgroundColor: item.selected ? colorScheme.primary : colorScheme.componentBackground, paddingHorizontal: 15, paddingVertical: 9, alignItems: "center", flexDirection: "row"}}>
+            <Text style={{marginTop: -1, fontFamily: "nunito-bold", color: item.selected ? colorScheme.primaryText : colorScheme.darkText, fontSize: 17}}>{item.name[0]} </Text>
             <Text style={{marginTop: -1, fontSize: 19}}>{item.name[1]}</Text>
           </View>
         </TouchableOpacity>

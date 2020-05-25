@@ -1,9 +1,9 @@
-import React from 'react';
-import { BotMessage } from './messages/botMessage';
-import { VenuesMessage } from './messages/venuesMessage';
-import { UserMessage } from './messages/userMessage';
-import { LoadingMessage } from './messages/loadingMessage';
-import { FormMessage } from './messages/formMessage';
+import React from "react";
+import { BotMessage } from "./messages/botMessage";
+import { VenuesMessage } from "./messages/venuesMessage";
+import { UserMessage } from "./messages/userMessage";
+import { LoadingMessage } from "./messages/loadingMessage";
+import { FormMessage } from "./messages/formMessage";
 
 export function Message({
   message,
@@ -29,11 +29,11 @@ export function Message({
     messageJSX = (
       <UserMessage message={message} spaceBelow={spaceBelow} spaceAbove={spaceAbove}/>
     );
-  } else if (message == 'loadingloadingloading' && !owner) {
+  } else if (message == "loadingloadingloading" && !owner) {
     return (
       <LoadingMessage />
     )
-  } else if (form == 'form') {
+  } else if (form == "form") {
     messageJSX = (
       <FormMessage form={form} spaceBelow={spaceBelow} spaceAbove={spaceAbove} />
     );

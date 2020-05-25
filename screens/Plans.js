@@ -116,7 +116,7 @@ export default class Plans extends Component {
             <Plan data={item} onTap={this.planTapped.bind(this)} />
           )}
         />
-        <TouchableOpacity
+        <TouchableOpacity activeOpacity={.5}
           style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => {
             this.props.navigation.navigate("CreatePlan");

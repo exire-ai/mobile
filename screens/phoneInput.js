@@ -66,17 +66,17 @@ export default function PhoneInput({ navigation }) {
   };
 
   return (
-    <View style={{height: '100%', width: '100%', backgroundColor: colorScheme.footer}}>
+    <View style={{height: "100%", width: "100%", backgroundColor: colorScheme.footer}}>
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={[navigationStyles.icon, { width: '100%' }]}>
+      <TouchableOpacity activeOpacity={.5} onPress={() => navigation.goBack()} style={[navigationStyles.icon, { width: "100%" }]}>
         <Icon
-          name='chevron-left'
+          name="chevron-left"
           color={colorScheme.lessDarkText}
           size={32}
           style={shadowStyles.shadowDown}
         />
       </TouchableOpacity>
-      <View style={{ height: 500, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ height: 500, width: "100%", alignItems: "center", justifyContent: "center" }}>
         <Modal
           isVisible={loadingVisible}
           style={{ justifyContent: "center", alignItems: "center" }}
@@ -97,13 +97,13 @@ export default function PhoneInput({ navigation }) {
           </View>
         </Modal>
         <View style={signInStyles.textContainer}>
-          <Text style={signInStyles.headerText}>What's your number?</Text>
+          <Text style={signInStyles.headerText}>What"s your number?</Text>
           <Text style={signInStyles.subHeaderText}>
-            We just need your number for verification and won't spam you or sell
+            We just need your number for verification and won"t spam you or sell
             your data.
         </Text>
         </View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: "center"}}>
         <TextInput
           style={signInStyles.input}
           keyboardType={"phone-pad"}
@@ -118,23 +118,23 @@ export default function PhoneInput({ navigation }) {
         </View>
       </View>
     </SafeAreaView>
-    <KeyboardAvoidingView behavior={'padding'} style={{ flexDirection: 'row', alignItems: 'flex-end', width: '100%', backgroundColor: colorScheme.footer }}>
-      <TouchableOpacity
+    <KeyboardAvoidingView behavior={"padding"} style={{ flexDirection: "row", alignItems: "flex-end", width: "100%", backgroundColor: colorScheme.footer }}>
+      <TouchableOpacity activeOpacity={.5}
         style={[shadowStyles.shadowDown, {
           backgroundColor: number.length > 9 ? colorScheme.button : colorScheme.activeButton,
           height: 55,
           width: 55,
           borderRadius: 27.5,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginLeft: '82%',
+          alignItems: "center",
+          justifyContent: "center",
+          marginLeft: "82%",
           marginBottom: 20
         }]}
         onPress={nextTapped}
       >
         <Icon
-          name='chevron-right'
-          color='#FFF'
+          name="chevron-right"
+          color="#FFF"
           size={33}
           style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 3 }]}
         />
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colorScheme.footer,
     alignItems: "center",
-    height: '100%',
-    width: '100%'
+    height: "100%",
+    width: "100%"
   },
 });

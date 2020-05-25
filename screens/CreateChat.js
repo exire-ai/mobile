@@ -9,15 +9,15 @@ import { signInStyles } from "../global/signInStyles"
 import { chatsStyles } from "../global/chatsStyles";
 import { FlatList } from "react-native-gesture-handler";
 import users from "../functions/users";
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 const cuteDogs = [
-  'https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp',
-  'https://post.healthline.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg',
-  'https://cdn.sanity.io/images/0vv8moc6/dvm360/81e9bbc1fe445afd4c888497d6e8e4d8abcd9029-450x274.jpg',
-  'https://t2.ea.ltmcdn.com/en/images/5/1/4/types_and_breeds_of_husky_dogs_1415_orig.jpg',
-  'https://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg'
+  "https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp",
+  "https://post.healthline.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg",
+  "https://cdn.sanity.io/images/0vv8moc6/dvm360/81e9bbc1fe445afd4c888497d6e8e4d8abcd9029-450x274.jpg",
+  "https://t2.ea.ltmcdn.com/en/images/5/1/4/types_and_breeds_of_husky_dogs_1415_orig.jpg",
+  "https://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg"
 ]
 
 export default class CreateChat extends React.Component {
@@ -40,7 +40,7 @@ export default class CreateChat extends React.Component {
   }
 
   getChat(chatID, callback) {
-    this.db.collection('chats')
+    this.db.collection("chats")
       .where("chatID", "==", chatID)
       .get()
       .then(querySnapshot => {
@@ -71,7 +71,7 @@ export default class CreateChat extends React.Component {
   }
 
   addNumber = (text) => {
-    // need to add check that they don't add self
+    // need to add check that they don"t add self
     this.setState({ number: text })
     if (text.length > 9) {
       var temp = this.state.otherUsers
@@ -96,7 +96,7 @@ export default class CreateChat extends React.Component {
           })
           this.setState({otherUsers: temp})
         } else {
-          users.sendTextMsg(text, this.state.name + " added you to the group " + this.state.chatName + " on Exire, download the app now at https://exire.ai to join!", (result) => {
+          users.sendTextMsg(text, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
             console.log(result)
           })
         }
@@ -106,7 +106,7 @@ export default class CreateChat extends React.Component {
 
   render() {
     return (
-      <View style={{ alignItems: 'center', height: '100%', width: '100%', backgroundColor: colorScheme.footer }}>
+      <View style={{ alignItems: "center", height: "100%", width: "100%", backgroundColor: colorScheme.footer }}>
         <TextInput
           style={[signInStyles.input, { marginTop: 20 }]}
           keyboardType={"default"}
@@ -126,8 +126,8 @@ export default class CreateChat extends React.Component {
             marginVertical: 10,
             borderRadius: 15,
             flexDirection: "row",
-            justifyContent: 'center',
-            alignItems: 'center'
+            justifyContent: "center",
+            alignItems: "center"
           }, shadowStyles.shadowDown]}
         >
           <Icon
@@ -137,7 +137,7 @@ export default class CreateChat extends React.Component {
             style={[shadowStyles.shadowDown, chatsStyles.icon, { paddingLeft: 20 }]}
           />
           <TextInput
-            style={[{ width: '90%', color: colorScheme.lessDarkText, fontFamily: 'nunito-regular', fontSize: 17 }]}
+            style={[{ width: "90%", color: colorScheme.lessDarkText, fontFamily: "nunito-regular", fontSize: 17 }]}
             placeholder={"Add friends by phone number"}
             keyboardType={"phone-pad"}
             placeholderTextColor={colorScheme.lesserDarkText}
@@ -146,20 +146,20 @@ export default class CreateChat extends React.Component {
           ></TextInput>
         </View>
         <FlatList
-          style={{ width: '100%' }}
-          contentContainerStyle={{ alignItems: 'center', marginTop: 10 }}
+          style={{ width: "100%" }}
+          contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
           data={this.state.otherUsers}
           showsVerticalScrollIndicator={false}
           keyExtratctor={(item, index) => "number" + item.number}
           renderItem={({ item, index }) => (
-            <View style={{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, backgroundColor: item.name == '' ? colorScheme.background : colorScheme.primary, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontFamily: 'nunito-bold', color: item.name == '' ? colorScheme.lessDarkText : colorScheme.primaryText, fontSize: 17 }}>{
+            <View style={{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, backgroundColor: item.name == "" ? colorScheme.background : colorScheme.primary, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+              <Text style={{ fontFamily: "nunito-bold", color: item.name == "" ? colorScheme.lessDarkText : colorScheme.primaryText, fontSize: 17 }}>{
                 item.name == "" ?
                   ("(" + item.number.substring(0, 3) + ") " + item.number.substring(3, 6) + "-" + item.number.substring(6, 10))
                 : item.name
               }</Text>
-              <TouchableOpacity
-                style={{ height: 25, width: 25, borderRadius: 12.5, backgroundColor: item.name == '' ? '#ffcccb' : '#fff', marginLeft: 10, alignItems: 'center', justifyContent: 'center' }}
+              <TouchableOpacity activeOpacity={.5}
+                style={{ height: 25, width: 25, borderRadius: 12.5, backgroundColor: item.name == "" ? "#ffcccb" : "#fff", marginLeft: 10, alignItems: "center", justifyContent: "center" }}
                 onPress={() => {
                   var temp = this.state.otherUsers
                   temp = temp.filter(function(o) { return o.number != item.number }); 
@@ -168,7 +168,7 @@ export default class CreateChat extends React.Component {
               >
                 <Icon
                   name="minus"
-                  color={item.name == '' ? colorScheme.primaryText : colorScheme.lesserDarkText}
+                  color={item.name == "" ? colorScheme.primaryText : colorScheme.lesserDarkText}
                   size={20}
                   style={[shadowStyles.shadowDown, {paddingTop: 2}]}
                 />
@@ -176,8 +176,8 @@ export default class CreateChat extends React.Component {
             </View>
           )}
         />
-        <KeyboardAvoidingView behavior={'padding'} style={{ width: '100%', alignItems: 'flex-end', justifyContent: 'center', flexDirection: 'row' }}>
-          <TouchableOpacity
+        <KeyboardAvoidingView behavior={"padding"} style={{ width: "100%", alignItems: "flex-end", justifyContent: "center", flexDirection: "row" }}>
+          <TouchableOpacity activeOpacity={.5}
             onPress={this.createGroup}
             style={[
               shadowStyles.shadowDown,

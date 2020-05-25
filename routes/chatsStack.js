@@ -38,8 +38,8 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerLeft: () => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Chats')}
+          <TouchableOpacity activeOpacity={.5}
+            onPress={() => navigation.navigate("Chats")}
             style={[navigationStyles.icon]}
           >
             <Icon
@@ -51,8 +51,8 @@ const screens = {
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ChatInfo', {data: navigation.getParam('data')})}
+          <TouchableOpacity activeOpacity={.5}
+            onPress={() => navigation.navigate("ChatInfo", {data: navigation.getParam("data")})}
             style={[{paddingBottom: 4, paddingRight: 16}]}
           >
             <Icon
@@ -85,7 +85,7 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerLeft: () => (
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             onPress={() => navigation.goBack()}
             style={[navigationStyles.icon]}
           >
@@ -110,7 +110,7 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerLeft: () => (
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             onPress={() => navigation.goBack()}
             style={[navigationStyles.icon]}
           >

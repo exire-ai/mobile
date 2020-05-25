@@ -122,7 +122,7 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
 //         headerTitleStyle: navigationStyles.headerTitle,
 //         headerTitleAlign: "center",
 //         headerLeft: () => (
-//           <TouchableOpacity
+//           <TouchableOpacity activeOpacity={.5}
 //             onPress={() => {
 //               console.log("open");
 //               navigation.toggleDrawer();

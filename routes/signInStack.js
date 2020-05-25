@@ -1,17 +1,17 @@
-import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { navigationStyles } from '../global/navigationStyles';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import GetStarted from '../screens/getStarted';
-import PhoneInput from '../screens/phoneInput';
-import TextVerification from '../screens/textVerification';
-import Name from '../screens/name';
-import ActivityPreference from '../screens/activityPreference';
-import FoodPreference from '../screens/foodPreference';
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { navigationStyles } from "../global/navigationStyles";
+import Icon from "react-native-vector-icons/FontAwesome";
+import GetStarted from "../screens/getStarted";
+import PhoneInput from "../screens/phoneInput";
+import TextVerification from "../screens/textVerification";
+import Name from "../screens/name";
+import ActivityPreference from "../screens/activityPreference";
+import FoodPreference from "../screens/foodPreference";
 import { colorScheme } from "../global/colorScheme";
-import { shadowStyles } from '../global/shadowStyles';
+import { shadowStyles } from "../global/shadowStyles";
 
 const screens = {
   GetStarted: {
@@ -51,23 +51,23 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerShown: true,
-        title: 'Activities',
+        title: "Activities",
         headerStyle: navigationStyles.header,
         gestureEnabled: false,
         headerTitleStyle: navigationStyles.headerTitle,
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         headerLeft: () => {
           var tempFunc;
-          if (navigation.dangerouslyGetParent().state.routes[0].routeName == 'GetStarted') {
+          if (navigation.dangerouslyGetParent().state.routes[0].routeName == "GetStarted") {
             tempFunc = () => navigation.navigate("GetStarted")
           } else {
             tempFunc = () => navigation.goBack()
           }
           return (
-            <TouchableOpacity onPress={tempFunc} style={navigationStyles.icon}>
+            <TouchableOpacity activeOpacity={.5} onPress={tempFunc} style={navigationStyles.icon}>
               <Icon
-                name='chevron-left'
-                color='#FFF'
+                name="chevron-left"
+                color="#FFF"
                 size={32}
                 style={shadowStyles.shadowDown}
               />
@@ -82,15 +82,15 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       return {
         headerShown: true,
-        title: 'Food',
+        title: "Food",
         headerStyle: navigationStyles.header,
         headerTitleStyle: navigationStyles.headerTitle,
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.goBack()} style={navigationStyles.icon}>
+          <TouchableOpacity activeOpacity={.5} onPress={() => navigation.goBack()} style={navigationStyles.icon}>
             <Icon
-              name='chevron-left'
-              color='#FFF'
+              name="chevron-left"
+              color="#FFF"
               size={32}
               style={shadowStyles.shadowDown}
             />

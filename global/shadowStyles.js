@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { colorScheme } from './colorScheme';
+import { StyleSheet } from "react-native";
+import { colorScheme } from "./colorScheme";
 
 export const shadowStyles = StyleSheet.create({
   shadowDown: {

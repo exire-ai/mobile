@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import {
   Text,
   View,
   FlatList,
   TouchableOpacity,
   ImageBackground,
-} from 'react-native';
-import { messageStyles } from '../../global/messageStyles';
-import venues from '../../functions/venues';
-import { navigationStyles } from '../../global/navigationStyles';
+} from "react-native";
+import { messageStyles } from "../../global/messageStyles";
+import venues from "../../functions/venues";
+import { navigationStyles } from "../../global/navigationStyles";
 
 export function VenuesMessage({
   venueData,
@@ -30,13 +30,13 @@ export function VenuesMessage({
         horizontal={true}
         data={venueData}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => 'key' + index}
+        keyExtractor={(item, index) => "key" + index}
         renderItem={({ item }) => (
             <View style={{ paddingLeft: 10 }}>
-            <TouchableOpacity
+            <TouchableOpacity activeOpacity={.5}
                 onPress={() => { 
                   venues.get(item.placeID, (venue) => {
-                    navigation.navigate('Venue', venue)
+                    navigation.navigate("Venue", venue)
                   })
                 }}
                 style={messageStyles.venueContainer}
@@ -47,14 +47,14 @@ export function VenuesMessage({
               >
               <View style={messageStyles.venueContent}>
                   <Text style={messageStyles.venueText}>
-                  {item.title + '\n'}
+                  {item.title + "\n"}
                   {item.cost > 15
                       ? item.cost > 30
                       ? item.cost > 60
-                          ? '$$$$'
-                          : '$$$'
-                      : '$$'
-                      : '$'}
+                          ? "$$$$"
+                          : "$$$"
+                      : "$$"
+                      : "$"}
                   </Text>
               </View>
               </ImageBackground>

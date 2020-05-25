@@ -70,7 +70,7 @@ export default class VenueContent extends Component {
           height: "100%",
         }}
       >
-        <TouchableOpacity
+        <TouchableOpacity activeOpacity={.5}
           style={{
             backgroundColor: "rgba(0,0,0,0.25)",
             width: "100%",

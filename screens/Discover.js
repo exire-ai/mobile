@@ -55,6 +55,7 @@ const nameDict = {
   cocktailbars: ["Cocktails", "🍸"],
   pubs: ["Pubs", "🍻"],
   rockclimbing: ["Rock Climbing", "🧗"],
+  comedyclubs: ["Comedy Clubs", "🤣"]
 };
 
 var format = (categories) => {
@@ -218,7 +219,7 @@ export default class Discover extends Component {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity
+              <TouchableOpacity activeOpacity={.5}
                 style={{ height: "100%", paddingLeft: 7 }}
                 onPress={() => {
                   var temp = this.state.categories;
@@ -260,7 +261,7 @@ export default class Discover extends Component {
         />*/}
         <FlatList
           style={{ width: "100%", marginHorizontal: 10, paddingTop: 10 }}
-          contentContainerStyle={{justifyContent: 'flex-start'}}
+          contentContainerStyle={{justifyContent: "flex-start"}}
           data={this.state.venues}
           onRefresh={() => {
             this.loadData();

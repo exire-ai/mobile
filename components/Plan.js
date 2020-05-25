@@ -9,10 +9,10 @@ import { plansStyles } from "../global/plansStyles";
 function Venue({ venues }) {
   return (
     <View style={plansStyles.venue}>
-      <TouchableOpacity
+      <TouchableOpacity activeOpacity={.5}
         onPress={() => {
           // venues.get(item.placeID, (venue) => {
-          //   navigation.navigate('Venue', venue)
+          //   navigation.navigate("Venue", venue)
           // })
         }}
         style={[shadowStyles.shadowDown, miniVenueStyles.venueContainer]}
@@ -37,7 +37,7 @@ export default class Plan extends Component {
   render() {
     let data = this.props.data;
     var plan = (
-      <TouchableOpacity
+      <TouchableOpacity activeOpacity={.5}
         style={{ alignItems: "center", paddingTop: 10 }}
         onPress={() => {
           this.props.onTap(data);

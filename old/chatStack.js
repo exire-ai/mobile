@@ -7,7 +7,7 @@ import Chat from "../screens/chat";
 import Profile from "../screens/profile";
 import Venue from "../screens/venue";
 import users from "../functions/users";
-// import Drawer from '../components/Drawer';
+// import Drawer from "../components/Drawer";
 
 const screens = {
   Chat: {
@@ -21,7 +21,7 @@ const screens = {
         headerTitleAlign: "center",
         gestureEnabled: false,
         headerLeft: () => (
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             onPress={() => navigation.navigate("DrawerOpen")}
             style={navigationStyles.icon}
           >
@@ -39,7 +39,7 @@ const screens = {
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             onPress={() => {
               AsyncStorage.getItem("userID").then((value) => {
                 users.get(value, (data) => {
@@ -73,7 +73,7 @@ const screens = {
         headerTransparent: true,
         gestureEnabled: true,
         headerLeft: () => (
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             onPress={() => navigation.navigate("Chat")}
             style={navigationStyles.icon}
           >
@@ -91,7 +91,7 @@ const screens = {
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             onPress={() => {
               AsyncStorage.setItem("userID", "");
               AsyncStorage.setItem("name", "");
@@ -115,7 +115,7 @@ const screens = {
         headerTransparent: true,
         gestureEnabled: true,
         headerLeft: () => (
-          <TouchableOpacity
+          <TouchableOpacity activeOpacity={.5}
             onPress={() => navigation.navigate("Chat")}
             style={navigationStyles.icon}
           >

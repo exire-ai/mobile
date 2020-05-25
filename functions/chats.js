@@ -1,13 +1,13 @@
 var uuid = require("uuid");
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-import { useCallback } from 'react';
+import * as firebase from "firebase";
+import "firebase/firestore";
+import { useCallback } from "react";
 
 const chats = {
   // THIS CODE SUCKS LMAO
   // getChat: function(chatID, callback) {
-  //   fetch('https://exire-backend.herokuapp.com/chats/get/' + chatID, {
-  //     method: 'GET'
+  //   fetch("https://exire-backend.herokuapp.com/chats/get/" + chatID, {
+  //     method: "GET"
   //   })
   //   .then((response) => response.json())
   //   .then((responseJson) => {
@@ -19,16 +19,16 @@ const chats = {
   //   })
   // },
   // createChat: function(userID, message, callback) {
-  //   fetch('https://exire-backend.herokuapp.com/chats/create', {
-  //     method: 'POST',
+  //   fetch("https://exire-backend.herokuapp.com/chats/create", {
+  //     method: "POST",
   //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type' : 'application/json'
+  //       Accept: "application/json",
+  //       "Content-Type" : "application/json"
   //     },
   //     body: JSON.stringify({
   //       userID: userID,
   //       chat: [{
-  //         senderID: 'bot',
+  //         senderID: "bot",
   //         message: message
   //       }],
   //     })
@@ -43,11 +43,11 @@ const chats = {
   //   })
   // },
   // sendMessage:function(chatID, message, senderID, venues, callback) {
-  //   fetch('https://exire-backend.herokuapp.com/chats/sendMessage/' + chatID, {
-  //     method: 'POST',
+  //   fetch("https://exire-backend.herokuapp.com/chats/sendMessage/" + chatID, {
+  //     method: "POST",
   //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type' : 'application/json'
+  //       Accept: "application/json",
+  //       "Content-Type" : "application/json"
   //     },
   //     body: JSON.stringify({
   //       message: message,
@@ -64,8 +64,8 @@ const chats = {
   //   })
   // },
   // getAll: function(callback) {
-  //   fetch('https://exire-backend.herokuapp.com/chats/getAll', {
-  //     method: 'GET'
+  //   fetch("https://exire-backend.herokuapp.com/chats/getAll", {
+  //     method: "GET"
   //   })
   //   .then((response) => response.json())
   //   .then((responseJson) => {
@@ -112,7 +112,7 @@ const chats = {
       userData: userData,
       ownerID: userID
     }
-    const result = await db.collection('chats').add(initialChat);
+    const result = await db.collection("chats").add(initialChat);
     callback(result.id, chatID)
   }
 }

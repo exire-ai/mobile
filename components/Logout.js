@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from "react-navigation"
 
 // Style Imports
 import { shadowStyles } from "../global/shadowStyles";
@@ -16,7 +16,7 @@ const logout = (navigation) => {
 
 export default function Logout({ navigation }) {
   return (
-    <TouchableOpacity
+    <TouchableOpacity activeOpacity={.5}
       style={[drawerStyles.bottomButton, shadowStyles.shadowUp]}
       onPress={() => logout(navigation)}
     >

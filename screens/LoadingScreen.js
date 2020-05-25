@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, AsyncStorage } from 'react-native';
+import React, { Component } from "react";
+import { View, Text, TextInput, StyleSheet, AsyncStorage } from "react-native";
 
 export default class LoadingScreen extends Component {
   componentDidMount() {
@@ -13,11 +13,11 @@ export default class LoadingScreen extends Component {
 
   checkIfLoggedIn = () => {
     setTimeout( () => {
-      AsyncStorage.getItem('userID').then((value) => {
-        if (value != null && value != '') {
-          this.props.navigation.navigate('HomeStack');
+      AsyncStorage.getItem("userID").then((value) => {
+        if (value != null && value != "") {
+          this.props.navigation.navigate("HomeStack");
         } else {
-          this.props.navigation.navigate('SignInStack');
+          this.props.navigation.navigate("SignInStack");
         }
       })
     }, 300)
@@ -25,7 +25,7 @@ export default class LoadingScreen extends Component {
 
   render() {
     return <View style={styles.container}>
-      <Text style={{fontSize: 64, color: '#fff', fontFamily: 'nunito-semibold'}}>exire</Text>
+      <Text style={{fontSize: 64, color: "#fff", fontFamily: "nunito-semibold"}}>exire</Text>
     </View>;
   }
 }
@@ -33,8 +33,8 @@ export default class LoadingScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#3597e9'
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#3597e9"
   }
 });

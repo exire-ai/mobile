@@ -1,16 +1,16 @@
-import React from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+import React from "react";
+import { View, StyleSheet, Animated } from "react-native";
 
 const styles = StyleSheet.create({
   imageOverlay: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,
     top: 0,
   },
   container: {
-    backgroundColor: '#e1e4e8',
+    backgroundColor: "#e1e4e8",
   },
 });
 
