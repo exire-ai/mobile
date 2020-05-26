@@ -1,9 +1,17 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
 
 import Plan from "../components/Plan";
 import { shadowStyles } from "../global/shadowStyles";
 import { plansStyles } from "../global/plansStyles";
+import users from "../functions/users";
+import venues from "../functions/venues";
 
 const data = [
   {
@@ -80,24 +88,51 @@ const data = [
 
 export default class Plans extends Component {
   state = {
-    data: data,
+    data: null,
     refreshing: false,
+  };
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  getVenues = async (venueIDs, callback) => {
+    venueIDs.forEach(async (venueID) => {
+      const response = await fetch(
+        `https://exire-backend.herokuapp.com/venues/get/${venueID}`
+      );
+      const venue = await response.json();
+      console.log("hello");
+      console.log(venue);
+    });
   };
 
   loadData = () => {
     this.setState({
       refreshing: true,
     });
-    setTimeout(() => {
-      this.setState({
-        refreshing: false,
+    AsyncStorage.getItem("userID").then((userID) => {
+      users.getPlans(userID, (response) => {
+        this.setState({
+          data: response,
+        });
+
+        this.setState({
+          refreshing: false,
+        });
       });
-    }, 300);
+    });
+
+    // setTimeout(() => {
+    //   this.setState({
+    //     refreshing: false,
+    //   });
+    // }, 300);
   };
 
   planTapped = (item) => {
-    console.log(item);
-    this.props.navigation.navigate("PlanDetail", item);
+    console.log(item.bookings[0].venue);
+    this.props.navigation.navigate("PlanDetail", item["bookings"][0].venue);
   };
 
   render() {
@@ -105,18 +140,19 @@ export default class Plans extends Component {
       <View style={plansStyles.container}>
         <FlatList
           style={plansStyles.list}
-          data={data}
+          data={this.state.data}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
             this.loadData();
           }}
           refreshing={this.state.refreshing}
-          keyExtratctor={(item, index) => "key" + index + "name" + item.name}
+          keyExtratctor={(item, index) => "key" + index + "name" + item.title}
           renderItem={({ item, index }) => (
             <Plan data={item} onTap={this.planTapped.bind(this)} />
           )}
         />
-        <TouchableOpacity activeOpacity={.5}
+        <TouchableOpacity
+          activeOpacity={0.5}
           style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => {
             this.props.navigation.navigate("CreatePlan");

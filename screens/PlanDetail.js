@@ -13,7 +13,7 @@ export default class PlanDetail extends Component {
 
   render() {
     const watchButton = <Button title="WATCH HERE" />;
-    if (this.state.booking.type == "online-event") {
+    if (this.state.booking.category == "online-event") {
       return (
         <View
           style={{

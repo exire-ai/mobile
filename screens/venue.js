@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Keyboard,
   TouchableOpacity,
+  AsyncStorage,
   Linking,
   Image,
   Platform,
@@ -19,6 +20,11 @@ import { shadowStyles } from "../global/shadowStyles";
 import { shadow } from "react-native-paper";
 import { navigationStyles } from "../global/navigationStyles";
 import { colorScheme } from "../global/colorScheme";
+
+import plans from "../functions/plans";
+import users from "../functions/users";
+
+import OnlineEvent from "./OnlineEvent";
 
 async function openLink(url) {
   try {
@@ -57,7 +63,8 @@ function linkOpen(url) {
 function MoreInfo({ url }) {
   if (url != "" && url != null) {
     return (
-      <TouchableOpacity activeOpacity={.5}
+      <TouchableOpacity
+        activeOpacity={0.5}
         style={[
           signInStyles.button,
           { position: "absolute", bottom: "5%", width: "85%", left: "7.5%" },
@@ -112,7 +119,7 @@ const nameDict = {
   cocktailbars: ["Cocktails", "🍸"],
   pubs: ["Pubs", "🍻"],
   rockclimbing: ["Rock Climbing", "🧗"],
-  comedyclubs: ["Comedy Clubs", "🤣"]
+  comedyclubs: ["Comedy Clubs", "🤣"],
 };
 
 export default class Venue extends Component {
@@ -127,141 +134,58 @@ export default class Venue extends Component {
     Keyboard.dismiss();
   }
 
+  exit = () => {
+    this.props.navigation.pop();
+  };
+
+  createPlan = (venue) => {
+    //Only called on one-time free online events
+
+    AsyncStorage.getItem("userID").then((value) => {
+      //Create plan object
+      var booking = {
+        type: "one-time",
+        venueID: venue.placeID,
+        slot: null,
+      };
+      var plan = {
+        bookings: [],
+        users: [],
+        title: venue.title,
+        description: venue.description,
+        start_time: venue.start_time,
+      };
+
+      plan.bookings.push(booking);
+      plan.users.push(value);
+
+      console.log(plan);
+
+      // Add Plan to plans collection
+      plans.create(plan, (planID) => {
+        if (planID != false && planID != null) {
+          //Add PlanID to user list
+          users.addPlan(value, planID, (res) => {
+            console.log(res);
+            this.exit();
+          });
+        } else {
+          console.log(planID);
+        }
+      });
+    });
+  };
+
   render() {
-    console.log(this.state.venue.type);
-    if (this.state.venue.type == "online-event") {
+    if (this.state.venue.category == "online-event") {
       return (
-        <View style={styles.container}>
-          <View
-            style={[
-              { flex: 0.35, flexDirection: "row" },
-              shadowStyles.shadowDown,
-            ]}
-          >
-            <ImageBackground
-              source={{ uri: this.state.venue.imgURL }}
-              style={{ width: "100%", height: "100%" }}
-            >
-              <SafeAreaView>
-                <TouchableOpacity activeOpacity={.5}
-                  onPress={() => this.props.navigation.goBack()}
-                  style={[navigationStyles.icon, { padding: 15 }]}
-                >
-                  <Icon
-                    name="chevron-left"
-                    color={colorScheme.primaryText}
-                    size={32}
-                    style={shadowStyles.shadowDown}
-                  />
-                </TouchableOpacity>
-              </SafeAreaView>
-            </ImageBackground>
-          </View>
-          <View
-            style={{
-              flex: 0.65,
-              width: "100%",
-              marginHorizontal: 10,
-              marginTop: 15,
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <View
-              style={{
-                borderBottomColor: colorScheme.veryLight,
-                borderBottomWidth: 1,
-                paddingBottom: 10,
-                width: "95%",
-              }}
-            >
-              <Text style={[textStyles.titleText, { textAlign: "left" }]}>
-                {this.state.venue.title}
-              </Text>
-              <Text
-                style={[
-                  textStyles.titleText,
-                  {
-                    textAlign: "left",
-                    fontSize: 22,
-                    color: colorScheme.lessDarkText,
-                  },
-                ]}
-              >
-                {this.state.venue.subtitle}
-              </Text>
-              <Text
-                style={[
-                  textStyles.subBodyText,
-                  { textAlign: "left", marginTop: 5 },
-                ]}
-              >
-                {this.state.venue.description}
-              </Text>
-              <View style={{ flexDirection: "row", marginTop: 5 }}>
-                <Image
-                  style={{
-                    width: 16,
-                    height: 16,
-                    marginTop: 4,
-                    marginRight: 10,
-                  }}
-                  source={require("../assets/clock.png")}
-                />
-                <Text style={textStyles.minorText}>
-                  {this.state.venue.duration + " hr"}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              width: "100%",
-              position: "absolute",
-              height: 100,
-              bottom: 10,
-              flexDirection: "row",
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={[
-                textStyles.minorText,
-                { flex: 0.5, textAlign: "center", fontFamily: "nunito-bold" },
-              ]}
-            >
-              {"From $" + this.state.venue.cost + " per person"}
-            </Text>
-            <View
-              style={{
-                flex: 0.5,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity activeOpacity={.5}
-                onPress={() => {
-                  this.props.navigation.navigate("DateTime", this.state.venue);
-                }}
-                style={[
-                  shadowStyles.shadowDown,
-                  {
-                    backgroundColor: colorScheme.activeButton,
-                    width: "90%",
-                    padding: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 7,
-                  },
-                ]}
-              >
-                <Text style={textStyles.buttonText}>See times</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+        <OnlineEvent
+          venue={this.state.venue}
+          goBack={this.exit}
+          addToPlan={(venue) => {
+            this.createPlan(venue);
+          }}
+        />
       );
     } else {
       if (
@@ -272,7 +196,8 @@ export default class Venue extends Component {
       ) {
         var navigationButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity activeOpacity={.5}
+            <TouchableOpacity
+              activeOpacity={0.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -333,7 +258,8 @@ export default class Venue extends Component {
       ) {
         var uberButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity activeOpacity={.5}
+            <TouchableOpacity
+              activeOpacity={0.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -384,7 +310,8 @@ export default class Venue extends Component {
       ) {
         var lyftButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity activeOpacity={.5}
+            <TouchableOpacity
+              activeOpacity={0.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -438,7 +365,8 @@ export default class Venue extends Component {
       ) {
         var infoButton = (
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity activeOpacity={.5}
+            <TouchableOpacity
+              activeOpacity={0.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -488,7 +416,8 @@ export default class Venue extends Component {
               style={{ width: "100%", height: "100%" }}
             >
               <SafeAreaView>
-                <TouchableOpacity activeOpacity={.5}
+                <TouchableOpacity
+                  activeOpacity={0.5}
                   onPress={() => this.props.navigation.goBack()}
                   style={[navigationStyles.icon, { padding: 15 }]}
                 >
@@ -625,7 +554,8 @@ export default class Venue extends Component {
             >
               We can"t book this for you, but you can add it to a plan!
             </Text>
-            <TouchableOpacity activeOpacity={.5}
+            <TouchableOpacity
+              activeOpacity={0.5}
               style={[
                 shadowStyles.shadowDown,
                 {
