@@ -1,9 +1,16 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
 
 import Plan from "../components/Plan";
 import { shadowStyles } from "../global/shadowStyles";
 import { plansStyles } from "../global/plansStyles";
+import users from "../functions/users";
 
 const data = [
   {
@@ -88,11 +95,20 @@ export default class Plans extends Component {
     this.setState({
       refreshing: true,
     });
-    setTimeout(() => {
-      this.setState({
-        refreshing: false,
+    AsyncStorage.getItem("userID").then((userID) => {
+      users.getPlans(userID, (response) => {
+        console.log(response);
+        this.setState({
+          refreshing: false,
+        });
       });
-    }, 300);
+    });
+
+    // setTimeout(() => {
+    //   this.setState({
+    //     refreshing: false,
+    //   });
+    // }, 300);
   };
 
   planTapped = (item) => {
@@ -116,7 +132,8 @@ export default class Plans extends Component {
             <Plan data={item} onTap={this.planTapped.bind(this)} />
           )}
         />
-        <TouchableOpacity activeOpacity={.5}
+        <TouchableOpacity
+          activeOpacity={0.5}
           style={[shadowStyles.shadowDown, plansStyles.newPlan]}
           onPress={() => {
             this.props.navigation.navigate("CreatePlan");

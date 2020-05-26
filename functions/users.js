@@ -344,6 +344,19 @@ const users = {
         callback(null);
       });
   },
+  getPlans: function (userID, callback) {
+    fetch("https://exire-backend.herokuapp.com/users/getPlans/" + userID, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        callback(json);
+      })
+      .catch((error) => {
+        console.log(JSON, stringify(error));
+        callback(null);
+      });
+  },
 };
 
 export default users;
