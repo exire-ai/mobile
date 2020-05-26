@@ -345,9 +345,14 @@ const users = {
       });
   },
   getPlans: function (userID, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/getPlans/" + userID, {
-      method: "GET",
-    })
+    fetch(
+      "https://exire-backend.herokuapp.com/users/getPlans/" +
+        userID +
+        "?populate=true",
+      {
+        method: "GET",
+      }
+    )
       .then((response) => response.json())
       .then((json) => {
         callback(json);

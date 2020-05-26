@@ -64,16 +64,10 @@ const plans = {
         callback([]);
       });
   },
-  create: function (bookings, users, title, description, time, callback) {
+  create: function (body, callback) {
     fetch("https://exire-backend.herokuapp.com/plans/create", {
       method: "POST",
-      body: JSON.stringify({
-        bookings: bookings,
-        users: users,
-        title: title,
-        description: description,
-        start_time: time,
-      }),
+      body: JSON.stringify(body),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

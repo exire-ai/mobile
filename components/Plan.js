@@ -5,11 +5,15 @@ import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
 import { shadowStyles } from "../global/shadowStyles";
 import { miniVenueStyles } from "../global/miniVenueStyles";
 import { plansStyles } from "../global/plansStyles";
+import DateFormatter from "../global/DateFormatter";
 
-function Venue({ venues }) {
+let formatter = new DateFormatter();
+
+function Venue({ plan }) {
   return (
     <View style={plansStyles.venue}>
-      <TouchableOpacity activeOpacity={.5}
+      <TouchableOpacity
+        activeOpacity={0.5}
         onPress={() => {
           // venues.get(item.placeID, (venue) => {
           //   navigation.navigate("Venue", venue)
@@ -18,13 +22,17 @@ function Venue({ venues }) {
         style={[shadowStyles.shadowDown, miniVenueStyles.venueContainer]}
       >
         <ImageBackground
-          source={{ uri: venues[0].imageURL }}
+          source={{ uri: plan.bookings[0].venue.imgURL }}
           style={miniVenueStyles.venueImage}
         >
           <View style={miniVenueStyles.venueContent}>
             <View style={{ flexDirection: "column" }}>
-              <Text style={miniVenueStyles.venueText}>{venues[0].name}</Text>
-              <Text style={miniVenueStyles.venueText}>{venues[0].price}</Text>
+              <Text style={miniVenueStyles.venueText}>
+                {plan.bookings[0].venue.title}
+              </Text>
+              <Text style={miniVenueStyles.venueText}>
+                {plan.bookings[0].venue.price}
+              </Text>
             </View>
           </View>
         </ImageBackground>
@@ -37,7 +45,8 @@ export default class Plan extends Component {
   render() {
     let data = this.props.data;
     var plan = (
-      <TouchableOpacity activeOpacity={.5}
+      <TouchableOpacity
+        activeOpacity={0.5}
         style={{ alignItems: "center", paddingTop: 10 }}
         onPress={() => {
           this.props.onTap(data);
@@ -45,13 +54,13 @@ export default class Plan extends Component {
       >
         <View style={[plansStyles.component, shadowStyles.shadowDown]}>
           <View style={plansStyles.textContainer}>
-            <Text style={plansStyles.name}>{data.name}</Text>
+            <Text style={plansStyles.name}>{data.title}</Text>
             <Text style={plansStyles.time}>
-              {data.date + " at " + data.time}
+              {" at " + formatter.formattedHour(data.start_time)}
             </Text>
           </View>
           <View style={plansStyles.venueContainer}>
-            <Venue venues={data.venues} />
+            <Venue plan={data} />
           </View>
         </View>
       </TouchableOpacity>

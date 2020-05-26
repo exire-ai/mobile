@@ -152,7 +152,7 @@ export default class Discover extends Component {
           "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
         imgURL:
           "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
-        placeID: "testonlineevent",
+        placeID: "mightyquinns",
         rank: 92.6,
         subcategory: "music",
         title: "Music Concert",

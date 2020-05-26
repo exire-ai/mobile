@@ -11,6 +11,7 @@ import Plan from "../components/Plan";
 import { shadowStyles } from "../global/shadowStyles";
 import { plansStyles } from "../global/plansStyles";
 import users from "../functions/users";
+import venues from "../functions/venues";
 
 const data = [
   {
@@ -87,8 +88,23 @@ const data = [
 
 export default class Plans extends Component {
   state = {
-    data: data,
+    data: null,
     refreshing: false,
+  };
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  getVenues = async (venueIDs, callback) => {
+    venueIDs.forEach(async (venueID) => {
+      const response = await fetch(
+        `https://exire-backend.herokuapp.com/venues/get/${venueID}`
+      );
+      const venue = await response.json();
+      console.log("hello");
+      console.log(venue);
+    });
   };
 
   loadData = () => {
@@ -97,7 +113,10 @@ export default class Plans extends Component {
     });
     AsyncStorage.getItem("userID").then((userID) => {
       users.getPlans(userID, (response) => {
-        console.log(response);
+        this.setState({
+          data: response,
+        });
+
         this.setState({
           refreshing: false,
         });
@@ -112,8 +131,8 @@ export default class Plans extends Component {
   };
 
   planTapped = (item) => {
-    console.log(item);
-    this.props.navigation.navigate("PlanDetail", item);
+    console.log(item.bookings[0].venue);
+    this.props.navigation.navigate("PlanDetail", item["bookings"][0].venue);
   };
 
   render() {
@@ -121,13 +140,13 @@ export default class Plans extends Component {
       <View style={plansStyles.container}>
         <FlatList
           style={plansStyles.list}
-          data={data}
+          data={this.state.data}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
             this.loadData();
           }}
           refreshing={this.state.refreshing}
-          keyExtratctor={(item, index) => "key" + index + "name" + item.name}
+          keyExtratctor={(item, index) => "key" + index + "name" + item.title}
           renderItem={({ item, index }) => (
             <Plan data={item} onTap={this.planTapped.bind(this)} />
           )}

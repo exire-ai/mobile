@@ -162,24 +162,17 @@ export default class Venue extends Component {
       console.log(plan);
 
       // Add Plan to plans collection
-      plans.create(
-        plan.bookings,
-        plan.users,
-        plan.title,
-        plan.description,
-        plan.start_time,
-        (planID) => {
-          if (planID != false && planID != null) {
-            //Add PlanID to user list
-            users.addPlan(value, planID, (res) => {
-              console.log(res);
-              this.exit();
-            });
-          } else {
-            console.log(planID);
-          }
+      plans.create(plan, (planID) => {
+        if (planID != false && planID != null) {
+          //Add PlanID to user list
+          users.addPlan(value, planID, (res) => {
+            console.log(res);
+            this.exit();
+          });
+        } else {
+          console.log(planID);
         }
-      );
+      });
     });
   };
 
