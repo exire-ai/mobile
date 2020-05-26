@@ -56,7 +56,9 @@ export default class Plan extends Component {
           <View style={plansStyles.textContainer}>
             <Text style={plansStyles.name}>{data.title}</Text>
             <Text style={plansStyles.time}>
-              {" at " + formatter.formattedHour(data.start_time)}
+              {formatter.unixToDate(data.start_time) +
+                " at " +
+                formatter.unixToTime(data.start_time)}
             </Text>
           </View>
           <View style={plansStyles.venueContainer}>

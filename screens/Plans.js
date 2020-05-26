@@ -13,6 +13,10 @@ import { plansStyles } from "../global/plansStyles";
 import users from "../functions/users";
 import venues from "../functions/venues";
 
+import DateFormatter from "../global/DateFormatter";
+
+var formatter = new DateFormatter();
+
 const data = [
   {
     name: "Anniversary Night",
@@ -96,18 +100,19 @@ export default class Plans extends Component {
     this.loadData();
   }
 
-  getVenues = async (venueIDs, callback) => {
-    venueIDs.forEach(async (venueID) => {
-      const response = await fetch(
-        `https://exire-backend.herokuapp.com/venues/get/${venueID}`
-      );
-      const venue = await response.json();
-      console.log("hello");
-      console.log(venue);
-    });
-  };
+  // getVenues = async (venueIDs, callback) => {
+  //   venueIDs.forEach(async (venueID) => {
+  //     const response = await fetch(
+  //       `https://exire-backend.herokuapp.com/venues/get/${venueID}`
+  //     );
+  //     const venue = await response.json();
+  //     console.log("hello");
+  //     console.log(venue);
+  //   });
+  // };
 
   loadData = () => {
+    formatter.unixToDate(1590519261);
     this.setState({
       refreshing: true,
     });
@@ -122,12 +127,6 @@ export default class Plans extends Component {
         });
       });
     });
-
-    // setTimeout(() => {
-    //   this.setState({
-    //     refreshing: false,
-    //   });
-    // }, 300);
   };
 
   planTapped = (item) => {
@@ -148,7 +147,8 @@ export default class Plans extends Component {
           refreshing={this.state.refreshing}
           keyExtratctor={(item, index) => "key" + index + "name" + item.title}
           renderItem={({ item, index }) => (
-            <Plan data={item} onTap={this.planTapped.bind(this)} />
+            console.log(item),
+            (<Plan data={item} onTap={this.planTapped.bind(this)} />)
           )}
         />
         <TouchableOpacity

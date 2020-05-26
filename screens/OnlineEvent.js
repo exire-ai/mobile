@@ -248,11 +248,17 @@ export default class OnlineEvent extends Component {
                   }}
                   source={require("../assets/clock.png")}
                 />
-                <Text style={textStyles.minorText}>
-                  {formatter.formattedHour(this.state.venue.start_time) +
-                    " - " +
-                    formatter.formattedHour(this.state.venue.end_time)}
-                </Text>
+                <View style={{ flexDirection: "column" }}>
+                  <Text style={textStyles.minorText}>
+                    {formatter.unixToDate(this.state.venue.start_time) +
+                      " from"}
+                  </Text>
+                  <Text style={textStyles.minorText}>
+                    {formatter.unixToTime(this.state.venue.start_time) +
+                      " - " +
+                      formatter.unixToTime(this.state.venue.end_time)}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
