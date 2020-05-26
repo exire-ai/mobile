@@ -158,8 +158,8 @@ export default class Discover extends Component {
         title: "Music Concert",
         subtitle: "FREE Live Concert",
         type: "one-time",
-        start_time: "16",
-        end_time: "18",
+        start_time: 1590519261,
+        end_time: 1590519261,
       },
     };
 

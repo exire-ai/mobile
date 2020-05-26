@@ -1,20 +1,39 @@
 const months = {
-  "01": "January",
-  "02": "February",
-  "03": "March",
-  "04": "April",
-  "05": "May",
-  "06": "June",
-  "07": "July",
-  "08": "August",
-  "09": "September",
-  "10": "October",
-  "11": "November",
-  "12": "December",
+  0: "January",
+  1: "February",
+  2: "March",
+  3: "April",
+  4: "May",
+  5: "June",
+  6: "July",
+  7: "August",
+  8: "September",
+  9: "October",
+  10: "November",
+  12: "December",
 };
 
 module.exports = class DateFormatter {
   constructor() {}
+
+  unixToDate = (timestamp) => {
+    var date = new Date(timestamp * 1000);
+    console.log(date.getMonth());
+    console.log(date.getDate());
+
+    let month = date.getMonth();
+    let day = date.getDate();
+
+    return months[month] + " " + day;
+  };
+
+  unixToTime = (timestamp) => {
+    var date = new Date(timestamp * 1000);
+    let hour = this.formattedHour(date.getHours());
+    console.log(hour);
+    return hour;
+  };
+
   getCurrentDate = () => {
     var today = new Date();
     var dd = today.getDate();
