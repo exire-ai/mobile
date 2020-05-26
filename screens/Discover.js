@@ -55,7 +55,7 @@ const nameDict = {
   cocktailbars: ["Cocktails", "🍸"],
   pubs: ["Pubs", "🍻"],
   rockclimbing: ["Rock Climbing", "🧗"],
-  comedyclubs: ["Comedy Clubs", "🤣"]
+  comedyclubs: ["Comedy Clubs", "🤣"],
 };
 
 var format = (categories) => {
@@ -87,11 +87,11 @@ export default class Discover extends Component {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem("userID").then(userID => {
-      this.setState({userID: userID})
+    AsyncStorage.getItem("userID").then((userID) => {
+      this.setState({ userID: userID });
       this.loadCategories();
       this.loadData();
-    })
+    });
   }
 
   formatVenues = (result, callback) => {
@@ -118,11 +118,13 @@ export default class Discover extends Component {
         current++;
       }
     }
+
+    //EXAMPLE slot-time online event
     // var test_onlineevent = {
     //   numItems: 1,
     //   key: "exiretestevent",
     //   venue: {
-    //     category: "activity",
+    //     category: "online-event",
     //     closed_days: [],
     //     cost: 15,
     //     description:
@@ -134,12 +136,34 @@ export default class Discover extends Component {
     //     subcategory: "yoga",
     //     title: "Open Soul",
     //     subtitle: "Live Yoga Class",
-    //     type: "online-event",
-    //     subtype: "class",
+    //     type: "slot-time",
     //     duration: "1",
     //   },
     // };
-    // venues.push(test_onlineevent);
+
+    //EXAMPLE one-time online event
+    var test_onlineevent = {
+      numItems: 1,
+      key: "exiretestevent",
+      venue: {
+        category: "online-event",
+        cost: 0,
+        description:
+          "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
+        imgURL:
+          "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
+        placeID: "testonlineevent",
+        rank: 92.6,
+        subcategory: "music",
+        title: "Music Concert",
+        subtitle: "FREE Live Concert",
+        type: "one-time",
+        start_time: "16",
+        end_time: "18",
+      },
+    };
+
+    venues.push(test_onlineevent);
     venues.reverse();
     callback(venues);
   };
@@ -151,7 +175,7 @@ export default class Discover extends Component {
     AsyncStorage.getItem("userID").then((value) => {
       // orginallly getRecommend(value
       plans.getByHierCategory("activity", (result) => {
-        this.setState({ rawVenues: result})
+        this.setState({ rawVenues: result });
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
         this.formatVenues(result, (venues) => {
           this.setState({
@@ -183,15 +207,15 @@ export default class Discover extends Component {
   };
 
   filterCategories = () => {
-    var rawVenues = this.state.rawVenues
-    var categories = this.state.categories
-    var selected = []
+    var rawVenues = this.state.rawVenues;
+    var categories = this.state.categories;
+    var selected = [];
     for (var i = 0; i < categories.length; i++) {
       if (categories[i].selected) {
-        selected.push(categories[i].key)
+        selected.push(categories[i].key);
       }
     }
-    console.log(selected)
+    console.log(selected);
     if (selected.length == 1 && selected.includes("all")) {
       this.formatVenues(rawVenues, (venues) => {
         this.setState({
@@ -199,14 +223,16 @@ export default class Discover extends Component {
         });
       });
     } else {
-      var filteredVenues = rawVenues.filter(venue => selected.includes(venue.subcategory))
+      var filteredVenues = rawVenues.filter((venue) =>
+        selected.includes(venue.subcategory)
+      );
       this.formatVenues(filteredVenues, (venues) => {
         this.setState({
           venues: venues,
         });
       });
     }
-  }
+  };
 
   render() {
     return (
@@ -261,7 +287,7 @@ export default class Discover extends Component {
         />*/}
         <FlatList
           style={{ width: "100%", marginHorizontal: 10, paddingTop: 10 }}
-          contentContainerStyle={{justifyContent: "flex-start"}}
+          contentContainerStyle={{ justifyContent: "flex-start" }}
           data={this.state.venues}
           onRefresh={() => {
             this.loadData();

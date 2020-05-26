@@ -48,7 +48,7 @@ const plans = {
         callback([]);
       });
   },
-  getByHierCategory: function(category, callback) {
+  getByHierCategory: function (category, callback) {
     fetch(
       "https://exire-backend.herokuapp.com/plans/getByHierCategory/" + category,
       {
@@ -63,7 +63,27 @@ const plans = {
         console.log(JSON.stringify(error));
         callback([]);
       });
-  }
+  },
+  create: function (plan, callback) {
+    fetch("https://exire-backend.herokuapp.com/plans/create", {
+      method: "POST",
+      body: JSON.stringify({
+        plan,
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        callback(json);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(null);
+      });
+  },
 };
 
 export default plans;

@@ -264,23 +264,7 @@ const users = {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({message: message})
-      },
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        callback(responseJson);
-      })
-      .catch((error) => {
-        console.log(JSON.stringify(error));
-        callback(false);
-      });
-  },
-  getFriends: function (userID, callback) {
-    fetch(
-      "https://exire-backend.herokuapp.com/users/getFriends/" + userID,
-      {
-        method: "GET",
+        body: JSON.stringify({ message: message }),
       }
     )
       .then((response) => response.json())
@@ -292,9 +276,25 @@ const users = {
         callback(false);
       });
   },
+  getFriends: function (userID, callback) {
+    fetch("https://exire-backend.herokuapp.com/users/getFriends/" + userID, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
   deleteFriend: function (userID, otherUserID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/deleteFriend/" + userID + "/" + otherUserID,
+      "https://exire-backend.herokuapp.com/users/deleteFriend/" +
+        userID +
+        "/" +
+        otherUserID,
       {
         method: "GET",
       }
@@ -310,7 +310,10 @@ const users = {
   },
   addFriend: function (userID, otherUserID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/addFriend/" + userID + "/" + otherUserID,
+      "https://exire-backend.herokuapp.com/users/addFriend/" +
+        userID +
+        "/" +
+        otherUserID,
       {
         method: "GET",
       }
@@ -322,6 +325,23 @@ const users = {
       .catch((error) => {
         console.log(JSON.stringify(error));
         callback(false);
+      });
+  },
+  addPlan: function (userID, planID, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/addPlan/" +
+        userID +
+        "/" +
+        planID,
+      { method: "GET" }
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        callback(json);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(null);
       });
   },
 };
