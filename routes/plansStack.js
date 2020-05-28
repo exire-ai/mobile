@@ -1,9 +1,11 @@
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import {
   createStackNavigator,
   TransitionPresets,
 } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Plans from "../screens/Plans";
 import Venue from "../screens/venue";
 import PlanDetail from "../screens/PlanDetail";
@@ -40,6 +42,19 @@ const screens = {
         headerTitleAlign: "center",
         headerShown: true,
         headerTintColor: "white",
+        headerLeft: () => (
+          <TouchableOpacity activeOpacity={.5}
+            onPress={() => navigation.goBack()}
+            style={[navigationStyles.icon]}
+          >
+            <Icon
+              name="chevron-left"
+              color="#FFF"
+              size={32}
+              style={shadowStyles.shadowDown}
+            />
+          </TouchableOpacity>
+        ),
       };
     },
   },

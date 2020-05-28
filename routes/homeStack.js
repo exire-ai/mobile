@@ -50,8 +50,10 @@ const screens = {
   Plans: {
     screen: PlansStack,
     navigationOptions: ({ navigation }) => {
+      let routeName = navigation.state.routes[navigation.state.index].routeName;
       return {
         title: "",
+        tabBarVisible: !(routeName == "PlanDetail" || routeName == "Venue"),
         tabBarIcon: ({ tintColor }) => (
           <Image
             style={{ width: 36, height: 36, tintColor: tintColor }}

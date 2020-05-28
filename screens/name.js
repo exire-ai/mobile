@@ -56,7 +56,7 @@ export default function Name({ navigation }) {
           </TouchableOpacity>
           <View style={{ height: 500, width: "100%", alignItems: "center", justifyContent: "center" }}>
             <View style={signInStyles.textContainer}>
-              <Text style={signInStyles.headerText}>What"s your name?</Text>
+              <Text style={signInStyles.headerText}>What's your name?</Text>
               <Text style={signInStyles.subHeaderText}>
               This is so your friends know it"s you.
             </Text>

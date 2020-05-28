@@ -52,7 +52,7 @@ export default function TextVerification({ navigation }) {
           </TouchableOpacity>
           <View style={{ height: 500, width: "100%", alignItems: "center", justifyContent: "center" }}>
             <View style={signInStyles.textContainer}>
-              <Text style={signInStyles.headerText}>What"s your code?</Text>
+              <Text style={signInStyles.headerText}>What's your code?</Text>
               <Text style={signInStyles.subHeaderText}>
               You should receive an SMS verification code shortly.
             </Text>

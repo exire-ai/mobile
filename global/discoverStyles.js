@@ -7,6 +7,5 @@ export const discoverStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colorScheme.background,
-    paddingBottom: 10,
   },
 });

@@ -24,7 +24,7 @@ export default class PlanDetail extends Component {
   render() {
     const watchButton = (
       <Button
-        title="WATCH HERE"
+        title="Watch Here"
         onPress={() => {
           console.log(this.state.booking);
           Linking.canOpenURL(this.state.booking.ticketURL).then((supported) => {

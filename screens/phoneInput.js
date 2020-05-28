@@ -97,9 +97,9 @@ export default function PhoneInput({ navigation }) {
           </View>
         </Modal>
         <View style={signInStyles.textContainer}>
-          <Text style={signInStyles.headerText}>What"s your number?</Text>
+          <Text style={signInStyles.headerText}>What's your number?</Text>
           <Text style={signInStyles.subHeaderText}>
-            We just need your number for verification and won"t spam you or sell
+            We just need your number for verification and won't spam you or sell
             your data.
         </Text>
         </View>

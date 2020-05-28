@@ -285,7 +285,7 @@ export default class Discover extends Component {
           }}
         />*/}
         <FlatList
-          style={{ width: "100%", marginHorizontal: 10, paddingTop: 10 }}
+          style={{ width: "100%", marginHorizontal: 10, paddingTop: 10, height: '100%' }}
           contentContainerStyle={{ justifyContent: "flex-start" }}
           data={this.state.venues}
           onRefresh={() => {
