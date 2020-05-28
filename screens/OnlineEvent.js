@@ -27,6 +27,7 @@ var formatter = new DateFormatter();
 export default class OnlineEvent extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.venue);
     this.state = {
       venue: this.props.venue,
     };
@@ -113,7 +114,7 @@ export default class OnlineEvent extends Component {
                   source={require("../assets/clock.png")}
                 />
                 <Text style={textStyles.minorText}>
-                  {this.state.venue.duration + " hr"}
+                  {this.state.venue.startUNIX + " hr"}
                 </Text>
               </View>
             </View>
@@ -250,13 +251,12 @@ export default class OnlineEvent extends Component {
                 />
                 <View style={{ flexDirection: "column" }}>
                   <Text style={textStyles.minorText}>
-                    {formatter.unixToDate(this.state.venue.start_time) +
-                      " from"}
+                    {formatter.unixToDate(this.state.venue.startUNIX) + " from"}
                   </Text>
                   <Text style={textStyles.minorText}>
-                    {formatter.unixToTime(this.state.venue.start_time) +
+                    {formatter.unixToTime(this.state.venue.startUNIX) +
                       " - " +
-                      formatter.unixToTime(this.state.venue.end_time)}
+                      formatter.unixToTime(this.state.venue.startUNIX)}
                   </Text>
                 </View>
               </View>

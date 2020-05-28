@@ -142,28 +142,28 @@ export default class Discover extends Component {
     // };
 
     //EXAMPLE one-time online event
-    var test_onlineevent = {
-      numItems: 1,
-      key: "exiretestevent",
-      venue: {
-        category: "online-event",
-        cost: 0,
-        description:
-          "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
-        imgURL:
-          "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
-        placeID: "mightyquinns",
-        rank: 92.6,
-        subcategory: "music",
-        title: "Music Concert",
-        subtitle: "FREE Live Concert",
-        type: "one-time",
-        start_time: 1590519261,
-        end_time: 1590519261,
-      },
-    };
+    // var test_onlineevent = {
+    //   numItems: 1,
+    //   key: "exiretestevent",
+    //   venue: {
+    //     category: "online-event",
+    //     cost: 0,
+    //     description:
+    //       "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
+    //     imgURL:
+    //       "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
+    //     placeID: "mightyquinns",
+    //     rank: 92.6,
+    //     subcategory: "music",
+    //     title: "Music Concert",
+    //     subtitle: "FREE Live Concert",
+    //     type: "one-time",
+    //     start_time: 1590519261,
+    //     end_time: 1590519261,
+    //   },
+    // };
+    // venues.push(test_onlineevent);
 
-    venues.push(test_onlineevent);
     venues.reverse();
     callback(venues);
   };
@@ -174,7 +174,7 @@ export default class Discover extends Component {
     });
     AsyncStorage.getItem("userID").then((value) => {
       // orginallly getRecommend(value
-      plans.getByHierCategory("activity", (result) => {
+      plans.getByHierCategory("online-event", (result) => {
         this.setState({ rawVenues: result });
         //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
         this.formatVenues(result, (venues) => {
@@ -215,7 +215,6 @@ export default class Discover extends Component {
         selected.push(categories[i].key);
       }
     }
-    console.log(selected);
     if (selected.length == 1 && selected.includes("all")) {
       this.formatVenues(rawVenues, (venues) => {
         this.setState({

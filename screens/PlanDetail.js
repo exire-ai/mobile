@@ -1,7 +1,17 @@
 import React, { useState, Component } from "react";
-import { Text, View, Image, Button, ImageBackground } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  Button,
+  ImageBackground,
+  Linking,
+} from "react-native";
 import { textStyles } from "../global/textStyles";
 import { TextInput } from "react-native-paper";
+import DateFormatter from "../global/DateFormatter";
+
+let formatter = new DateFormatter();
 
 export default class PlanDetail extends Component {
   constructor(props) {
@@ -12,8 +22,25 @@ export default class PlanDetail extends Component {
   }
 
   render() {
-    const watchButton = <Button title="WATCH HERE" />;
+    const watchButton = (
+      <Button
+        title="WATCH HERE"
+        onPress={() => {
+          console.log(this.state.booking);
+          Linking.canOpenURL(this.state.booking.ticketURL).then((supported) => {
+            if (supported) {
+              Linking.openURL(this.state.booking.ticketURL);
+            } else {
+              console.log(
+                "Don't know how to open URI: " + this.state.booking.ticketURL
+              );
+            }
+          });
+        }}
+      />
+    );
     if (this.state.booking.category == "online-event") {
+      console.log(this.state.booking);
       return (
         <View
           style={{
@@ -26,7 +53,7 @@ export default class PlanDetail extends Component {
           <View style={{ flex: 0.35, flexDirection: "row" }}>
             <ImageBackground
               source={{
-                uri: this.state.booking.venues[0].imageURL,
+                uri: this.state.booking.imgURL,
               }}
               style={{ width: "100%", height: "100%" }}
             ></ImageBackground>
@@ -46,7 +73,7 @@ export default class PlanDetail extends Component {
                 textStyles.titleText,
               ]}
             >
-              {this.state.booking.name}
+              {this.state.booking.title}
             </Text>
             <Text
               style={[
@@ -63,18 +90,20 @@ export default class PlanDetail extends Component {
             <View style={{ flexDirection: "row", marginTop: 10 }}>
               <Image
                 source={require("../assets/clock.png")}
-                style={{ width: 16, height: 16, marginTop: 5 }}
+                style={{ width: 16, height: 16, marginTop: 3 }}
               />
               <View style={{ flexDirection: "column", marginLeft: 10 }}>
+                {/* <Text style={textStyles.minorText}>
+                  {this.state.booking.venue}
+                </Text> */}
                 <Text style={textStyles.minorText}>
-                  {this.state.booking.date}
-                </Text>
-                <Text style={textStyles.minorText}>
-                  {this.state.booking.time}
+                  {formatter.unixToDate(this.state.booking.startUNIX) +
+                    " at " +
+                    formatter.unixToTime(this.state.booking.startUNIX)}
                 </Text>
               </View>
             </View>
-            {this.state.booking.watchURL != null ? watchButton : null}
+            {this.state.booking.ticketURL != null ? watchButton : null}
             {/* <View style={{ marginTop: 10 }}>
             <Text style={textStyles.subTitle}>Who"s Attending</Text>
 
