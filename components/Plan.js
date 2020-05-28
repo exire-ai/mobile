@@ -44,6 +44,7 @@ function Venue({ plan }) {
 export default class Plan extends Component {
   render() {
     let data = this.props.data;
+    console.log(data);
     var plan = (
       <TouchableOpacity
         activeOpacity={0.5}
@@ -56,9 +57,9 @@ export default class Plan extends Component {
           <View style={plansStyles.textContainer}>
             <Text style={plansStyles.name}>{data.title}</Text>
             <Text style={plansStyles.time}>
-              {formatter.unixToDate(data.start_time) +
+              {formatter.unixToDate(data.bookings[0].venue.startUNIX) +
                 " at " +
-                formatter.unixToTime(data.start_time)}
+                formatter.unixToTime(data.bookings[0].venue.startUNIX)}
             </Text>
           </View>
           <View style={plansStyles.venueContainer}>

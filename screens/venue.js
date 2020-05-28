@@ -145,9 +145,14 @@ export default class Venue extends Component {
       //Create plan object
       var booking = {
         type: "one-time",
-        venueID: venue.placeID,
         slot: null,
       };
+      if (venue.category == "event" || venue.category == "online-event") {
+        booking.eventID = venue.eventID;
+      } else {
+        booking.eventID = venue.venueID;
+      }
+
       var plan = {
         bookings: [],
         users: [],
@@ -159,14 +164,12 @@ export default class Venue extends Component {
       plan.bookings.push(booking);
       plan.users.push(value);
 
-      console.log(plan);
-
       // Add Plan to plans collection
       plans.create(plan, (planID) => {
         if (planID != false && planID != null) {
           //Add PlanID to user list
           users.addPlan(value, planID, (res) => {
-            console.log(res);
+            // console.log(res);
             this.exit();
           });
         } else {
