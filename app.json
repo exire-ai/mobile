@@ -36,7 +36,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "ai.exire.exireMobile",
-      "buildNumber": "7"
+      "buildNumber": "8"
     },
     "android": {
       "package": "ai.exire.exireMobile",
