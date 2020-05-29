@@ -40,10 +40,11 @@ const screens = {
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
-        headerShown: true,
+        headerShown: false,
         headerTintColor: "white",
         headerLeft: () => (
-          <TouchableOpacity activeOpacity={.5}
+          <TouchableOpacity
+            activeOpacity={0.5}
             onPress={() => navigation.goBack()}
             style={[navigationStyles.icon]}
           >

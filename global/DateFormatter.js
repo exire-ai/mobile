@@ -18,8 +18,6 @@ module.exports = class DateFormatter {
 
   unixToDate = (timestamp) => {
     var date = new Date(timestamp * 1000);
-    console.log(date.getMonth());
-    console.log(date.getDate());
 
     let month = date.getMonth();
     let day = date.getDate();
@@ -30,7 +28,6 @@ module.exports = class DateFormatter {
   unixToTime = (timestamp) => {
     var date = new Date(timestamp * 1000);
     let hour = this.formattedHour(date.getHours());
-    console.log(hour);
     return hour;
   };
 

@@ -27,7 +27,6 @@ var formatter = new DateFormatter();
 export default class OnlineEvent extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.venue);
     this.state = {
       venue: this.props.venue,
     };

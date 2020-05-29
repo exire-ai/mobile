@@ -6,8 +6,14 @@ import {
   Button,
   ImageBackground,
   Linking,
+  TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { textStyles } from "../global/textStyles";
+import { navigationStyles } from "../global/navigationStyles";
+import { colorScheme } from "../global/colorScheme";
+import { shadowStyles } from "../global/shadowStyles";
 import { TextInput } from "react-native-paper";
 import DateFormatter from "../global/DateFormatter";
 
@@ -26,7 +32,6 @@ export default class PlanDetail extends Component {
       <Button
         title="Watch Here"
         onPress={() => {
-          console.log(this.state.booking);
           Linking.canOpenURL(this.state.booking.ticketURL).then((supported) => {
             if (supported) {
               Linking.openURL(this.state.booking.ticketURL);
@@ -40,7 +45,6 @@ export default class PlanDetail extends Component {
       />
     );
     if (this.state.booking.category == "online-event") {
-      console.log(this.state.booking);
       return (
         <View
           style={{
@@ -56,7 +60,22 @@ export default class PlanDetail extends Component {
                 uri: this.state.booking.imgURL,
               }}
               style={{ width: "100%", height: "100%" }}
-            ></ImageBackground>
+            >
+              <SafeAreaView>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => this.props.navigation.pop()}
+                  style={[navigationStyles.icon, { padding: 15 }]}
+                >
+                  <Icon
+                    name="chevron-left"
+                    color={colorScheme.primaryText}
+                    size={32}
+                    style={shadowStyles.shadowDown}
+                  />
+                </TouchableOpacity>
+              </SafeAreaView>
+            </ImageBackground>
           </View>
           <View
             style={{

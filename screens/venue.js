@@ -135,7 +135,13 @@ export default class Venue extends Component {
   }
 
   exit = () => {
+    // this.props.navigation.navigate("Plans", { update: true });
     this.props.navigation.pop();
+  };
+
+  exitToPlans = () => {
+    this.props.navigation.pop();
+    this.props.navigation.navigate("Plans", { update: true });
   };
 
   createPlan = (venue) => {
@@ -170,7 +176,7 @@ export default class Venue extends Component {
           //Add PlanID to user list
           users.addPlan(value, planID, (res) => {
             // console.log(res);
-            this.exit();
+            this.exitToPlans();
           });
         } else {
           console.log(planID);

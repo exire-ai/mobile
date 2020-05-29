@@ -44,7 +44,6 @@ function Venue({ plan }) {
 export default class Plan extends Component {
   render() {
     let data = this.props.data;
-    console.log(data);
     var plan = (
       <TouchableOpacity
         activeOpacity={0.5}

@@ -21,6 +21,11 @@ export const textStyles = StyleSheet.create({
     fontSize: 18,
     color: "#888",
   },
+  standardBodyText: {
+    fontFamily: "nunito-regular",
+    fontSize: 18,
+    color: "#444",
+  },
   buttonText: {
     fontFamily: "nunito-bold",
     fontSize: 20,
