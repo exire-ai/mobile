@@ -18,6 +18,10 @@ import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
 import Venue from "./venue";
 
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5);
+}
+
 const nameDict = {
   artmuseums: ["Art", "🎨"],
   museums: ["Museums", "🖼️"],
@@ -65,6 +69,11 @@ var format = (categories) => {
       key: "all",
       selected: true,
     },
+    {
+      name: ["Online", "💻"],
+      key: "online",
+      selected: false
+    }
   ];
   for (var i in categories) {
     temp.push({
@@ -173,22 +182,28 @@ export default class Discover extends Component {
       refreshing: true,
     });
     AsyncStorage.getItem("userID").then((value) => {
-      // orginallly getRecommend(value
-      plans.getByHierCategory("online-event", (result) => {
-        this.setState({ rawVenues: result });
-        //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
-        this.formatVenues(result, (venues) => {
-          this.setState({
-            venues: [],
-          });
-          this.setState({
-            allVenues: venues,
-            venues: venues,
-            refreshing: false,
+      plans.getRecommended(value, result1 => {
+        plans.getByHierCategory("online-event", (result) => {
+          for (var i = 0; i < result.length; i++) {
+            result[i]['subcategory'] = 'online'
+          }
+          result = result.concat(result1)
+          shuffle(result)
+          this.setState({ rawVenues: result });
+          //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
+          this.formatVenues(result, (venues) => {
+            this.setState({
+              venues: [],
+            });
+            this.setState({
+              allVenues: venues,
+              venues: venues,
+              refreshing: false,
+            });
           });
         });
       });
-    });
+    })
   };
 
   loadCategories = () => {
@@ -236,7 +251,7 @@ export default class Discover extends Component {
   render() {
     return (
       <View style={discoverStyles.container}>
-        {/*<Search />
+        <Search />
         <FlatList
           horizontal={true}
           style={{ paddingTop: 3, paddingLeft: 3, height: 60 }}
@@ -283,7 +298,7 @@ export default class Discover extends Component {
               </TouchableOpacity>
             );
           }}
-        />*/}
+        />
         <FlatList
           style={{ width: "100%", marginHorizontal: 10, paddingTop: 10, height: '100%' }}
           contentContainerStyle={{ justifyContent: "flex-start" }}
