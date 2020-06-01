@@ -16,6 +16,7 @@ import venues from "../functions/venues";
 import { textStyles } from "../global/textStyles";
 
 import DateFormatter from "../global/DateFormatter";
+import { colorScheme } from "../global/colorScheme";
 
 var formatter = new DateFormatter();
 
@@ -112,7 +113,7 @@ export default class Plans extends Component {
               justifyContent: "center",
             }}
           >
-            <Text
+            {/* <Text
               style={[
                 textStyles.titleText,
                 {
@@ -182,6 +183,37 @@ export default class Plans extends Component {
               >
                 Head over to the Discover tab to browse recommendations
               </Text>
+            </View> */}
+            <View style={{width: '85%'}}>
+              <Text
+                style={[
+                  textStyles.titleText,
+                  { width: "100%", textAlign: "center" },
+                ]}
+              >
+                Welcome to Exire
+              </Text>
+              <Text
+                style={[
+                  textStyles.standardBodyText,
+                  { width: "100%", textAlign: "center", marginTop: 10 },
+                ]}
+              >
+                Explore different venues and events recommended to you under the discover tab below!
+              </Text>
+              <TouchableOpacity activeOpacity={.9}
+                style={{ width: '100%', padding: 10, borderRadius: 10, backgroundColor: colorScheme.button, marginTop: 10 }}
+                onPress={() => this.props.navigation.navigate('Discover')}
+              >
+                <Text
+                  style={[
+                    textStyles.standardBodyText,
+                    { width: "100%", textAlign: "center", color: colorScheme.primaryText },
+                  ]}
+                >
+                  Explore Experiences
+              </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
