@@ -50,12 +50,12 @@ export const chatsStyles = StyleSheet.create({
     backgroundColor: colorScheme.lessDarkText
   },
   name: {
-    fontFamily: "nunito-bold",
+    fontFamily: "Bold",
     fontSize: 19,
     color: colorScheme.lessDarkText,
   },
   text: {
-    fontFamily: "nunito-regular",
+    fontFamily: "Reg",
     fontSize: 16,
     color: colorScheme.inactiveButton,
   },

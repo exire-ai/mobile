@@ -114,7 +114,7 @@ export class MessageClass extends React.Component {
       message = (
         <Text style={[messagesStyles.text, { marginTop: -1 }]}>
           <Text>{temp[0]}</Text>
-          <Text style={{ fontFamily: "nunito-bold" }}>@Emma</Text>
+          <Text style={{ fontFamily: "Bold" }}>@Emma</Text>
           <Text>{temp[1]}</Text>
         </Text>
       )

@@ -136,7 +136,7 @@ export default class BookingInvite extends Component {
           <Text
             style={[
               textStyles.minorText,
-              { flex: 0.5, textAlign: "center", fontFamily: "nunito-bold" },
+              { flex: 0.5, textAlign: "center", fontFamily: "Bold" },
             ]}
           >
             {"From $" + this.state.booking.cost + " per person"}

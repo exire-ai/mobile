@@ -8,12 +8,12 @@ export const signInStyles = StyleSheet.create({
     justifyContent: "center"
   },
   headerText: {
-    fontFamily: "nunito-regular",
+    fontFamily: "Reg",
     fontSize: 30,
     color: colorScheme.lessDarkText,
   },
   subHeaderText: {
-    fontFamily: "nunito-regular",
+    fontFamily: "Reg",
     fontSize: 18,
     color: colorScheme.lesserDarkText,
     padding: "5%",
@@ -39,7 +39,7 @@ export const signInStyles = StyleSheet.create({
     shadowRadius: 1,
   },
   buttonText: {
-    fontFamily: "nunito-semibold",
+    fontFamily: "SemiBold",
     color: colorScheme.primaryText,
     fontSize: 24,
   }

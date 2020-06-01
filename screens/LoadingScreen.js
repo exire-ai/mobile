@@ -25,7 +25,7 @@ export default class LoadingScreen extends Component {
 
   render() {
     return <View style={styles.container}>
-      <Text style={{fontSize: 64, color: "#fff", fontFamily: "nunito-semibold"}}>exire</Text>
+      <Text style={{fontSize: 64, color: "#fff", fontFamily: "SemiBold"}}>exire</Text>
     </View>;
   }
 }

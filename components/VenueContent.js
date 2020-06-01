@@ -19,7 +19,7 @@ export default class VenueContent extends Component {
           style={[
             {
               color: "#fff",
-              fontFamily: "nunito-bold",
+              fontFamily: "Bold",
               fontSize: 24,
             },
             shadowStyles.shadowDown,
@@ -34,7 +34,7 @@ export default class VenueContent extends Component {
           style={[
             {
               color: "#fff",
-              fontFamily: "nunito-bold",
+              fontFamily: "Bold",
               fontSize: 18,
             },
             shadowStyles.shadowDown,
@@ -52,7 +52,7 @@ export default class VenueContent extends Component {
         style={[
           {
             color: "#fff",
-            fontFamily: "nunito-bold",
+            fontFamily: "Bold",
             fontSize: 18,
           },
           shadowStyles.shadowDown,
@@ -91,7 +91,7 @@ export default class VenueContent extends Component {
                   color: "#86f231",
                   position: "absolute",
                   right: 10,
-                  fontFamily: "nunito-bold",
+                  fontFamily: "Bold",
                   fontSize: 15,
                 },
                 shadowStyles.shadowDown,
@@ -110,7 +110,7 @@ export default class VenueContent extends Component {
               { this.state.venue.subcategory == "online" ? (<Text
                 style={[
                   {
-                    fontFamily: "nunito-bold",
+                    fontFamily: "Bold",
                     fontSize: 14,
                     paddingVertical: 4,
                     paddingHorizontal: 5,

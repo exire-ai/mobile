@@ -22,7 +22,7 @@ export const plansStyles = StyleSheet.create({
     marginBottom: "2.5%"
   },
   buttonText: {
-    fontFamily: "nunito-bold", 
+    fontFamily: "Bold", 
     color: colorScheme.primaryText, 
     fontSize: 45, 
     marginTop: -2
@@ -42,12 +42,12 @@ export const plansStyles = StyleSheet.create({
     borderRadius: 13.29
   },
   name: {
-    fontFamily: "nunito-bold", 
+    fontFamily: "Bold", 
     fontSize: 19, 
     color: colorScheme.darkText
   },
   time: {
-    fontFamily: "nunito-regular", 
+    fontFamily: "Reg", 
     fontSize: 16, 
     color: colorScheme.lessDarkText
   },

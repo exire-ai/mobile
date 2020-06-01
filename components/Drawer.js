@@ -226,12 +226,12 @@ export default class Drawer extends Component {
                     </ImageBackground>
                   </View>
                   <View style={{ padding: 10 }}>
-                    <Text style={{ fontFamily: "nunito-bold", color: colorScheme.darkText, fontSize: 17 }}>{
+                    <Text style={{ fontFamily: "Bold", color: colorScheme.darkText, fontSize: 17 }}>{
                       item.name == "" ?
                         "Pending"
                         : item.userID == this.state.userID ? "You" : item.name
                     }</Text>
-                    <Text style={{ fontFamily: "nunito-semibold", color: colorScheme.darkText, fontSize: 16, paddingTop: -3 }}>
+                    <Text style={{ fontFamily: "SemiBold", color: colorScheme.darkText, fontSize: 16, paddingTop: -3 }}>
                       {item.number != 1000 ?
                         ("(" + item.number.toString().substring(0, 3) + ") " + item.number.toString().substring(3, 6) + "-" + item.number.toString().substring(6, 10))
                         : ""

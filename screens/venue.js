@@ -249,7 +249,7 @@ export default class Venue extends Component {
             <Text
               style={{
                 color: colorScheme.darkText,
-                fontFamily: "nunito-regular",
+                fontFamily: "Reg",
               }}
             >
               Directions
@@ -301,7 +301,7 @@ export default class Venue extends Component {
             <Text
               style={{
                 color: colorScheme.darkText,
-                fontFamily: "nunito-regular",
+                fontFamily: "Reg",
               }}
             >
               Uber
@@ -358,7 +358,7 @@ export default class Venue extends Component {
             <Text
               style={{
                 color: colorScheme.darkText,
-                fontFamily: "nunito-regular",
+                fontFamily: "Reg",
               }}
             >
               Lyft
@@ -402,7 +402,7 @@ export default class Venue extends Component {
             <Text
               style={{
                 color: colorScheme.darkText,
-                fontFamily: "nunito-regular",
+                fontFamily: "Reg",
               }}
             >
               More Info

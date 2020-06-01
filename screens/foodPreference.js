@@ -179,7 +179,7 @@ export default class CategoryPreference extends React.Component {
       <View style={styles.container}>
         <Text
           style={[
-            { width: "100%", paddingHorizontal: 50, paddingVertical: 10, textAlign: "center", fontFamily: "nunito-semibold", fontSize: 19, color: colorScheme.darkText},
+            { width: "100%", paddingHorizontal: 50, paddingVertical: 10, textAlign: "center", fontFamily: "SemiBold", fontSize: 19, color: colorScheme.darkText},
           ]}
         >
           Choose at least 3 interests to set up your recommendations
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   itemText: {
-    fontFamily: "nunito-semibold",
+    fontFamily: "SemiBold",
     color: "white",
     fontSize: 26,
     marginHorizontal: 8,

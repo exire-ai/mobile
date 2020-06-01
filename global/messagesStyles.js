@@ -22,12 +22,12 @@ export const messagesStyles = StyleSheet.create({
         backgroundColor: colorScheme.lessDarkText
     },
     name: {
-        fontFamily: "nunito-bold", 
+        fontFamily: "Bold", 
         fontSize: 19, 
         color: colorScheme.darkText
     },
     text: {
-        fontFamily: "nunito-regular", 
+        fontFamily: "Reg", 
         fontSize: 17, 
         color: colorScheme.lessDarkText
     },
@@ -51,7 +51,7 @@ export const messagesStyles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,.35)",
       },
       venueText: {
-        fontFamily: "nunito-semibold",
+        fontFamily: "SemiBold",
         fontSize: 19,
         color: colorScheme.primaryText,
         fontWeight: "600",

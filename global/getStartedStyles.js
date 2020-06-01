@@ -8,7 +8,7 @@ export const getStartedStyles = StyleSheet.create({
     alignItems: "center"
   },
   headerText: {
-    fontFamily: "nunito-semibold",
+    fontFamily: "SemiBold",
     marginTop: 50,
     fontSize: 60,
     color: colorScheme.primary,

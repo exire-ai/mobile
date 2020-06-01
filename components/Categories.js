@@ -104,7 +104,7 @@ export default class Categories extends React.Component {
         }}
       >
           <View style={{borderRadius: 5, backgroundColor: item.selected ? colorScheme.primary : colorScheme.componentBackground, paddingHorizontal: 15, paddingVertical: 9, alignItems: "center", flexDirection: "row"}}>
-            <Text style={{marginTop: -1, fontFamily: "nunito-bold", color: item.selected ? colorScheme.primaryText : colorScheme.darkText, fontSize: 17}}>{item.name[0]} </Text>
+            <Text style={{marginTop: -1, fontFamily: "Bold", color: item.selected ? colorScheme.primaryText : colorScheme.darkText, fontSize: 17}}>{item.name[0]} </Text>
             <Text style={{marginTop: -1, fontSize: 19}}>{item.name[1]}</Text>
           </View>
         </TouchableOpacity>

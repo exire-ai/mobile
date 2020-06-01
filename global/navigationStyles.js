@@ -12,7 +12,7 @@ export const navigationStyles = StyleSheet.create({
   },
   headerTitle: {
     color: colorScheme.primaryText,
-    fontFamily: "nunito-semibold",
+    fontFamily: "SemiBold",
     fontSize: 20,
     fontWeight: "500",
     width: "100%",

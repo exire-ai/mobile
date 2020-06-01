@@ -24,22 +24,22 @@ export const drawerStyles = StyleSheet.create({
     color: colorScheme.logo,
     fontSize: 32,
     paddingRight: 10,
-    fontFamily: "nunito-semibold"
+    fontFamily: "SemiBold"
   },
   largeText: {
     color: colorScheme.lessDarkText,
     fontSize: 24,
-    fontFamily: "nunito-semibold"
+    fontFamily: "SemiBold"
   },
   mediumText: {
     color: colorScheme.lessDarkText,
     fontSize: 16,
-    fontFamily: "nunito-semibold"
+    fontFamily: "SemiBold"
   },
   smallText: {
     color: colorScheme.lessDarkText,
     fontSize: 13,
-    fontFamily: "nunito-semibold"
+    fontFamily: "SemiBold"
   },
   profileInfo: {
     height: 50,
@@ -61,7 +61,7 @@ export const drawerStyles = StyleSheet.create({
   },
   bottomButtonText: {
     color: colorScheme.primaryText,
-    fontFamily: "nunito-semibold",
+    fontFamily: "SemiBold",
     fontSize: 24,
     paddingLeft: 5
   }

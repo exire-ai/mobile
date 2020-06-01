@@ -48,7 +48,7 @@ export default class ChatInfo extends React.Component {
   render() {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", width: "100%" }}>
-        <Text style={{ marginTop: 10, fontSize: 24, fontFamily: "nunito-semibold", color: colorScheme.lessDarkText }}>Members</Text>
+        <Text style={{ marginTop: 10, fontSize: 24, fontFamily: "SemiBold", color: colorScheme.lessDarkText }}>Members</Text>
         <FlatList
           style={{ width: "100%" }}
           contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
@@ -65,12 +65,12 @@ export default class ChatInfo extends React.Component {
                   </View>
                 </View>
                 <View style={{ padding: 10 }}>
-                  <Text style={{ fontFamily: "nunito-bold", color: colorScheme.lessDarkText, fontSize: 19 }}>{
+                  <Text style={{ fontFamily: "Bold", color: colorScheme.lessDarkText, fontSize: 19 }}>{
                     item.name == "" ?
                       "Pending"
                       : item.userID == this.state.userID ? "You" : item.name
                   }</Text>
-                  <Text style={{ fontFamily: "nunito-semibold", color: colorScheme.lessDarkText, fontSize: 17, paddingTop: -3 }}>
+                  <Text style={{ fontFamily: "SemiBold", color: colorScheme.lessDarkText, fontSize: 17, paddingTop: -3 }}>
                     {item.number != 1000 ?
                       ("(" + item.number.substring(0, 3) + ") " + item.number.substring(3, 6) + "-" + item.number.substring(6, 10))
                       : ""
@@ -80,7 +80,7 @@ export default class ChatInfo extends React.Component {
                   style={{ top: 15, position: "absolute", right: 10, height: 40, paddingHorizontal: 10, backgroundColor: this.state.friends.includes(item.userID) ? colorScheme.button : colorScheme.veryLight, alignItems: "center", justifyContent: "center", borderRadius: 15 }}
                   onPress={() => this.toggleFriend(item.userID)}
                 >
-                  <Text style={{ color: this.state.friends.includes(item.userID) ? colorScheme.primaryText : colorScheme.darkText, fontFamily: "nunito-bold", fontSize: 16 }}>{this.state.friends.includes(item.userID) ? "Friends" : "Add Friend"}</Text>
+                  <Text style={{ color: this.state.friends.includes(item.userID) ? colorScheme.primaryText : colorScheme.darkText, fontFamily: "Bold", fontSize: 16 }}>{this.state.friends.includes(item.userID) ? "Friends" : "Add Friend"}</Text>
                 </TouchableOpacity>) : null}
               </View>)
             } else {

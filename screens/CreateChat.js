@@ -137,7 +137,7 @@ export default class CreateChat extends React.Component {
             style={[shadowStyles.shadowDown, chatsStyles.icon, { paddingLeft: 20 }]}
           />
           <TextInput
-            style={[{ width: "90%", color: colorScheme.lessDarkText, fontFamily: "nunito-regular", fontSize: 17 }]}
+            style={[{ width: "90%", color: colorScheme.lessDarkText, fontFamily: "Reg", fontSize: 17 }]}
             placeholder={"Add friends by phone number"}
             keyboardType={"phone-pad"}
             placeholderTextColor={colorScheme.lesserDarkText}
@@ -153,7 +153,7 @@ export default class CreateChat extends React.Component {
           keyExtratctor={(item, index) => "number" + item.number}
           renderItem={({ item, index }) => (
             <View style={{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, backgroundColor: item.name == "" ? colorScheme.background : colorScheme.primary, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ fontFamily: "nunito-bold", color: item.name == "" ? colorScheme.lessDarkText : colorScheme.primaryText, fontSize: 17 }}>{
+              <Text style={{ fontFamily: "Bold", color: item.name == "" ? colorScheme.lessDarkText : colorScheme.primaryText, fontSize: 17 }}>{
                 item.name == "" ?
                   ("(" + item.number.substring(0, 3) + ") " + item.number.substring(3, 6) + "-" + item.number.substring(6, 10))
                 : item.name

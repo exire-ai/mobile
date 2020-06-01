@@ -184,7 +184,7 @@ export default class Plans extends Component {
                 Head over to the Discover tab to browse recommendations
               </Text>
             </View> */}
-            <View style={{width: '85%'}}>
+            <View style={[{width: '88%', backgroundColor: colorScheme.componentBackground, padding: 15, borderRadius: 15, marginBottom: 20}, shadowStyles.shadowDown]}>
               <Text
                 style={[
                   textStyles.titleText,
@@ -202,7 +202,7 @@ export default class Plans extends Component {
                 Explore different venues and events recommended to you under the discover tab below!
               </Text>
               <TouchableOpacity activeOpacity={.9}
-                style={{ width: '100%', padding: 10, borderRadius: 10, backgroundColor: colorScheme.button, marginTop: 10, marginBottom: 20 }}
+                style={[{ width: '100%', padding: 10, borderRadius: 10, backgroundColor: colorScheme.button, marginTop: 20, marginBottom: 3 }, shadowStyles.shadowDown]}
                 onPress={() => this.props.navigation.navigate('Discover')}
               >
                 <Text
