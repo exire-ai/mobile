@@ -17,6 +17,10 @@ const getFonts = () =>
     "nunito-semibold": require("./assets/fonts/Nunito-SemiBold.ttf"),
     "nunito-bold": require("./assets/fonts/Nunito-Bold.ttf"),
     "nunito-light": require("./assets/fonts/Nunito-Light.ttf"),
+    "H-Light" : require("./assets/fonts/H-Light.otf"),
+    "H-Reg" : require("./assets/fonts/H-Reg.otf"),
+    "H-SemiBold" : require("./assets/fonts/H-SemiBold.otf"),
+    "H-Bold" : require("./assets/fonts/H-Bold.otf")
   });
 
 export default function App() {

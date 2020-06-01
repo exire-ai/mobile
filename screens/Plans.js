@@ -202,7 +202,7 @@ export default class Plans extends Component {
                 Explore different venues and events recommended to you under the discover tab below!
               </Text>
               <TouchableOpacity activeOpacity={.9}
-                style={{ width: '100%', padding: 10, borderRadius: 10, backgroundColor: colorScheme.button, marginTop: 10 }}
+                style={{ width: '100%', padding: 10, borderRadius: 10, backgroundColor: colorScheme.button, marginTop: 10, marginBottom: 20 }}
                 onPress={() => this.props.navigation.navigate('Discover')}
               >
                 <Text
