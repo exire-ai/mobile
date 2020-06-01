@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
 import { shadowStyles } from "../global/shadowStyles";
 import { TextInput } from "react-native-paper";
+import { colorScheme } from "../global/colorScheme";
 
 export default class VenueContent extends Component {
   constructor(props) {
@@ -83,21 +84,45 @@ export default class VenueContent extends Component {
             this.props.onTap(this.state.venue);
           }}
         >
-          <Text
-            style={[
-              {
-                color: "#86f231",
-                position: "absolute",
-                top: 10,
-                right: 10,
-                fontFamily: "nunito-bold",
-                fontSize: 15,
-              },
-              shadowStyles.shadowDown,
-            ]}
-          >
-            {Math.ceil(this.state.venue.rank)}% Match
+          <View style={{ flexDirection: 'row', width: '100%', position: 'absolute', top: 10 }}>
+            <Text
+              style={[
+                {
+                  color: "#86f231",
+                  position: "absolute",
+                  right: 10,
+                  fontFamily: "nunito-bold",
+                  fontSize: 15,
+                },
+                shadowStyles.shadowDown,
+              ]}
+            >
+              {Math.ceil(this.state.venue.rank)}% Match
           </Text>
+            <View style={[{
+              position: 'absolute',
+              left: 10,
+              borderRadius: 5,
+              overflow: 'hidden'
+            }, 
+            shadowStyles.shadowDown,          
+            ]}>
+              { this.state.venue.subcategory == "online" ? (<Text
+                style={[
+                  {
+                    fontFamily: "nunito-bold",
+                    fontSize: 14,
+                    paddingVertical: 4,
+                    paddingHorizontal: 5,
+                    color: colorScheme.primaryText,
+                    backgroundColor: colorScheme.button,
+                  }
+                ]}
+              >
+                Online
+              </Text>) : null }
+            </View>
+          </View>
           <View
             style={{
               flexDirection: "columns",
