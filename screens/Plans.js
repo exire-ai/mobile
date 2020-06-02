@@ -65,8 +65,20 @@ export default class Plans extends Component {
     });
     AsyncStorage.getItem("userID").then((userID) => {
       users.getPlans(userID, (response) => {
+        var now = Math.round(new Date().getTime())
+        var upcoming = []
+        var previous = []
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].start_time > now) {
+            upcoming.push(response[i])
+          } else {
+            previous.push(response[i])
+          }
+        }
         this.setState({
           data: response,
+          upcoming: upcoming,
+          previous: previous
         });
 
         this.setState({
@@ -221,28 +233,40 @@ export default class Plans extends Component {
     } else {
       return (
         <View style={plansStyles.container}>
+          {this.state.upcoming.length > 0 ? (
+            <Text style={plansStyles.sectionText}>Upcoming</Text> ) : null
+          }
+          { this.state.upcoming.length > 0 ? (
           <FlatList
             style={plansStyles.list}
-            data={this.state.data}
+            data={this.state.upcoming}
             showsVerticalScrollIndicator={false}
             onRefresh={() => {
               this.loadData();
             }}
             refreshing={this.state.refreshing}
-            keyExtratctor={(item, index) => "key" + index + "name" + item.title}
+            keyExtratctor={item => "name" + item.title}
             renderItem={({ item, index }) => (
               <Plan data={item} onTap={this.planTapped.bind(this)} />
             )}
-          />
-          {/* <TouchableOpacity
-          activeOpacity={0.5}
-          style={[shadowStyles.shadowDown, plansStyles.newPlan]}
-          onPress={() => {
-            this.props.navigation.navigate("CreatePlan");
-          }}
-        >
-          <Text style={plansStyles.buttonText}>+</Text>
-        </TouchableOpacity> */}
+          />) : null }
+          {this.state.previous.length > 0 ? (
+            <Text style={plansStyles.sectionText}>Previous</Text> ) : null
+          }
+          { this.state.previous.length > 0 ? (
+          <FlatList
+            style={plansStyles.list}
+            data={this.state.previous}
+            showsVerticalScrollIndicator={false}
+            onRefresh={() => {
+              this.loadData();
+            }}
+            refreshing={this.state.refreshing}
+            keyExtratctor={item => "name" + item.title}
+            renderItem={({ item, index }) => (
+              <Plan data={item} onTap={this.planTapped.bind(this)} />
+            )}
+          />) : null }
         </View>
       );
     }
