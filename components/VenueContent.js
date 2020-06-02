@@ -84,7 +84,14 @@ export default class VenueContent extends Component {
             this.props.onTap(this.state.venue);
           }}
         >
-          <View style={{ flexDirection: 'row', width: '100%', position: 'absolute', top: 10 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              position: "absolute",
+              top: 10,
+            }}
+          >
             <Text
               style={[
                 {
@@ -98,38 +105,50 @@ export default class VenueContent extends Component {
               ]}
             >
               {Math.ceil(this.state.venue.rank)}% Match
-          </Text>
-            <View style={[{
-              position: 'absolute',
-              left: 10,
-              borderRadius: 5,
-              overflow: 'hidden'
-            }, 
-            shadowStyles.shadowDown,          
-            ]}>
-              { this.state.venue.subcategory == "online" ? (<Text
-                style={[
-                  {
-                    fontFamily: "Bold",
-                    fontSize: 14,
-                    paddingVertical: 4,
-                    paddingHorizontal: 5,
-                    color: colorScheme.primaryText,
-                    backgroundColor: colorScheme.button,
-                  }
-                ]}
-              >
-                Online
-              </Text>) : null }
-            </View>
+            </Text>
           </View>
           <View
             style={{
-              flexDirection: "columns",
+              flexDirection: "column",
               marginBottom: 10,
               marginLeft: 10,
             }}
           >
+            {/* <View
+              style={[
+                {
+                  left: 10,
+                  borderRadius: 5,
+                  overflow: "hidden",
+                },
+                shadowStyles.shadowDown,
+              ]}
+            > */}
+            {this.state.venue.category == "online-event" ? (
+              <View
+                style={{
+                  borderRadius: 5,
+                  overflow: "hidden",
+                  paddingVertical: 4,
+                  paddingHorizontal: 5,
+                  backgroundColor: "rgba(255,255,255,0.3)",
+                  alignItems: "center",
+                  width: 60,
+                }}
+              >
+                <Text
+                  style={[
+                    {
+                      fontFamily: "Bold",
+                      fontSize: 14,
+                      color: colorScheme.primaryText,
+                    },
+                  ]}
+                >
+                  Online
+                </Text>
+              </View>
+            ) : null}
             {this.titleTextView(
               this.state.venue.title,
               this.state.venue.subtitle != null

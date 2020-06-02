@@ -72,8 +72,8 @@ var format = (categories) => {
     {
       name: ["Online", "💻"],
       key: "online",
-      selected: false
-    }
+      selected: false,
+    },
   ];
   for (var i in categories) {
     temp.push({
@@ -182,13 +182,13 @@ export default class Discover extends Component {
       refreshing: true,
     });
     AsyncStorage.getItem("userID").then((value) => {
-      plans.getRecommended(value, result1 => {
+      plans.getRecommended(value, (result1) => {
         plans.getByHierCategory("online-event", (result) => {
           for (var i = 0; i < result.length; i++) {
-            result[i]['subcategory'] = 'online'
+            result[i]["subcategory"] = "online";
           }
-          result = result.concat(result1)
-          shuffle(result)
+          result = result.concat(result1);
+          shuffle(result);
           this.setState({ rawVenues: result });
           //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
           this.formatVenues(result, (venues) => {
@@ -203,7 +203,7 @@ export default class Discover extends Component {
           });
         });
       });
-    })
+    });
   };
 
   loadCategories = () => {
@@ -259,7 +259,8 @@ export default class Discover extends Component {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity activeOpacity={.5}
+              <TouchableOpacity
+                activeOpacity={0.5}
                 style={{ height: "100%", paddingLeft: 7 }}
                 onPress={() => {
                   var temp = this.state.categories;
@@ -291,7 +292,7 @@ export default class Discover extends Component {
                     temp.find((o) => o.key === "all").selected = true;
                   }
                   this.setState({ categories: temp });
-                  this.filterCategories()
+                  this.filterCategories();
                 }}
               >
                 <CategorySelection category={item} />
@@ -300,7 +301,12 @@ export default class Discover extends Component {
           }}
         />
         <FlatList
-          style={{ width: "100%", marginHorizontal: 10, paddingTop: 10, height: '100%' }}
+          style={{
+            width: "100%",
+            marginHorizontal: 10,
+            paddingTop: 10,
+            height: "100%",
+          }}
           contentContainerStyle={{ justifyContent: "flex-start" }}
           data={this.state.venues}
           onRefresh={() => {
@@ -310,7 +316,7 @@ export default class Discover extends Component {
           renderItem={({ item }) => {
             if (item.numItems == 2) {
               if (item.venue1 == undefined || item.venue2 == undefined) {
-                return <View></View>;
+                return <View style={{ height: 10 }}></View>;
               }
               return (
                 <View
