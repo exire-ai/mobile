@@ -53,6 +53,12 @@ export default class Plans extends Component {
         return;
       }
       token = await Notifications.getExpoPushTokenAsync();
+      AsyncStorage.getItem("userID").then((userID) => {
+        users.updateExpoPushToken(userID, token, (res) => {
+          console.log(res);
+        });
+      });
+
       console.log(token);
       this.setState({ expoPushToken: token });
     } else {

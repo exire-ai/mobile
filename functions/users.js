@@ -362,6 +362,25 @@ const users = {
         callback(null);
       });
   },
+  updateExpoPushToken: function (userID, expoPushToken, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/updateExpoPushToken/" +
+        userID +
+        "/" +
+        expoPushToken,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        callback(json);
+      })
+      .catch((error) => {
+        console.log(JSON, stringify(error));
+        callback(false);
+      });
+  },
 };
 
 export default users;
