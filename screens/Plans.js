@@ -7,7 +7,7 @@ import {
   AsyncStorage,
   Image,
 } from "react-native";
-import { useNavigationFocus } from "react-navigation";
+import { useNavigationFocus, NavigationEvents } from "react-navigation";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import { Notifications } from "expo";
@@ -32,6 +32,7 @@ export default class Plans extends Component {
       data: null,
       refreshing: false,
       expoPushToken: "",
+      onboard: 'false'
     };
   }
 
@@ -79,6 +80,11 @@ export default class Plans extends Component {
     this.props.navigation.addListener("willFocus", this.loadData);
     this.registerForPushNotificationsAsync();
     this.loadData();
+    AsyncStorage.getItem("onboard").then(onboard => {
+      this.setState({
+        onboard: onboard
+      })
+    })
   }
 
   loadData = () => {
@@ -123,12 +129,22 @@ export default class Plans extends Component {
     ) {
       return (
         <View style={[plansStyles.container, { alignItems: "flex-start" }]}>
+          <NavigationEvents
+            onDidFocus={() => {
+              AsyncStorage.getItem("onboard").then(onboard => {
+                this.setState({
+                  onboard: onboard
+                })
+              })
+            }}
+          />
           <View
             style={{
               width: "100%",
               alignItems: "center",
               height: "100%",
               justifyContent: "center",
+              backgroundColor: this.state.onboard != 'false' ? "rgba(0,0,0,.3)" : "rgba(0,0,0,0)"
             }}
           >
             <View
@@ -149,7 +165,7 @@ export default class Plans extends Component {
                   { width: "100%", textAlign: "center" },
                 ]}
               >
-                Welcome to Exire
+                { this.state.onboard != 'false' ? "Welcome to Exire" : "Create A Plan" }
               </Text>
               <Text
                 style={[
@@ -157,8 +173,7 @@ export default class Plans extends Component {
                   { width: "100%", textAlign: "center", marginTop: 10 },
                 ]}
               >
-                Explore different venues and events recommended to you under the
-                discover tab below!
+                { this.state.onboard != 'false' ? "Let's take a tour of the app to get you familiar with how it works!" : "Create your first plan through the discover on the left or through conversation on the right."}
               </Text>
               <TouchableOpacity
                 activeOpacity={0.9}
@@ -185,7 +200,7 @@ export default class Plans extends Component {
                     },
                   ]}
                 >
-                  Explore Experiences
+                  { this.state.onboard != 'false' ? "Let's Go!" : "Explore Experiences" }
                 </Text>
               </TouchableOpacity>
             </View>

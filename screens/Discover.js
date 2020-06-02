@@ -5,7 +5,9 @@ import {
   AsyncStorage,
   TouchableOpacity,
   Modal,
+  Text
 } from "react-native";
+import { NavigationEvents } from "react-navigation";
 import VenueContent from "../components/VenueContent";
 import plans from "../functions/plans";
 import users from "../functions/users";
@@ -16,6 +18,7 @@ import CategorySelection from "../components/CategorySelection";
 import { discoverStyles } from "../global/discoverStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
+import { textStyles } from "../global/textStyles";
 import Venue from "./venue";
 
 function shuffle(array) {
@@ -92,6 +95,7 @@ export default class Discover extends Component {
       categories: [],
       selected: ["all"],
       refreshing: true,
+      onboard: 'false'
     };
   }
 
@@ -100,6 +104,11 @@ export default class Discover extends Component {
       this.setState({ userID: userID });
       this.loadCategories();
       this.loadData();
+      AsyncStorage.getItem("onboard").then(onboard => {
+        this.setState({
+          onboard: onboard
+        })
+      })
     });
   }
 
@@ -252,6 +261,15 @@ export default class Discover extends Component {
     return (
       <View style={discoverStyles.container}>
         <Search />
+        <NavigationEvents
+          onDidFocus={() => {
+            AsyncStorage.getItem("onboard").then(onboard => {
+              this.setState({
+                onboard: onboard
+              })
+            })
+          }}
+        />
         <FlatList
           horizontal={true}
           style={{ paddingTop: 3, paddingLeft: 3, height: 60 }}
@@ -388,6 +406,67 @@ export default class Discover extends Component {
             }
           }}
         />
+        { this.state.onboard != 'false' ? (
+          <View style={{position: 'absolute', height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,.3)', alignItems: 'center', justifyContent : 'center'}}>
+          <View
+            style={[
+              {
+                width: "88%",
+                backgroundColor: colorScheme.componentBackground,
+                padding: 15,
+                borderRadius: 15,
+                marginBottom: 20,
+              },
+              shadowStyles.shadowDown,
+            ]}
+          >
+            <Text
+              style={[
+                textStyles.titleText,
+                { width: "100%", textAlign: "center" },
+              ]}
+            >
+              Discover Experiences
+            </Text>
+            <Text
+              style={[
+                textStyles.standardBodyText,
+                { width: "100%", textAlign: "center", marginTop: 10 },
+              ]}
+            >
+              Here you'll be able to look through venues and events near you and find something you're interested in.
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              style={[
+                {
+                  width: "100%",
+                  padding: 10,
+                  borderRadius: 10,
+                  backgroundColor: colorScheme.button,
+                  marginTop: 20,
+                  marginBottom: 3,
+                },
+                shadowStyles.shadowDown,
+              ]}
+              onPress={() => this.props.navigation.navigate("Chats")}
+            >
+              <Text
+                style={[
+                  textStyles.standardBodyText,
+                  {
+                    width: "100%",
+                    textAlign: "center",
+                    color: colorScheme.primaryText,
+                  },
+                ]}
+              >
+                Next
+              </Text>
+            </TouchableOpacity>
+          </View>
+          </View>
+        ) : null }
       </View>
     );
   }

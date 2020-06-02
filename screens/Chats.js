@@ -9,6 +9,8 @@ import Chat from "../components/Chat";
 import { shadowStyles } from "../global/shadowStyles";
 import { chatsStyles } from "../global/chatsStyles";
 import { plansStyles } from "../global/plansStyles";
+import { colorScheme } from "../global/colorScheme";
+import { textStyles } from "../global/textStyles";
 import SearchBar from "../components/SearchBar";
 
 import * as firebase from "firebase";
@@ -27,11 +29,17 @@ export default class Chats extends Component {
         this.loadData(false)
       })
     })
+    AsyncStorage.getItem("onboard").then(onboard => {
+      this.setState({
+        onboard: onboard
+      })
+    })
   }
 
   state = {
     data: [],
-    refreshing: false
+    refreshing: false,
+    onboard: 'false'
   }
 
   componentDidMount() {
@@ -55,8 +63,8 @@ export default class Chats extends Component {
     .where("users", "array-contains", this.state.number)
     .get()
     .then(querySnapshot => {
-      const data = querySnapshot.docs.map(doc => { 
-        var temp = doc.data() 
+      const data = querySnapshot.docs.map(doc => {
+        var temp = doc.data()
         return temp
       });
       this.setState({
@@ -72,7 +80,7 @@ export default class Chats extends Component {
     if (unix + 86400 > now) {
       var hours = res.getHours()
       var minutes = res.getMinutes()
-      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? "0" : "") + minutes + (hours > 12 ? "pm" : "am") 
+      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? "0" : "") + minutes + (hours > 12 ? "pm" : "am")
     } else if (unix + 518400 > now) {
       return res.getDay()
     } else {
@@ -113,6 +121,70 @@ export default class Chats extends Component {
         >
           <Text style={plansStyles.buttonText}>+</Text>
         </TouchableOpacity>
+        { this.state.onboard != "false" ? (
+          <View style={{position: 'absolute', height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,.3)', alignItems: 'center', justifyContent : 'center'}}>
+          <View
+            style={[
+              {
+                width: "88%",
+                backgroundColor: colorScheme.componentBackground,
+                padding: 15,
+                borderRadius: 15,
+                marginBottom: 20,
+              },
+              shadowStyles.shadowDown,
+            ]}
+          >
+            <Text
+              style={[
+                textStyles.titleText,
+                { width: "100%", textAlign: "center" },
+              ]}
+            >
+              Have A Conversation
+            </Text>
+            <Text
+              style={[
+                textStyles.standardBodyText,
+                { width: "100%", textAlign: "center", marginTop: 10 },
+              ]}
+            >
+              This is where you can talk to friends or your concierge, Emma, to create plans. Get started by entering a conversation or find something on discover!
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              style={[
+                {
+                  width: "100%",
+                  padding: 10,
+                  borderRadius: 10,
+                  backgroundColor: colorScheme.button,
+                  marginTop: 20,
+                  marginBottom: 3,
+                },
+                shadowStyles.shadowDown,
+              ]}
+              onPress={() => {
+                this.setState({onboard : "false"})
+                AsyncStorage.setItem("onboard", "false")
+              }}
+            >
+              <Text
+                style={[
+                  textStyles.standardBodyText,
+                  {
+                    width: "100%",
+                    textAlign: "center",
+                    color: colorScheme.primaryText,
+                  },
+                ]}
+              >
+                I'm Ready
+              </Text>
+            </TouchableOpacity>
+          </View>
+          </View>
+        ) : null }
       </View>
     );
   }
