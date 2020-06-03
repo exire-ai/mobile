@@ -7,8 +7,13 @@ export const textStyles = StyleSheet.create({
     color: "#444",
   },
   subTitle: {
+<<<<<<< Updated upstream
     fontFamily: "nunito-bold",
     fontSize: 18,
+=======
+    fontFamily: "Bold",
+    fontSize: 20,
+>>>>>>> Stashed changes
     color: "#444",
   },
   minorText: {
@@ -19,7 +24,7 @@ export const textStyles = StyleSheet.create({
   subBodyText: {
     fontFamily: "nunito-regular",
     fontSize: 18,
-    color: "#888",
+    color: "#AAA",
   },
   buttonText: {
     fontFamily: "nunito-bold",

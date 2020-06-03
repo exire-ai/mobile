@@ -10,7 +10,7 @@ const months = {
   8: "September",
   9: "October",
   10: "November",
-  12: "December",
+  11: "December",
 };
 
 module.exports = class DateFormatter {
@@ -22,6 +22,7 @@ module.exports = class DateFormatter {
     console.log(date.getDate());
 
     let month = date.getMonth();
+
     let day = date.getDate();
 
     return months[month] + " " + day;
