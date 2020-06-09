@@ -12,7 +12,7 @@ const users = {
         return false;
       });
   },
-  createUser: function (userID, name, number, callback) {
+  createUser: function (userID, name, number, profileImg, callback) {
     fetch("https://exire-backend.herokuapp.com/users/create", {
       method: "POST",
       headers: {
@@ -23,6 +23,7 @@ const users = {
         userID: userID,
         name: name,
         number: number,
+        profileImg: profileImg
       }),
     })
       .then((response) => response.json())
@@ -378,6 +379,27 @@ const users = {
       })
       .catch((error) => {
         console.log(JSON, stringify(error));
+        callback(false);
+      });
+  },
+  updateProfileImg: function (userID, profileImg, callback) {
+    fetch(
+      "https://exire-backend.herokuapp.com/users/updateProfileImg/" + userID,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ profileImg: profileImg }),
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
         callback(false);
       });
   },

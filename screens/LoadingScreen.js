@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TextInput, StyleSheet, AsyncStorage } from "react-native";
+import users from "../functions/users"
 
 export default class LoadingScreen extends Component {
   componentDidMount() {
@@ -12,15 +13,19 @@ export default class LoadingScreen extends Component {
   }
 
   checkIfLoggedIn = () => {
-    setTimeout( () => {
-      AsyncStorage.getItem("userID").then((value) => {
-        if (value != null && value != "") {
-          this.props.navigation.navigate("HomeStack");
-        } else {
-          this.props.navigation.navigate("SignInStack");
-        }
-      })
-    }, 300)
+    AsyncStorage.getItem("userID").then((value) => {
+      if (value != null && value != "") {
+        users.doesExist(value, result => {
+          if (result) {
+            this.props.navigation.navigate("HomeStack");
+          } else {
+            this.props.navigation.navigate("SignInStack");
+          }
+        })
+      } else {
+        this.props.navigation.navigate("SignInStack");
+      }
+    })
   };
 
   render() {

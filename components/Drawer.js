@@ -108,6 +108,7 @@ export default class Drawer extends Component {
           this.setState({
             profile: { uri: response.body.postResponse.location }
           })
+          users.updateProfileImg(this.state.userID, response.body.postResponse.location, result => {})
         }
       })
     };

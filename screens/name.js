@@ -24,8 +24,8 @@ export default function Name({ navigation }) {
   const categories = navigation.getParam("categories");
 
   function next() {
-    users.createUser(userID, value, number, (result) => {
-      var profileImg = cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
+    var profileImg = cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
+    users.createUser(userID, value, number, profileImg, (result) => {
       AsyncStorage.setItem("userID", userID);
       AsyncStorage.setItem("name", value);
       AsyncStorage.setItem("number", number);
