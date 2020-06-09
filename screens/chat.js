@@ -1,6 +1,7 @@
 import React, { setState, useCallback, useEffect } from "react";
-import { View, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, TouchableOpacity, AsyncStorage } from "react-native";
+import { View, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, TouchableOpacity, AsyncStorage, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import { Message } from "../components/message";
 import { MessageClass } from "../components/messageClass";
@@ -11,6 +12,7 @@ import dialogflow from "../functions/dialogflow";
 // FIRESTORE
 import * as firebase from "firebase";
 import "firebase/firestore";
+import { textStyles } from "../global/textStyles";
 
 export default class Chat extends React.Component {
   db = firebase.firestore();
@@ -25,7 +27,8 @@ export default class Chat extends React.Component {
         userID: value[0][1],
         name: value[1][1],
         profileImg: value[2][1],
-        number: value[3][1]
+        number: value[3][1],
+        loading: false
       })
       this.getChat()
       this.updateUserData()
@@ -158,6 +161,9 @@ export default class Chat extends React.Component {
   }
 
   emma = (message) => {
+    this.setState({
+      loading: true
+    })
     dialogflow.sendMessage(this.props.navigation.state.params.userID, message, (data) => {
       var parsedData;
       try {
@@ -191,7 +197,8 @@ export default class Chat extends React.Component {
       }
       this.addMessage(newMessage)
       this.setState({
-        messages: messages
+        messages: messages,
+        loading: false
       })
       this.checkSize()
     })
@@ -220,7 +227,7 @@ export default class Chat extends React.Component {
           keyboardVerticalOffset={75}
         >
           <FlatList
-            style={styles.list}
+            style={[styles.list, {flex: 1}]}
             data={this.state.messages}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => "time" + item.time}
@@ -258,6 +265,14 @@ export default class Chat extends React.Component {
               }
             }}
           />
+          { this.state.loading ? (
+            <View style={{paddingVertical: 10, paddingLeft: 16, marginBottom: 0, flexDirection: 'row'}}>
+              <Text style={[textStyles.subBodyText, {fontSize: 16}]}>
+                Emma is typing 
+              </Text>
+              <AnimatedEllipsis numberOfDots={3} letterSpacing={0} animationDelay={300} style={[textStyles.subBodyText, {fontSize: 16}]}/>
+            </View>
+          ) : null }
           <View style={{ margin: 10, marginBottom: 20, backgroundColor: colorScheme.background, borderRadius: 25, alignItems: "center", flexDirection: "row" }}>
             <TextInput
               placeholder={"Say something..."}
@@ -307,7 +322,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   list: {
-    flex: 1,
     width: "100%",
     marginBottom: 10
   },

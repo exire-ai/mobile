@@ -109,7 +109,9 @@ export default class Chats extends Component {
               navigate={() => {
                 this.props.navigation.navigate("Chat", {chatID: item.chatID, userID: this.state.userID, name: item.name, data: item});
               }}
-              imgURL={item.userData[item.userData.length - 1].imgURL}
+              imgURL={item.userData.find(
+                (o) => o.userID == ( item.userData.length == 2 ? "emma" : item.messages[item.messages.length - 1].userID )
+              ).imgURL}
             />
           )}
         />
