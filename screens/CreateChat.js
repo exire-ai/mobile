@@ -8,6 +8,8 @@ import { textStyles } from "../global/textStyles"
 import { signInStyles } from "../global/signInStyles"
 import { chatsStyles } from "../global/chatsStyles";
 import { FlatList } from "react-native-gesture-handler";
+import * as Contacts from 'expo-contacts';
+import * as Permissions from "expo-permissions";
 import users from "../functions/users";
 import * as firebase from "firebase";
 import "firebase/firestore";
@@ -31,12 +33,54 @@ export default class CreateChat extends React.Component {
     chatName: "",
     otherUsers: [],
     number: "",
+    contacts: [],
+    contactPermission: true,
+    search: []
   }
 
   componentDidMount() {
     AsyncStorage.getItem("name").then(name => {
-      this.setState({"name" : name})
+      this.setState({ "name": name })
     })
+    this.getContacts()
+  }
+
+  async getContacts() {
+    const permission = await Permissions.askAsync(Permissions.CONTACTS);
+
+    if (permission.status !== 'granted') {
+      this.setState({ contactPermission: false })
+      return;
+    }
+    const size = await Contacts.getContactsAsync({
+      pageSize: 1,
+      pageOffset: 0,
+    });
+    const contacts = await Contacts.getContactsAsync({
+      fields: [
+        Contacts.PHONE_NUMBERS,
+      ],
+      pageSize: size.total,
+      pageOffset: 0,
+    });
+    if (contacts.total > 0) {
+      var newContacts = contacts.data.filter(o => {
+        if ("phoneNumbers" in o && "name" in o) {
+          if (o.phoneNumbers.length != 0) {
+            return true
+          }
+        }
+        return false
+      }).map(o => {
+        var num = o.phoneNumbers[0].digits
+        num = num.length <= 10 ? num : num.substring(num.length - 10)
+        return {
+          name: o.name,
+          number: num
+        }
+      })
+      this.setState({ contacts: newContacts })
+    }
   }
 
   getChat(chatID, callback) {
@@ -60,13 +104,27 @@ export default class CreateChat extends React.Component {
             AsyncStorage.getItem("number").then(number => {
               chats.createChat(this.state.chatName, name, userID, number, profileImg, this.state.otherUsers, (docID, chatID) => {
                 this.getChat(chatID, data => {
-                  this.props.navigation.navigate("Chat", {chatID: chatID, userID: userID, name: this.state.chatName, data: data});
+                  this.props.navigation.navigate("Chat", { chatID: chatID, userID: userID, name: this.state.chatName, data: data });
                 })
               })
             })
           })
         })
       })
+    }
+  }
+
+  addContact = (text) => {
+    this.setState({ number: text })
+    if (text.match(/^[0-9]+$/) != null && text.length == 10) {
+      this.addNumber(text)
+    } else {
+      if (text.length == 0) {
+        this.setState({ search: []})
+      } else {
+        var data = this.state.contacts.filter(o => o.name.toLowerCase().includes(text.toLowerCase()))
+        this.setState({ search: data.length > 8 ? data.slice(0, 7) : data })
+      }
     }
   }
 
@@ -84,17 +142,16 @@ export default class CreateChat extends React.Component {
       this.setState({ otherUsers: temp })
       this.setState({ number: "" })
       users.getByNumber(text, (result) => {
-        console.log(result)
         if (result) {
           var temp = this.state.otherUsers
-          temp = temp.filter(function(o) { return o.number != text });
+          temp = temp.filter(function (o) { return o.number != text });
           temp.push({
             name: result.name,
             number: text,
             userID: result.userID,
             imgURL: cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
           })
-          this.setState({otherUsers: temp})
+          this.setState({ otherUsers: temp })
         } else {
           users.sendTextMsg(text, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
             console.log(result)
@@ -118,12 +175,47 @@ export default class CreateChat extends React.Component {
           selectionColor={colorScheme.button}
           placeholderTextColor={colorScheme.veryLight}
         />
+        <View style={{ height: 10 + 44 * Math.ceil(this.state.otherUsers.length / 2), width: '100%' }}>
+          <FlatList
+            style={{ width: "100%" }}
+            contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
+            data={this.state.otherUsers}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => "number" + item.number}
+            renderItem={({ item, index }) => (
+              <View style={{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, marginHorizontal: 5, backgroundColor: item.name == "" ? colorScheme.background : colorScheme.primary, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                <Text style={{ fontFamily: "Bold", color: item.name == "" ? colorScheme.lessDarkText : colorScheme.primaryText, fontSize: 17 }}>{
+                  item.name == "" ?
+                    ("(" + item.number.substring(0, 3) + ") " + item.number.substring(3, 6) + "-" + item.number.substring(6, 10))
+                    : item.name
+                }</Text>
+                <TouchableOpacity activeOpacity={.5}
+                  style={{ height: 25, width: 25, borderRadius: 12.5, backgroundColor: item.name == "" ? "#ffcccb" : "#fff", marginLeft: 10, alignItems: "center", justifyContent: "center" }}
+                  onPress={() => {
+                    var temp = this.state.otherUsers
+                    temp = temp.filter(function (o) { return o.number != item.number });
+                    
+                    this.setState({ otherUsers: temp.length > 5 ? temp.slice(0, 5) : temp })
+                  }}
+                >
+                  <Icon
+                    name="minus"
+                    color={item.name == "" ? colorScheme.primaryText : colorScheme.lesserDarkText}
+                    size={20}
+                    style={[shadowStyles.shadowDown, { paddingTop: 2 }]}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
         <View
           style={[{
             width: "90%",
             height: 45,
             backgroundColor: colorScheme.veryLight,
-            marginVertical: 10,
+            top: 10,
             borderRadius: 15,
             flexDirection: "row",
             justifyContent: "center",
@@ -138,45 +230,70 @@ export default class CreateChat extends React.Component {
           />
           <TextInput
             style={[{ width: "90%", color: colorScheme.lessDarkText, fontFamily: "Reg", fontSize: 17 }]}
-            placeholder={"Add friends by phone number"}
-            keyboardType={"phone-pad"}
+            placeholder={this.state.contactPermission ? "Add by number or contacts by name" : "Add friends by phone number"}
+            keyboardType={this.state.contactPermission ? "ascii-capable" : "number-pad"}
             placeholderTextColor={colorScheme.lesserDarkText}
-            onChangeText={(text) => { this.addNumber(text) }}
+            onChangeText={(text) => { if (this.state.contactPermission) { this.addContact(text) } else { this.addNumber(text) } }}
             value={this.state.number}
           ></TextInput>
         </View>
-        <FlatList
-          style={{ width: "100%" }}
-          contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
-          data={this.state.otherUsers}
-          showsVerticalScrollIndicator={false}
-          keyExtratctor={(item, index) => "number" + item.number}
-          renderItem={({ item, index }) => (
-            <View style={{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, backgroundColor: item.name == "" ? colorScheme.background : colorScheme.primary, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ fontFamily: "Bold", color: item.name == "" ? colorScheme.lessDarkText : colorScheme.primaryText, fontSize: 17 }}>{
-                item.name == "" ?
-                  ("(" + item.number.substring(0, 3) + ") " + item.number.substring(3, 6) + "-" + item.number.substring(6, 10))
-                : item.name
-              }</Text>
-              <TouchableOpacity activeOpacity={.5}
-                style={{ height: 25, width: 25, borderRadius: 12.5, backgroundColor: item.name == "" ? "#ffcccb" : "#fff", marginLeft: 10, alignItems: "center", justifyContent: "center" }}
-                onPress={() => {
-                  var temp = this.state.otherUsers
-                  temp = temp.filter(function(o) { return o.number != item.number }); 
-                  this.setState({otherUsers: temp})
-                }}
-              >
-                <Icon
-                  name="minus"
-                  color={item.name == "" ? colorScheme.primaryText : colorScheme.lesserDarkText}
-                  size={20}
-                  style={[shadowStyles.shadowDown, {paddingTop: 2}]}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-        <KeyboardAvoidingView behavior={"padding"} style={{ width: "100%", alignItems: "flex-end", justifyContent: "center", flexDirection: "row" }}>
+        <View style={{ height: 10 + this.state.search.length * 44, width: '100%', marginTop: 10 }}>
+          <FlatList
+            style={{ width: "100%" }}
+            contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
+            data={this.state.search}
+            numColumns={1}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => "number" + item.number + "name" + item.name}
+            renderItem={({ item, index }) => (
+                            <View style={{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, marginHorizontal: 5, backgroundColor: colorScheme.background, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                <Text style={{ fontFamily: "Bold", color: colorScheme.lessDarkText, fontSize: 17 }}>{
+                  item.name
+                }</Text>
+                <TouchableOpacity activeOpacity={.5}
+                  style={{ height: 25, width: 25, borderRadius: 12.5, backgroundColor: "#ffcccb", marginLeft: 10, alignItems: "center", justifyContent: "center" }}
+                  onPress={() => {
+                    var temp = this.state.otherUsers
+                    temp = temp.filter(function (o) { return o.number != item.number });
+                    temp.push({
+                      name: item.name,
+                      number: item.number,
+                      userID: '',
+                      imgURL: ''
+                    })
+                    this.setState({ otherUsers: temp })
+                    users.getByNumber(item.number, (result) => {
+                      if (result) {
+                        var temp = this.state.otherUsers
+                        temp = temp.filter(function (o) { return o.number != item.number });
+                        temp.push({
+                          name: result.name,
+                          number: result.number,
+                          userID: result.userID,
+                          imgURL: result.includes('profileImg') ? result.profileImg : cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
+                        })
+                        this.setState({ otherUsers: temp })
+                      } else {
+                        users.sendTextMsg(item.number, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
+                          console.log(result)
+                        })
+                      }
+                    })
+                    this.setState({text: "", search: []})
+                  }}
+                >
+                  <Icon
+                    name="plus"
+                    color={colorScheme.lesserDarkText}
+                    size={20}
+                    style={[shadowStyles.shadowDown, { paddingTop: 2 }]}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
+        <KeyboardAvoidingView behavior={"padding"} style={{ width: "100%", alignItems: "flex-end", justifyContent: "center", flexDirection: "row", position: 'absolute', bottom: 40 }}>
           <TouchableOpacity activeOpacity={.5}
             onPress={this.createGroup}
             style={[
@@ -190,7 +307,6 @@ export default class CreateChat extends React.Component {
                 borderRadius: 10,
                 shadowRadius: 10,
                 shadowOffset: { width: 0, height: 2 },
-                marginBottom: 30
               },
             ]}
           >

@@ -78,6 +78,7 @@ const chats = {
   // },
   createChat: async function(chatName, name, userID, number, profileImg, otherUsers, callback) {
     var db = firebase.firestore()
+    console.log(otherUsers)
     var users = []
     var userData = []
     var chatID = uuid.v4()

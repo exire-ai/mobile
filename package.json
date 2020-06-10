@@ -17,6 +17,7 @@
     "@react-navigation/native": "^5.0.9",
     "expo": "~36.0.0",
     "expo-constants": "~8.0.0",
+    "expo-contacts": "^8.1.0",
     "expo-google-app-auth": "^8.1.0",
     "expo-google-sign-in": "~8.0.0",
     "expo-image-picker": "~8.0.1",

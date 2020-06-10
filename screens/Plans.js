@@ -50,7 +50,7 @@ export default class Plans extends Component {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
+        console.log("Failed to get push token for push notification!");
         return;
       }
       token = await Notifications.getExpoPushTokenAsync();
@@ -63,7 +63,7 @@ export default class Plans extends Component {
       console.log(token);
       this.setState({ expoPushToken: token });
     } else {
-      alert("Must use physical device for Push Notifications");
+      console.log("Must use physical device for Push Notifications");
     }
 
     if (Platform.OS === "android") {
