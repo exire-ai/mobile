@@ -1,5 +1,5 @@
 const dialogflow = {
-  sendMessage: function (sessionID, inputText, callback) {
+  sendMessage: function (sessionID, inputText, users, callback) {
     fetch(
       "https://us-central1-exiretest-kwrrpc.cloudfunctions.net/dialogflowGateway",
       {
@@ -15,6 +15,7 @@ const dialogflow = {
               text: inputText,
               languageCode: "en-US",
             },
+            users: users
           },
         }),
       }

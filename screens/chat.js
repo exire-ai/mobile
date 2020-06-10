@@ -164,7 +164,7 @@ export default class Chat extends React.Component {
     this.setState({
       loading: true
     })
-    dialogflow.sendMessage(this.props.navigation.state.params.userID, message, (data) => {
+    dialogflow.sendMessage(this.state.chatID, message, this.state.users.map(o => o.userID) ,(data) => {
       var parsedData;
       try {
         parsedData = JSON.parse(data.fulfillmentText);
@@ -268,7 +268,7 @@ export default class Chat extends React.Component {
           { this.state.loading ? (
             <View style={{paddingVertical: 10, paddingLeft: 16, marginBottom: 0, flexDirection: 'row'}}>
               <Text style={[textStyles.subBodyText, {fontSize: 16}]}>
-                Emma is typing 
+                Emma is typing
               </Text>
               <AnimatedEllipsis numberOfDots={3} letterSpacing={0} animationDelay={300} style={[textStyles.subBodyText, {fontSize: 16}]}/>
             </View>
