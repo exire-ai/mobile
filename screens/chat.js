@@ -8,6 +8,7 @@ import { MessageClass } from "../components/messageClass";
 import { colorScheme } from "../global/colorScheme";
 import { shadowStyles } from "../global/shadowStyles";
 import dialogflow from "../functions/dialogflow";
+import plans from "../functions/plans"
 
 // FIRESTORE
 import * as firebase from "firebase";
@@ -164,7 +165,7 @@ export default class Chat extends React.Component {
     this.setState({
       loading: true
     })
-    dialogflow.sendMessage(this.state.userID, this.state.chatID, message, this.state.users.map(o => o.userID) ,(data) => {
+    dialogflow.sendMessage(this.state.userID, this.state.chatID, message, this.state.users.map(o => o.userID), data => {
       var parsedData;
       try {
         parsedData = JSON.parse(data.fulfillmentText);
@@ -182,25 +183,47 @@ export default class Chat extends React.Component {
       } else {
         this.state.recallCounter = 0;
       }
-
-      var newMessage = {
-        message: parsedData.text,
-        userID: "emma",
-        special: parsedData.hasOwnProperty("venues") ? { venues: parsedData.venues } : {},
-        time: Math.round(new Date().getTime()),
-      };
-      var messages = this.state.messages
-      if (this.state.inverse == 1) {
-        messages.push(newMessage)
+      if (data.intent.displayName == "GroupRecommendations") {
+        plans.getRecommendedGroup(this.state.users.map(o => o.userID), venues => {
+          var newMessage = {
+            message: parsedData.text,
+            userID: "emma",
+            special: { venues: venues.recommended.map(o => o.placeID) },
+            time: Math.round(new Date().getTime()),
+          };
+          var messages = this.state.messages
+          if (this.state.inverse == 1) {
+            messages.push(newMessage)
+          } else {
+            messages.unshift(newMessage)
+          }
+          this.addMessage(newMessage)
+          this.setState({
+            messages: messages,
+            loading: false
+          })
+          this.checkSize()
+        })
       } else {
-        messages.unshift(newMessage)
+        var newMessage = {
+          message: parsedData.text,
+          userID: "emma",
+          special: parsedData.hasOwnProperty("venues") ? { venues: parsedData.venues } : {},
+          time: Math.round(new Date().getTime()),
+        };
+        var messages = this.state.messages
+        if (this.state.inverse == 1) {
+          messages.push(newMessage)
+        } else {
+          messages.unshift(newMessage)
+        }
+        this.addMessage(newMessage)
+        this.setState({
+          messages: messages,
+          loading: false
+        })
+        this.checkSize()
       }
-      this.addMessage(newMessage)
-      this.setState({
-        messages: messages,
-        loading: false
-      })
-      this.checkSize()
     })
   }
 

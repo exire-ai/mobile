@@ -82,6 +82,28 @@ const plans = {
         callback(null);
       });
   },
+  getRecommendedGroup: function (users, callback) {
+    console.log(users)
+    fetch("https://exire-backend.herokuapp.com/plans/getRecommendedGroup/", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        users: users,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(false);
+      });
+  },
 };
 
 export default plans;

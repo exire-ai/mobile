@@ -80,6 +80,7 @@ export default class CreateChat extends React.Component {
         }
       })
       this.setState({ contacts: newContacts })
+      this.addContact("")
     }
   }
 
@@ -119,12 +120,8 @@ export default class CreateChat extends React.Component {
     if (text.match(/^[0-9]+$/) != null && text.length == 10) {
       this.addNumber(text)
     } else {
-      if (text.length == 0) {
-        this.setState({ search: []})
-      } else {
         var data = this.state.contacts.filter(o => o.name.toLowerCase().includes(text.toLowerCase()))
-        this.setState({ search: data.length > 8 ? data.slice(0, 7) : data })
-      }
+        this.setState({ search: data })
     }
   }
 
@@ -195,7 +192,7 @@ export default class CreateChat extends React.Component {
                   onPress={() => {
                     var temp = this.state.otherUsers
                     temp = temp.filter(function (o) { return o.number != item.number });
-                    
+
                     this.setState({ otherUsers: temp.length > 5 ? temp.slice(0, 5) : temp })
                   }}
                 >
@@ -237,7 +234,7 @@ export default class CreateChat extends React.Component {
             value={this.state.number}
           ></TextInput>
         </View>
-        <View style={{ height: 10 + this.state.search.length * 44, width: '100%', marginTop: 10 }}>
+        <View style={{ height: this.state.search.length > 7 ? 10 + 44*7 : 10 + this.state.search.length * 44, width: '100%', marginTop: 10 }}>
           <FlatList
             style={{ width: "100%" }}
             contentContainerStyle={{ alignItems: "center", marginTop: 10 }}

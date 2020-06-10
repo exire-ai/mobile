@@ -561,7 +561,7 @@ export default class Venue extends Component {
                 { width: "95%", textAlign: "center", fontSize: 14 },
               ]}
             >
-              We can"t book this for you, but you can add it to a plan!
+              We can't book this for you, but you can add it to a plan!
             </Text>
             <TouchableOpacity
               activeOpacity={0.5}
