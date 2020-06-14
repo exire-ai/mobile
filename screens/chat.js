@@ -9,11 +9,11 @@ import { colorScheme } from "../global/colorScheme";
 import { shadowStyles } from "../global/shadowStyles";
 import dialogflow from "../functions/dialogflow";
 import plans from "../functions/plans"
+import { textStyles } from "../global/textStyles";
 
 // FIRESTORE
 import * as firebase from "firebase";
 import "firebase/firestore";
-import { textStyles } from "../global/textStyles";
 
 export default class Chat extends React.Component {
   db = firebase.firestore();

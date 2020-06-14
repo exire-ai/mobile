@@ -6,7 +6,12 @@ import { shadowStyles } from "../global/shadowStyles";
 import { messagesStyles } from "../global/messagesStyles";
 import users from "../functions/users";
 
+// Firestore connection
+import * as firebase from "firebase";
+import "firebase/firestore";
+
 export default class ChatInfo extends React.Component {
+  db = firebase.firestore();
 
   constructor(props) {
     super(props)
@@ -20,14 +25,12 @@ export default class ChatInfo extends React.Component {
 
   getFriends() {
     users.getFriends(this.state.userID, friends => {
-      this.setState({friends: friends.map(o => o.userID)})
-      console.log(friends)
+      this.setState({ friends: friends.map(o => o.userID) })
     })
   }
 
   toggleFriend(userID) {
     var friends = this.state.friends
-    console.log(friends)
     if (friends.includes(userID)) {
       users.deleteFriend(this.state.userID, userID, (data) => {
         for (var i = 0; i < friends.length; i++) {
@@ -45,14 +48,47 @@ export default class ChatInfo extends React.Component {
     }
   }
 
+  leave() {
+    var userData = {
+      userID: this.state.userID,
+      number: 'gone',
+      name: this.state.userData.find(o => o.userID == this.state.userID).name,
+      imgURL: this.state.userData.find(o => o.userID == this.state.userID).imgURL
+    }
+    var oldNumber = this.state.userData.find(o => o.userID == this.state.userID).number
+    var oldUserData = this.state.userData
+    this.db.collection("chats")
+      .where("chatID", "==", this.state.chatID)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data().userData;
+          var users = doc.data().users;
+          data = data.filter(function(o) { return o.number != oldNumber });
+          users = users.filter(function(o) { return o != oldNumber});
+          data.push(userData)
+          console.log(data, users)
+          this.db.collection("chats").doc(doc.id).update({
+            userData: data,
+            users: users
+          })
+          this.setState({
+            userData: data,
+            users: users
+          })
+          this.props.navigation.navigate('Chats')
+        })
+      })
+  }
+
   render() {
     return (
-      <View style={{ justifyContent: "center", alignItems: "center", width: "100%" }}>
+      <View style={{ justifyContent: "center", alignItems: "center", width: "100%", height: '100%' }}>
         <Text style={{ marginTop: 10, fontSize: 24, fontFamily: "SemiBold", color: colorScheme.lessDarkText }}>Members</Text>
         <FlatList
           style={{ width: "100%" }}
           contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
-          data={this.state.userData}
+          data={this.state.userData.filter(o => o.number != 'gone')}
           showsVerticalScrollIndicator={false}
           keyExtratctor={(item, index) => "number" + item.number}
           renderItem={({ item, index }) => {
@@ -60,7 +96,7 @@ export default class ChatInfo extends React.Component {
               return (<View style={[{ width: Dimensions.get("screen").width * .9, height: 70, marginBottom: 5, paddingHorizontal: 10, backgroundColor: colorScheme.componentBackground, borderRadius: 15, flexDirection: "row", justifyContent: "flex-start" }, shadowStyles.shadowDown]}>
                 <View style={[{ flexDirection: "row" }, shadowStyles.shadowDown]}>
                   <View style={[{ marginTop: 0, height: 50, width: 50, borderRadius: 25, overflow: "hidden", marginTop: 10 }, shadowStyles.shadowDown]}>
-                    <ImageBackground source={{ uri: item.imgURL != "" ? item.imgURL :  "https://cas.umw.edu/sociologyanthropology/files/2018/11/blank-person-1.png"}} style={{ width: 50, height: 50 }}>
+                    <ImageBackground source={{ uri: item.imgURL != "" ? item.imgURL : "https://cas.umw.edu/sociologyanthropology/files/2018/11/blank-person-1.png" }} style={{ width: 50, height: 50 }}>
                     </ImageBackground>
                   </View>
                 </View>
@@ -89,6 +125,12 @@ export default class ChatInfo extends React.Component {
           }
           }
         />
+        <TouchableOpacity activeOpacity={.5}
+          style={[{ bottom: 30, position: "absolute", width: '85%', height: 50, paddingHorizontal: 10, backgroundColor: colorScheme.activeButton, alignItems: "center", justifyContent: "center", borderRadius: 15 }, shadowStyles.shadowDown]}
+          onPress={() => this.leave()}
+        >
+          <Text style={{ color: colorScheme.primaryText, fontFamily: "Bold", fontSize: 20 }}>Leave Chat</Text>
+        </TouchableOpacity>
       </View>
     );
   }
