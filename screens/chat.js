@@ -172,6 +172,7 @@ export default class Chat extends React.Component {
       } catch (e) {
         parsedData = { text: data.fulfillmentText };
       }
+      console.log(parsedData)
       if (parsedData.text == "" && this.state.recallCounter < 3) {
         this.state.recallCounter += 1;
         this.emma(message)
