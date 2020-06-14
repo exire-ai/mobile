@@ -9,7 +9,7 @@ const dialogflow = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sessionId: sessionID,
+          sessionId: sessionID + "%" + userID,
           queryInput: {
             text: {
               text: inputText,
