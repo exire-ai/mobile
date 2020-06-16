@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, TouchableOpacity, AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { NavigationEvents } from 'react-navigation';
 
 // Components Imports
 import Chat from "../components/Chat";
@@ -53,6 +54,16 @@ export default class Chats extends Component {
     clearInterval(this._interval)
   }
 
+  checkAttachment = (props) => {
+    if ('action' in props) {
+      if ('params' in props.action) {
+        if ('object' in props.action.params) {
+          this.setState({ attachment: props.action.params.object })
+        }
+      }
+    }
+  }
+
   loadData = (refresh) => {
     if (refresh) {
       this.setState({
@@ -60,22 +71,22 @@ export default class Chats extends Component {
       })
     }
     this.db.collection("chats")
-    .where("users", "array-contains", this.state.number)
-    .get()
-    .then(querySnapshot => {
-      const data = querySnapshot.docs.map(doc => {
-        var temp = doc.data()
-        return temp
-      });
-      this.setState({
-        refreshing: false,
-        data: data
+      .where("users", "array-contains", this.state.number)
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => {
+          var temp = doc.data()
+          return temp
+        });
+        this.setState({
+          refreshing: false,
+          data: data
+        })
       })
-    })
   }
 
   timeConvert(unix) {
-    var now = Math.round(new Date().getTime()/1000)
+    var now = Math.round(new Date().getTime() / 1000)
     var res = new Date(unix)
     if (unix + 86400 > now) {
       var hours = res.getHours()
@@ -91,10 +102,13 @@ export default class Chats extends Component {
   render() {
     return (
       <View style={chatsStyles.container}>
+        <NavigationEvents
+          onDidFocus={this.checkAttachment}
+        />
         <SearchBar />
         <FlatList
           style={chatsStyles.list}
-          data={this.state.data.sort((a, b) => b.messages[b.messages.length-1].time - a.messages[a.messages.length-1].time)}
+          data={this.state.data.sort((a, b) => b.messages[b.messages.length - 1].time - a.messages[a.messages.length - 1].time)}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
             this.loadData(true);
@@ -107,86 +121,128 @@ export default class Chats extends Component {
               time={item.messages.length > 0 ? this.timeConvert(item.messages[item.messages.length - 1].time) : ""}
               message={item.messages.length > 0 ? item.messages[item.messages.length - 1].message : "Send your first message!"}
               navigate={() => {
-                this.props.navigation.navigate("Chat", {chatID: item.chatID, userID: this.state.userID, name: item.name, data: item});
+                var attachment = 'attachment' in this.state ? this.state.attachment : null
+                this.setState({ attachment: null })
+                this.props.navigation.navigate("Chat", { chatID: item.chatID, userID: this.state.userID, name: item.name, data: item, attachment: attachment });
               }}
               imgURL={item.userData.find(
-                (o) => o.userID == ( item.userData.length == 2 ? "emma" : item.messages[item.messages.length - 1].userID )
+                (o) => o.userID == (item.userData.length == 2 ? "emma" : item.messages[item.messages.length - 1].userID)
               ).imgURL}
             />
           )}
         />
-        <TouchableOpacity activeOpacity={.5}
-          style={[shadowStyles.shadowDown, plansStyles.newPlan]}
-          onPress={() => {
-            this.props.navigation.navigate("CreateChat");
-          }}
-        >
-          <Text style={plansStyles.buttonText}>+</Text>
-        </TouchableOpacity>
-        { this.state.onboard != "false" ? (
-          <View style={{position: 'absolute', height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,.3)', alignItems: 'center', justifyContent : 'center'}}>
-          <View
-            style={[
-              {
-                width: "88%",
-                backgroundColor: colorScheme.componentBackground,
-                padding: 15,
-                borderRadius: 15,
-                marginBottom: 20,
-              },
-              shadowStyles.shadowDown,
-            ]}
+        <View style={{
+          position: 'absolute',
+          bottom: "2%",
+          width: '100%',
+          flexDirection: 'row'
+        }}>
+          {this.state.attachment != null ? (
+            <View style={[shadowStyles.shadowDown, {
+              backgroundColor: colorScheme.primary,
+              height: 60,
+              width: 300,
+              borderRadius: 30,
+              position: 'absolute',
+              left: "2.5%",
+              alignItems: "center",
+              justifyContent: 'center',
+              bottom: 0,
+              flexDirection: 'row'
+            }]}>
+              <TouchableOpacity activeOpacity={.5}
+                onPress={() => {
+                  this.setState({ attachment: null})
+                }}
+              >
+                <Text style={{ fontFamily: 'SemiBold', fontSize: 30, color: colorScheme.primaryText }}>X  </Text>
+              </TouchableOpacity>
+              <Text style={textStyles.buttonText}>Select Chat To Send</Text>
+            </View>
+          ) : null}
+
+          <TouchableOpacity activeOpacity={.5}
+            style={[shadowStyles.shadowDown, {
+              backgroundColor: colorScheme.button,
+              height: 60,
+              width: 60,
+              borderRadius: 30,
+              position: 'absolute',
+              right: "2.5%",
+              bottom: 0,
+              alignItems: "center",
+            }]}
+            onPress={() => {
+              this.props.navigation.navigate("CreateChat");
+            }}
           >
-            <Text
-              style={[
-                textStyles.titleText,
-                { width: "100%", textAlign: "center" },
-              ]}
-            >
-              Have A Conversation
-            </Text>
-            <Text
-              style={[
-                textStyles.standardBodyText,
-                { width: "100%", textAlign: "center", marginTop: 10 },
-              ]}
-            >
-              This is where you can talk to friends or your concierge, Emma, to create plans. Get started by entering a conversation or find something on discover!
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.9}
+            <Text style={plansStyles.buttonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+        {this.state.onboard != "false" ? (
+          <View style={{ position: 'absolute', height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,.3)', alignItems: 'center', justifyContent: 'center' }}>
+            <View
               style={[
                 {
-                  width: "100%",
-                  padding: 10,
-                  borderRadius: 10,
-                  backgroundColor: colorScheme.button,
-                  marginTop: 20,
-                  marginBottom: 3,
+                  width: "88%",
+                  backgroundColor: colorScheme.componentBackground,
+                  padding: 15,
+                  borderRadius: 15,
+                  marginBottom: 20,
                 },
                 shadowStyles.shadowDown,
               ]}
-              onPress={() => {
-                this.setState({onboard : "false"})
-                AsyncStorage.setItem("onboard", "false")
-              }}
             >
               <Text
                 style={[
-                  textStyles.standardBodyText,
-                  {
-                    width: "100%",
-                    textAlign: "center",
-                    color: colorScheme.primaryText,
-                  },
+                  textStyles.titleText,
+                  { width: "100%", textAlign: "center" },
                 ]}
               >
-                I'm Ready
+                Have A Conversation
+            </Text>
+              <Text
+                style={[
+                  textStyles.standardBodyText,
+                  { width: "100%", textAlign: "center", marginTop: 10 },
+                ]}
+              >
+                This is where you can talk to friends or your concierge, Emma, to create plans. Get started by entering a conversation or find something on discover!
+            </Text>
+              <TouchableOpacity
+                activeOpacity={0.9}
+                style={[
+                  {
+                    width: "100%",
+                    padding: 10,
+                    borderRadius: 10,
+                    backgroundColor: colorScheme.button,
+                    marginTop: 20,
+                    marginBottom: 3,
+                  },
+                  shadowStyles.shadowDown,
+                ]}
+                onPress={() => {
+                  this.setState({ onboard: "false" })
+                  AsyncStorage.setItem("onboard", "false")
+                }}
+              >
+                <Text
+                  style={[
+                    textStyles.standardBodyText,
+                    {
+                      width: "100%",
+                      textAlign: "center",
+                      color: colorScheme.primaryText,
+                    },
+                  ]}
+                >
+                  I'm Ready
               </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </View>
-          </View>
-        ) : null }
+        ) : null}
       </View>
     );
   }

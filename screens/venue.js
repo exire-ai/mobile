@@ -17,7 +17,6 @@ import InAppBrowser from "react-native-inappbrowser-reborn";
 import { signInStyles } from "../global/signInStyles";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
-import { shadow } from "react-native-paper";
 import { navigationStyles } from "../global/navigationStyles";
 import { colorScheme } from "../global/colorScheme";
 
@@ -120,6 +119,7 @@ const nameDict = {
   pubs: ["Pubs", "🍻"],
   rockclimbing: ["Rock Climbing", "🧗"],
   comedyclubs: ["Comedy Clubs", "🤣"],
+  online: ["Online", "💻"],
 };
 
 export default class Venue extends Component {
@@ -185,6 +185,18 @@ export default class Venue extends Component {
     });
   };
 
+  sendToChats = () => {
+    this.props.navigation.pop();
+    console.log(this.state.venue)
+    this.props.navigation.navigate('Chats', {
+      object: {
+        type: "online-event",
+        placeID: this.state.venue.eventID,
+        title: this.state.venue.title
+      }
+    })
+  };
+
   render() {
     if (this.state.venue.category == "online-event") {
       return (
@@ -194,6 +206,7 @@ export default class Venue extends Component {
           addToPlan={(venue) => {
             this.createPlan(venue);
           }}
+          sendToChats={this.sendToChats}
         />
       );
     } else {
@@ -565,12 +578,21 @@ export default class Venue extends Component {
             </Text>
             <TouchableOpacity
               activeOpacity={0.5}
+              onPress={() => {
+                this.props.navigation.navigate('Chats', {
+                  object: {
+                    type: "venue",
+                    placeID: this.state.venue.placeID,
+                    title: this.state.venue.title
+                  }
+                })
+              }}
               style={[
                 shadowStyles.shadowDown,
                 {
                   height: 50,
                   marginTop: 10,
-                  backgroundColor: colorScheme.activeButton,
+                  backgroundColor: colorScheme.button,
                   justifyContent: "center",
                   alignItems: "center",
                   width: "90%",
@@ -581,7 +603,7 @@ export default class Venue extends Component {
                 },
               ]}
             >
-              <Text style={textStyles.buttonText}>Planning a visit?</Text>
+              <Text style={textStyles.buttonText}>Send to Chat</Text>
             </TouchableOpacity>
           </View>
         </View>

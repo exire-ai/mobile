@@ -6,6 +6,7 @@ import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme"
 import { messagesStyles } from "../global/messagesStyles";
 import venues from "../functions/venues";
+import events from "../functions/events";
 import plans from "../functions/plans";
 
 const cuteDogs = [
@@ -28,6 +29,7 @@ function Venues({ special, navigation }) {
           <FlatList
             horizontal={true}
             data={special.venues}
+            scrollEnabled={special.venues.length > 2}
             showsHorizontalScrollIndicator={false}
             style={{paddingLeft: 15}}
             keyExtractor={(item, index) => "key" + index}
@@ -35,9 +37,16 @@ function Venues({ special, navigation }) {
               <View style={[{ paddingRight: 5 }, shadowStyles.shadowDown]}>
                 <TouchableOpacity activeOpacity={.5}
                   onPress={() => {
-                    venues.get(item.placeID, (venue) => {
-                      navigation.navigate("Venue", venue)
-                    })
+                    if (item.placeID != null) {
+                      venues.get(item.placeID, (venue) => {
+                        console.log(venue)
+                        navigation.navigate("Venue", venue)
+                      })
+                    } else if (item.eventID != null) {
+                      events.get(item.eventID, (venue) => {
+                        navigation.navigate("Venue", venue)
+                      })
+                    }
                   }}
                   style={messagesStyles.venueContainer}
                 >

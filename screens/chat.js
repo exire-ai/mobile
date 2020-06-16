@@ -33,6 +33,16 @@ export default class Chat extends React.Component {
       })
       this.getChat()
       this.updateUserData()
+      if (this.props.navigation.state.params.attachment != null) {
+        var message = {
+          userID: this.state.userID,
+          message: "Sent ".concat(this.props.navigation.state.params.attachment.title),
+          time: Math.round(new Date().getTime()),
+          special: { venues: [this.props.navigation.state.params.attachment.placeID] }
+        }
+        this.addMessage(message)
+        this.getChat()
+      }
     })
     this._interval = setInterval(() => {
       this.getChat()

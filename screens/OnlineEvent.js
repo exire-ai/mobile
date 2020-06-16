@@ -13,10 +13,8 @@ import {
 import { SafeAreaView } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import InAppBrowser from "react-native-inappbrowser-reborn";
-import { signInStyles } from "../global/signInStyles";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
-import { shadow } from "react-native-paper";
 import { navigationStyles } from "../global/navigationStyles";
 import { colorScheme } from "../global/colorScheme";
 import { nameDict } from "../global/categoryNames";
@@ -31,6 +29,7 @@ export default class OnlineEvent extends Component {
       venue: this.props.venue,
     };
   }
+
   render() {
     if (this.state.venue.type == "time-slot") {
       return (
@@ -283,6 +282,27 @@ export default class OnlineEvent extends Component {
             </Text>
             <TouchableOpacity
               activeOpacity={0.5}
+              onPress={this.props.sendToChats}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  height: 50,
+                  marginTop: 10,
+                  backgroundColor: colorScheme.button,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "90%",
+                  borderRadius: 10,
+                  shadowRadius: 10,
+                  shadowOffset: { width: 0, height: 2 },
+                  marginBottom: 0,
+                },
+              ]}
+            >
+              <Text style={textStyles.buttonText}>Send to Chat</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -295,7 +315,7 @@ export default class OnlineEvent extends Component {
                   borderRadius: 10,
                   shadowRadius: 10,
                   shadowOffset: { width: 0, height: 2 },
-                  marginBottom: 10,
+                  marginBottom: 60,
                 },
               ]}
               onPress={() => {
