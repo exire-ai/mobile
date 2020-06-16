@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Text, View, TouchableOpacity, AsyncStorage, KeyboardAvoidingView, TextInput, Dimensions } from "react-native";
+import { Text, View, TouchableOpacity, AsyncStorage, KeyboardAvoidingView, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import chats from "../functions/chats"
 import { colorScheme } from "../global/colorScheme"
@@ -188,7 +188,7 @@ export default class CreateChat extends React.Component {
                     : item.name
                 }</Text>
                 <TouchableOpacity activeOpacity={.5}
-                  style={{ height: 25, width: 25, borderRadius: 12.5, backgroundColor: item.name == "" ? "#ffcccb" : "#fff", marginLeft: 10, alignItems: "center", justifyContent: "center" }}
+                  style={[shadowStyles.shadowDown, { height: 25, width: 25, borderRadius: 12.5, backgroundColor: item.name == "" ? "#ffcccb" : "#fff", marginLeft: 10, alignItems: "center", justifyContent: "center" }]}
                   onPress={() => {
                     var temp = this.state.otherUsers
                     temp = temp.filter(function (o) { return o.number != item.number });
@@ -200,7 +200,7 @@ export default class CreateChat extends React.Component {
                     name="minus"
                     color={item.name == "" ? colorScheme.primaryText : colorScheme.lesserDarkText}
                     size={20}
-                    style={[shadowStyles.shadowDown, { paddingTop: 2 }]}
+                    style={[shadowStyles.shadowDown, { paddingTop: 2, paddingLeft: 1 }]}
                   />
                 </TouchableOpacity>
               </View>
@@ -243,7 +243,7 @@ export default class CreateChat extends React.Component {
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => "number" + item.number + "name" + item.name}
             renderItem={({ item, index }) => (
-                            <View style={{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, marginHorizontal: 5, backgroundColor: colorScheme.background, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+              <View style={[shadowStyles.shadowDown, { paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, marginHorizontal: 5, backgroundColor: colorScheme.background, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }]}>
                 <Text style={{ fontFamily: "Bold", color: colorScheme.lessDarkText, fontSize: 17 }}>{
                   item.name
                 }</Text>
@@ -276,14 +276,15 @@ export default class CreateChat extends React.Component {
                         })
                       }
                     })
-                    this.setState({text: "", search: []})
+                    this.setState({text: ""})
+                    this.addContact("")
                   }}
                 >
                   <Icon
                     name="plus"
                     color={colorScheme.lesserDarkText}
                     size={20}
-                    style={[shadowStyles.shadowDown, { paddingTop: 2 }]}
+                    style={[shadowStyles.shadowDown, { paddingTop: 2, paddingLeft: 1 }]}
                   />
                 </TouchableOpacity>
               </View>
