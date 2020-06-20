@@ -135,19 +135,20 @@ export default class Chats extends Component {
           position: 'absolute',
           bottom: "2%",
           width: '100%',
-          flexDirection: 'row'
+          flexDirection: 'row',
+          alignItems: 'center'
         }}>
           {this.state.attachment != null ? (
             <View style={[shadowStyles.shadowDown, {
               backgroundColor: colorScheme.primary,
-              height: 60,
-              width: 300,
+              height: 40,
+              width: 280,
               borderRadius: 30,
               position: 'absolute',
-              left: "2.5%",
+              left: "8%",
               alignItems: "center",
               justifyContent: 'center',
-              bottom: 0,
+              bottom: 10,
               flexDirection: 'row'
             }]}>
               <TouchableOpacity activeOpacity={.5}
@@ -155,7 +156,7 @@ export default class Chats extends Component {
                   this.setState({ attachment: null})
                 }}
               >
-                <Text style={{ fontFamily: 'SemiBold', fontSize: 30, color: colorScheme.primaryText }}>X  </Text>
+                <Text style={{ fontFamily: 'SemiBold', fontSize: 24, color: colorScheme.primaryText }}>X  </Text>
               </TouchableOpacity>
               <Text style={textStyles.buttonText}>Select Chat To Send</Text>
             </View>

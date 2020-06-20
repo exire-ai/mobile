@@ -4,7 +4,6 @@ import {
   FlatList,
   AsyncStorage,
   TouchableOpacity,
-  Modal,
   Text
 } from "react-native";
 import { NavigationEvents } from "react-navigation";
@@ -19,7 +18,6 @@ import { discoverStyles } from "../global/discoverStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
 import { textStyles } from "../global/textStyles";
-import Venue from "./venue";
 
 function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
@@ -112,77 +110,42 @@ export default class Discover extends Component {
     });
   }
 
-  formatVenues = (result, callback) => {
+  formatVenues(data, callback) {
     var venues = [];
     var doubleVenue = {};
-    var current = 0;
-    for (var i = 0; i < result.length; i++) {
-      if (current == 2) {
-        var singleVenue = {};
-        singleVenue.venue = result[i];
-        singleVenue.key = i.toString();
-        singleVenue.numItems = 1;
-        venues.push(singleVenue);
-        current = 0;
-      } else if (current == 1) {
-        doubleVenue.venue2 = result[i];
-        current++;
-      } else {
-        doubleVenue.venue1 = result[i];
-        doubleVenue.key = i.toString();
-        doubleVenue.numItems = 2;
-        venues.push(doubleVenue);
-        doubleVenue = {};
-        current++;
+
+    var double = data.length >= 2
+    var doubleRep = false
+    var single = !double
+
+    for (var i = 0; i < data.length; i++) {
+      var id = data[i].placeID != null ? data[i].placeID : data[i].eventID
+      if (single) {
+        venues.push({
+          venue: data[i],
+          key: id,
+          numItems: 1
+        });
+        if (data.length - i != 2) {
+          double = true
+          single = false
+        }
+      } else if (doubleRep) {
+        doubleVenue.venue2 = data[i];
+        doubleVenue.key = doubleVenue.key.concat(id);
+        doubleRep = false
+        single = true
+        venues.push(doubleVenue)
+      } else if (double) {
+        doubleVenue = {
+          venue1: data[i],
+          key: id,
+          numItems: 2
+        };
+        double = false
+        doubleRep = true
       }
     }
-
-    //EXAMPLE slot-time online event
-    // var test_onlineevent = {
-    //   numItems: 1,
-    //   key: "exiretestevent",
-    //   venue: {
-    //     category: "online-event",
-    //     closed_days: [],
-    //     cost: 15,
-    //     description:
-    //       "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
-    //     imgURL:
-    //       "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
-    //     placeID: "testonlineevent",
-    //     rank: 92.6,
-    //     subcategory: "yoga",
-    //     title: "Open Soul",
-    //     subtitle: "Live Yoga Class",
-    //     type: "slot-time",
-    //     duration: "1",
-    //   },
-    // };
-
-    //EXAMPLE one-time online event
-    // var test_onlineevent = {
-    //   numItems: 1,
-    //   key: "exiretestevent",
-    //   venue: {
-    //     category: "online-event",
-    //     cost: 0,
-    //     description:
-    //       "Participants will learn that yoga is not only a stress reduction technique, but the path to attaining ultimate freedom of mind by strengthening and empowering the mind.",
-    //     imgURL:
-    //       "https://dailyburn.com/life/wp-content/uploads/2017/10/Yoga-Class-Mistakes-Main-Image.jpg",
-    //     placeID: "mightyquinns",
-    //     rank: 92.6,
-    //     subcategory: "music",
-    //     title: "Music Concert",
-    //     subtitle: "FREE Live Concert",
-    //     type: "one-time",
-    //     start_time: 1590519261,
-    //     end_time: 1590519261,
-    //   },
-    // };
-    // venues.push(test_onlineevent);
-
-    venues.reverse();
     callback(venues);
   };
 
@@ -200,7 +163,7 @@ export default class Discover extends Component {
           shuffle(result);
           this.setState({ rawVenues: result });
           //Sets data into form so that it alternates between 1 child venue object and 2 child venue objects
-          this.formatVenues(result, (venues) => {
+          this.formatVenues(result, venues => {
             this.setState({
               venues: [],
             });
@@ -246,10 +209,10 @@ export default class Discover extends Component {
         });
       });
     } else {
-      var filteredVenues = rawVenues.filter((venue) =>
+      var filteredVenues = rawVenues.filter(venue =>
         selected.includes(venue.subcategory)
       );
-      this.formatVenues(filteredVenues, (venues) => {
+      this.formatVenues(filteredVenues, venues => {
         this.setState({
           venues: venues,
         });

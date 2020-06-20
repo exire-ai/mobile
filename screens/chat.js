@@ -31,18 +31,8 @@ export default class Chat extends React.Component {
         number: value[3][1],
         loading: false
       })
-      this.getChat()
+      this.initChat()
       this.updateUserData()
-      if (this.props.navigation.state.params.attachment != null) {
-        var message = {
-          userID: this.state.userID,
-          message: "Sent ".concat(this.props.navigation.state.params.attachment.title),
-          time: Math.round(new Date().getTime()),
-          special: { venues: [this.props.navigation.state.params.attachment.placeID] }
-        }
-        this.addMessage(message)
-        this.getChat()
-      }
     })
     this._interval = setInterval(() => {
       this.getChat()
@@ -62,7 +52,7 @@ export default class Chat extends React.Component {
     userID: this.props.navigation.state.params.userID
   };
 
-  getChat() {
+  getChat = () => {
     this.db.collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
@@ -79,6 +69,45 @@ export default class Chat extends React.Component {
           data: data
         })
         this.checkSize(true)
+      })
+  }
+
+  initChat = () => {
+    this.db.collection("chats")
+      .where("chatID", "==", this.state.chatID)
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => {
+          var temp = doc.data()
+          return temp
+        })[0];
+        this.setState({
+          messages: data.messages,
+          users: data.userData,
+          owner: this.props.navigation.state.params.userID == data.ownerID ? true : false,
+          name: data.name,
+          data: data
+        })
+        this.checkSize(true)
+        if (this.props.navigation.state.params.attachment != null) {
+          var message = {
+            userID: this.state.userID,
+            message: "Sent ".concat(this.props.navigation.state.params.attachment.title),
+            time: Math.round(new Date().getTime()),
+            special: { venues: [this.props.navigation.state.params.attachment.placeID] }
+          }
+          this.addMessage(message)
+          var messages = this.state.messages
+          if (this.state.inverse == 1) {
+            messages.push(message)
+          } else {
+            messages.unshift(message)
+          }
+          this.setState({
+            messages: messages
+          })
+        }
+
       })
   }
 
