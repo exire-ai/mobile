@@ -222,7 +222,7 @@ export default class Plans extends Component {
                 this.loadData();
               }}
               refreshing={this.state.refreshing}
-              keyExtratctor={(item) => "name" + item.title + item.start_time}
+              keyExtractor={(item, index) => "name" + item.title + item.start_time}
               renderItem={({ item, index }) => (
                 <Plan data={item} onTap={this.planTapped.bind(this)} />
               )}
@@ -240,7 +240,7 @@ export default class Plans extends Component {
                 this.loadData();
               }}
               refreshing={this.state.refreshing}
-              keyExtratctor={(item) => "name" + item.title + item.start_time}
+              keyExtractor={(item) => "name" + item.title + item.start_time}
               renderItem={({ item, index }) => (
                 <Plan data={item} onTap={this.planTapped.bind(this)} />
               )}

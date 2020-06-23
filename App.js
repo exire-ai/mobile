@@ -13,14 +13,14 @@ const getFonts = () =>
   Font.loadAsync({
     "karla-regular": require("./assets/fonts/Karla-Regular.ttf"),
     "karla-bold": require("./assets/fonts/Karla-Bold.ttf"),
-    "nunito-regular": require("./assets/fonts/Nunito-Regular.ttf"),
-    "nunito-semibold": require("./assets/fonts/Nunito-SemiBold.ttf"),
-    "nunito-bold": require("./assets/fonts/Nunito-Bold.ttf"),
-    "nunito-light": require("./assets/fonts/Nunito-Light.ttf"),
-    "Light" : require("./assets/fonts/H-Light.otf"),
-    "Reg" : require("./assets/fonts/H-Reg.otf"),
-    "SemiBold" : require("./assets/fonts/H-SemiBold.otf"),
-    "Bold" : require("./assets/fonts/H-Bold.otf")
+    "Reg": require("./assets/fonts/Nunito-Regular.ttf"),
+    "SemiBold": require("./assets/fonts/Nunito-SemiBold.ttf"),
+    "Bold": require("./assets/fonts/Nunito-Bold.ttf"),
+    "Light": require("./assets/fonts/Nunito-Light.ttf"),
+    // "Light" : require("./assets/fonts/H-Light.otf"),
+    // "Reg" : require("./assets/fonts/H-Reg.otf"),
+    // "SemiBold" : require("./assets/fonts/H-SemiBold.otf"),
+    // "Bold" : require("./assets/fonts/H-Bold.otf")
   });
 
 export default function App() {

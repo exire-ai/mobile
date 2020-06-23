@@ -111,6 +111,18 @@ export default class Discover extends Component {
   }
 
   formatVenues(data, callback) {
+    var tempDuplicates = []
+    data = data.filter(o => {
+      var id = o.placeID != null ? o.placeID : o.eventID
+      if (tempDuplicates.includes(id)) {
+        return false
+      } else {
+        tempDuplicates.push(id)
+        return true
+      }
+    })
+
+
     var venues = [];
     var doubleVenue = {};
 
@@ -237,6 +249,7 @@ export default class Discover extends Component {
           horizontal={true}
           style={{ paddingTop: 3, paddingLeft: 3, height: 60 }}
           data={this.state.categories}
+          keyExtractor={o => o.key}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
             return (
@@ -293,6 +306,7 @@ export default class Discover extends Component {
           onRefresh={() => {
             this.loadData();
           }}
+          keyExtractor={o => o.key}
           refreshing={this.state.refreshing}
           renderItem={({ item }) => {
             if (item.numItems == 2) {

@@ -45,6 +45,7 @@ export default class ChatInfo extends React.Component {
 
   componentDidMount() {
     this.getContacts()
+    this.getFriends()
   }
 
   getChat() {
@@ -61,7 +62,6 @@ export default class ChatInfo extends React.Component {
           users: data.users,
           chatName: data.name
         })
-        this.checkSize(true)
       })
   }
 
@@ -107,7 +107,6 @@ export default class ChatInfo extends React.Component {
   getFriends() {
     users.getFriends(this.state.userID, friends => {
       friends = friends ? friends : []
-      console.log(friends.map(o => o.userID))
       this.setState({ friends: friends.map(o => o.userID) })
     })
   }
@@ -167,7 +166,6 @@ export default class ChatInfo extends React.Component {
           this.setState({ userData: temp })
         } else {
           users.sendTextMsg(text, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
-            console.log(result)
           })
         }
       })
@@ -193,7 +191,6 @@ export default class ChatInfo extends React.Component {
           data = data.filter(function (o) { return o.number != oldNumber });
           users = users.filter(function (o) { return o != oldNumber });
           data.push(userData)
-          console.log(data, users)
           this.db.collection("chats").doc(doc.id).update({
             userData: data,
             users: users
@@ -236,8 +233,10 @@ export default class ChatInfo extends React.Component {
             style={{ width: "100%" }}
             contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
             data={this.state.userData}
-            keyExtratctor={(item, index) => "number" + item.number}
+            extraData={this.state.friends}
+            keyExtractor={(item, index) => "number" + item.number}
             renderItem={({ item, index }) => {
+              var friends = this.state.friends instanceof Array ? this.state.friends : []
               if (item.number != 'gone') {
                 return (<View style={[{ width: Dimensions.get("screen").width * .9, height: 70, marginBottom: 5, paddingHorizontal: 10, backgroundColor: colorScheme.componentBackground, borderRadius: 15, flexDirection: "row", justifyContent: "flex-start" }, shadowStyles.shadowDown]}>
                   <View style={[{ flexDirection: "row" }, shadowStyles.shadowDown]}>
@@ -259,10 +258,10 @@ export default class ChatInfo extends React.Component {
                       }</Text>
                   </View>
                   {item.userID != this.state.userID && item.number != 1000 && item.userID != "" ? (<TouchableOpacity activeOpacity={.5}
-                    style={{ top: 15, position: "absolute", right: 10, height: 40, paddingHorizontal: 10, backgroundColor: /*this.state.friends.includes(item.userID)*/ false ? colorScheme.button : colorScheme.veryLight, alignItems: "center", justifyContent: "center", borderRadius: 15 }}
+                    style={{ top: 15, position: "absolute", right: 10, height: 40, paddingHorizontal: 10, backgroundColor: friends.includes(item.userID) ? colorScheme.button : colorScheme.veryLight, alignItems: "center", justifyContent: "center", borderRadius: 15 }}
                     onPress={() => this.toggleFriend(item.userID)}
                   >
-                    <Text style={{ color: /*this.state.friends.includes(item.userID)*/ false ? colorScheme.primaryText : colorScheme.darkText, fontFamily: "Bold", fontSize: 16 }}>{/*this.state.friends.includes(item.userID)*/ false ? "Friends" : "Add Friend"}</Text>
+                    <Text style={{ color: friends.includes(item.userID) ? colorScheme.primaryText : colorScheme.darkText, fontFamily: "Bold", fontSize: 16 }}>{friends.includes(item.userID) ? "Friends" : "Add Friend"}</Text>
                   </TouchableOpacity>) : null}
                 </View>)
               } else {
@@ -313,7 +312,6 @@ export default class ChatInfo extends React.Component {
                 style={[{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, marginHorizontal: 5, backgroundColor: colorScheme.componentBackground, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }, shadowStyles.shadowDown]} onPress={() => {
                   var temp = this.state.userData
                   if (this.state.users.includes(item.number)) {
-                    console.log("Already present")
                   } else {
                     temp = temp.filter(function (o) { return o.number != item.number });
                     temp.push({
@@ -337,7 +335,6 @@ export default class ChatInfo extends React.Component {
                         this.addData()
                       } else {
                         users.sendTextMsg(item.number, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
-                          console.log(result)
                         })
                         this.addData()
                         this.setState({ number: "", tempNum: item.number })
@@ -376,7 +373,7 @@ export default class ChatInfo extends React.Component {
                   style: 'cancel'
                 },
                 {
-                  text: "I'm sure, leave",
+                  text: "I'm sure",
                   onPress: () => this.leave(),
                   style: 'destructive'
                 },

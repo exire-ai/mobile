@@ -114,7 +114,7 @@ export default class Chats extends Component {
             this.loadData(true);
           }}
           refreshing={this.state.refreshing}
-          keyExtratctor={(item, index) => "key" + item.name}
+          keyExtractor={(item, index) => "key" + item.name}
           renderItem={({ item, index }) => (
             <Chat
               name={item.name}

@@ -1,6 +1,7 @@
 import { SafeAreaView, withNavigation } from "react-navigation";
 import React, { Component } from "react";
 import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, Dimensions, TextInput, Keyboard, FlatList } from "react-native";
+import { NavigationEvents } from 'react-navigation';
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
@@ -52,6 +53,11 @@ export default class Drawer extends Component {
   }
 
   componentDidMount() {
+    this.getFriends()
+  }
+
+  getFriends = () => {
+    console.log("friends")
     AsyncStorage.getItem("userID").then((value) => {
       users.getFriends(value, data => {
         this.setState({ friends: data })
@@ -68,7 +74,6 @@ export default class Drawer extends Component {
   updateName = () => {
     AsyncStorage.setItem("name", this.state.name);
     users.updateName(this.state.userID, this.state.name, (data) => {
-      console.log("Success: " + data);
     });
   };
 
@@ -99,7 +104,6 @@ export default class Drawer extends Component {
         profile: { uri: temp }
       })
       RNS3.put(file, options).then(response => {
-        console.log(response)
         if (response.status !== 201) {
           console.log("error")
         } else {
@@ -153,6 +157,9 @@ export default class Drawer extends Component {
   render() {
     return (
       <View style={{ height: "100%" }}>
+        <NavigationEvents
+          onDidFocus={this.getFriends}
+        />
         <View style={drawerStyles.container}>
           <Text style={drawerStyles.logoText}>exire</Text>
           <Image
@@ -219,7 +226,7 @@ export default class Drawer extends Component {
               contentContainerStyle={{ marginTop: 5 }}
               data={this.state.friends}
               showsVerticalScrollIndicator={false}
-              keyExtratctor={(item, index) => "number" + item.number}
+              keyExtractor={(item, index) => "number" + item.number}
               renderItem={({ item, index }) => (
                 <TouchableOpacity activeOpacity={.5} style={{ height: 70, backgroundColor: colorScheme.veryLight, width: "100%", alignItems: "center", borderRadius: 15, flexDirection: "row", paddingHorizontal: 10 }}>
                   <View style={[{ height: 50, width: 50, borderRadius: 25, overflow: "hidden" }, shadowStyles.shadowDown]}>
