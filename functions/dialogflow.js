@@ -24,11 +24,9 @@ const dialogflow = {
       .then((response) => response.text())
       .then((text) => (text.length ? JSON.parse(text) : {}))
       .then((responseJson) => {
-        // console.log(responseJson);
         callback(responseJson);
       })
       .catch((error) => {
-        // console.log(JSON.stringify(error));
         callback(null);
       });
   },

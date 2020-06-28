@@ -121,7 +121,7 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile: require("../assets/profile.jpg"),
+      profile: "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png",
       user: this.props.navigation.state.params,
       categories: categoryData(this.props.navigation.state.params.categories),
       name: ""

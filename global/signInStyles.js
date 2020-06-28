@@ -20,7 +20,7 @@ export const signInStyles = StyleSheet.create({
     textAlign: "center"
   },
   input: {
-    width: "85%",
+    width: "100%",
     margin: 8,
     padding: 18,
     borderRadius: 35,

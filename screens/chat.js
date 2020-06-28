@@ -2,7 +2,6 @@ import React, { setState, useCallback, useEffect } from "react";
 import { View, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, TouchableOpacity, AsyncStorage, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
-
 import { Message } from "../components/message";
 import { MessageClass } from "../components/messageClass";
 import { colorScheme } from "../global/colorScheme";
@@ -10,6 +9,7 @@ import { shadowStyles } from "../global/shadowStyles";
 import dialogflow from "../functions/dialogflow";
 import plans from "../functions/plans"
 import { textStyles } from "../global/textStyles";
+import { analytics } from "../functions/mixpanel";
 
 // FIRESTORE
 import * as firebase from "firebase";
@@ -176,13 +176,14 @@ export default class Chat extends React.Component {
       messages: messages
     })
     if (this.state.text.includes("@Emma") || this.state.text.includes("@emma") || this.state.users.length == 2) {
-      var temp = this.state.text.replace("@Emma", "")
-      temp = temp.replace("@emma", "")
-      this.emma(temp)
+      var temp = this.state.text.replace("@Emma", "");
+      temp = temp.replace("@emma", "");
+      analytics.track("Emma Message", { text: this.state.text });
+      this.emma(temp);
     }
-    this.clearText()
-    this.addMessage(message)
-    this.checkSize(false)
+    this.clearText();
+    this.addMessage(message);
+    this.checkSize(false);
   }
 
   clearText = () => {
@@ -211,7 +212,6 @@ export default class Chat extends React.Component {
       } catch (e) {
         parsedData = { text: data.fulfillmentText };
       }
-      console.log(parsedData)
       if (parsedData.text == "" && this.state.recallCounter < 3) {
         this.state.recallCounter += 1;
         this.emma(message)

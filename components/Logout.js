@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, Text, AsyncStorage } from "react-native";
+import { TouchableOpacity, Text, AsyncStorage, Alert } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationActions } from "react-navigation"
 
@@ -10,7 +10,24 @@ import { drawerStyles } from "../global/drawerStyles";
 
 const logout = (navigation) => {
   AsyncStorage.multiSet([["name", ""], ["userID", ""]], () => {
-    navigation.navigate("SignInStack", {}, NavigationActions.navigate({routeName: "GetStarted"}));
+    Alert.alert(
+      'Logout',
+      "You'll have to log back in to access Exire",
+      [
+        {
+          text: "Cancel",
+          style: 'cancel'
+        },
+        {
+          text: "I'm sure",
+          onPress: () => navigation.navigate("SignInStack", {}, NavigationActions.navigate({routeName: "GetStarted"})),
+          style: 'destructive'
+        },
+      ],
+      {
+        cancelable: true
+      }
+    );
   });
 };
 

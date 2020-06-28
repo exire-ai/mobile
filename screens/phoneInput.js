@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Text,
   View,
@@ -21,13 +21,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PhoneInput({ navigation }) {
   const [number, setNumber] = React.useState("");
+  const [formatNumber, setFormatNumber] = React.useState("");
   const [errorMsg, changeErrorMsg] = React.useState("#fff");
   const [loadingVisible, setLoadingVisible] = React.useState(false);
 
   const nextTapped = () => {
     Keyboard.dismiss();
     let text = number;
-    console.log(text);
     if (text.length == 10) {
       Keyboard.dismiss();
       setLoadingVisible(true);
@@ -62,6 +62,23 @@ export default function PhoneInput({ navigation }) {
       });
     } else {
       changeErrorMsg(text.length > 10 ? "#8b0000" : "#fff");
+    }
+  };
+
+  const formatNumberFunc = input => {
+    setNumber(input)
+    if (input.length == 0) {
+      setFormatNumber("")
+    } else if (input.length < 3) {
+      setFormatNumber("(" + input.substr(0, 3));
+    } else if (input.length > 2 && input.length < 7) {
+      setFormatNumber("(" + input.substr(0, 3) + ")-" + input.substr(3, 3));
+    } else if (input.length > 6 && input.length < 11) {
+      setFormatNumber("(" + input.substr(0, 3) + ")-" + input.substr(3, 3) + "-" + input.substr(6, 4));
+    } else if (input.length == 11) {
+      formatNumberFunc(input.substr(1, 10))
+    } else {
+      setFormatNumber(input);
     }
   };
 
@@ -105,15 +122,21 @@ export default function PhoneInput({ navigation }) {
         </View>
         <View style={{alignItems: "center"}}>
         <TextInput
-          style={signInStyles.input}
+          style={[signInStyles.input, { width: 243}]}
           keyboardType={"phone-pad"}
           placeholder="(123)-456-7890"
+          value={formatNumber}
           textAlign={"left"}
-          autoFocus={false}
           autoCompleteType={"tel"}
-          onChangeText={(val) => setNumber(val)}
           selectionColor={colorScheme.button}
           placeholderTextColor={colorScheme.veryLight}
+          onKeyPress={({ nativeEvent }) => {
+            if (nativeEvent.key === 'Backspace') {
+                formatNumberFunc(number.substr(0, number.length - 1))
+            } else {
+              formatNumberFunc(number + (!isNaN(nativeEvent.key) ? nativeEvent.key : ""));
+            }
+          }}
         />
         </View>
       </View>

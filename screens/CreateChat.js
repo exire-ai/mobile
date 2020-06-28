@@ -13,14 +13,7 @@ import * as Permissions from "expo-permissions";
 import users from "../functions/users";
 import * as firebase from "firebase";
 import "firebase/firestore";
-
-const cuteDogs = [
-  "https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp",
-  "https://post.healthline.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg",
-  "https://cdn.sanity.io/images/0vv8moc6/dvm360/81e9bbc1fe445afd4c888497d6e8e4d8abcd9029-450x274.jpg",
-  "https://t2.ea.ltmcdn.com/en/images/5/1/4/types_and_breeds_of_husky_dogs_1415_orig.jpg",
-  "https://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg"
-]
+import { analytics } from "../functions/mixpanel";
 
 export default class CreateChat extends React.Component {
   db = firebase.firestore();
@@ -105,6 +98,7 @@ export default class CreateChat extends React.Component {
             AsyncStorage.getItem("number").then(number => {
               chats.createChat(this.state.chatName, name, userID, number, profileImg, this.state.otherUsers, (docID, chatID) => {
                 this.getChat(chatID, data => {
+                  analytics.track("Create Group", { chat: this.state.chatName, chatID: chatID });
                   this.props.navigation.navigate("Chat", { chatID: chatID, userID: userID, name: this.state.chatName, data: data });
                 })
               })
@@ -146,7 +140,7 @@ export default class CreateChat extends React.Component {
             name: result.name,
             number: text,
             userID: result.userID,
-            imgURL: cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
+            imgURL: "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png"
           })
           this.setState({ otherUsers: temp })
         } else {
@@ -267,7 +261,7 @@ export default class CreateChat extends React.Component {
                           name: result.name,
                           number: result.number,
                           userID: result.userID,
-                          imgURL: result.includes('profileImg') ? result.profileImg : cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
+                          imgURL: result.includes('profileImg') ? result.profileImg : "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png"
                         })
                         this.setState({ otherUsers: temp })
                       } else {

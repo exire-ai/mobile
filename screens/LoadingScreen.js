@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, TextInput, StyleSheet, AsyncStorage } from "react-native";
-import users from "../functions/users"
+import { analytics } from "../functions/mixpanel";
+import users from "../functions/users";
 
 export default class LoadingScreen extends Component {
   componentDidMount() {
@@ -17,8 +18,10 @@ export default class LoadingScreen extends Component {
       if (value != null && value != "") {
         users.doesExist(value, result => {
           if (result) {
+            analytics.track("Logged In", { data: result });
             this.props.navigation.navigate("HomeStack");
           } else {
+            analytics.track("Get Started", {})
             this.props.navigation.navigate("SignInStack");
           }
         })

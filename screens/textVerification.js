@@ -16,14 +16,6 @@ export default function TextVerification({ navigation }) {
   const [value, changeText] = React.useState("");
   const [errorMsg, changeErrorMsg] = React.useState("#fff");
 
-  const cuteDogs = [
-    "https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp",
-    "https://post.healthline.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg",
-    "https://cdn.sanity.io/images/0vv8moc6/dvm360/81e9bbc1fe445afd4c888497d6e8e4d8abcd9029-450x274.jpg",
-    "https://t2.ea.ltmcdn.com/en/images/5/1/4/types_and_breeds_of_husky_dogs_1415_orig.jpg",
-    "https://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg"
-  ]
-
   var userID = uuid.v4();
 
   function onChangeText(text) {
@@ -37,7 +29,7 @@ export default function TextVerification({ navigation }) {
         })
       } else {
         users.getByNumber(data.number, (result) => {
-          var profileImg = cuteDogs[Math.floor(Math.random() * cuteDogs.length)]
+          var profileImg = "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png";
           AsyncStorage.setItem("userID", result.userID);
           AsyncStorage.setItem("name", result.name);
           AsyncStorage.setItem("number", data.number);

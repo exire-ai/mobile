@@ -68,7 +68,7 @@ const screens = {
     navigationOptions: ({ navigation }) => {
       var tabBarVisible = true;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if (routeName == "Chat" || routeName == "Venue" || routeName == "CreateChat" || routeName == "ChatInfo" ) {
+      if (routeName == "Chat" || routeName == "Venue" || routeName == "CreateChat" || routeName == "ChatInfo") {
         tabBarVisible = false;
       }
       return {
@@ -157,7 +157,7 @@ const MainDrawerNavigator = createDrawerNavigator(
     contentComponent: ({ navigation }) => {
       return (
         <SafeAreaView
-          style={{ height: "100%", backgroundColor: colorScheme.footer }}
+          style={[{ height: "100%", backgroundColor: colorScheme.footer }, shadowStyles.right]}
         >
           <Drawer />
           <Logout navigation={navigation} />

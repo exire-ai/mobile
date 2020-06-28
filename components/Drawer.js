@@ -1,6 +1,6 @@
 import { SafeAreaView, withNavigation } from "react-navigation";
 import React, { Component } from "react";
-import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, Dimensions, TextInput, Keyboard, FlatList } from "react-native";
+import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, TextInput, FlatList, Alert } from "react-native";
 import { NavigationEvents } from 'react-navigation';
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from "expo-image-picker";
@@ -15,17 +15,9 @@ import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
 import { drawerStyles } from "../global/drawerStyles";
 
-const cuteDogs = [
-  "https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp",
-  "https://post.healthline.com/wp-content/uploads/sites/3/2020/02/322868_1100-1100x628.jpg",
-  "https://cdn.sanity.io/images/0vv8moc6/dvm360/81e9bbc1fe445afd4c888497d6e8e4d8abcd9029-450x274.jpg",
-  "https://t2.ea.ltmcdn.com/en/images/5/1/4/types_and_breeds_of_husky_dogs_1415_orig.jpg",
-  "https://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg"
-]
-
 export default class Drawer extends Component {
   state = {
-    profile: require("../assets/profile.jpg"),
+    profile: "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png",
     name: "Hayden",
     points: "4,300",
     plans: "32",
@@ -182,7 +174,7 @@ export default class Drawer extends Component {
             style={[shadowStyles.shadowDown, { alignItems: "center", justifyContent: "center", paddingVertical: 10 }]}
           >
             <ImageBackground
-              source={this.state.profile}
+              source={ this.state.profile }
               style={drawerStyles.profile}
               imageStyle={{
                 borderRadius: 65
@@ -230,7 +222,7 @@ export default class Drawer extends Component {
               renderItem={({ item, index }) => (
                 <TouchableOpacity activeOpacity={.5} style={{ height: 70, backgroundColor: colorScheme.veryLight, width: "100%", alignItems: "center", borderRadius: 15, flexDirection: "row", paddingHorizontal: 10 }}>
                   <View style={[{ height: 50, width: 50, borderRadius: 25, overflow: "hidden" }, shadowStyles.shadowDown]}>
-                    <ImageBackground source={{ uri: cuteDogs[Math.floor(Math.random() * cuteDogs.length)] }} style={{ width: 50, height: 50 }}>
+                    <ImageBackground source={{ uri: "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png" }} style={{ width: 50, height: 50 }}>
                     </ImageBackground>
                   </View>
                   <View style={{ padding: 10 }}>
