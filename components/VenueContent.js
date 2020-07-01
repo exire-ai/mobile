@@ -53,7 +53,7 @@ export default class VenueContent extends Component {
           {
             color: "#fff",
             fontFamily: "Bold",
-            fontSize: 18,
+            fontSize: 18
           },
           shadowStyles.shadowDown,
         ]}
@@ -110,20 +110,10 @@ export default class VenueContent extends Component {
           <View
             style={{
               flexDirection: "column",
-              marginBottom: 10,
+              marginBottom: 8,
               marginLeft: 10,
             }}
           >
-            {/* <View
-              style={[
-                {
-                  left: 10,
-                  borderRadius: 5,
-                  overflow: "hidden",
-                },
-                shadowStyles.shadowDown,
-              ]}
-            > */}
             {this.state.venue.category == "online-event" ? (
               <View
                 style={{

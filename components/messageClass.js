@@ -11,60 +11,61 @@ import plans from "../functions/plans";
 
 function Venues({ special, navigation }) {
   if (special.hasOwnProperty("venues")) {
-      return (
-        <View
-          style={{
-            marginBottom: 10,
-            marginTop: 5,
-          }}
-        >
-          <FlatList
-            horizontal={true}
-            data={special.venues}
-            scrollEnabled={special.venues.length > 2}
-            showsHorizontalScrollIndicator={false}
-            style={{paddingLeft: 15}}
-            keyExtractor={(item, index) => "key" + index}
-            renderItem={({ item }) => (
-              <View style={[{ paddingRight: 5 }, shadowStyles.shadowDown]}>
-                <TouchableOpacity activeOpacity={.5}
-                  onPress={() => {
-                    if (item.placeID != null) {
-                      venues.get(item.placeID, (venue) => {
-                        console.log(venue)
-                        navigation.navigate("Venue", venue)
-                      })
-                    } else if (item.eventID != null) {
-                      events.get(item.eventID, (venue) => {
-                        navigation.navigate("Venue", venue)
-                      })
-                    }
-                  }}
-                  style={messagesStyles.venueContainer}
+    return (
+      <View
+        style={{
+          marginBottom: 10,
+          marginTop: 5,
+        }}
+      >
+        <FlatList
+          horizontal={true}
+          data={special.venues}
+          scrollEnabled={special.venues.length > 2}
+          showsHorizontalScrollIndicator={false}
+          style={{ paddingLeft: 15 }}
+          keyExtractor={(item, index) => "key" + index}
+          renderItem={({ item }) => (
+            <View style={[{ paddingRight: 5 }, shadowStyles.shadowDown]}>
+              <TouchableOpacity activeOpacity={.5}
+                onPress={() => {
+                  if (item.placeID != null) {
+                    venues.get(item.placeID, (venue) => {
+                      console.log(venue)
+                      navigation.navigate("Venue", venue)
+                    })
+                  } else if (item.eventID != null) {
+                    events.get(item.eventID, (venue) => {
+                      navigation.navigate("Venue", venue)
+                    })
+                  }
+                }}
+                style={messagesStyles.venueContainer}
+              >
+                <ImageBackground
+                  source={{ uri: item.imgURL }}
+                  style={messagesStyles.venueImage}
                 >
-                  <ImageBackground
-                    source={{ uri: item.imgURL }}
-                    style={messagesStyles.venueImage}
-                  >
-                    <View style={messagesStyles.venueContent}>
-                      <Text style={messagesStyles.venueText}>
-                        {item.title + "\n"}
-                        {item.cost > 15
-                          ? item.cost > 30
-                            ? item.cost > 60
-                              ? "$$$$"
-                              : "$$$"
-                            : "$$"
-                          : "$"}
+                  <View style={messagesStyles.venueContent}>
+                    <Text style={messagesStyles.venueText}>
+                      {item.title + "\n"}
+                      <Text style={{ fontFamily: 'Bold', fontSize: 15 }}>{item.cost > 15
+                        ? item.cost > 30
+                          ? item.cost > 60
+                            ? "$$$$"
+                            : "$$$"
+                          : "$$"
+                        : "$"}
                       </Text>
-                    </View>
-                  </ImageBackground>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-        </View>
-      )
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      </View>
+    )
   } else {
     return (
       <View />
@@ -82,12 +83,16 @@ export class MessageClass extends React.Component {
       message: this.props.message,
       time: this.props.time,
       imgURL: this.props.imgURL,
-      special: { venues: this.props.special.venues.map(x => { return {
-        cost: 0,
-        imgURL: "https://www.cabinetmakerwarehouse.com/wp-content/uploads/9242-gull-grey.jpg",
-        title: "",
-        placeID: x
-      }})},
+      special: {
+        venues: this.props.special.venues.map(x => {
+          return {
+            cost: 0,
+            imgURL: "https://www.cabinetmakerwarehouse.com/wp-content/uploads/9242-gull-grey.jpg",
+            title: "",
+            placeID: x
+          }
+        })
+      },
       navigation: this.props.navigation
     }
   }
@@ -99,7 +104,7 @@ export class MessageClass extends React.Component {
           venues: venues
         }
       })
-    }) 
+    })
   }
 
   render() {
@@ -141,7 +146,7 @@ export class MessageClass extends React.Component {
             {message}
           </View>
         </View>
-        <Venues special={this.state.special} navigation={this.props.navigation}/>
+        <Venues special={this.state.special} navigation={this.props.navigation} />
       </View>
     )
     return MessageObj

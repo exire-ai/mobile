@@ -15,6 +15,10 @@ import "firebase/firestore";
 export default class ChatInfo extends React.Component {
   db = firebase.firestore();
 
+  state = {
+    search: []
+  }
+
   constructor(props) {
     super(props)
     this.state = props.navigation.state.params.data
@@ -226,6 +230,7 @@ export default class ChatInfo extends React.Component {
             contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
             data={this.state.userData}
             extraData={this.state.friends}
+            showsVerticalScrollIndicator={this.state.userData.length > 3}
             keyExtractor={(item, index) => "number" + item.number}
             renderItem={({ item, index }) => {
               var friends = this.state.friends instanceof Array ? this.state.friends : []

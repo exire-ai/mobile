@@ -51,18 +51,17 @@ export const drawerStyles = StyleSheet.create({
   },
   bottomButton: {
     width: "100%",
-    backgroundColor: colorScheme.button,
     position: "absolute",
-    bottom: 0,
-    height: 70, 
+    bottom: 10,
+    height: 50, 
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: 25
   },
   bottomButtonText: {
-    color: colorScheme.primaryText,
-    fontFamily: "SemiBold",
-    fontSize: 24,
+    color: 'red',
+    fontFamily: "Reg",
+    fontSize: 18,
     paddingLeft: 5
   }
 });

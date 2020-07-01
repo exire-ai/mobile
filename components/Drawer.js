@@ -1,6 +1,6 @@
 import { SafeAreaView, withNavigation } from "react-navigation";
 import React, { Component } from "react";
-import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, TextInput, FlatList, Alert } from "react-native";
+import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, TextInput, FlatList, Alert, InteractionManager } from "react-native";
 import { NavigationEvents } from 'react-navigation';
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from "expo-image-picker";
@@ -26,7 +26,10 @@ export default class Drawer extends Component {
   constructor(props) {
     super(props);
     AsyncStorage.getItem("userID").then((value) => {
-      this.state.userID = value;
+      this.getProfile(value)
+      this.setState({
+        userID: value
+      });
     });
     AsyncStorage.getItem("name").then((value) => {
       if (value != null && value != "") {
@@ -35,21 +38,21 @@ export default class Drawer extends Component {
         })
       }
     })
-    AsyncStorage.getItem("profileImg").then((value) => {
-      if (value != null && value != "") {
-        this.setState({
-          profile: { uri: value }
-        })
-      }
-    })
   }
 
   componentDidMount() {
-    this.getFriends()
+    this.getFriends();
+    this._interval = setInterval(() => {
+      this.getFriends();
+      console.log(this.state.profile)
+    }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._interval)
   }
 
   getFriends = () => {
-    console.log("friends")
     AsyncStorage.getItem("userID").then((value) => {
       users.getFriends(value, data => {
         this.setState({ friends: data })
@@ -57,11 +60,13 @@ export default class Drawer extends Component {
     });
   }
 
-  logout = () => {
-    AsyncStorage.multiSet([["name", ""], ["userID", ""], ["number", ""], ["profileImg", ""]], () => {
-      this.props.navigation.navigate("SignInStack");
-    });
-  };
+  getProfile = userID => {
+    users.get(userID, data => {
+      if (data.profile !== null) {
+        this.setState({ profile: data.profileImg })
+      }
+    })
+  }
 
   updateName = () => {
     AsyncStorage.setItem("name", this.state.name);
@@ -127,7 +132,6 @@ export default class Drawer extends Component {
         this.pickImage()
       } else {
         this.getPermissionAsync()
-
         this.pickImage()
       }
     })
@@ -149,13 +153,13 @@ export default class Drawer extends Component {
   render() {
     return (
       <View style={{ height: "100%" }}>
-        <NavigationEvents
+        {/* <NavigationEvents
           onDidFocus={this.getFriends}
-        />
+        /> */}
         <View style={drawerStyles.container}>
           <Text style={drawerStyles.logoText}>exire</Text>
           <Image
-            style={drawerStyles.icon}
+            style={[shadowStyles.shadowDown, drawerStyles.icon]}
             source={require("../assets/icons/exire.png")}
           />
           <TouchableOpacity activeOpacity={.5}
@@ -174,7 +178,7 @@ export default class Drawer extends Component {
             style={[shadowStyles.shadowDown, { alignItems: "center", justifyContent: "center", paddingVertical: 10 }]}
           >
             <ImageBackground
-              source={ this.state.profile }
+              source={{ uri: this.state.profile }}
               style={drawerStyles.profile}
               imageStyle={{
                 borderRadius: 65
@@ -220,9 +224,9 @@ export default class Drawer extends Component {
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => "number" + item.number}
               renderItem={({ item, index }) => (
-                <TouchableOpacity activeOpacity={.5} style={{ height: 70, backgroundColor: colorScheme.veryLight, width: "100%", alignItems: "center", borderRadius: 15, flexDirection: "row", paddingHorizontal: 10 }}>
+                <TouchableOpacity activeOpacity={.5} style={[shadowStyles.shadowDown, { height: 70, backgroundColor: colorScheme.veryLight, width: "100%", alignItems: "center", borderRadius: 15, flexDirection: "row", paddingHorizontal: 10 }]}>
                   <View style={[{ height: 50, width: 50, borderRadius: 25, overflow: "hidden" }, shadowStyles.shadowDown]}>
-                    <ImageBackground source={{ uri: "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png" }} style={{ width: 50, height: 50 }}>
+                    <ImageBackground source={{ uri: item.profileImg !== null ? item.profileImg : "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png" }} style={{ width: 50, height: 50 }}>
                     </ImageBackground>
                   </View>
                   <View style={{ padding: 10 }}>

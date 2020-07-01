@@ -23,12 +23,12 @@ export const messagesStyles = StyleSheet.create({
     },
     name: {
         fontFamily: "Bold", 
-        fontSize: 19, 
+        fontSize: 18, 
         color: colorScheme.darkText
     },
     text: {
         fontFamily: "Reg", 
-        fontSize: 17, 
+        fontSize: 16, 
         color: colorScheme.lessDarkText
     },
     venueContainer: {
@@ -52,7 +52,7 @@ export const messagesStyles = StyleSheet.create({
       },
       venueText: {
         fontFamily: "SemiBold",
-        fontSize: 19,
+        fontSize: 16,
         color: colorScheme.primaryText,
         fontWeight: "600",
         position: "absolute",
