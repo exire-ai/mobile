@@ -56,11 +56,10 @@ export default class Plans extends Component {
       token = await Notifications.getExpoPushTokenAsync();
       AsyncStorage.getItem("userID").then((userID) => {
         users.updateExpoPushToken(userID, token, (res) => {
-          console.log(res);
+          AsyncStorage.setItem('token', token);
         });
       });
 
-      console.log(token);
       this.setState({ expoPushToken: token });
     } else {
       console.log("Must use physical device for Push Notifications");

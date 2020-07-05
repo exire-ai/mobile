@@ -42,6 +42,11 @@ const chats = {
     }
     const result = await db.collection("chats").add(initialChat);
     callback(result.id, chatID)
+  },
+  sendNotification: async function(message, userData, callback) {
+    var tokens = userData.filter(o => "token" in o).filter(o => o.userID !== message.userID).map(o => o.token);
+    console.log(tokens, message.message);
+    callback(true);
   }
 }
 

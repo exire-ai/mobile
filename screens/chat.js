@@ -7,7 +7,8 @@ import { MessageClass } from "../components/messageClass";
 import { colorScheme } from "../global/colorScheme";
 import { shadowStyles } from "../global/shadowStyles";
 import dialogflow from "../functions/dialogflow";
-import plans from "../functions/plans"
+import plans from "../functions/plans";
+import chats from "../functions/chats";
 import { textStyles } from "../global/textStyles";
 import { analytics } from "../functions/mixpanel";
 
@@ -23,12 +24,14 @@ export default class Chat extends React.Component {
 
   componentDidMount() {
     // not using observer bc can"t get return / callback / promise / state update working
-    AsyncStorage.multiGet(["userID", "name", "profileImg", "number"]).then((value) => {
+    AsyncStorage.multiGet(["userID", "name", "profileImg", "number", "token"]).then((value) => {
+      var token = value[4][1] !== null ? value[4][1] : '';
       this.setState({
         userID: value[0][1],
         name: value[1][1],
         profileImg: value[2][1],
         number: value[3][1],
+        token: token,
         loading: false
       })
       this.initChat()
@@ -129,7 +132,8 @@ export default class Chat extends React.Component {
       userID: this.state.userID,
       number: this.state.number,
       name: this.state.name,
-      imgURL: this.state.profileImg
+      imgURL: this.state.profileImg,
+      token: this.state.token
     }
     this.db.collection("chats")
       .where("chatID", "==", this.state.chatID)
@@ -138,7 +142,7 @@ export default class Chat extends React.Component {
         querySnapshot.forEach(doc => {
           var data = doc.data().userData;
           console.log()
-          data = data.filter(function(o) { return o.number != userData.number });
+          data = data.filter(function (o) { return o.number != userData.number });
           data.push(userData)
           this.db.collection("chats").doc(doc.id).update({
             userData: data
@@ -181,6 +185,11 @@ export default class Chat extends React.Component {
       analytics.track("Emma Message", { text: this.state.text });
       this.emma(temp);
     }
+    // Send Notification
+    chats.sendNotification(message, this.state.users, res => {
+      console.log(res);
+    })
+
     this.clearText();
     this.addMessage(message);
     this.checkSize(false);
@@ -264,6 +273,10 @@ export default class Chat extends React.Component {
         })
         this.checkSize()
       }
+      // Send Notification
+      chats.sendNotification(newMessage, this.state.users, res => {
+        console.log(res);
+      })
     })
   }
 
@@ -290,7 +303,7 @@ export default class Chat extends React.Component {
           keyboardVerticalOffset={75}
         >
           <FlatList
-            style={[styles.list, {flex: 1}]}
+            style={[styles.list, { flex: 1 }]}
             data={this.state.messages}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => "time" + item.time}
@@ -328,14 +341,14 @@ export default class Chat extends React.Component {
               }
             }}
           />
-          { this.state.loading ? (
-            <View style={{paddingVertical: 10, paddingLeft: 16, marginBottom: 0, flexDirection: 'row'}}>
-              <Text style={[textStyles.subBodyText, {fontSize: 16}]}>
+          {this.state.loading ? (
+            <View style={{ paddingVertical: 10, paddingLeft: 16, marginBottom: 0, flexDirection: 'row' }}>
+              <Text style={[textStyles.subBodyText, { fontSize: 16 }]}>
                 Emma is typing
               </Text>
-              <AnimatedEllipsis numberOfDots={3} letterSpacing={0} animationDelay={300} style={[textStyles.subBodyText, {fontSize: 16}]}/>
+              <AnimatedEllipsis numberOfDots={3} letterSpacing={0} animationDelay={300} style={[textStyles.subBodyText, { fontSize: 16 }]} />
             </View>
-          ) : null }
+          ) : null}
           <View style={{ margin: 10, marginBottom: 20, backgroundColor: colorScheme.background, borderRadius: 25, alignItems: "center", flexDirection: "row" }}>
             <TextInput
               placeholder={"Say something..."}
@@ -365,7 +378,7 @@ export default class Chat extends React.Component {
                 name="chevron-right"
                 color="#FFF"
                 size={28}
-                style={[shadowStyles.shadowDown, {paddingLeft: 3, paddingTop: 3}]}
+                style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 3 }]}
               />
             </TouchableOpacity>
           </View>

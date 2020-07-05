@@ -44,7 +44,6 @@ export default class Drawer extends Component {
     this.getFriends();
     this._interval = setInterval(() => {
       this.getFriends();
-      console.log(this.state.profile)
     }, 10000);
   }
 
@@ -95,10 +94,10 @@ export default class Drawer extends Component {
         secretKey: "Dkxr8PVsdv3QIDUm+INg4Bbqik17MLjhngYmN1eh",
         successActionStatus: 201
       }
-      var temp = "https://www.nrecosite.com/img/img-loading.gif"
+      var temp = "https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif";
       this.setState({ image: temp });
       this.setState({
-        profile: { uri: temp }
+        profile: temp
       })
       RNS3.put(file, options).then(response => {
         if (response.status !== 201) {
@@ -107,7 +106,7 @@ export default class Drawer extends Component {
           this.setState({ image: response.body.postResponse.location });
           AsyncStorage.setItem("profileImg", response.body.postResponse.location)
           this.setState({
-            profile: { uri: response.body.postResponse.location }
+            profile: response.body.postResponse.location
           })
           users.updateProfileImg(this.state.userID, response.body.postResponse.location, result => {})
         }
@@ -153,9 +152,6 @@ export default class Drawer extends Component {
   render() {
     return (
       <View style={{ height: "100%" }}>
-        {/* <NavigationEvents
-          onDidFocus={this.getFriends}
-        /> */}
         <View style={drawerStyles.container}>
           <Text style={drawerStyles.logoText}>exire</Text>
           <Image
