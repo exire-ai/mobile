@@ -1,7 +1,12 @@
 const plans = {
   getAllCategories: function (callback) {
-    fetch("https://exire-backend.herokuapp.com/plans/getAllCategories/", {
+    fetch("http://api.exire.ai/plans/getAllCategories/", {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -13,11 +18,12 @@ const plans = {
       });
   },
   getByList: function (venues, callback) {
-    fetch("https://exire-backend.herokuapp.com/plans/getByList/", {
+    fetch("http://api.exire.ai/plans/getByList/", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
       },
       body: JSON.stringify({
         ids: venues,
@@ -34,9 +40,14 @@ const plans = {
   },
   getRecommended: function (userID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/plans/getRecommended/" + userID,
+      "http://api.exire.ai/plans/getRecommended/" + userID,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -50,9 +61,14 @@ const plans = {
   },
   getByHierCategory: function (category, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/plans/getByHierCategory/" + category,
+      "http://api.exire.ai/plans/getByHierCategory/" + category,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -65,12 +81,13 @@ const plans = {
       });
   },
   create: function (body, callback) {
-    fetch("https://exire-backend.herokuapp.com/plans/create", {
+    fetch("http://api.exire.ai/plans/create", {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
       },
     })
       .then((response) => response.json())
@@ -84,11 +101,12 @@ const plans = {
   },
   getRecommendedGroup: function (users, callback) {
     console.log(users)
-    fetch("https://exire-backend.herokuapp.com/plans/getRecommendedGroup/", {
+    fetch("http://api.exire.ai/plans/getRecommendedGroup/", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
       },
       body: JSON.stringify({
         users: users,

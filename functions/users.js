@@ -1,7 +1,12 @@
 const users = {
   get: function (userID, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/get/" + userID, {
+    fetch("http://api.exire.ai/users/get/" + userID, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -13,11 +18,12 @@ const users = {
       });
   },
   createUser: function (userID, name, number, profileImg, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/create", {
+    fetch("http://api.exire.ai/users/create", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
       },
       body: JSON.stringify({
         userID: userID,
@@ -36,8 +42,13 @@ const users = {
       });
   },
   doesExist: function (userID, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/doesExist/" + userID, {
+    fetch("http://api.exire.ai/users/doesExist/" + userID, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -49,11 +60,12 @@ const users = {
       });
   },
   addCategories: function (userID, categories, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/addCategories" + userID, {
+    fetch("http://api.exire.ai/users/addCategories" + userID, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
       },
       body: JSON.stringify(categories),
     })
@@ -68,15 +80,16 @@ const users = {
   },
   updateName: function (userID, name, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/updateName/" +
-        userID +
-        "/" +
-        name,
+      "http://api.exire.ai/users/updateName/" +
+      userID +
+      "/" +
+      name,
       {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
         },
       }
     )
@@ -91,12 +104,13 @@ const users = {
   },
   updateCategories: function (userID, categories, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/updateCategories/" + userID,
+      "http://api.exire.ai/users/updateCategories/" + userID,
       {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
         },
         body: JSON.stringify(categories),
       }
@@ -111,8 +125,13 @@ const users = {
       });
   },
   getChatUser: function (userID, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/getChat/" + userID, {
+    fetch("http://api.exire.ai/users/getChat/" + userID, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -125,12 +144,17 @@ const users = {
   },
   updateChat: function (userID, chatID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/updateChat/" +
-        userID +
-        "/" +
-        chatID,
+      "http://api.exire.ai/users/updateChat/" +
+      userID +
+      "/" +
+      chatID,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -144,12 +168,17 @@ const users = {
   },
   updateToken: function (userID, newToken, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/updateToken/" +
-        userID +
-        "/" +
-        newToken,
+      "http://api.exire.ai/users/updateToken/" +
+      userID +
+      "/" +
+      newToken,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -162,8 +191,13 @@ const users = {
       });
   },
   phoneAuth: function (number, callback) {
-    fetch("https://exire-backend.herokuapp.com/external/phoneAuth/" + number, {
+    fetch("http://api.exire.ai/external/phoneAuth/" + number, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -179,9 +213,14 @@ const users = {
   },
   doesNumberExist: function (number, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/doesNumberExist/" + number,
+      "http://api.exire.ai/users/doesNumberExist/" + number,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -194,8 +233,13 @@ const users = {
       });
   },
   getByNumber: function (number, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/getByNumber/" + number, {
+    fetch("http://api.exire.ai/users/getByNumber/" + number, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -207,8 +251,13 @@ const users = {
       });
   },
   getCategories: function (userID, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/getCategories/" + userID, {
+    fetch("http://api.exire.ai/users/getCategories/" + userID, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -221,9 +270,14 @@ const users = {
   },
   getWelcomeMessage: function (userID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/getWelcomeMessage/" + userID,
+      "http://api.exire.ai/users/getWelcomeMessage/" + userID,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -237,14 +291,19 @@ const users = {
   },
   updateLocation: function (userID, lat, lon, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/updateLocation/" +
-        userID +
-        "/" +
-        lat +
-        "/" +
-        lon,
+      "http://api.exire.ai/users/updateLocation/" +
+      userID +
+      "/" +
+      lat +
+      "/" +
+      lon,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -258,12 +317,13 @@ const users = {
   },
   sendTextMsg: function (number, message, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/external/sendTextMsg/" + number,
+      "http://api.exire.ai/external/sendTextMsg/" + number,
       {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
         },
         body: JSON.stringify({ message: message }),
       }
@@ -278,8 +338,13 @@ const users = {
       });
   },
   getFriends: function (userID, callback) {
-    fetch("https://exire-backend.herokuapp.com/users/getFriends/" + userID, {
+    fetch("http://api.exire.ai/users/getFriends/" + userID, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -292,12 +357,17 @@ const users = {
   },
   deleteFriend: function (userID, otherUserID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/deleteFriend/" +
-        userID +
-        "/" +
-        otherUserID,
+      "http://api.exire.ai/users/deleteFriend/" +
+      userID +
+      "/" +
+      otherUserID,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -311,12 +381,17 @@ const users = {
   },
   addFriend: function (userID, otherUserID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/addFriend/" +
-        userID +
-        "/" +
-        otherUserID,
+      "http://api.exire.ai/users/addFriend/" +
+      userID +
+      "/" +
+      otherUserID,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -330,11 +405,18 @@ const users = {
   },
   addPlan: function (userID, planID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/addPlan/" +
-        userID +
-        "/" +
-        planID,
-      { method: "GET" }
+      "http://api.exire.ai/users/addPlan/" +
+      userID +
+      "/" +
+      planID,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
+      }
     )
       .then((response) => response.json())
       .then((json) => {
@@ -347,11 +429,16 @@ const users = {
   },
   getPlans: function (userID, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/getPlans/" +
-        userID +
-        "?populate=true",
+      "http://api.exire.ai/users/getPlans/" +
+      userID +
+      "?populate=true",
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -365,12 +452,17 @@ const users = {
   },
   updateExpoPushToken: function (userID, expoPushToken, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/updateExpoPushToken/" +
-        userID +
-        "/" +
-        expoPushToken,
+      "http://api.exire.ai/users/updateExpoPushToken/" +
+      userID +
+      "/" +
+      expoPushToken,
       {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        },
       }
     )
       .then((response) => response.json())
@@ -384,12 +476,13 @@ const users = {
   },
   updateProfileImg: function (userID, profileImg, callback) {
     fetch(
-      "https://exire-backend.herokuapp.com/users/updateProfileImg/" + userID,
+      "http://api.exire.ai/users/updateProfileImg/" + userID,
       {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
         },
         body: JSON.stringify({ profileImg: profileImg }),
       }

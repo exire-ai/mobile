@@ -1,7 +1,12 @@
 const venues = {
   get: function(placeID, callback) {
-    fetch("https://exire-backend.herokuapp.com/venues/get/" + placeID, {
-      method: "GET"
+    fetch("http://api.exire.ai/venues/get/" + placeID, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+      },
     })
       .then(response => response.json())
       .then(responseJson => {
