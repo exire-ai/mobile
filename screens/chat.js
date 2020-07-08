@@ -224,13 +224,21 @@ export default class Chat extends React.Component {
       this.emma(temp);
     }
     // Send Notification
+    let user = this.state.users.find((o) => o.userID == message.userID);
     var tokens = this.state.users
       .filter((o) => "token" in o)
       .filter((o) => o.userID !== message.userID)
       .map((o) => o.token);
-    notifs.sendNotif(1000, "New Message", message.message, tokens, (res) => {
-      console.log(res);
-    });
+
+    notifs.sendNotif(
+      1000,
+      this.state.name,
+      user.name + ": " + message.message,
+      tokens,
+      (res) => {
+        console.log(res);
+      }
+    );
 
     this.clearText();
     this.addMessage(message);
@@ -329,15 +337,15 @@ export default class Chat extends React.Component {
           this.checkSize();
         }
         // Send Notification
-
+        let user = this.state.users.find((o) => o.userID == message.userID);
         var tokens = this.state.users
           .filter((o) => "token" in o)
           .filter((o) => o.userID !== message.userID)
           .map((o) => o.token);
         notifs.sendNotif(
           1000,
-          "New Message",
-          newMessage.message,
+          this.state.name,
+          user.name + ": " + newMessage.message,
           tokens,
           (res) => {
             console.log(res);
