@@ -5,7 +5,7 @@ const plans = {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
       },
     })
       .then((response) => response.json())
@@ -23,7 +23,7 @@ const plans = {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
       },
       body: JSON.stringify({
         ids: venues,
@@ -39,17 +39,14 @@ const plans = {
       });
   },
   getRecommended: function (userID, callback) {
-    fetch(
-      "http://api.exire.ai/plans/getRecommended/" + userID,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
-        },
-      }
-    )
+    fetch("http://api.exire.ai/plans/getRecommended/" + userID, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
+      },
+    })
       .then((response) => response.json())
       .then((responseJson) => {
         callback(responseJson);
@@ -60,17 +57,14 @@ const plans = {
       });
   },
   getByHierCategory: function (category, callback) {
-    fetch(
-      "http://api.exire.ai/plans/getByHierCategory/" + category,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
-        },
-      }
-    )
+    fetch("http://api.exire.ai/plans/getByHierCategory/" + category, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
+      },
+    })
       .then((response) => response.json())
       .then((responseJson) => {
         callback(responseJson);
@@ -87,7 +81,7 @@ const plans = {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
       },
     })
       .then((response) => response.json())
@@ -100,13 +94,13 @@ const plans = {
       });
   },
   getRecommendedGroup: function (users, callback) {
-    console.log(users)
+    console.log(users);
     fetch("http://api.exire.ai/plans/getRecommendedGroup/", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "token" : "e7b7f332-228d-499d-9c34-fadf2898efb3"
+        token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
       },
       body: JSON.stringify({
         users: users,
@@ -114,7 +108,7 @@ const plans = {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
+        console.log(responseJson);
         callback(responseJson);
       })
       .catch((error) => {

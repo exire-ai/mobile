@@ -1,7 +1,16 @@
 import React, { setState, useCallback, useEffect } from "react";
-import { View, StyleSheet, FlatList, KeyboardAvoidingView, TextInput, TouchableOpacity, AsyncStorage, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  KeyboardAvoidingView,
+  TextInput,
+  TouchableOpacity,
+  AsyncStorage,
+  Text,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import AnimatedEllipsis from 'react-native-animated-ellipsis';
+import AnimatedEllipsis from "react-native-animated-ellipsis";
 import { Message } from "../components/message";
 import { MessageClass } from "../components/messageClass";
 import { colorScheme } from "../global/colorScheme";
@@ -9,6 +18,7 @@ import { shadowStyles } from "../global/shadowStyles";
 import dialogflow from "../functions/dialogflow";
 import plans from "../functions/plans";
 import chats from "../functions/chats";
+import notifs from "../functions/notifications";
 import { textStyles } from "../global/textStyles";
 import { analytics } from "../functions/mixpanel";
 
@@ -24,107 +34,127 @@ export default class Chat extends React.Component {
 
   componentDidMount() {
     // not using observer bc can"t get return / callback / promise / state update working
-    AsyncStorage.multiGet(["userID", "name", "profileImg", "number", "token"]).then((value) => {
-      var token = value[4][1] !== null ? value[4][1] : '';
+    AsyncStorage.multiGet([
+      "userID",
+      "name",
+      "profileImg",
+      "number",
+      "token",
+    ]).then((value) => {
+      var token = value[4][1] !== null ? value[4][1] : "";
       this.setState({
         userID: value[0][1],
         name: value[1][1],
         profileImg: value[2][1],
         number: value[3][1],
         token: token,
-        loading: false
-      })
-      this.initChat()
-      this.updateUserData()
-    })
+        loading: false,
+      });
+      this.initChat();
+      this.updateUserData();
+    });
     this._interval = setInterval(() => {
-      this.getChat()
+      this.getChat();
     }, 5000);
   }
 
   componentWillUnmount() {
-    clearInterval(this._interval)
+    clearInterval(this._interval);
   }
-
 
   state = {
     messages: [],
     text: "",
     inverse: 1,
     chatID: this.props.navigation.state.params.chatID,
-    userID: this.props.navigation.state.params.userID
+    userID: this.props.navigation.state.params.userID,
   };
 
   getChat = () => {
-    this.db.collection("chats")
+    this.db
+      .collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => {
-          var temp = doc.data()
-          return temp
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => {
+          var temp = doc.data();
+          return temp;
         })[0];
         this.setState({
           messages: data.messages,
           users: data.userData,
-          owner: this.props.navigation.state.params.userID == data.ownerID ? true : false,
+          owner:
+            this.props.navigation.state.params.userID == data.ownerID
+              ? true
+              : false,
           name: data.name,
-          data: data
-        })
-        this.checkSize(true)
-      })
-  }
+          data: data,
+        });
+        this.checkSize(true);
+      });
+  };
 
   initChat = () => {
-    this.db.collection("chats")
+    this.db
+      .collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => {
-          var temp = doc.data()
-          return temp
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => {
+          var temp = doc.data();
+          return temp;
         })[0];
         this.setState({
           messages: data.messages,
           users: data.userData,
-          owner: this.props.navigation.state.params.userID == data.ownerID ? true : false,
+          owner:
+            this.props.navigation.state.params.userID == data.ownerID
+              ? true
+              : false,
           name: data.name,
-          data: data
-        })
-        this.checkSize(true)
+          data: data,
+        });
+        this.checkSize(true);
         if (this.props.navigation.state.params.attachment != null) {
           var message = {
             userID: this.state.userID,
-            message: "Sent ".concat(this.props.navigation.state.params.attachment.title),
+            message: "Sent ".concat(
+              this.props.navigation.state.params.attachment.title
+            ),
             time: Math.round(new Date().getTime()),
-            special: { venues: [this.props.navigation.state.params.attachment.placeID] }
-          }
-          this.addMessage(message)
-          var messages = this.state.messages
+            special: {
+              venues: [this.props.navigation.state.params.attachment.placeID],
+            },
+          };
+          this.addMessage(message);
+          var messages = this.state.messages;
           if (this.state.inverse == 1) {
-            messages.push(message)
+            messages.push(message);
           } else {
-            messages.unshift(message)
+            messages.unshift(message);
           }
           this.setState({
-            messages: messages
-          })
+            messages: messages,
+          });
         }
-
-      })
-  }
+      });
+  };
 
   addMessage(message) {
-    this.db.collection("chats")
+    this.db
+      .collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          this.db.collection("chats").doc(doc.id).update({
-            messages: firebase.firestore.FieldValue.arrayUnion(message)
-          })
-        })
-      })
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.db
+            .collection("chats")
+            .doc(doc.id)
+            .update({
+              messages: firebase.firestore.FieldValue.arrayUnion(message),
+            });
+        });
+      });
   }
 
   updateUserData() {
@@ -133,67 +163,79 @@ export default class Chat extends React.Component {
       number: this.state.number,
       name: this.state.name,
       imgURL: this.state.profileImg,
-      token: this.state.token
-    }
-    this.db.collection("chats")
+      token: this.state.token,
+    };
+    this.db
+      .collection("chats")
       .where("chatID", "==", this.state.chatID)
       .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
           var data = doc.data().userData;
-          console.log()
-          data = data.filter(function (o) { return o.number != userData.number });
-          data.push(userData)
+          console.log();
+          data = data.filter(function (o) {
+            return o.number != userData.number;
+          });
+          data.push(userData);
           this.db.collection("chats").doc(doc.id).update({
-            userData: data
-          })
-        })
-      })
+            userData: data,
+          });
+        });
+      });
   }
 
   onListen(doc) {
-    var data = doc.data()
-    console.log("message added:", data.messages[data.messages.length - 1])
+    var data = doc.data();
+    console.log("message added:", data.messages[data.messages.length - 1]);
   }
 
   // won"t work at all rn bc changed the chatID querying technique
   listenChat() {
-    const subscriber = this.db.collection("chats")
+    const subscriber = this.db
+      .collection("chats")
       .doc(this.state.chatID)
       .onSnapshot(this.onListen);
   }
 
   sendMessage = () => {
-    var messages = this.state.messages
+    var messages = this.state.messages;
     var message = {
       userID: this.props.navigation.state.params.userID,
       message: this.state.text,
       time: Math.round(new Date().getTime()),
-      special: {}
-    }
+      special: {},
+    };
     if (this.state.inverse == 1) {
-      messages.push(message)
+      messages.push(message);
     } else {
-      messages.unshift(message)
+      messages.unshift(message);
     }
     this.setState({
-      messages: messages
-    })
-    if (this.state.text.includes("@Emma") || this.state.text.includes("@emma") || this.state.users.length == 2) {
+      messages: messages,
+    });
+    if (
+      this.state.text.includes("@Emma") ||
+      this.state.text.includes("@emma") ||
+      this.state.users.length == 2
+    ) {
       var temp = this.state.text.replace("@Emma", "");
       temp = temp.replace("@emma", "");
       analytics.track("Emma Message", { text: this.state.text });
       this.emma(temp);
     }
     // Send Notification
-    chats.sendNotification(message, this.state.users, res => {
+    var tokens = this.state.users
+      .filter((o) => "token" in o)
+      .filter((o) => o.userID !== message.userID)
+      .map((o) => o.token);
+    notifs.sendNotif(1000, "New Message", message.message, tokens, (res) => {
       console.log(res);
-    })
+    });
 
     this.clearText();
     this.addMessage(message);
     this.checkSize(false);
-  }
+  };
 
   clearText = () => {
     this.setState({
@@ -202,95 +244,126 @@ export default class Chat extends React.Component {
   };
 
   checkSize = (getAll) => {
-    if ((this.state.inverse == 1 && this.state.messages.length > 5) || (getAll && this.state.messages.length > 5)) {
+    if (
+      (this.state.inverse == 1 && this.state.messages.length > 5) ||
+      (getAll && this.state.messages.length > 5)
+    ) {
       this.setState({
         inverse: -1,
-        messages: this.state.messages.reverse()
-      })
+        messages: this.state.messages.reverse(),
+      });
     }
-  }
+  };
 
   emma = (message) => {
     this.setState({
-      loading: true
-    })
-    dialogflow.sendMessage(this.state.userID, this.state.chatID, message, this.state.users.map(o => o.userID), data => {
-      var parsedData;
-      try {
-        parsedData = JSON.parse(data.fulfillmentText);
-      } catch (e) {
-        parsedData = { text: data.fulfillmentText };
-      }
-      if (parsedData.text == "" && this.state.recallCounter < 3) {
-        this.state.recallCounter += 1;
-        this.emma(message)
-        return;
-      } else if (this.state.recallCounter >= 3 && parsedData.text == "") {
-        parsedData.text =
-          "Sorry I'm experiencing connectivity issues, please send that again!";
-        this.state.recallCounter = 0;
-      } else {
-        this.state.recallCounter = 0;
-      }
-      if (data.intent.displayName == "GroupRecommendations") {
-        plans.getRecommendedGroup(this.state.users.map(o => o.userID), venues => {
+      loading: true,
+    });
+    dialogflow.sendMessage(
+      this.state.userID,
+      this.state.chatID,
+      message,
+      this.state.users.map((o) => o.userID),
+      (data) => {
+        var parsedData;
+        try {
+          parsedData = JSON.parse(data.fulfillmentText);
+        } catch (e) {
+          parsedData = { text: data.fulfillmentText };
+        }
+        if (parsedData.text == "" && this.state.recallCounter < 3) {
+          this.state.recallCounter += 1;
+          this.emma(message);
+          return;
+        } else if (this.state.recallCounter >= 3 && parsedData.text == "") {
+          parsedData.text =
+            "Sorry I'm experiencing connectivity issues, please send that again!";
+          this.state.recallCounter = 0;
+        } else {
+          this.state.recallCounter = 0;
+        }
+        if (data.intent.displayName == "GroupRecommendations") {
+          plans.getRecommendedGroup(
+            this.state.users.map((o) => o.userID),
+            (venues) => {
+              var newMessage = {
+                message: parsedData.text,
+                userID: "emma",
+                special: { venues: venues.recommended.map((o) => o.placeID) },
+                time: Math.round(new Date().getTime()),
+              };
+              var messages = this.state.messages;
+              if (this.state.inverse == 1) {
+                messages.push(newMessage);
+              } else {
+                messages.unshift(newMessage);
+              }
+              this.addMessage(newMessage);
+              this.setState({
+                messages: messages,
+                loading: false,
+              });
+              this.checkSize();
+            }
+          );
+        } else {
           var newMessage = {
             message: parsedData.text,
             userID: "emma",
-            special: { venues: venues.recommended.map(o => o.placeID) },
+            special: parsedData.hasOwnProperty("venues")
+              ? { venues: parsedData.venues }
+              : {},
             time: Math.round(new Date().getTime()),
           };
-          var messages = this.state.messages
+          var messages = this.state.messages;
           if (this.state.inverse == 1) {
-            messages.push(newMessage)
+            messages.push(newMessage);
           } else {
-            messages.unshift(newMessage)
+            messages.unshift(newMessage);
           }
-          this.addMessage(newMessage)
+          this.addMessage(newMessage);
           this.setState({
             messages: messages,
-            loading: false
-          })
-          this.checkSize()
-        })
-      } else {
-        var newMessage = {
-          message: parsedData.text,
-          userID: "emma",
-          special: parsedData.hasOwnProperty("venues") ? { venues: parsedData.venues } : {},
-          time: Math.round(new Date().getTime()),
-        };
-        var messages = this.state.messages
-        if (this.state.inverse == 1) {
-          messages.push(newMessage)
-        } else {
-          messages.unshift(newMessage)
+            loading: false,
+          });
+          this.checkSize();
         }
-        this.addMessage(newMessage)
-        this.setState({
-          messages: messages,
-          loading: false
-        })
-        this.checkSize()
+        // Send Notification
+
+        var tokens = this.state.users
+          .filter((o) => "token" in o)
+          .filter((o) => o.userID !== message.userID)
+          .map((o) => o.token);
+        notifs.sendNotif(
+          1000,
+          "New Message",
+          newMessage.message,
+          tokens,
+          (res) => {
+            console.log(res);
+          }
+        );
       }
-      // Send Notification
-      chats.sendNotification(newMessage, this.state.users, res => {
-        console.log(res);
-      })
-    })
-  }
+    );
+  };
 
   timeConvert(unix) {
-    var now = Math.round(new Date().getTime() / 1000)
-    var res = new Date(unix)
+    var now = Math.round(new Date().getTime() / 1000);
+    var res = new Date(unix);
     if (unix + 86400 > now) {
-      var hours = res.getHours()
-      var minutes = res.getMinutes()
-      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? "0" : "") + minutes + (hours > 12 ? "pm" : "am")
+      var hours = res.getHours();
+      var minutes = res.getMinutes();
+      return (
+        (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) +
+        ":" +
+        (minutes < 10 ? "0" : "") +
+        minutes +
+        (hours > 12 ? "pm" : "am")
+      );
     } else if (unix + 518400 > now) {
-      return res.getDay()
+      return res.getDay();
     } else {
-      return res.getMonth() + "/" + res.getDay()
+      return res.getMonth() + "/" + res.getDay();
     }
   }
 
@@ -313,64 +386,106 @@ export default class Chat extends React.Component {
                 return (
                   <MessageClass
                     message={item.message}
-                    name={item.userID == this.props.navigation.state.params.userID ? "You" : this.state.users.find(
-                      (o) => o.userID == item.userID
-                    ).name}
+                    name={
+                      item.userID == this.props.navigation.state.params.userID
+                        ? "You"
+                        : this.state.users.find((o) => o.userID == item.userID)
+                            .name
+                    }
                     time={this.timeConvert(item.time)}
-                    imgURL={this.state.users.find(
-                      (o) => o.userID == item.userID
-                    ).imgURL}
+                    imgURL={
+                      this.state.users.find((o) => o.userID == item.userID)
+                        .imgURL
+                    }
                     special={item.special}
                     navigation={this.props.navigation}
                   />
-                )
+                );
               } else {
                 return (
                   <Message
                     message={item.message}
-                    name={item.userID == this.props.navigation.state.params.userID ? "You" : this.state.users.find(
-                      (o) => o.userID == item.userID
-                    ).name}
+                    name={
+                      item.userID == this.props.navigation.state.params.userID
+                        ? "You"
+                        : this.state.users.find((o) => o.userID == item.userID)
+                            .name
+                    }
                     time={this.timeConvert(item.time)}
-                    imgURL={this.state.users.find(
-                      (o) => o.userID == item.userID
-                    ).imgURL}
+                    imgURL={
+                      this.state.users.find((o) => o.userID == item.userID)
+                        .imgURL
+                    }
                     special={item.special}
                   />
-                )
+                );
               }
             }}
           />
           {this.state.loading ? (
-            <View style={{ paddingVertical: 10, paddingLeft: 16, marginBottom: 0, flexDirection: 'row' }}>
+            <View
+              style={{
+                paddingVertical: 10,
+                paddingLeft: 16,
+                marginBottom: 0,
+                flexDirection: "row",
+              }}
+            >
               <Text style={[textStyles.subBodyText, { fontSize: 16 }]}>
                 Emma is typing
               </Text>
-              <AnimatedEllipsis numberOfDots={3} letterSpacing={0} animationDelay={300} style={[textStyles.subBodyText, { fontSize: 16 }]} />
+              <AnimatedEllipsis
+                numberOfDots={3}
+                letterSpacing={0}
+                animationDelay={300}
+                style={[textStyles.subBodyText, { fontSize: 16 }]}
+              />
             </View>
           ) : null}
-          <View style={{ margin: 10, marginBottom: 20, backgroundColor: colorScheme.background, borderRadius: 25, alignItems: "center", flexDirection: "row" }}>
+          <View
+            style={{
+              margin: 10,
+              marginBottom: 20,
+              backgroundColor: colorScheme.background,
+              borderRadius: 25,
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
             <TextInput
               placeholder={"Say something..."}
-              style={{ paddingVertical: 15, marginLeft: 20, color: colorScheme.darkText, fontSize: 17, flex: .8 }}
+              style={{
+                paddingVertical: 15,
+                marginLeft: 20,
+                color: colorScheme.darkText,
+                fontSize: 17,
+                flex: 0.8,
+              }}
               onChangeText={(text) => this.setState({ text })}
               value={this.state.text}
             />
-            <TouchableOpacity activeOpacity={.5}
-              style={[shadowStyles.shadowDown, {
-                backgroundColor: this.state.text.length > 1 ? colorScheme.button : colorScheme.primary,
-                height: 45,
-                width: 45,
-                borderRadius: 22.5,
-                position: "absolute",
-                right: 5,
-                flex: .2,
-                alignItems: "center",
-                justifyContent: "center"
-              }]}
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor:
+                    this.state.text.length > 1
+                      ? colorScheme.button
+                      : colorScheme.primary,
+                  height: 45,
+                  width: 45,
+                  borderRadius: 22.5,
+                  position: "absolute",
+                  right: 5,
+                  flex: 0.2,
+                  alignItems: "center",
+                  justifyContent: "center",
+                },
+              ]}
               onPress={() => {
                 if (this.state.text.length > 1) {
-                  this.sendMessage()
+                  this.sendMessage();
                 }
               }}
             >
@@ -378,7 +493,10 @@ export default class Chat extends React.Component {
                 name="chevron-right"
                 color="#FFF"
                 size={28}
-                style={[shadowStyles.shadowDown, { paddingLeft: 3, paddingTop: 3 }]}
+                style={[
+                  shadowStyles.shadowDown,
+                  { paddingLeft: 3, paddingTop: 3 },
+                ]}
               />
             </TouchableOpacity>
           </View>
@@ -399,6 +517,6 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
-    marginBottom: 10
+    marginBottom: 10,
   },
 });
