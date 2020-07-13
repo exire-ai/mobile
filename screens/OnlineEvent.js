@@ -319,7 +319,7 @@ export default class OnlineEvent extends Component {
                 },
               ]}
               onPress={() => {
-                this.props.addToPlan(this.state.venue);
+                this.props.savePlans();
               }}
             >
               <Text style={textStyles.buttonText}>Save to Experience</Text>

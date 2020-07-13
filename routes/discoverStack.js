@@ -9,6 +9,8 @@ import Venue from "../screens/venue";
 import DateTime from "../screens/DateTime";
 import BookingInvite from "../screens/BookingInvite";
 import ReviewPurchase from "../screens/ReviewPurchase";
+import SelectPlan from "../screens/SelectPlan";
+import CreatePlan from "../screens/CreatePlan";
 
 import ProfileIcon from "../components/ProfileIcon";
 
@@ -73,6 +75,32 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerTitle: "Review Purchase",
+        headerTintColor: "white",
+      };
+    },
+  },
+  SelectPlan: {
+    screen: SelectPlan,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: "center",
+        headerTitle: "Select Plan",
+        headerTintColor: "white",
+      };
+    },
+  },
+  CreatePlan: {
+    screen: CreatePlan,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerShown: true,
+        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerTitleAlign: "center",
+        headerTitle: "Create Plan",
         headerTintColor: "white",
       };
     },

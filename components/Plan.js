@@ -27,12 +27,12 @@ function Venue({ plan }) {
         >
           <View style={miniVenueStyles.venueContent}>
             <View style={{ flexDirection: "column" }}>
-              <Text style={miniVenueStyles.venueText}>
+              {/* <Text style={miniVenueStyles.venueText}>
                 {plan.bookings[0].venue.title}
               </Text>
               <Text style={miniVenueStyles.venueText}>
                 {plan.bookings[0].venue.price}
-              </Text>
+              </Text> */}
             </View>
           </View>
         </ImageBackground>

@@ -144,6 +144,11 @@ export default class Venue extends Component {
     this.props.navigation.navigate("Plans", { update: true });
   };
 
+  savePlans = () => {
+    this.props.navigation.pop();
+    this.props.navigation.navigate("SelectPlan", { createPlan: this.createPlan, venue: this.state.venue });
+  };
+
   createPlan = (venue) => {
     //Only called on one-time free online events
 
@@ -206,6 +211,7 @@ export default class Venue extends Component {
           addToPlan={(venue) => {
             this.createPlan(venue);
           }}
+          savePlans={this.savePlans}
           sendToChats={this.sendToChats}
         />
       );
