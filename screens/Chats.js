@@ -51,7 +51,6 @@ export default class Chats extends Component {
 
   componentDidMount() {
     // not using observer bc can"t get return / callback / promise / state update working
-    console.log(this.props);
     this._interval = setInterval(() => {
       this.loadData(false);
     }, 30000);
