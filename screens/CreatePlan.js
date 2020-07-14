@@ -4,15 +4,14 @@ import { colorScheme } from "../global/colorScheme";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 
-export default function CreatePlan({ navigation, createPlan, venue }) {
-  console.log(navigation)
+export default function CreatePlan({ navigation }) {
   return (
     <View style={{ justifyContent: "center", alignItems: "center" }}>
       <Text>Create Plan</Text>
       <TextInput />
       <TouchableOpacity
         activeOpacity={0.5}
-        onPress={() => createPlan(venue)}
+        onPress={() => navigation.state.params.createPlan(navigation.state.params.venue)}
         style={[
           shadowStyles.shadowDown,
           {

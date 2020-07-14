@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import InAppBrowser from "react-native-inappbrowser-reborn";
+import _ from "lodash";
 import { signInStyles } from "../global/signInStyles";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
@@ -146,10 +147,16 @@ export default class Venue extends Component {
 
   savePlans = () => {
     this.props.navigation.pop();
+    this.props.navigation.pop();
     this.props.navigation.navigate("SelectPlan", { createPlan: this.createPlan, venue: this.state.venue });
   };
 
-  createPlan = (venue) => {
+  savePlan = () => {
+    this.props.navigation.pop();
+    this.props.navigation.navigate("SelectPlan", { createPlan: this.createPlan, venue: this.state.venue });
+  };
+
+  createPlan = (venue, start=Math.round(new Date().getTime())) => {
     //Only called on one-time free online events
 
     AsyncStorage.getItem("userID").then((value) => {
@@ -158,22 +165,25 @@ export default class Venue extends Component {
         type: "one-time",
         slot: null,
       };
-      if (venue.category == "event" || venue.category == "online-event") {
-        booking.eventID = venue.eventID;
-      } else {
-        booking.eventID = venue.venueID;
-      }
 
       var plan = {
         bookings: [],
         users: [],
+        ids: [],
         title: venue.title,
         description: venue.description,
-        start_time: venue.start_time,
+        startUNIX: _.has(venue, 'startUNIX') ? venue.startUNIX : start
       };
 
-      plan.bookings.push(booking);
+      if (venue.category == "event" || venue.category == "online-event") {
+        booking.eventID = venue.eventID;
+        plan.bookings.push(booking);
+      } else {
+        booking.eventID = venue.placeID;
+      };
+
       plan.users.push(value);
+      plan.ids.push(booking.eventID)
 
       // Add Plan to plans collection
       plans.create(plan, (planID) => {
@@ -303,9 +313,9 @@ export default class Venue extends Component {
               onPress={() => {
                 Linking.openURL(
                   "https://m.uber.com/ul/?client_id=exire&action=setPickup&dropoff[latitude]=" +
-                    this.state.venue.latitude +
-                    "&dropoff[longitude]=" +
-                    this.state.venue.longitude
+                  this.state.venue.latitude +
+                  "&dropoff[longitude]=" +
+                  this.state.venue.longitude
                 );
               }}
             >
@@ -355,9 +365,9 @@ export default class Venue extends Component {
               onPress={() => {
                 Linking.openURL(
                   "lyft://ridetype?id=lyft&destination[latitude]=" +
-                    this.state.venue.latitude +
-                    "&destination[longitude]=" +
-                    this.state.venue.longitude
+                  this.state.venue.latitude +
+                  "&destination[longitude]=" +
+                  this.state.venue.longitude
                 );
               }}
             >
@@ -529,14 +539,14 @@ export default class Venue extends Component {
                 {this.state.venue.open > 24
                   ? this.state.venue.open - 24 + " AM "
                   : this.state.venue.open > 12
-                  ? this.state.venue.open - 12 + " PM "
-                  : this.state.venue.open + " AM "}
+                    ? this.state.venue.open - 12 + " PM "
+                    : this.state.venue.open + " AM "}
                 -{" "}
                 {this.state.venue.closed > 24
                   ? this.state.venue.closed - 24 + " AM"
                   : this.state.venue.closed > 12
-                  ? this.state.venue.closed - 12 + " PM"
-                  : this.state.venue.closed + " AM"}
+                    ? this.state.venue.closed - 12 + " PM"
+                    : this.state.venue.closed + " AM"}
               </Text>
 
               <Text
@@ -567,32 +577,25 @@ export default class Venue extends Component {
             style={{
               width: "100%",
               position: "absolute",
-              bottom: 0,
+              height: 100,
+              bottom: 10,
               flexDirection: "column",
-              justifyContent: "flex-start",
+              flex: 1,
               alignItems: "center",
-              marginBottom: 25,
+              justifyContent: "center",
             }}
           >
             <Text
               style={[
                 textStyles.subBodyText,
-                { width: "95%", textAlign: "center", fontSize: 14 },
+                { width: "90%", textAlign: "center", fontSize: 14 },
               ]}
             >
-              We can't book this for you, but you can add it to a plan!
+              Want to go? Save to a plan and share with a friend!
             </Text>
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() => {
-                this.props.navigation.navigate('Chats', {
-                  object: {
-                    type: "venue",
-                    placeID: this.state.venue.placeID,
-                    title: this.state.venue.title
-                  }
-                })
-              }}
+              onPress={this.sendToChats}
               style={[
                 shadowStyles.shadowDown,
                 {
@@ -605,11 +608,34 @@ export default class Venue extends Component {
                   borderRadius: 10,
                   shadowRadius: 10,
                   shadowOffset: { width: 0, height: 2 },
-                  marginBottom: 10,
+                  marginBottom: 0,
                 },
               ]}
             >
               <Text style={textStyles.buttonText}>Send to Chat</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  height: 50,
+                  marginTop: 10,
+                  backgroundColor: colorScheme.activeButton,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "90%",
+                  borderRadius: 10,
+                  shadowRadius: 10,
+                  shadowOffset: { width: 0, height: 2 },
+                  marginBottom: 60,
+                },
+              ]}
+              onPress={() => {
+                this.savePlan();
+              }}
+            >
+              <Text style={textStyles.buttonText}>Save to Experience</Text>
             </TouchableOpacity>
           </View>
         </View>

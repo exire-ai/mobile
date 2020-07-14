@@ -61,7 +61,7 @@ export default class SelectPlan extends Component {
         />
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() => this.props.navigation.navigate('CreatePlan', { createPlan: this.props.createPlan, venue: this.props.venue })}
+          onPress={() => this.props.navigation.navigate('CreatePlan', { createPlan: this.props.navigation.state.params.createPlan, venue:  this.props.navigation.state.params.venue })}
           style={[
             shadowStyles.shadowDown,
             {
