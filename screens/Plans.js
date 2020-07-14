@@ -129,7 +129,9 @@ export default class Plans extends Component {
   };
 
   planTapped = (item) => {
-    this.props.navigation.navigate("PlanDetail", item["bookings"][0].venue);
+    if (item.ids.length !== 0) {
+      this.props.navigation.navigate("PlanDetail", item.ids[0]);
+    }
   };
 
   render() {
@@ -179,9 +181,7 @@ export default class Plans extends Component {
                   { width: "100%", textAlign: "center" },
                 ]}
               >
-                {this.state.onboard != "false"
-                  ? "Welcome to Exire"
-                  : "Create A Plan"}
+                {this.state.onboard != 'false' ? "Welcome to Exire" : "Create A Plan"}
               </Text>
               <Text
                 style={[
@@ -189,9 +189,8 @@ export default class Plans extends Component {
                   { width: "100%", textAlign: "center", marginTop: 10 },
                 ]}
               >
-                {this.state.onboard != "false"
-                  ? "Let's take a tour of the app to get you familiar with how it works!"
-                  : "Create your first plan through the discover on the left or through conversation on the right."}
+
+                {this.state.onboard != 'false' ? "Let's take a tour of the app to get you familiar with how it works!" : "Create your first plan through the discover on the left or through conversation on the right."}
               </Text>
               <TouchableOpacity
                 activeOpacity={0.9}
@@ -218,9 +217,7 @@ export default class Plans extends Component {
                     },
                   ]}
                 >
-                  {this.state.onboard != "false"
-                    ? "Let's Go!"
-                    : "Explore Experiences"}
+                  {this.state.onboard != 'false' ? "Let's Go!" : "Explore Experiences"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -262,7 +259,7 @@ export default class Plans extends Component {
                 this.loadData();
               }}
               refreshing={this.state.refreshing}
-              keyExtractor={(item) => "name" + item.title + item.start_time}
+              keyExtractor={(item, index) => "name" + item.planID + index}
               renderItem={({ item, index }) => (
                 <Plan data={item} onTap={this.planTapped.bind(this)} />
               )}

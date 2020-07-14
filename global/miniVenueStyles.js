@@ -18,7 +18,7 @@ export const miniVenueStyles = StyleSheet.create({
   venueContent: {
     height: "100%",
     width: "100%",
-    backgroundColor: "rgba(0,0,0,.35)",
+    backgroundColor: "rgba(0,0,0,.15)",
     flexDirection: "row",
     alignItems: "flex-end",
     paddingLeft: 5,

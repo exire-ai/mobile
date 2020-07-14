@@ -25,15 +25,10 @@ const screens = {
   Discover: {
     screen: DiscoverStack,
     navigationOptions: ({ navigation }) => {
-      var tabBarVisible = true;
+      var tabBarVisible = false;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if (
-        routeName == "Venue" ||
-        routeName == "DateTime" ||
-        routeName == "BookingInvite" ||
-        routeName == "ReviewPurchase"
-      ) {
-        tabBarVisible = false;
+      if (routeName == "Discover" || routeName == "Plans" || routeName == "Chats") {
+        tabBarVisible = true
       }
       return {
         tabBarVisible: tabBarVisible,
@@ -66,10 +61,10 @@ const screens = {
   Chats: {
     screen: ChatsStack,
     navigationOptions: ({ navigation }) => {
-      var tabBarVisible = true;
+      var tabBarVisible = false;
       let routeName = navigation.state.routes[navigation.state.index].routeName;
-      if (routeName == "Chat" || routeName == "Venue" || routeName == "CreateChat" || routeName == "ChatInfo") {
-        tabBarVisible = false;
+      if (routeName == "Discover" || routeName == "Plans" || routeName == "Chats") {
+        tabBarVisible = true
       }
       return {
         tabBarVisible: tabBarVisible,

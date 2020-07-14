@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
+import _ from "lodash";
 
 // Style Imports
 import { shadowStyles } from "../global/shadowStyles";
@@ -10,6 +11,7 @@ import DateFormatter from "../global/DateFormatter";
 let formatter = new DateFormatter();
 
 function Venue({ plan }) {
+
   return (
     <View style={plansStyles.venue}>
       <TouchableOpacity
@@ -22,17 +24,17 @@ function Venue({ plan }) {
         style={[shadowStyles.shadowDown, miniVenueStyles.venueContainer]}
       >
         <ImageBackground
-          source={{ uri: plan.bookings[0].venue.imgURL }}
+          source={{ uri: _.get(plan, 'ids[0].imgURL') }}
           style={miniVenueStyles.venueImage}
         >
           <View style={miniVenueStyles.venueContent}>
             <View style={{ flexDirection: "column" }}>
-              <Text style={miniVenueStyles.venueText}>
+              {/* <Text style={miniVenueStyles.venueText}>
                 {plan.bookings[0].venue.title}
               </Text>
               <Text style={miniVenueStyles.venueText}>
                 {plan.bookings[0].venue.price}
-              </Text>
+              </Text> */}
             </View>
           </View>
         </ImageBackground>
@@ -43,7 +45,7 @@ function Venue({ plan }) {
 
 export default class Plan extends Component {
   render() {
-    let data = this.props.data;
+    var data = this.props.data;
     var plan = (
       <TouchableOpacity
         activeOpacity={0.5}
@@ -56,9 +58,9 @@ export default class Plan extends Component {
           <View style={plansStyles.textContainer}>
             <Text style={plansStyles.name}>{data.title}</Text>
             <Text style={plansStyles.time}>
-              {formatter.unixToDate(data.bookings[0].venue.startUNIX) +
+              {formatter.unixToDate(_.get(data, 'startUNIX')) +
                 " at " +
-                formatter.unixToTime(data.bookings[0].venue.startUNIX)}
+                formatter.unixToTime(_.get(data, 'startUNIX'))}
             </Text>
           </View>
           <View style={plansStyles.venueContainer}>
