@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity, AsyncStorage } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { NavigationEvents } from 'react-navigation';
+import { NavigationEvents } from "react-navigation";
 
 // Components Imports
 import Chat from "../components/Chat";
@@ -21,94 +27,131 @@ export default class Chats extends Component {
   db = firebase.firestore();
   constructor(props) {
     super(props);
-    AsyncStorage.getItem("userID").then(userID => {
-      AsyncStorage.getItem("number").then(number => {
+    AsyncStorage.getItem("userID").then((userID) => {
+      AsyncStorage.getItem("number").then((number) => {
         this.setState({
           userID: userID,
-          number: number
-        })
-        this.loadData(false)
-      })
-    })
-    AsyncStorage.getItem("onboard").then(onboard => {
+          number: number,
+        });
+        this.loadData(false);
+      });
+    });
+    AsyncStorage.getItem("onboard").then((onboard) => {
       this.setState({
-        onboard: onboard
-      })
-    })
+        onboard: onboard,
+      });
+    });
   }
 
   state = {
     data: [],
     refreshing: false,
-    onboard: 'false'
-  }
+    onboard: "false",
+  };
 
   componentDidMount() {
     // not using observer bc can"t get return / callback / promise / state update working
     this._interval = setInterval(() => {
-      this.loadData(false)
+      this.loadData(false);
     }, 30000);
   }
 
   componentWillUnmount() {
-    clearInterval(this._interval)
+    clearInterval(this._interval);
   }
 
-  checkAttachment = (props) => {
-    if ('action' in props) {
-      if ('params' in props.action) {
-        if ('object' in props.action.params) {
-          this.setState({ attachment: props.action.params.object })
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.navigation.state.params !== this.props.navigation.state.params
+    ) {
+      if (this.props.navigation.state.params != undefined) {
+        //Open this ChatID if it exists in user's chats list
+        const chatID = this.props.navigation.state.params.toOpen;
+        if (this.state.data === []) {
+          //Load Data first
+        } else {
+          const data = this.state.data;
+          if (data.some((e) => e.chatID === chatID)) {
+            //Value exists, navigate into chat
+            // this.props.navigation.navigate("Chat", {
+            //   chatID: data.chatID,
+            //   userID: this.state.userID,
+            //   name: data.name,
+            //   data: data,
+            //   attachment: null,
+            // });
+          } else {
+            //Chat Doesn't Exist
+          }
         }
       }
     }
   }
 
+  checkAttachment = (props) => {
+    if ("action" in props) {
+      if ("params" in props.action) {
+        if ("object" in props.action.params) {
+          this.setState({ attachment: props.action.params.object });
+        }
+      }
+    }
+  };
+
   loadData = (refresh) => {
     if (refresh) {
       this.setState({
-        refreshing: true
-      })
+        refreshing: true,
+      });
     }
-    this.db.collection("chats")
+    this.db
+      .collection("chats")
       .where("users", "array-contains", this.state.number)
       .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => {
-          var temp = doc.data()
-          return temp
+      .then((querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => {
+          var temp = doc.data();
+          return temp;
         });
         this.setState({
           refreshing: false,
-          data: data
-        })
-      })
-  }
+          data: data,
+        });
+      });
+  };
 
   timeConvert(unix) {
-    var now = Math.round(new Date().getTime() / 1000)
-    var res = new Date(unix)
+    var now = Math.round(new Date().getTime() / 1000);
+    var res = new Date(unix);
     if (unix + 86400 > now) {
-      var hours = res.getHours()
-      var minutes = res.getMinutes()
-      return (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) + ":" + (minutes < 10 ? "0" : "") + minutes + (hours > 12 ? "pm" : "am")
+      var hours = res.getHours();
+      var minutes = res.getMinutes();
+      return (
+        (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) +
+        ":" +
+        (minutes < 10 ? "0" : "") +
+        minutes +
+        (hours > 12 ? "pm" : "am")
+      );
     } else if (unix + 518400 > now) {
-      return res.getDay()
+      return res.getDay();
     } else {
-      return res.getMonth() + "/" + res.getDay()
+      return res.getMonth() + "/" + res.getDay();
     }
   }
 
   render() {
     return (
       <View style={chatsStyles.container}>
-        <NavigationEvents
-          onDidFocus={this.checkAttachment}
-        />
+        <NavigationEvents onDidFocus={this.checkAttachment} />
         <SearchBar />
         <FlatList
           style={chatsStyles.list}
-          data={this.state.data.sort((a, b) => b.messages[b.messages.length - 1].time - a.messages[a.messages.length - 1].time)}
+          data={this.state.data.sort(
+            (a, b) =>
+              b.messages[b.messages.length - 1].time -
+              a.messages[a.messages.length - 1].time
+          )}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
             this.loadData(true);
@@ -118,61 +161,104 @@ export default class Chats extends Component {
           renderItem={({ item, index }) => (
             <Chat
               name={item.name}
-              time={item.messages.length > 0 ? this.timeConvert(item.messages[item.messages.length - 1].time) : ""}
-              message={item.messages.length > 0 ? item.messages[item.messages.length - 1].message : "Send your first message!"}
+              time={
+                item.messages.length > 0
+                  ? this.timeConvert(
+                      item.messages[item.messages.length - 1].time
+                    )
+                  : ""
+              }
+              message={
+                item.messages.length > 0
+                  ? item.messages[item.messages.length - 1].message
+                  : "Send your first message!"
+              }
               navigate={() => {
-                var attachment = 'attachment' in this.state ? this.state.attachment : null
-                this.setState({ attachment: null })
-                this.props.navigation.navigate("Chat", { chatID: item.chatID, userID: this.state.userID, name: item.name, data: item, attachment: attachment });
+                var attachment =
+                  "attachment" in this.state ? this.state.attachment : null;
+                this.setState({ attachment: null });
+                this.props.navigation.navigate("Chat", {
+                  chatID: item.chatID,
+                  userID: this.state.userID,
+                  name: item.name,
+                  data: item,
+                  attachment: attachment,
+                });
               }}
-              imgURL={item.userData.find(
-                (o) => o.userID == (item.userData.length == 2 ? "emma" : item.messages[item.messages.length - 1].userID)
-              ).imgURL}
+              imgURL={
+                item.userData.find(
+                  (o) =>
+                    o.userID ==
+                    (item.userData.length == 2
+                      ? "emma"
+                      : item.messages[item.messages.length - 1].userID)
+                ).imgURL
+              }
             />
           )}
         />
-        <View style={{
-          position: 'absolute',
-          bottom: "2%",
-          width: '100%',
-          flexDirection: 'row',
-          alignItems: 'center'
-        }}>
+        <View
+          style={{
+            position: "absolute",
+            bottom: "2%",
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           {this.state.attachment != null ? (
-            <View style={[shadowStyles.shadowDown, {
-              backgroundColor: colorScheme.primary,
-              height: 40,
-              width: 280,
-              borderRadius: 30,
-              position: 'absolute',
-              left: "8%",
-              alignItems: "center",
-              justifyContent: 'center',
-              bottom: 10,
-              flexDirection: 'row'
-            }]}>
-              <TouchableOpacity activeOpacity={.5}
+            <View
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor: colorScheme.primary,
+                  height: 40,
+                  width: 280,
+                  borderRadius: 30,
+                  position: "absolute",
+                  left: "8%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bottom: 10,
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <TouchableOpacity
+                activeOpacity={0.5}
                 onPress={() => {
-                  this.setState({ attachment: null})
+                  this.setState({ attachment: null });
                 }}
               >
-                <Text style={{ fontFamily: 'SemiBold', fontSize: 24, color: colorScheme.primaryText }}>X  </Text>
+                <Text
+                  style={{
+                    fontFamily: "SemiBold",
+                    fontSize: 24,
+                    color: colorScheme.primaryText,
+                  }}
+                >
+                  X{" "}
+                </Text>
               </TouchableOpacity>
               <Text style={textStyles.buttonText}>Select Chat To Send</Text>
             </View>
           ) : null}
 
-          <TouchableOpacity activeOpacity={.5}
-            style={[shadowStyles.shadowDown, {
-              backgroundColor: colorScheme.button,
-              height: 60,
-              width: 60,
-              borderRadius: 30,
-              position: 'absolute',
-              right: "2.5%",
-              bottom: 0,
-              alignItems: "center",
-            }]}
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={[
+              shadowStyles.shadowDown,
+              {
+                backgroundColor: colorScheme.button,
+                height: 60,
+                width: 60,
+                borderRadius: 30,
+                position: "absolute",
+                right: "2.5%",
+                bottom: 0,
+                alignItems: "center",
+              },
+            ]}
             onPress={() => {
               this.props.navigation.navigate("CreateChat");
             }}
@@ -181,7 +267,16 @@ export default class Chats extends Component {
           </TouchableOpacity>
         </View>
         {this.state.onboard != "false" ? (
-          <View style={{ position: 'absolute', height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,.3)', alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{
+              position: "absolute",
+              height: "100%",
+              width: "100%",
+              backgroundColor: "rgba(0,0,0,.3)",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <View
               style={[
                 {
@@ -201,15 +296,17 @@ export default class Chats extends Component {
                 ]}
               >
                 Have A Conversation
-            </Text>
+              </Text>
               <Text
                 style={[
                   textStyles.standardBodyText,
                   { width: "100%", textAlign: "center", marginTop: 10 },
                 ]}
               >
-                This is where you can talk to friends or your concierge, Emma, to create plans. Get started by entering a conversation or find something on discover!
-            </Text>
+                This is where you can talk to friends or your concierge, Emma,
+                to create plans. Get started by entering a conversation or find
+                something on discover!
+              </Text>
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[
@@ -224,8 +321,8 @@ export default class Chats extends Component {
                   shadowStyles.shadowDown,
                 ]}
                 onPress={() => {
-                  this.setState({ onboard: "false" })
-                  AsyncStorage.setItem("onboard", "false")
+                  this.setState({ onboard: "false" });
+                  AsyncStorage.setItem("onboard", "false");
                 }}
               >
                 <Text
@@ -239,7 +336,7 @@ export default class Chats extends Component {
                   ]}
                 >
                   I'm Ready
-              </Text>
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
