@@ -9,7 +9,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Plans from "../screens/Plans";
 import Venue from "../screens/venue";
 import PlanDetail from "../screens/PlanDetail";
-import CreatePlan from "../screens/CreatePlan";
 import Styling from "../global/headerStyling"; //If we can get this to work it will highly optimize navigation througout app
 import ProfileIcon from "../components/ProfileIcon";
 
@@ -56,19 +55,6 @@ const screens = {
             />
           </TouchableOpacity>
         ),
-      };
-    },
-  },
-  CreatePlan: {
-    screen: CreatePlan,
-    navigationOptions: ({ navigation }) => {
-      return {
-        title: "Plans",
-        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
-        headerTitleStyle: navigationStyles.headerTitle,
-        headerTitleAlign: "center",
-        headerShown: true,
-        headerTintColor: "white",
       };
     },
   },

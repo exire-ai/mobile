@@ -93,6 +93,25 @@ const plans = {
         callback(null);
       });
   },
+  update: function (planID, body, callback) {
+    fetch("http://api.exire.ai/plans/update/" + planID, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        callback(json);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback(null);
+      });
+  },
   getRecommendedGroup: function (users, callback) {
     console.log(users);
     fetch("http://api.exire.ai/plans/getRecommendedGroup/", {

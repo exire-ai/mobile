@@ -83,7 +83,7 @@ export default class Chat extends React.Component {
   sendMessage = (inputText) => {
     if (!this.state.recallCounter > 0) {
       this.addMessage(inputText, this.state.ownerID, [], "");
-      setTimeout(this.addIndicator, 250);
+      (this.addIndicator, 250);
     }
     dialogflow.sendMessage(this.state.userID, inputText, (data) => {
       var messagesClone = this.state.messages;

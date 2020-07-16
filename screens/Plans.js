@@ -11,7 +11,6 @@ import { useNavigationFocus, NavigationEvents } from "react-navigation";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import { Notifications } from "expo";
-// import * as Notifications from "expo-notifications";
 
 import Plan from "../components/Plan";
 
@@ -33,7 +32,7 @@ export default class Plans extends Component {
       data: null,
       refreshing: false,
       expoPushToken: "",
-      onboard: "false",
+      onboard: 'false'
     };
   }
 
@@ -57,7 +56,7 @@ export default class Plans extends Component {
       token = await Notifications.getExpoPushTokenAsync();
       AsyncStorage.getItem("userID").then((userID) => {
         users.updateExpoPushToken(userID, token, (res) => {
-          AsyncStorage.setItem("token", token);
+          AsyncStorage.setItem('token', token);
         });
       });
 
@@ -79,23 +78,12 @@ export default class Plans extends Component {
   componentDidMount() {
     this.props.navigation.addListener("willFocus", this.loadData);
     this.registerForPushNotificationsAsync();
-    Notifications.addListener((notification) => {
-      if (notification.origin === "received") {
-        console.log("App open already");
-        return;
-      }
-      let data = notification.data;
-      if (data.action === "open-chat") {
-        this.props.navigation.navigate("Chats", { toOpen: data.token });
-      }
-    });
-
     this.loadData();
-    AsyncStorage.getItem("onboard").then((onboard) => {
+    AsyncStorage.getItem("onboard").then(onboard => {
       this.setState({
-        onboard: onboard,
-      });
-    });
+        onboard: onboard
+      })
+    })
   }
 
   loadData = () => {
@@ -109,7 +97,7 @@ export default class Plans extends Component {
         var upcoming = [];
         var previous = [];
         for (var i = 0; i < response.length; i++) {
-          if (response[i].start_time > now) {
+          if (response[i] !== null && response[i].start_time > now) {
             upcoming.push(response[i]);
           } else {
             previous.push(response[i]);
@@ -144,11 +132,11 @@ export default class Plans extends Component {
         <View style={[plansStyles.container, { alignItems: "flex-start" }]}>
           <NavigationEvents
             onDidFocus={() => {
-              AsyncStorage.getItem("onboard").then((onboard) => {
+              AsyncStorage.getItem("onboard").then(onboard => {
                 this.setState({
-                  onboard: onboard,
-                });
-              });
+                  onboard: onboard
+                })
+              })
             }}
           />
           <View
@@ -157,10 +145,7 @@ export default class Plans extends Component {
               alignItems: "center",
               height: "100%",
               justifyContent: "center",
-              backgroundColor:
-                this.state.onboard != "false"
-                  ? "rgba(0,0,0,.3)"
-                  : "rgba(0,0,0,0)",
+              backgroundColor: this.state.onboard != 'false' ? "rgba(0,0,0,.3)" : "rgba(0,0,0,0)"
             }}
           >
             <View
@@ -189,7 +174,6 @@ export default class Plans extends Component {
                   { width: "100%", textAlign: "center", marginTop: 10 },
                 ]}
               >
-
                 {this.state.onboard != 'false' ? "Let's take a tour of the app to get you familiar with how it works!" : "Create your first plan through the discover on the left or through conversation on the right."}
               </Text>
               <TouchableOpacity
@@ -239,9 +223,7 @@ export default class Plans extends Component {
                 this.loadData();
               }}
               refreshing={this.state.refreshing}
-              keyExtractor={(item, index) =>
-                "name" + item.title + item.start_time
-              }
+              keyExtractor={(item, index) => "name" + item.title + item.start_time}
               renderItem={({ item, index }) => (
                 <Plan data={item} onTap={this.planTapped.bind(this)} />
               )}

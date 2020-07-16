@@ -10,13 +10,16 @@ import DateTime from "../screens/DateTime";
 import BookingInvite from "../screens/BookingInvite";
 import ReviewPurchase from "../screens/ReviewPurchase";
 import SelectPlan from "../screens/SelectPlan";
-import CreatePlan from "../screens/CreatePlan";
 
 import ProfileIcon from "../components/ProfileIcon";
+
+import { TouchableOpacity, Image, SafeAreaView } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 // Style Imports
 import { navigationStyles } from "../global/navigationStyles";
 import { shadowStyles } from "../global/shadowStyles";
+import { colorScheme } from "../global/colorScheme";
 
 const screens = {
   Discover: {
@@ -50,6 +53,19 @@ const screens = {
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
         headerTintColor: "white",
+        headerLeft: () => (
+          <TouchableOpacity activeOpacity={.5}
+            onPress={() => navigation.navigate("Discover")}
+            style={[navigationStyles.icon]}
+          >
+            <Icon
+              name="chevron-left"
+              color={colorScheme.primaryText}
+              size={32}
+              style={shadowStyles.shadowDown}
+            />
+          </TouchableOpacity>
+        ),
       };
     },
   },
@@ -63,6 +79,19 @@ const screens = {
         headerTitleAlign: "center",
         headerTitle: "Invite",
         headerTintColor: "white",
+        headerLeft: () => (
+          <TouchableOpacity activeOpacity={.5}
+            onPress={() => navigation.navigate("Discover")}
+            style={[navigationStyles.icon]}
+          >
+            <Icon
+              name="chevron-left"
+              color={colorScheme.primaryText}
+              size={32}
+              style={shadowStyles.shadowDown}
+            />
+          </TouchableOpacity>
+        ),
       };
     },
   },
@@ -89,22 +118,22 @@ const screens = {
         headerTitleAlign: "center",
         headerTitle: "Select Plan",
         headerTintColor: "white",
+        headerLeft: () => (
+          <TouchableOpacity activeOpacity={.5}
+            onPress={() => navigation.navigate("Discover")}
+            style={[navigationStyles.icon]}
+          >
+            <Icon
+              name="chevron-left"
+              color={colorScheme.primaryText}
+              size={32}
+              style={shadowStyles.shadowDown}
+            />
+          </TouchableOpacity>
+        ),
       };
     },
-  },
-  CreatePlan: {
-    screen: CreatePlan,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerShown: true,
-        headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
-        headerTitleStyle: navigationStyles.headerTitle,
-        headerTitleAlign: "center",
-        headerTitle: "Create Plan",
-        headerTintColor: "white",
-      };
-    },
-  },
+  }
 };
 
 const DiscoverStack = createStackNavigator(screens, {

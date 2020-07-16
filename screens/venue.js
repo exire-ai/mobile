@@ -202,7 +202,6 @@ export default class Venue extends Component {
 
   sendToChats = () => {
     this.props.navigation.pop();
-    console.log(this.state.venue)
     this.props.navigation.navigate('Chats', {
       object: {
         type: "online-event",
