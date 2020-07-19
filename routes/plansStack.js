@@ -39,7 +39,7 @@ const screens = {
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",
-        headerShown: false,
+        headerShown: true,
         headerTintColor: "white",
         headerLeft: () => (
           <TouchableOpacity
