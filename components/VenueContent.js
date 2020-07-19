@@ -10,6 +10,12 @@ export default class VenueContent extends Component {
     this.state = {
       venue: this.props.venue,
     };
+    if (this.props.hideRank == undefined) {
+      this.state.hideRank = false;
+    } else {
+      console.log(this.props.hideRank);
+      this.state.hideRank = this.props.hideRank;
+    }
   }
 
   titleTextView = (title, subtitle) => {
@@ -53,13 +59,41 @@ export default class VenueContent extends Component {
           {
             color: "#fff",
             fontFamily: "Bold",
-            fontSize: 18
+            fontSize: 18,
           },
           shadowStyles.shadowDown,
         ]}
       >
         {subtitle}
       </Text>
+    );
+  };
+
+  rankView = () => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          width: "100%",
+          position: "absolute",
+          top: 10,
+        }}
+      >
+        <Text
+          style={[
+            {
+              color: "#86f231",
+              position: "absolute",
+              right: 10,
+              fontFamily: "Bold",
+              fontSize: 15,
+            },
+            shadowStyles.shadowDown,
+          ]}
+        >
+          {Math.ceil(this.state.venue.rank)}% Match
+        </Text>
+      </View>
     );
   };
   render() {
@@ -84,29 +118,8 @@ export default class VenueContent extends Component {
             this.props.onTap(this.state.venue);
           }}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              width: "100%",
-              position: "absolute",
-              top: 10,
-            }}
-          >
-            <Text
-              style={[
-                {
-                  color: "#86f231",
-                  position: "absolute",
-                  right: 10,
-                  fontFamily: "Bold",
-                  fontSize: 15,
-                },
-                shadowStyles.shadowDown,
-              ]}
-            >
-              {Math.ceil(this.state.venue.rank)}% Match
-            </Text>
-          </View>
+          {!this.state.hideRank ? this.rankView() : null}
+
           <View
             style={{
               flexDirection: "column",
