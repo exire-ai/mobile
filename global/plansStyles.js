@@ -8,7 +8,6 @@ export const plansStyles = StyleSheet.create({
     backgroundColor: colorScheme.background
   },
   list: {
-    flex: 1,
     width: "100%",
   },
   newPlan: {

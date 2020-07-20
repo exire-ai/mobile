@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import MainStack from "./routes/mainStack";
+import {BackdropProvider} from 'react-native-propel-kit';
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 
@@ -36,7 +37,9 @@ export default function App() {
     return <MainStack />;
   } else {
     return (
-      <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
+      <BackdropProvider>
+        <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
+      </BackdropProvider>
     );
   }
 }

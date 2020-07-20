@@ -1,17 +1,55 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity, AsyncStorage, FlatList, Alert, TextInput } from "react-native";
-import DateFormatter from "../global/DateFormatter";
+import { DateTimePicker } from 'react-native-propel-kit';
 import _ from "lodash";
 import { colorScheme } from "../global/colorScheme";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { plansStyles } from "../global/plansStyles";
+import { signInStyles } from "../global/signInStyles";
 import Plan from "../components/Plan";
 import users from "../functions/users";
 import plans from "../functions/plans";
-import { ContactTypes } from "expo-contacts";
 
-var formatter = new DateFormatter();
+const nameDict = {
+  artmuseums: ["Art", "🎨"],
+  museums: ["Museums", "🖼️"],
+  wine_bars: ["Wine", "🍷"],
+  speakeasies: ["Speakeasies", "🥃"],
+  japanese: ["Japanese", "🍱"],
+  bars: ["Bars", "🍺"],
+  barbeque: ["Barbeque", "🍖"],
+  extreme: ["Extreme", "🧨"],
+  cafe: ["Cafe", "☕"],
+  bakeries: ["Bakeries", "🥖"],
+  danceclubs: ["Clubs", "​🍾​"],
+  tea: ["Tea", "🍵"],
+  chinese: ["Chinese", "🥡"],
+  newamerican: ["American", "🥩"],
+  poke: ["Poke", "🍚"],
+  acaibowl: ["Acai", "🍓"],
+  burgers: ["Burgers", "🍔"],
+  dancing: ["Dancing", "💃"],
+  pizza: ["Pizza", "🍕"],
+  yoga: ["Yoga", "🧘"],
+  karaoke: ["Karaoke", "🎤"],
+  icecream: ["Ice Cream", "🍦"],
+  arcades: ["Arcades", "👾"],
+  mexican: ["Mexican", "🌮"],
+  oriental: ["Indian", "🇮🇳"],
+  sushi: ["Sushi", "🍣"],
+  markets: ["Markets", "🏬"],
+  parks: ["Parks", "🌲"],
+  sandwiches: ["Sandwiches", "🥪"],
+  artgalleries: ["Galleries", "🖌️"],
+  gelato: ["Gelato", "🍨"],
+  italian: ["Italian", "🍝"],
+  spa: ["Spa", "🧖‍♀️"],
+  cocktailbars: ["Cocktails", "🍸"],
+  pubs: ["Pubs", "🍻"],
+  rockclimbing: ["Rock Climbing", "🧗"],
+  comedyclubs: ["Comedy Clubs", "🤣"],
+};
 
 export default class SelectPlan extends Component {
 
@@ -22,7 +60,12 @@ export default class SelectPlan extends Component {
       data: [],
       selected: '',
       selectedData: {},
-      create: false
+      create: false,
+      planName: '',
+      planDescription: '',
+      placeholder: 'Name Plan',
+      descPlaceholder: '',
+      date: new Date()
     }
   }
 
@@ -31,13 +74,18 @@ export default class SelectPlan extends Component {
   }
 
   loadData = () => {
-    formatter.unixToDate(1590519261);
+    const category = this.props.navigation.state.params.venue.subcategory;
+    const placeholder = Object.keys(nameDict).includes(category) ? nameDict[category][0] : 'Name Plan';
+    var descPlaceholder = this.props.navigation.state.params.venue.description;
+    descPlaceholder = descPlaceholder !== '' ? descPlaceholder : 'Enter Description'
+    this.setState({ placeholder, descPlaceholder });
+
     AsyncStorage.getItem("userID").then((userID) => {
       users.getPlans(userID, (response) => {
-        var now = Math.round(new Date().getTime());
+        var now = Math.round(new Date().getTime() * 1000);
         var upcoming = [];
         for (var i = 0; i < _.get(response, 'length', 0); i++) {
-          if (response[i] !== null && response[i].start_time > now) {
+          if (response[i] !== null && response[i].startUNIX > now) {
             upcoming.push(response[i]);
           }
         }
@@ -92,33 +140,64 @@ export default class SelectPlan extends Component {
   }
 
   render() {
-    // switch data to upcmoning
     if (this.state.data.length === 0 || this.state.create) {
       return (
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Text>Create Plan</Text>
-          <TextInput />
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => this.props.navigation.state.params.createPlan(this.props.navigation.state.params.venue)}
-            style={[
-              shadowStyles.shadowDown,
-              {
-                height: 50,
-                marginTop: 10,
-                backgroundColor: colorScheme.activeButton,
-                justifyContent: "center",
-                alignItems: "center",
-                width: "90%",
-                borderRadius: 10,
-                shadowRadius: 10,
-                shadowOffset: { width: 0, height: 2 },
-                marginBottom: 10,
-              },
-            ]}
-          >
-            <Text style={textStyles.buttonText}>Done</Text>
-          </TouchableOpacity>
+        <View style={[plansStyles.container, { alignItems: 'center' }]}>
+            <TextInput
+              style={[signInStyles.input, { marginTop: 20 }]}
+              keyboardType={"default"}
+              placeholder={this.state.placeholder}
+              textAlign={"center"}
+              onChangeText={(text) => { this.setState({ planName: text }) }}
+              value={this.state.planName}
+              selectionColor={colorScheme.button}
+              placeholderTextColor={colorScheme.lesserDarkText}
+            />
+            <TextInput
+              style={[signInStyles.input, { marginTop: 0, fontSize: 14 }]}
+              keyboardType={"default"}
+              placeholder={this.state.descPlaceholder}
+              textAlign={"center"}
+              onChangeText={(text) => { this.setState({ planDescription: text }) }}
+              value={this.state.planDescription}
+              selectionColor={colorScheme.button}
+              placeholderTextColor={colorScheme.lesserDarkText}
+              multiline
+            />
+            <View>
+              <DateTimePicker 
+                title="Pick a date" 
+                value={this.state.date} 
+                onChange={date => this.setState({ date })} 
+              />
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => this.props.navigation.state.params.createPlan({ 
+                ...this.props.navigation.state.params.venue,
+                startUNIX: this.state.date.getTime(),
+                title: this.state.planName !== '' ? this.state.planName : this.state.placeholder,
+                description: this.state.planDescription !== '' ? this.state.planDescription : this.state.descPlaceholder
+              })}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  height: 50,
+                  marginTop: 10,
+                  backgroundColor: colorScheme.activeButton,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "90%",
+                  borderRadius: 10,
+                  shadowRadius: 10,
+                  shadowOffset: { width: 0, height: 2 },
+                  position: 'absolute',
+                  bottom: 30
+                },
+              ]}
+            >
+              <Text style={textStyles.buttonText}>Done</Text>
+            </TouchableOpacity>
         </View>
       )
     } else {

@@ -87,7 +87,6 @@ export default class Plans extends Component {
   }
 
   loadData = () => {
-    formatter.unixToDate(1590519261);
     this.setState({
       refreshing: true,
     });
@@ -97,7 +96,7 @@ export default class Plans extends Component {
         var upcoming = [];
         var previous = [];
         for (var i = 0; i < response.length; i++) {
-          if (response[i] !== null && response[i].start_time > now) {
+          if (response[i] !== null && response[i].startUNIX > now) {
             upcoming.push(response[i]);
           } else {
             previous.push(response[i]);
