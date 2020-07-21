@@ -96,7 +96,7 @@ export default class Plans extends Component {
         var upcoming = [];
         var previous = [];
         for (var i = 0; i < response.length; i++) {
-          if (response[i] !== null && response[i].startUNIX > now) {
+          if (response[i] !== null && response[i].startUNIX * 1000 > now) {
             upcoming.push(response[i]);
           } else {
             previous.push(response[i]);
