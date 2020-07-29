@@ -59,6 +59,11 @@ export default class Plan extends Component {
   componentDidMount() {
     const data = this.props.data;
     const images = data.ids.map(o => o.imgURL);
+    if (!this.props.sendToChats) {
+      console.log("chat", this.props.data)
+    } else {
+      console.log("plans", this.props.data)
+    }
     this.setState({
       images: images,
       image: images[0]

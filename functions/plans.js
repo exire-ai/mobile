@@ -135,8 +135,8 @@ const plans = {
         callback(false);
       });
   },
-  get: function (planID, callback) {
-    fetch("http://api.exire.ai/plans/get/" + planID, {
+  get: function (planID, populate, callback) {
+    fetch("http://api.exire.ai/plans/get/" + planID + (populate ? '?populate=true' : ''), {
       method: "GET",
       headers: {
         Accept: "application/json",

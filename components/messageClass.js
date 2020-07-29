@@ -3,6 +3,7 @@ import { View, Text, ImageBackground, FlatList, TouchableOpacity } from "react-n
 import _ from "lodash";
 
 // Styles Imports
+import Plan from "./Plan";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme"
 import { messagesStyles } from "../global/messagesStyles";
@@ -79,11 +80,12 @@ export class MessageClass extends React.Component {
       time: this.props.time,
       imgURL: this.props.imgURL,
       special: {},
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
+      loading: true
     }
+
     if (_.has(this.props.special, 'venues')) {
-      this.setState({
-        special: {
+      this.state.special = {
           venues: this.props.special.venues.map(x => {
             return {
               cost: 0,
@@ -93,11 +95,14 @@ export class MessageClass extends React.Component {
             }
           })
         }
-      })
     } else if (_.has(this.props.special, 'plan')) {
-      this.setState({
-        special: { plan: {} }
-      })
+      this.state.special = { plan: {
+        planID: '',
+        title: '',
+        users: [],
+        startUNIX: 0,
+        ids: []
+      } }
     }
   }
 
@@ -108,18 +113,21 @@ export class MessageClass extends React.Component {
   };
 
   componentDidMount() {
+
     if (_.has(this.props.special, 'venues')) {
       plans.getByList(this.props.special.venues, venues => {
         this.setState({
           special: {
-            venues: venues
+            venues,
+            loading: false
           }
         })
       })
     } else if (_.has(this.props.special, "plan")) {
-      plans.get(this.props.special.plan, data => {
+      plans.get(this.props.special.plan, true, plan => {
         this.setState({
-          plan: data
+          plan,
+          loading: false
         })
       })
     }
@@ -163,8 +171,8 @@ export class MessageClass extends React.Component {
           <Venues special={this.state.special} navigation={this.props.navigation} />
           : false
         }
-        {_.has(this.state.special, "plan") && typeof this.state.special.plan !== 'string' ?
-            <Plan data={this.state.plan} onTap={this.planTapped.bind(this)} sendToChats={false} />
+        {!this.state.loading && _.has(this.state.special, "plan")?
+            <Plan data={this.state.special.plan} onTap={this.planTapped.bind(this)} sendToChats={false} />
           : false
         }
       </View>
