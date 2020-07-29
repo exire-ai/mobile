@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ImageBackground, FlatList, TouchableOpacity } from "react-native";
+import _ from "lodash";
 
 // Styles Imports
 import { shadowStyles } from "../global/shadowStyles";
@@ -10,67 +11,61 @@ import events from "../functions/events";
 import plans from "../functions/plans";
 
 function Venues({ special, navigation }) {
-  if (special.hasOwnProperty("venues")) {
-    return (
-      <View
-        style={{
-          marginBottom: 10,
-          marginTop: 5,
-        }}
-      >
-        <FlatList
-          horizontal={true}
-          data={special.venues}
-          scrollEnabled={special.venues.length > 2}
-          showsHorizontalScrollIndicator={false}
-          style={{ paddingLeft: 15 }}
-          keyExtractor={(item, index) => "key" + index}
-          renderItem={({ item }) => (
-            <View style={[{ paddingRight: 5 }, shadowStyles.shadowDown]}>
-              <TouchableOpacity activeOpacity={.5}
-                onPress={() => {
-                  if (item.placeID != null) {
-                    venues.get(item.placeID, (venue) => {
-                      console.log(venue)
-                      navigation.navigate("Venue", venue)
-                    })
-                  } else if (item.eventID != null) {
-                    events.get(item.eventID, (venue) => {
-                      navigation.navigate("Venue", venue)
-                    })
-                  }
-                }}
-                style={messagesStyles.venueContainer}
+  return (
+    <View
+      style={{
+        marginBottom: 10,
+        marginTop: 5,
+      }}
+    >
+      <FlatList
+        horizontal={true}
+        data={special.venues}
+        scrollEnabled={special.venues.length > 2}
+        showsHorizontalScrollIndicator={false}
+        style={{ paddingLeft: 15 }}
+        keyExtractor={(item, index) => "key" + index}
+        renderItem={({ item }) => (
+          <View style={[{ paddingRight: 5 }, shadowStyles.shadowDown]}>
+            <TouchableOpacity activeOpacity={.5}
+              onPress={() => {
+                if (item.placeID != null) {
+                  venues.get(item.placeID, (venue) => {
+                    console.log(venue)
+                    navigation.navigate("Venue", venue)
+                  })
+                } else if (item.eventID != null) {
+                  events.get(item.eventID, (venue) => {
+                    navigation.navigate("Venue", venue)
+                  })
+                }
+              }}
+              style={messagesStyles.venueContainer}
+            >
+              <ImageBackground
+                source={{ uri: item.imgURL }}
+                style={messagesStyles.venueImage}
               >
-                <ImageBackground
-                  source={{ uri: item.imgURL }}
-                  style={messagesStyles.venueImage}
-                >
-                  <View style={messagesStyles.venueContent}>
-                    <Text style={messagesStyles.venueText}>
-                      {item.title + "\n"}
-                      <Text style={{ fontFamily: 'Bold', fontSize: 15 }}>{item.cost > 15
-                        ? item.cost > 30
-                          ? item.cost > 60
-                            ? "$$$$"
-                            : "$$$"
-                          : "$$"
-                        : "$"}
-                      </Text>
+                <View style={messagesStyles.venueContent}>
+                  <Text style={messagesStyles.venueText}>
+                    {item.title + "\n"}
+                    <Text style={{ fontFamily: 'Bold', fontSize: 15 }}>{item.cost > 15
+                      ? item.cost > 30
+                        ? item.cost > 60
+                          ? "$$$$"
+                          : "$$$"
+                        : "$$"
+                      : "$"}
                     </Text>
-                  </View>
-                </ImageBackground>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-      </View>
-    )
-  } else {
-    return (
-      <View />
-    )
-  }
+                  </Text>
+                </View>
+              </ImageBackground>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
+  )
 }
 
 
@@ -83,39 +78,57 @@ export class MessageClass extends React.Component {
       message: this.props.message,
       time: this.props.time,
       imgURL: this.props.imgURL,
-      special: {
-        venues: this.props.special.venues.map(x => {
-          return {
-            cost: 0,
-            imgURL: "https://www.cabinetmakerwarehouse.com/wp-content/uploads/9242-gull-grey.jpg",
-            title: "",
-            placeID: x
-          }
-        })
-      },
+      special: {},
       navigation: this.props.navigation
+    }
+    if (_.has(this.props.special, 'venues')) {
+      this.setState({
+        special: {
+          venues: this.props.special.venues.map(x => {
+            return {
+              cost: 0,
+              imgURL: "https://www.cabinetmakerwarehouse.com/wp-content/uploads/9242-gull-grey.jpg",
+              title: "",
+              placeID: x
+            }
+          })
+        }
+      })
+    } else if (_.has(this.props.special, 'plan')) {
+      this.setState({
+        special: { plan: {} }
+      })
     }
   }
 
+  planTapped = (item) => {
+    if (item.ids.length !== 0) {
+      this.props.navigation.navigate("PlanDetail", { plan: item, sendToChats: false });
+    }
+  };
+
   componentDidMount() {
-    plans.getByList(this.props.special.venues, venues => {
-      this.setState({
-        special: {
-          venues: venues
-        }
+    if (_.has(this.props.special, 'venues')) {
+      plans.getByList(this.props.special.venues, venues => {
+        this.setState({
+          special: {
+            venues: venues
+          }
+        })
       })
-    })
+    } else if (_.has(this.props.special, "plan")) {
+      plans.get(this.props.special.plan, data => {
+        this.setState({
+          plan: data
+        })
+      })
+    }
   }
 
   render() {
-    if (this.state.message.includes("@Emma")) {
-      var temp = this.state.message.split("@Emma")
-    } else {
-      var temp = this.state.message.split("@emma")
-    }
+    const temp = this.state.message.includes("@Emma") ? this.state.message.split("@Emma") : this.state.message.split("@emma");
 
-    var message;
-
+    let message;
     if (temp.length == 2) {
       message = (
         <Text style={[messagesStyles.text, { marginTop: -1 }]}>
@@ -146,7 +159,14 @@ export class MessageClass extends React.Component {
             {message}
           </View>
         </View>
-        <Venues special={this.state.special} navigation={this.props.navigation} />
+        {_.has(this.state.special, "venues") ?
+          <Venues special={this.state.special} navigation={this.props.navigation} />
+          : false
+        }
+        {_.has(this.state.special, "plan") && typeof this.state.special.plan !== 'string' ?
+            <Plan data={this.state.plan} onTap={this.planTapped.bind(this)} sendToChats={false} />
+          : false
+        }
       </View>
     )
     return MessageObj

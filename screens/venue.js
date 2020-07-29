@@ -203,13 +203,27 @@ export default class Venue extends Component {
 
   sendToChats = () => {
     this.props.navigation.pop();
-    this.props.navigation.navigate('Chats', {
-      object: {
-        type: "online-event",
-        placeID: this.state.venue.eventID,
-        title: this.state.venue.title
+    const venue = this.state.venue;
+    var body = {}
+    if (_.has(venue, "placeID")) {
+      body = { 
+        venue: venue.placeID,
+        type: 'venue'
       }
-    })
+    } else if (_.has(venue, "eventID")) {
+      body = { 
+        'online-event': venue.eventID, 
+        type: "online-event",
+      }
+    }
+    if (body !== {}) {
+      this.props.navigation.navigate('Chats', {
+        object: {
+          title: this.state.venue.title,
+          ...body
+        }
+      })
+    }
   };
 
   render() {

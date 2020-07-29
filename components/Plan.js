@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
-import _, { fromPairs } from "lodash";
+import _ from "lodash";
 
 // Style Imports
 import { shadowStyles } from "../global/shadowStyles";

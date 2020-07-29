@@ -1,4 +1,4 @@
-import React, { setState, useCallback, useEffect } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   AsyncStorage,
   Text,
 } from "react-native";
+import _ from "lodash";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 import { Message } from "../components/message";
@@ -116,26 +117,35 @@ export default class Chat extends React.Component {
         });
         this.checkSize(true);
         if (this.props.navigation.state.params.attachment != null) {
-          var message = {
-            userID: this.state.userID,
-            message: "Sent ".concat(
-              this.props.navigation.state.params.attachment.title
-            ),
-            time: Math.round(new Date().getTime()),
-            special: {
-              venues: [this.props.navigation.state.params.attachment.placeID],
-            },
+          var attachment = this.props.navigation.state.params.attachment;
+          var special = {};
+          if (attachment.type === "plan") {
+            special = { plan: attachment.planID }
+          } else if (attachment.type === "online-event") {
+            special = { venues: [attachment.eventID] }
+          } else if (_.has(attachment, "venue")) {
+            special = { venues: [attachment.venue] }
           };
-          this.addMessage(message);
-          var messages = this.state.messages;
-          if (this.state.inverse == 1) {
-            messages.push(message);
-          } else {
-            messages.unshift(message);
+          if (special !== {}) {
+            var message = {
+              userID: this.state.userID,
+              message: "Sent ".concat(
+                attachment.title
+              ),
+              time: Math.round(new Date().getTime()),
+              special
+            };
+            this.addMessage(message);
+            var messages = this.state.messages;
+            if (this.state.inverse == 1) {
+              messages.push(message);
+            } else {
+              messages.unshift(message);
+            }
+            this.setState({
+              messages: messages,
+            });
           }
-          this.setState({
-            messages: messages,
-          });
         }
       });
   };
@@ -172,7 +182,6 @@ export default class Chat extends React.Component {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           var data = doc.data().userData;
-          console.log();
           data = data.filter(function (o) {
             return o.number != userData.number;
           });
@@ -390,7 +399,7 @@ export default class Chat extends React.Component {
             keyExtractor={(item, index) => "time" + item.time}
             inverted={this.state.inverse == 1 ? false : -1}
             renderItem={({ item, index }) => {
-              if (item.special.hasOwnProperty("venues")) {
+              if (item.special.hasOwnProperty("venues") || item.special.hasOwnProperty("plan") ) {
                 return (
                   <MessageClass
                     message={item.message}

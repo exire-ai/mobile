@@ -4,20 +4,15 @@ import {
   Text,
   StyleSheet,
   ImageBackground,
-  Keyboard,
   TouchableOpacity,
-  Linking,
   Image,
-  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
-import InAppBrowser from "react-native-inappbrowser-reborn";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { navigationStyles } from "../global/navigationStyles";
 import { colorScheme } from "../global/colorScheme";
-import { nameDict } from "../global/categoryNames";
 import DateFormatter from "../global/DateFormatter";
 
 var formatter = new DateFormatter();

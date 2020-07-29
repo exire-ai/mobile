@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TextInput, AsyncStorage, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 var uuid = require("uuid");
+import _ from "lodash";
 import users from "../functions/users";
 import { signInStyles } from "../global/signInStyles";
 import { navigationStyles } from "../global/navigationStyles";
@@ -33,7 +34,7 @@ export default function TextVerification({ navigation }) {
           AsyncStorage.setItem("userID", result.userID);
           AsyncStorage.setItem("name", result.name);
           AsyncStorage.setItem("number", data.number);
-          AsyncStorage.setItem("profileImg", profileImg)
+          AsyncStorage.setItem("profileImg", _.get(result, 'profileImg', profileImg));
           navigation.navigate("HomeStack");
         });
       }

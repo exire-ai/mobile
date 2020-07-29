@@ -5,25 +5,17 @@ import {
   FlatList,
   TouchableOpacity,
   AsyncStorage,
-  Image,
 } from "react-native";
-import { useNavigationFocus, NavigationEvents } from "react-navigation";
+import { NavigationEvents } from "react-navigation";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import { Notifications } from "expo";
-
 import Plan from "../components/Plan";
-
 import users from "../functions/users";
-import venues from "../functions/venues";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { plansStyles } from "../global/plansStyles";
 import { colorScheme } from "../global/colorScheme";
-
-import DateFormatter from "../global/DateFormatter";
-
-var formatter = new DateFormatter();
 
 export default class Plans extends Component {
   constructor(props) {
@@ -36,13 +28,23 @@ export default class Plans extends Component {
     };
   }
 
+  sendToChats = (planID, title) => {
+    this.props.navigation.pop();
+    this.props.navigation.navigate('Chats', {
+      object: {
+        type: "plan",
+        planID,
+        title
+      }
+    })
+  };
+
   registerForPushNotificationsAsync = async () => {
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(
         Permissions.NOTIFICATIONS
       );
       let finalStatus = existingStatus;
-      console.log(finalStatus);
       if (existingStatus !== "granted") {
         const { status } = await Permissions.askAsync(
           Permissions.NOTIFICATIONS
@@ -117,7 +119,7 @@ export default class Plans extends Component {
 
   planTapped = (item) => {
     if (item.ids.length !== 0) {
-      this.props.navigation.navigate("PlanDetail", item);
+      this.props.navigation.navigate("PlanDetail", { plan: item, sendToChats: this.sendToChats });
     }
   };
 
@@ -235,7 +237,7 @@ export default class Plans extends Component {
                 "name" + item.title + item.start_time
               }
               renderItem={({ item, index }) => (
-                <Plan data={item} onTap={this.planTapped.bind(this)} />
+                <Plan data={item} onTap={this.planTapped.bind(this)} sendToChats={this.sendToChats} />
               )}
             />
           ) : null}
@@ -253,7 +255,7 @@ export default class Plans extends Component {
               refreshing={this.state.refreshing}
               keyExtractor={(item, index) => "name" + item.planID + index}
               renderItem={({ item, index }) => (
-                <Plan data={item} onTap={this.planTapped.bind(this)} />
+                <Plan data={item} onTap={this.planTapped.bind(this)} sendToChats={this.sendToChats} />
               )}
             />
           ) : null}
