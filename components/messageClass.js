@@ -86,23 +86,25 @@ export class MessageClass extends React.Component {
 
     if (_.has(this.props.special, 'venues')) {
       this.state.special = {
-          venues: this.props.special.venues.map(x => {
-            return {
-              cost: 0,
-              imgURL: "https://www.cabinetmakerwarehouse.com/wp-content/uploads/9242-gull-grey.jpg",
-              title: "",
-              placeID: x
-            }
-          })
-        }
+        venues: this.props.special.venues.map(x => {
+          return {
+            cost: 0,
+            imgURL: "https://www.cabinetmakerwarehouse.com/wp-content/uploads/9242-gull-grey.jpg",
+            title: "",
+            placeID: x
+          }
+        })
+      }
     } else if (_.has(this.props.special, 'plan')) {
-      this.state.special = { plan: {
-        planID: '',
-        title: '',
-        users: [],
-        startUNIX: 0,
-        ids: []
-      } }
+      this.state.special = {
+        plan: {
+          planID: '',
+          title: '',
+          users: [],
+          startUNIX: 0,
+          ids: []
+        }
+      }
     }
   }
 
@@ -129,6 +131,7 @@ export class MessageClass extends React.Component {
           plan,
           loading: false
         })
+        console.log(this.state.plan)
       })
     }
   }
@@ -167,14 +170,16 @@ export class MessageClass extends React.Component {
             {message}
           </View>
         </View>
-        {_.has(this.state.special, "venues") ?
-          <Venues special={this.state.special} navigation={this.props.navigation} />
-          : false
-        }
-        {!this.state.loading && _.has(this.state.special, "plan")?
-            <Plan data={this.state.special.plan} onTap={this.planTapped.bind(this)} sendToChats={false} />
-          : false
-        }
+        <View style={[shadowStyles.shadowUp, { width: '100%', marginBottom: 5 }]}>
+          {_.has(this.state.special, "venues") ?
+            <Venues special={this.state.special} navigation={this.props.navigation} />
+            : false
+          }
+          {!this.state.loading && _.get(this.state, 'plan.ids.length', 0) > 0 ?
+            <Plan data={this.state.plan} onTap={this.planTapped.bind(this)} sendToChats={false} />
+            : false
+          }
+        </View>
       </View>
     )
     return MessageObj

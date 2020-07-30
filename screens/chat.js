@@ -534,6 +534,6 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "100%",
-    marginBottom: 10,
+    paddingBottom: 20,
   },
 });
