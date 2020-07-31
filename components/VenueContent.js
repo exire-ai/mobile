@@ -13,7 +13,6 @@ export default class VenueContent extends Component {
     if (this.props.hideRank == undefined) {
       this.state.hideRank = false;
     } else {
-      console.log(this.props.hideRank);
       this.state.hideRank = this.props.hideRank;
     }
   }

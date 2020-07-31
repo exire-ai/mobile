@@ -113,7 +113,6 @@ const plans = {
       });
   },
   getRecommendedGroup: function (users, callback) {
-    console.log(users);
     fetch("http://api.exire.ai/plans/getRecommendedGroup/", {
       method: "POST",
       headers: {
@@ -127,7 +126,6 @@ const plans = {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         callback(responseJson);
       })
       .catch((error) => {

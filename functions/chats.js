@@ -13,7 +13,6 @@ const chats = {
     callback
   ) {
     var db = firebase.firestore();
-    console.log(otherUsers);
     var users = [];
     var userData = [];
     var chatID = uuid.v4();

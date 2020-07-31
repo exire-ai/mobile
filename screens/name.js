@@ -24,7 +24,6 @@ export default function Name({ navigation }) {
       AsyncStorage.setItem("profileImg", profileImg)
       AsyncStorage.setItem("onboard", 'true')
       chats.createChat("Emma (Personal Concierge)", value, userID, number, profileImg, [], (docID, chatID) => {
-        console.log(docID, chatID)
         navigation.navigate("ActivityPreference", {
           userID: userID,
           categories: categories,

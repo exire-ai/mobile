@@ -145,6 +145,23 @@ export default class Chat extends React.Component {
             this.setState({
               messages: messages,
             });
+
+                // Send Notification
+            let user = this.state.users.find((o) => o.userID == message.userID);
+            var tokens = this.state.users
+              .filter((o) => "token" in o)
+              .filter((o) => o.userID !== message.userID)
+              .map((o) => o.token);
+
+            notifs.sendNotif(
+              1000,
+              this.state.name,
+              user.name + ": " + message.message,
+              tokens,
+              (res) => {
+                console.log(res);
+              }
+            );
           }
         }
       });

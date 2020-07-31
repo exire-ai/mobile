@@ -6,13 +6,11 @@ import { colorScheme } from "../global/colorScheme";
 import DateFormatter from "../global/DateFormatter";
 
 var formatter = new DateFormatter();
-console.log(formatter.getCurrentDate());
 
 export default class ReviewPurchase extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.navigation.state.params);
     this.state = {
       booking: this.props.navigation.state.params.booking,
       numAttendees: this.props.navigation.state.params.numAttendees,

@@ -108,37 +108,6 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
   },
 });
 
-// const HomeStack = createStackNavigator({
-//   HomeTab: {
-//     screen: HomeTab,
-//     navigationOptions: ({ navigation }) => {
-//       return {
-//         headerShown: true,
-//         title: ["Discover", "Plans", "Chats"][navigation.state.index],
-//         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
-//         headerTitleStyle: navigationStyles.headerTitle,
-//         headerTitleAlign: "center",
-//         headerLeft: () => (
-//           <TouchableOpacity activeOpacity={.5}
-//             onPress={() => {
-//               console.log("open");
-//               navigation.toggleDrawer();
-//             }}
-//             style={navigationStyles.icon}
-//           >
-//             <Icon
-//               name="user-circle"
-//               color={colorScheme.primaryText}
-//               size={32}
-//               style={shadowStyles.shadowDown}
-//             />
-//           </TouchableOpacity>
-//         ),
-//       };
-//     },
-//   },
-// });
-
 const MainDrawerNavigator = createDrawerNavigator(
   {
     Home: {

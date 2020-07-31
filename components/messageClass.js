@@ -32,7 +32,6 @@ function Venues({ special, navigation }) {
               onPress={() => {
                 if (item.placeID != null) {
                   venues.get(item.placeID, (venue) => {
-                    console.log(venue)
                     navigation.navigate("Venue", venue)
                   })
                 } else if (item.eventID != null) {
@@ -131,7 +130,6 @@ export class MessageClass extends React.Component {
           plan,
           loading: false
         })
-        console.log(this.state.plan)
       })
     }
   }
@@ -170,7 +168,7 @@ export class MessageClass extends React.Component {
             {message}
           </View>
         </View>
-        <View style={[shadowStyles.shadowUp, { width: '100%', marginBottom: 5 }]}>
+        <View style={[shadowStyles.shadowUp, { width: '100%', marginBottom: 2 }]}>
           {_.has(this.state.special, "venues") ?
             <Venues special={this.state.special} navigation={this.props.navigation} />
             : false

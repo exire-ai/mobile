@@ -42,7 +42,6 @@ async function openLink(url) {
         enableDefaultShare: true,
         forceCloseOnRedirection: true,
       }).then((result) => {
-        // console.log(JSON.stringify(result))
       });
     } else Linking.openURL(url);
   } catch (error) {
@@ -158,7 +157,6 @@ export default class Venue extends Component {
 
   createPlan = (venue, start=Math.round(new Date().getTime())) => {
     //Only called on one-time free online events
-    console.log(venue)
     AsyncStorage.getItem("userID").then((value) => {
       //Create plan object
       var booking = {
@@ -189,13 +187,9 @@ export default class Venue extends Component {
       plans.create(plan, (planID) => {
         if (planID != false && planID != null) {
           //Add PlanID to user list
-          console.log(planID)
           users.addPlan(value, planID, (res) => {
-            console.log(res);
             this.exitToPlans();
           });
-        } else {
-          console.log(planID);
         }
       });
     });

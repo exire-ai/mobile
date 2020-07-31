@@ -160,7 +160,6 @@ export default class CategoryPreference extends React.Component {
   }
 
   next = (selected) => {
-    console.log(selected)
     if (selected.length > 2) {
       var temp = this.props.navigation.state.params.selected
       selected = temp.concat(selected);
@@ -169,8 +168,6 @@ export default class CategoryPreference extends React.Component {
         AsyncStorage.setItem("userID", userID);
         this.props.navigation.navigate("HomeStack");
       });
-    } else {
-      console.log("Not enough selected")
     }
   };
 

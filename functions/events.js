@@ -1,6 +1,5 @@
 const events = {
     get: function(eventID, callback) {
-        console.log(eventID)
       fetch("https://exire-backend.herokuapp.com/events/get/" + eventID, {
         method: "GET"
       })

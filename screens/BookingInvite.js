@@ -7,7 +7,6 @@ import { colorScheme } from "../global/colorScheme";
 export default class BookingInvite extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.navigation.state.params.booking);
     this.state = {
       booking: this.props.navigation.state.params.booking,
       venue: this.props.navigation.state.params.venue,

@@ -14,7 +14,6 @@ export default class ProfileIcon extends Component {
     return (
       <TouchableOpacity activeOpacity={.5}
         onPress={() => {
-          console.log("open");
           this.props.navigation.toggleDrawer();
         }}
         style={navigationStyles.icon}
