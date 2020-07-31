@@ -30,7 +30,7 @@ export default function Chat({
         </View>
         <View style={{ flex: 1, paddingTop: 8, paddingLeft: 8 }}>
           <View style={{ flexDirection: "row", width: "100%", alignItems: "center" }}>
-            <Text style={chatsStyles.name}>{name}</Text>
+            <Text style={chatsStyles.name}>{name.length >= 28 ? name.slice(0, 27) + "..." : name}</Text>
             <Text style={[chatsStyles.text, { position: "absolute", right: 10 }]}>{time}</Text>
           </View>
           <Text numberOfLines={1} style={[chatsStyles.text, { marginTop: -1 }]}>{message}</Text>

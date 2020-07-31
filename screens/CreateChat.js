@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Text, View, TouchableOpacity, AsyncStorage, KeyboardAvoidingView, TextInput } from "react-native";
+import { Text, View, TouchableOpacity, AsyncStorage, KeyboardAvoidingView, TextInput, FlatList } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import chats from "../functions/chats"
 import { colorScheme } from "../global/colorScheme"
@@ -7,7 +7,6 @@ import { shadowStyles } from "../global/shadowStyles"
 import { textStyles } from "../global/textStyles"
 import { signInStyles } from "../global/signInStyles"
 import { chatsStyles } from "../global/chatsStyles";
-import { FlatList } from "react-native-gesture-handler";
 import * as Contacts from 'expo-contacts';
 import * as Permissions from "expo-permissions";
 import users from "../functions/users";

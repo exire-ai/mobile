@@ -10,6 +10,7 @@ import { firebaseConfig } from "./config";
 firebase.initializeApp(firebaseConfig);
 
 import { decode, encode } from "base-64";
+import { SafeAreaProvider } from "react-native-safe-area-view";
 const getFonts = () =>
   Font.loadAsync({
     "karla-regular": require("./assets/fonts/Karla-Regular.ttf"),
@@ -38,7 +39,9 @@ export default function App() {
   } else {
     return (
       <BackdropProvider>
-        <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
+        <SafeAreaProvider>
+          <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
+        </SafeAreaProvider>
       </BackdropProvider>
     );
   }

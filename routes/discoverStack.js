@@ -1,7 +1,6 @@
 import React from "react";
 import {
   createStackNavigator,
-  TransitionPresets,
 } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import Discover from "../screens/Discover";
@@ -13,7 +12,7 @@ import SelectPlan from "../screens/SelectPlan";
 
 import ProfileIcon from "../components/ProfileIcon";
 
-import { TouchableOpacity, Image, SafeAreaView } from "react-native";
+import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Style Imports

@@ -8,7 +8,7 @@ import { navigationStyles } from "../global/navigationStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { SafeAreaView } from "react-native-safe-area-context";
+import SafeAreaView from 'react-native-safe-area-view';
 
 export default function TextVerification({ navigation }) {
   const data = navigation.getParam("data").data;

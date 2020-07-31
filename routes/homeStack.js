@@ -1,13 +1,12 @@
+import React from "react";
 import {
-  createStackNavigator,
   TransitionPresets,
 } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createMaterialTopTabNavigator } from "react-navigation-tabs";
-import React, { useState } from "react";
-import { TouchableOpacity, Image, SafeAreaView } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Image} from "react-native";
+import SafeAreaView from 'react-native-safe-area-view';
 
 // Style Imports
 import { navigationStyles } from "../global/navigationStyles";

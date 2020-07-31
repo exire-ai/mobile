@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, StyleSheet, TextInput, AsyncStorage, TouchableOpacity, KeyboardAvoidingView } from "react-native";
-var uuid = require("uuid");
 import users from "../functions/users";
 import chats from "../functions/chats";
 import { signInStyles } from "../global/signInStyles";
@@ -8,7 +7,7 @@ import { navigationStyles } from "../global/navigationStyles";
 import { shadowStyles } from "../global/shadowStyles";
 import { colorScheme } from "../global/colorScheme";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { SafeAreaView } from "react-native-safe-area-context";
+import SafeAreaView from 'react-native-safe-area-view';
 
 export default function Name({ navigation }) {
   const number = navigation.getParam("number");

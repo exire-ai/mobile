@@ -31,9 +31,10 @@ const screens = {
   Chat: {
     screen: Chat,
     navigationOptions: ({ navigation, screenProps }) => {
+      var name = navigation.getParam("name");
       return {
         headerShown: true,
-        title: navigation.getParam("name"),
+        title: name.length >= 30 ? name.slice(0, 29) + "..." : name,
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",

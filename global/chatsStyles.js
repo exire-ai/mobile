@@ -33,7 +33,7 @@ export const chatsStyles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-start",
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   notification: {
     backgroundColor: colorScheme.button,
@@ -51,12 +51,12 @@ export const chatsStyles = StyleSheet.create({
   },
   name: {
     fontFamily: "Bold",
-    fontSize: 19,
+    fontSize: 17,
     color: colorScheme.lessDarkText,
   },
   text: {
     fontFamily: "Reg",
-    fontSize: 16,
+    fontSize: 15,
     color: colorScheme.inactiveButton,
   },
 });

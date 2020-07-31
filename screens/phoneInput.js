@@ -17,7 +17,7 @@ import plans from "../functions/plans";
 import Modal from "react-native-modal";
 import { colorScheme } from "../global/colorScheme";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { SafeAreaView } from "react-native-safe-area-context";
+import SafeAreaView from 'react-native-safe-area-view';
 
 export default function PhoneInput({ navigation }) {
   const [number, setNumber] = React.useState("");

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { SafeAreaView } from "react-navigation";
+import SafeAreaView from 'react-native-safe-area-view';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { textStyles } from "../global/textStyles";
 import { shadowStyles } from "../global/shadowStyles";

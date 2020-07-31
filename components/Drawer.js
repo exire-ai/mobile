@@ -1,7 +1,5 @@
-import { SafeAreaView, withNavigation } from "react-navigation";
 import React, { Component } from "react";
-import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, TextInput, FlatList, Alert, InteractionManager } from "react-native";
-import { NavigationEvents } from 'react-navigation';
+import { View, TouchableOpacity, Image, Text, ImageBackground, AsyncStorage, TextInput, FlatList } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";

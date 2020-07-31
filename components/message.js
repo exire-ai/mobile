@@ -41,7 +41,7 @@ export function Message({
     </View>
     <View style={{flex: 1, paddingTop: 8, paddingLeft: 8}}>
       <View style={{flexDirection: "row", width: "100%", alignItems: "center"}}>
-        <Text style={messagesStyles.name}>{name}</Text>
+        <Text style={messagesStyles.name}>{name.length >= 28 ? name.slice(0, 27) + "..." : name}</Text>
         <Text style={[messagesStyles.text, {paddingLeft: 15, color: colorScheme.inactiveButton}]}>{time}</Text>
       </View>
       {message}

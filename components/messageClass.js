@@ -162,7 +162,7 @@ export class MessageClass extends React.Component {
           </View>
           <View style={{ flex: 1, paddingTop: 8, paddingLeft: 8 }}>
             <View style={{ flexDirection: "row", width: "100%", alignItems: "center" }}>
-              <Text style={messagesStyles.name}>{this.state.name}</Text>
+              <Text style={messagesStyles.name}>{this.state.name.length >= 28 ? this.state.name.slice(0, 27) + "..." : this.state.name}</Text>
               <Text style={[messagesStyles.text, { paddingLeft: 15, color: colorScheme.inactiveButton }]}>{this.state.time}</Text>
             </View>
             {message}
