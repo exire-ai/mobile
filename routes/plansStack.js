@@ -34,8 +34,9 @@ const screens = {
   PlanDetail: {
     screen: PlanDetail,
     navigationOptions: ({ navigation }) => {
+      const name = navigation.getParam("plan").title;
       return {
-        title: "Plans",
+        title: name.length >= 30 ? name.slice(0, 29) + "..." : name,
         headerStyle: [shadowStyles.shadowDown, navigationStyles.header],
         headerTitleStyle: navigationStyles.headerTitle,
         headerTitleAlign: "center",

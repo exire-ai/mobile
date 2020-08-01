@@ -382,23 +382,25 @@ export default class Chat extends React.Component {
   };
 
   timeConvert(unix) {
-    var now = Math.round(new Date().getTime() / 1000);
-    var res = new Date(unix);
-    if (unix + 86400 > now) {
-      var hours = res.getHours();
-      var minutes = res.getMinutes();
-      return (
-        (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) +
-        ":" +
-        (minutes < 10 ? "0" : "") +
-        minutes +
-        (hours > 12 ? "pm" : "am")
-      );
-    } else if (unix + 518400 > now) {
-      return res.getDay();
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    const now = Math.round(new Date().getTime());
+    const res = new Date(unix);
+    var time = "";
+    var hours = res.getHours();
+    var minutes = res.getMinutes();
+    if (unix + 86400000 > now) {
+    } else if (unix + 518400000 > now) {
+      time += days[res.getDay()] + " ";
     } else {
-      return res.getMonth() + "/" + res.getDay();
+      time += res.getMonth() + "/" + res.getDay() + " ";
     }
+    return time + (
+      (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) +
+      ":" +
+      (minutes < 10 ? "0" : "") +
+      minutes +
+      (hours > 12 ? "pm" : "am")
+    );
   }
 
   render() {

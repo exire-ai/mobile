@@ -5,10 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  AsyncStorage
+  AsyncStorage,
+  Dimensions,
 } from "react-native";
 import ProgressiveImage from "../components/ProgressiveImage";
-import { signInStyles } from "../global/signInStyles";
 import { colorScheme } from "../global/colorScheme";
 import { shadowStyles } from "../global/shadowStyles";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -62,7 +62,7 @@ function Category({
   }
 
   return (
-    <View style={styles.itemContainer}>
+    <View style={[styles.itemContainer, { height: ((Dimensions.get('screen').width * .97 / 2) - 5) }]}>
       <TouchableOpacity activeOpacity={.5} activeOpacity={.5} onPress={() => onSelect(key)}>
         <ProgressiveImage
           thumbnailSource={{ uri: lowUrl }}
@@ -80,7 +80,7 @@ function Category({
           ]}
         >
           {renderSelectedImage()}
-          <Text style={styles.itemText}>{title}</Text>
+          <Text style={[styles.itemText, { marginTop: (((Dimensions.get('screen').width * .97 / 2) - 5) / 2) - 16 - (title.length > 11 ? 14 : 0) }]}>{title}</Text>
         </View>
       </TouchableOpacity>
     </View>
