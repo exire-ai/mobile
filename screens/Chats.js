@@ -136,7 +136,7 @@ export default class Chats extends Component {
     } else if (unix + 518400 > now) {
       return res.getDay();
     } else {
-      return res.getMonth() + "/" + res.getDay();
+      time += (res.getMonth() + 1) + "/" + res.getDate() + " ";
     }
   }
 
