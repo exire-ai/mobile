@@ -134,7 +134,30 @@ const plans = {
       });
   },
   get: function (planID, populate, callback) {
-    fetch("http://api.exire.ai/plans/get/" + planID + (populate ? '?populate=true' : ''), {
+    fetch(
+      "http://api.exire.ai/plans/get/" +
+        planID +
+        (populate ? "?populate=true" : ""),
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          token: "e7b7f332-228d-499d-9c34-fadf2898efb3",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        callback({});
+      });
+  },
+  addUser: function (planID, userID, callback) {
+    fetch("http://api.exire.ai/plans/addUser/" + planID + "/" + userID, {
       method: "GET",
       headers: {
         Accept: "application/json",
