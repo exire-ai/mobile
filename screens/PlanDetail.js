@@ -38,9 +38,21 @@ export default class PlanDetail extends Component {
   joinPlan() {
     users.addPlan(this.state.user, this.state.plan.planID, (res) => {
       plans.addUser(this.state.plan.planID, this.state.user, (resp) => {
-        console.log(res);
-        console.log(resp);
-        this.props.navigation.pop();
+        var current = this.state.plan
+        AsyncStorage.getItem("profileImg").then((profileImg) => {
+          AsyncStorage.getItem("name").then((name) => {
+            var user = {
+              userID: this.state.user,
+              name: name,
+              profileImg: profileImg
+            }
+            current.users.push(user);
+            this.setState({
+              plan: current,
+            })
+          })
+        })
+
       });
     });
   }
