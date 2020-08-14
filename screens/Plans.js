@@ -30,13 +30,13 @@ export default class Plans extends Component {
 
   sendToChats = (planID, title) => {
     this.props.navigation.pop();
-    this.props.navigation.navigate('Chats', {
+    this.props.navigation.navigate("Chats", {
       object: {
         type: "plan",
         planID,
-        title
-      }
-    })
+        title,
+      },
+    });
   };
 
   registerForPushNotificationsAsync = async () => {
@@ -94,6 +94,7 @@ export default class Plans extends Component {
     });
     AsyncStorage.getItem("userID").then((userID) => {
       users.getPlans(userID, (response) => {
+        console.log(response)
         var now = Math.round(new Date().getTime());
         var upcoming = [];
         var previous = [];
@@ -119,7 +120,10 @@ export default class Plans extends Component {
 
   planTapped = (item) => {
     if (item.ids.length !== 0) {
-      this.props.navigation.navigate("PlanDetail", { plan: item, sendToChats: this.sendToChats });
+      this.props.navigation.navigate("PlanDetail", {
+        plan: item,
+        sendToChats: this.sendToChats,
+      });
     }
   };
 
@@ -234,10 +238,14 @@ export default class Plans extends Component {
               }}
               refreshing={this.state.refreshing}
               keyExtractor={(item, index) =>
-                "name" + item.title + item.start_time
+                "name" + item.title + item.startUNIX
               }
               renderItem={({ item, index }) => (
-                <Plan data={item} onTap={this.planTapped.bind(this)} sendToChats={this.sendToChats} />
+                <Plan
+                  data={item}
+                  onTap={this.planTapped.bind(this)}
+                  sendToChats={this.sendToChats}
+                />
               )}
             />
           ) : null}
@@ -255,7 +263,11 @@ export default class Plans extends Component {
               refreshing={this.state.refreshing}
               keyExtractor={(item, index) => "name" + item.planID + index}
               renderItem={({ item, index }) => (
-                <Plan data={item} onTap={this.planTapped.bind(this)} sendToChats={this.sendToChats} />
+                <Plan
+                  data={item}
+                  onTap={this.planTapped.bind(this)}
+                  sendToChats={this.sendToChats}
+                />
               )}
             />
           ) : null}
