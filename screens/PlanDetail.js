@@ -45,6 +45,16 @@ export default class PlanDetail extends Component {
     });
   }
 
+  isUserOnPlan() {
+    var elem;
+    for(elem in this.state.plan.users) {
+      if (this.state.user === this.state.plan.users[elem]["userID"]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   render() {
     return (
       <View
@@ -74,36 +84,54 @@ export default class PlanDetail extends Component {
             </Text>
           </View>
         </View>
-        <FlatList
-          horizontal={true}
-          data={this.state.plan.ids}
-          style={{ paddingLeft: 20, width: "100%" }}
-          keyExtractor={(item, index) => "name" + item.title}
-          renderItem={({ item, index }) => (
-            <View
-              style={[
-                shadowStyles.shadowDown,
-                {
-                  height: 125,
-                  width: 115,
-                  backgroundColor: "grey",
-                  overflow: "hidden",
-                  borderRadius: 10,
-                  marginRight: 10,
-                },
-              ]}
-            >
-              <VenueContent
-                hideRank={true}
-                venue={item}
-                onTap={(data) => {
-                  this.props.navigation.navigate("Venue", data);
-                }}
-              />
-            </View>
-          )}
-        />
-        {!this.state.plan.users.includes(this.state.user + "j") ? (
+        <View style={{ width: "100%", marginBottom: 25}}>
+          <FlatList
+            horizontal={true}
+            data={this.state.plan.ids}
+            style={{ paddingLeft: 20, width: "100%" }}
+            keyExtractor={(item, index) => "name" + item.title}
+            renderItem={({ item, index }) => (
+              <View
+                style={[
+                  shadowStyles.shadowDown,
+                  {
+                    height: 125,
+                    width: 115,
+                    overflow: "hidden",
+                    borderRadius: 10,
+                    marginRight: 10,
+                  },
+                ]}
+              >
+                <VenueContent
+                  hideRank={true}
+                  venue={item}
+                  onTap={(data) => {
+                    this.props.navigation.navigate("Venue", data);
+                  }}
+                />
+              </View>
+            )}
+          />
+        </View>
+        <View style={{ width: "100%", paddingLeft: 20 }}>
+          <Text style={[textStyles.subTitle, { marginBottom: 5 }]}>Who's Going</Text>
+          <FlatList 
+            horizontal={true}
+            data={this.state.plan.users}
+            style={{ width: "100%" }}
+            renderItem={({ item }) => (
+              <View style={{alignItems: "center"}}>
+                <View style={[shadowStyles.shadowDown, {width: 45, height: 45, backgroundColor: "gray", borderRadius: 24, overflow: "hidden"}]}>
+                  <Image  style={{width: "100%", height: "100%"}} source={{uri: item.profileImg}}/>
+                </View>
+                <Text style={textStyles.minorText}>{item.name}</Text>
+              </View>
+            )}
+            />
+        </View>
+        <View style={{position: "absolute", width: "100%", bottom: 0}}>
+        {!this.isUserOnPlan() ? (
           <View
             style={{ marginBottom: 20, width: "100%", alignItems: "center" }}
           >
@@ -112,7 +140,7 @@ export default class PlanDetail extends Component {
                 shadowStyles.shadowDown,
                 {
                   paddingVertical: 10,
-                  backgroundColor: colorScheme.button,
+                  backgroundColor: colorScheme.activeButton,
                   justifyContent: "center",
                   alignItems: "center",
                   width: "90%",
@@ -129,7 +157,7 @@ export default class PlanDetail extends Component {
         ) : null}
         {this.props.navigation.state.params.sendToChats ? (
           <View
-            style={{ marginBottom: 20, alignItems: "center", width: "100%" }}
+            style={{  marginBottom: 25, alignItems: "center", width: "100%" }}
           >
             <TouchableOpacity
               activeOpacity={0.5}
@@ -153,12 +181,14 @@ export default class PlanDetail extends Component {
                 },
               ]}
             >
-              <Text style={textStyles.buttonText}>Send to Chat</Text>
+              <Text style={textStyles.buttonText}>Share in Chat</Text>
             </TouchableOpacity>
           </View>
         ) : (
           false
         )}
+        </View>
+        
       </View>
     );
   }

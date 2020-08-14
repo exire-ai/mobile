@@ -94,6 +94,7 @@ export default class Plans extends Component {
     });
     AsyncStorage.getItem("userID").then((userID) => {
       users.getPlans(userID, (response) => {
+        console.log(response)
         var now = Math.round(new Date().getTime());
         var upcoming = [];
         var previous = [];
