@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationEvents } from "react-navigation";
+import _ from 'lodash';
 
 // Components Imports
 import Chat from "../components/Chat";
@@ -47,6 +48,7 @@ export default class Chats extends Component {
     data: [],
     refreshing: false,
     onboard: "false",
+    selected: null
   };
 
   componentDidMount() {
@@ -164,8 +166,8 @@ export default class Chats extends Component {
               time={
                 item.messages.length > 0
                   ? this.timeConvert(
-                      item.messages[item.messages.length - 1].time
-                    )
+                    item.messages[item.messages.length - 1].time
+                  )
                   : ""
               }
               message={
@@ -173,17 +175,12 @@ export default class Chats extends Component {
                   ? item.messages[item.messages.length - 1].message
                   : "Send your first message!"
               }
-              navigate={() => {
-                var attachment =
-                  "attachment" in this.state ? this.state.attachment : null;
-                this.setState({ attachment: null });
-                this.props.navigation.navigate("Chat", {
-                  chatID: item.chatID,
-                  userID: this.state.userID,
-                  name: item.name,
-                  data: item,
-                  attachment: attachment,
-                });
+              select={() => {
+                var selected = this.state.selected;
+                console.log(selected)
+                this.setState({
+                  selected: _.get(this.state.selected, 'chatID') !== item.chatID && item
+                })
               }}
               imgURL={
                 item.userData.find(
@@ -194,6 +191,20 @@ export default class Chats extends Component {
                       : item.messages[item.messages.length - 1].userID)
                 ).imgURL
               }
+              attachment={this.state.attachment != null}
+              selected={
+                _.get(this.state.selected, 'chatID') === item.chatID
+              }
+              navigate={() => {
+                this.setState({ attachment: null });
+                this.props.navigation.navigate("Chat", {
+                  chatID: item.chatID,
+                  userID: this.state.userID,
+                  name: item.name,
+                  data: item,
+                  attachment: null
+                });
+              }}
             />
           )}
         />
@@ -206,65 +217,89 @@ export default class Chats extends Component {
             alignItems: "center",
           }}
         >
-          {this.state.attachment != null ? (
-            <View
+          {this.state.attachment && (
+            <TouchableOpacity
+              activeOpacity={0.5}
               style={[
                 shadowStyles.shadowDown,
                 {
-                  backgroundColor: colorScheme.primary,
-                  height: 40,
-                  width: 280,
-                  borderRadius: 30,
+                  backgroundColor: 'red',
+                  height: 50,
+                  width: 50,
+                  borderRadius: 25,
                   position: "absolute",
-                  left: "8%",
+                  left: "2.5%",
+                  bottom: 0,
                   alignItems: "center",
-                  justifyContent: "center",
-                  bottom: 10,
-                  flexDirection: "row",
                 },
               ]}
+              onPress={() => {
+                this.setState({ attachment: null });
+              }}
             >
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => {
+              <Text style={[plansStyles.smallButtonText, { fontSize: 35, marginTop: -1.5, marginLeft: 1 }]}>x</Text>
+            </TouchableOpacity>
+          )}
+          {this.state.attachment ? (
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor: this.state.selected ? colorScheme.button : colorScheme.activeButton,
+                  height: 50,
+                  width: 50,
+                  borderRadius: 25,
+                  position: "absolute",
+                  right: "2.5%",
+                  bottom: 0,
+                  alignItems: "center",
+                },
+              ]}
+              onPress={() => {
+                if (this.state.selected) {
+                  var attachment = "attachment" in this.state && this.state.attachment;
                   this.setState({ attachment: null });
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "SemiBold",
-                    fontSize: 24,
-                    color: colorScheme.primaryText,
-                  }}
-                >
-                  X{" "}
-                </Text>
-              </TouchableOpacity>
-              <Text style={textStyles.buttonText}>Select Chat To Send</Text>
-            </View>
-          ) : null}
-
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={[
-              shadowStyles.shadowDown,
-              {
-                backgroundColor: colorScheme.button,
-                height: 60,
-                width: 60,
-                borderRadius: 30,
-                position: "absolute",
-                right: "2.5%",
-                bottom: 0,
-                alignItems: "center",
-              },
-            ]}
-            onPress={() => {
-              this.props.navigation.navigate("CreateChat");
-            }}
-          >
-            <Text style={plansStyles.buttonText}>+</Text>
-          </TouchableOpacity>
+                  this.props.navigation.navigate("Chat", {
+                    chatID: this.state.selected.chatID,
+                    userID: this.state.userID,
+                    name: this.state.selected.name,
+                    data: this.state.selected,
+                    attachment: attachment,
+                  });
+                }
+              }}
+            >
+              <Icon
+                name="chevron-right"
+                color="#FFF"
+                size={28}
+                style={[shadowStyles.shadowDown, { marginTop: 13, marginLeft: 3.5 }]}
+              />
+            </TouchableOpacity>
+          ) :
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={[
+                shadowStyles.shadowDown,
+                {
+                  backgroundColor: colorScheme.button,
+                  height: 60,
+                  width: 60,
+                  borderRadius: 30,
+                  position: "absolute",
+                  right: "2.5%",
+                  bottom: 0,
+                  alignItems: "center",
+                },
+              ]}
+              onPress={() => {
+                this.props.navigation.navigate("CreateChat");
+              }}
+            >
+              <Text style={plansStyles.buttonText}>+</Text>
+            </TouchableOpacity>
+          }
         </View>
         {this.state.onboard != "false" ? (
           <View

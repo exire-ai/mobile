@@ -16,6 +16,7 @@
     "@react-navigation/drawer": "^5.8.7",
     "@react-navigation/native": "^5.7.2",
     "expo": "^38.0.0",
+    "expo-calendar": "^8.3.0",
     "expo-constants": "~9.1.1",
     "expo-contacts": "~8.2.1",
     "expo-image-picker": "~8.3.0",
@@ -38,6 +39,7 @@
     "react-native-elements": "^2.0.4",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-firebase": "^5.6.0",
+    "react-native-gesture-handler": "~1.6.0",
     "react-native-image-picker": "^2.3.3",
     "react-native-inappbrowser-reborn": "^3.4.0",
     "react-native-indicator": "^1.2.0",
@@ -61,8 +63,7 @@
     "react-navigation-material-bottom-tabs": "^2.2.12",
     "react-navigation-stack": "^2.2.3",
     "react-navigation-tabs": "^2.8.13",
-    "react-navigation-transitions": "^1.0.12",
-    "react-native-gesture-handler": "~1.6.0"
+    "react-navigation-transitions": "^1.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

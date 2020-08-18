@@ -78,9 +78,9 @@ export default class Plans extends Component {
   };
 
   componentDidMount() {
-    this.props.navigation.addListener("willFocus", this.loadData);
+    this.props.navigation.addListener("willFocus", () => this.loadData(false));
     this.registerForPushNotificationsAsync();
-    this.loadData();
+    this.loadData(true);
     AsyncStorage.getItem("onboard").then((onboard) => {
       this.setState({
         onboard: onboard,
@@ -88,9 +88,9 @@ export default class Plans extends Component {
     });
   }
 
-  loadData = () => {
+  loadData = (refreshing=false) => {
     this.setState({
-      refreshing: true,
+      refreshing: refreshing,
     });
     AsyncStorage.getItem("userID").then((userID) => {
       users.getPlans(userID, (response) => {
@@ -234,7 +234,7 @@ export default class Plans extends Component {
               data={this.state.upcoming}
               showsVerticalScrollIndicator={false}
               onRefresh={() => {
-                this.loadData();
+                this.loadData(true);
               }}
               refreshing={this.state.refreshing}
               keyExtractor={(item, index) =>
@@ -258,7 +258,7 @@ export default class Plans extends Component {
               data={this.state.previous}
               showsVerticalScrollIndicator={false}
               onRefresh={() => {
-                this.loadData();
+                this.loadData(true);
               }}
               refreshing={this.state.refreshing}
               keyExtractor={(item, index) => "name" + item.planID + index}

@@ -1,3 +1,5 @@
+const gmaps_key = 'AIzaSyCG5qmZR3FDGWkTP2n13bzDjQo4Ht5tfE8'
+
 const plans = {
   getAllCategories: function (callback) {
     fetch("http://api.exire.ai/plans/getAllCategories/", {
@@ -174,6 +176,23 @@ const plans = {
         callback({});
       });
   },
+  getAddress: function (lat, lon, callback) {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&sensor=true&key=${gmaps_key}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      callback(responseJson);
+    })
+    .catch((error) => {
+      console.log(JSON.stringify(error));
+      callback({});
+    });
+  }
 };
 
 export default plans;
