@@ -24,13 +24,23 @@ export default class PlanDetail extends Component {
     this.state = {
       plan: this.props.navigation.state.params.plan,
       user: "",
+      isOnPlan: false
     };
   }
 
   componentDidMount() {
     AsyncStorage.getItem("userID").then((userID) => {
+      var isOnPlan = false;
+      var plan = this.state.plan;
+      for(elem in this.state.plan.users) {
+        if (userID === plan.users[elem]["userID"]) {
+          isOnPlan = true;
+        }
+      }
+      console.log("Is user on plan? " + isOnPlan);
       this.setState({
         user: userID,
+        isOnPlan: isOnPlan
       });
     });
   }
@@ -55,16 +65,6 @@ export default class PlanDetail extends Component {
 
       });
     });
-  }
-
-  isUserOnPlan() {
-    var elem;
-    for(elem in this.state.plan.users) {
-      if (this.state.user === this.state.plan.users[elem]["userID"]) {
-        return true;
-      }
-    }
-    return false;
   }
 
   render() {
@@ -132,6 +132,7 @@ export default class PlanDetail extends Component {
             horizontal={true}
             data={this.state.plan.users}
             style={{ width: "100%" }}
+            keyExtractor={(item) => 'name' + item.name}
             renderItem={({ item }) => (
               <View style={{alignItems: "center"}}>
                 <View style={[shadowStyles.shadowDown, {width: 45, height: 45, backgroundColor: "gray", borderRadius: 24, overflow: "hidden"}]}>
@@ -143,7 +144,7 @@ export default class PlanDetail extends Component {
             />
         </View>
         <View style={{position: "absolute", width: "100%", bottom: 0}}>
-        {!this.isUserOnPlan() ? (
+        {!this.state.isOnPlan ? (
           <View
             style={{ marginBottom: 20, width: "100%", alignItems: "center" }}
           >
