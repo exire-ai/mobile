@@ -16,6 +16,11 @@ export const textStyles = StyleSheet.create({
     fontSize: 16,
     color: "#444",
   },
+  minorNameText: {
+    fontFamily: "SemiBold",
+    fontSize: 14,
+    color: "#444",
+  },
   subBodyText: {
     fontFamily: "Reg",
     fontSize: 18,

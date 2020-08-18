@@ -82,8 +82,9 @@ export default class SelectPlan extends Component {
 
   loadData = () => {
     const category = this.props.navigation.state.params.venue.subcategory;
+    const title = this.props.navigation.state.params.venue.title;
     const placeholder = Object.keys(nameDict).includes(category)
-      ? nameDict[category][0]
+      ? nameDict[category][0] + ' @ ' + title
       : "Name Plan";
     var descPlaceholder = this.props.navigation.state.params.venue.description;
     descPlaceholder =
@@ -91,11 +92,11 @@ export default class SelectPlan extends Component {
     this.setState({ placeholder, descPlaceholder });
 
     AsyncStorage.getItem("userID").then((userID) => {
-      users.getPlans(userID, (response) => {
-        var now = Math.round(new Date().getTime() * 1000);
+      users.getPlans(userID, response => {
+        var now = Math.round(new Date().getTime());
         var upcoming = [];
         for (var i = 0; i < _.get(response, "length", 0); i++) {
-          if (response[i] !== null && response[i].startUNIX > now) {
+          if (response[i] !== null && response[i].startUNIX*1000 > now) {
             upcoming.push(response[i]);
           }
         }
@@ -108,7 +109,7 @@ export default class SelectPlan extends Component {
   };
 
   planTapped = (item) => {
-    if (this.state.selected === item.index) {
+    if (this.state.selected === item.planID ) {
       this.setState({ selected: "", selectedData: {} });
     } else {
       this.setState({ selected: item.planID, selectedData: item });
@@ -189,7 +190,7 @@ export default class SelectPlan extends Component {
           </View>
           <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() =>
+            onPress={() => {
               this.props.navigation.state.params.createPlan({
                 ...this.props.navigation.state.params.venue,
                 startUNIX: this.state.date.getTime() / 1000,
@@ -202,7 +203,7 @@ export default class SelectPlan extends Component {
                     ? this.state.planDescription
                     : this.state.descPlaceholder,
               })
-            }
+            }}
             style={[
               shadowStyles.shadowDown,
               {
@@ -229,7 +230,7 @@ export default class SelectPlan extends Component {
         <View style={plansStyles.container}>
           <FlatList
             style={plansStyles.list}
-            data={this.state.data}
+            data={this.state.upcoming}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) =>
               "name" + item.title + item.start_time + index
@@ -257,7 +258,7 @@ export default class SelectPlan extends Component {
                 {
                   height: 50,
                   marginTop: 10,
-                  backgroundColor: colorScheme.activeButton,
+                  backgroundColor: this.state.selected !== "" ? colorScheme.button : colorScheme.activeButton,
                   justifyContent: "center",
                   alignItems: "center",
                   width: "90%",

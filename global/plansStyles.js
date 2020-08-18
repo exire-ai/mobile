@@ -26,6 +26,12 @@ export const plansStyles = StyleSheet.create({
     fontSize: 45,
     marginTop: -2
   },
+  smallButtonText: {
+    fontFamily: "Bold",
+    color: colorScheme.primaryText,
+    fontSize: 40,
+    marginTop: -4
+  },
   venue: {
     height: 115,
     width: "100%",

@@ -33,7 +33,8 @@ export const chatsStyles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-start",
-    paddingHorizontal: 5,
+    paddingRight: 5,
+    paddingLeft: 15
   },
   notification: {
     backgroundColor: colorScheme.button,

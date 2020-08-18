@@ -135,10 +135,10 @@ export default class PlanDetail extends Component {
             keyExtractor={(item) => 'name' + item.name}
             renderItem={({ item }) => (
               <View style={{alignItems: "center"}}>
-                <View style={[shadowStyles.shadowDown, {width: 45, height: 45, backgroundColor: "gray", borderRadius: 24, overflow: "hidden"}]}>
+                <View style={[shadowStyles.shadowDown, {width: 45, height: 45, backgroundColor: "gray", borderRadius: 24, overflow: "hidden", marginHorizontal: 7}]}>
                   <Image  style={{width: "100%", height: "100%"}} source={{uri: item.profileImg}}/>
                 </View>
-                <Text style={textStyles.minorText}>{item.name}</Text>
+                <Text style={textStyles.minorNameText}>{item.name}</Text>
               </View>
             )}
             />
