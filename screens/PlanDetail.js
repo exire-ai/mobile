@@ -32,12 +32,11 @@ export default class PlanDetail extends Component {
     AsyncStorage.getItem("userID").then((userID) => {
       var isOnPlan = false;
       var plan = this.state.plan;
-      for(elem in this.state.plan.users) {
+      for(elem in plan.users) {
         if (userID === plan.users[elem]["userID"]) {
           isOnPlan = true;
         }
       }
-      console.log("Is user on plan? " + isOnPlan);
       this.setState({
         user: userID,
         isOnPlan: isOnPlan
@@ -59,6 +58,7 @@ export default class PlanDetail extends Component {
             current.users.push(user);
             this.setState({
               plan: current,
+              isOnPlan: true
             })
           })
         })
