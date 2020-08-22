@@ -10,7 +10,7 @@ import { NavigationEvents } from "react-navigation";
 import VenueContent from "../components/VenueContent";
 import plans from "../functions/plans";
 import users from "../functions/users";
-import Search from "../components/SearchBar";
+import SearchBar from "../components/SearchBar";
 import CategorySelection from "../components/CategorySelection";
 
 // Styles Imports
@@ -93,24 +93,26 @@ export default class Discover extends Component {
       categories: [],
       selected: ["all"],
       refreshing: true,
-      onboard: 'false'
+      onboard: 'false',
+      validCategories: [],
+      query: ''
     };
   }
 
   componentDidMount() {
     AsyncStorage.getItem("userID").then((userID) => {
-      this.setState({ userID: userID });
+      this.setState({ userID });
       this.loadCategories();
       this.loadData();
       AsyncStorage.getItem("onboard").then(onboard => {
         this.setState({
-          onboard: onboard
+          onboard
         })
       })
     });
   }
 
-  formatVenues(data, callback) {
+  formatVenues(data, callback, load = false) {
     var tempDuplicates = []
     data = data.filter(o => {
       var id = o.placeID != null ? o.placeID : o.eventID
@@ -125,6 +127,7 @@ export default class Discover extends Component {
 
     var venues = [];
     var doubleVenue = {};
+    var validCategories = [];
 
     var double = data.length >= 2
     var doubleRep = false
@@ -132,6 +135,9 @@ export default class Discover extends Component {
 
     for (var i = 0; i < data.length; i++) {
       var id = data[i].placeID != null ? data[i].placeID : data[i].eventID
+      if (load && !validCategories.includes(data[i].subcategory)) {
+        validCategories.push(data[i].subcategory);
+      }
       if (single) {
         venues.push({
           venue: data[i],
@@ -157,6 +163,9 @@ export default class Discover extends Component {
         double = false
         doubleRep = true
       }
+    }
+    if (load) {
+      this.setState({ validCategories })
     }
     callback(venues);
   };
@@ -184,7 +193,7 @@ export default class Discover extends Component {
               venues: venues,
               refreshing: false,
             });
-          });
+          }, true);
         });
       });
     });
@@ -232,10 +241,23 @@ export default class Discover extends Component {
     }
   };
 
+  setSearch = query => {
+    let { categories, selected } = this.state;
+    if (selected !== ['all']) {
+      for (var i in categories) {
+        categories[i].selected = categories[i].key === "all";
+      }
+      this.setState({ selected, categories });
+      this.filterCategories();
+    }
+    selected = ['all'];
+    this.setState({ query });
+  }
+
   render() {
     return (
       <View style={discoverStyles.container}>
-        <Search />
+        <SearchBar setSearch={this.setSearch} />
         <NavigationEvents
           onDidFocus={() => {
             AsyncStorage.getItem("onboard").then(onboard => {
@@ -248,7 +270,7 @@ export default class Discover extends Component {
         <FlatList
           horizontal={true}
           style={{ paddingTop: 3, paddingLeft: 3, height: 60 }}
-          data={this.state.categories}
+          data={this.state.validCategories === [] ? this.state.categories : this.state.categories.filter(o => o.key === 'all' || this.state.validCategories.includes(o.key))}
           keyExtractor={o => o.key}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => {
@@ -301,8 +323,15 @@ export default class Discover extends Component {
             paddingTop: 10,
             height: "100%",
           }}
-          contentContainerStyle={{ justifyContent: "flex-start" }}
-          data={this.state.venues}
+          contentContainerStyle={{ justifyContent: "flex-start", paddingBottom: 10 }}
+          data={this.state.query === '' ? this.state.venues : this.state.venues.filter(o => {
+            let query = this.state.query.toLowerCase();
+            if (o.numItems == 1) {
+              return o.venue.title.toLowerCase().includes(query) || o.venue.description.toLowerCase().includes(query) || o.venue.subcategory.toLowerCase().includes(query)
+            } else {
+              return o.venue1.title.toLowerCase().includes(query) || o.venue1.description.toLowerCase().includes(query) || o.venue1.subcategory.toLowerCase().includes(query) || o.venue2.title.toLowerCase().includes(query) || o.venue2.description.toLowerCase().includes(query) || o.venue2.subcategory.toLowerCase().includes(query)
+            }
+          })}
           onRefresh={() => {
             this.loadData();
           }}
@@ -383,67 +412,67 @@ export default class Discover extends Component {
             }
           }}
         />
-        { this.state.onboard != 'false' ? (
-          <View style={{position: 'absolute', height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,.3)', alignItems: 'center', justifyContent : 'center'}}>
-          <View
-            style={[
-              {
-                width: "88%",
-                backgroundColor: colorScheme.componentBackground,
-                padding: 15,
-                borderRadius: 15,
-                marginBottom: 20,
-              },
-              shadowStyles.shadowDown,
-            ]}
-          >
-            <Text
-              style={[
-                textStyles.titleText,
-                { width: "100%", textAlign: "center" },
-              ]}
-            >
-              Discover Experiences
-            </Text>
-            <Text
-              style={[
-                textStyles.standardBodyText,
-                { width: "100%", textAlign: "center", marginTop: 10 },
-              ]}
-            >
-              Here you'll be able to look through venues and events near you and find something you're interested in.
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.9}
+        {this.state.onboard != 'false' ? (
+          <View style={{ position: 'absolute', height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,.3)', alignItems: 'center', justifyContent: 'center' }}>
+            <View
               style={[
                 {
-                  width: "100%",
-                  padding: 10,
-                  borderRadius: 10,
-                  backgroundColor: colorScheme.button,
-                  marginTop: 20,
-                  marginBottom: 3,
+                  width: "88%",
+                  backgroundColor: colorScheme.componentBackground,
+                  padding: 15,
+                  borderRadius: 15,
+                  marginBottom: 20,
                 },
                 shadowStyles.shadowDown,
               ]}
-              onPress={() => this.props.navigation.navigate("Chats")}
             >
               <Text
                 style={[
-                  textStyles.standardBodyText,
-                  {
-                    width: "100%",
-                    textAlign: "center",
-                    color: colorScheme.primaryText,
-                  },
+                  textStyles.titleText,
+                  { width: "100%", textAlign: "center" },
                 ]}
               >
-                Next
+                Discover Experiences
+            </Text>
+              <Text
+                style={[
+                  textStyles.standardBodyText,
+                  { width: "100%", textAlign: "center", marginTop: 10 },
+                ]}
+              >
+                Here you'll be able to look through venues and events near you and find something you're interested in.
+            </Text>
+              <TouchableOpacity
+                activeOpacity={0.9}
+                style={[
+                  {
+                    width: "100%",
+                    padding: 10,
+                    borderRadius: 10,
+                    backgroundColor: colorScheme.button,
+                    marginTop: 20,
+                    marginBottom: 3,
+                  },
+                  shadowStyles.shadowDown,
+                ]}
+                onPress={() => this.props.navigation.navigate("Chats")}
+              >
+                <Text
+                  style={[
+                    textStyles.standardBodyText,
+                    {
+                      width: "100%",
+                      textAlign: "center",
+                      color: colorScheme.primaryText,
+                    },
+                  ]}
+                >
+                  Next
               </Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </View>
-          </View>
-        ) : null }
+        ) : null}
       </View>
     );
   }

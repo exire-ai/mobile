@@ -26,7 +26,7 @@ const chats = {
       userID: "emma",
       name: "Emma",
       imgURL:
-        "https://media-exp1.licdn.com/dms/image/C4E0BAQHKdLhy4JqozQ/company-logo_200_200/0?e=1597881600&v=beta&t=nWOnYXsKZ3kzwrD64MiZs34E2afLwgjLIj1zytRrpnc",
+        "https://exirevideo.s3.us-east-2.amazonaws.com/emma.png",
       number: 1000,
     });
     for (var i = 0; i < otherUsers.length; i++) {

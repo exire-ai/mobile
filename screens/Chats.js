@@ -48,7 +48,8 @@ export default class Chats extends Component {
     data: [],
     refreshing: false,
     onboard: "false",
-    selected: null
+    selected: null,
+    query: ''
   };
 
   componentDidMount() {
@@ -142,18 +143,33 @@ export default class Chats extends Component {
     }
   }
 
+  setSearch = query => {
+    this.setState({ query })
+  }
+
   render() {
     return (
       <View style={chatsStyles.container}>
         <NavigationEvents onDidFocus={this.checkAttachment} />
-        <SearchBar />
+        <SearchBar setSearch={this.setSearch} />
         <FlatList
           style={chatsStyles.list}
           data={this.state.data.sort(
             (a, b) =>
               b.messages[b.messages.length - 1].time -
               a.messages[a.messages.length - 1].time
-          )}
+          ).filter(o => {
+            const query = this.state.query.toLowerCase();
+            if (this.state.query !== '') {
+              if (o.name.toLowerCase().includes(query)) {
+                return true
+              } else {
+                return o.userData.filter(o => o.name.toLowerCase().includes(query)).length > 0
+              }
+            } else {
+              return true
+            }
+          })}
           showsVerticalScrollIndicator={false}
           onRefresh={() => {
             this.loadData(true);
