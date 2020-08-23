@@ -20,6 +20,9 @@ import ChatsStack from "./chatsStack";
 import Drawer from "../components/Drawer";
 import Logout from "../components/Logout";
 
+//TODO: update in future toa cleaner solution
+var tabHeight = (Platform.OS === 'ios')? 45 : 25
+
 const screens = {
   Discover: {
     screen: DiscoverStack,
@@ -99,7 +102,7 @@ const HomeTab = createMaterialTopTabNavigator(screens, {
     iconStyle: [
       shadowStyles.shadowDown,
       {
-        height: 45,
+        height: tabHeight,
         alignItems: "center",
         shadowRadius: 0.3,
       },
