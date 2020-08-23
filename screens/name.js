@@ -36,7 +36,7 @@ export default function Name({ navigation }) {
   return (
         <View style={{height: "100%", width: "100%", backgroundColor: colorScheme.footer}}>
         <SafeAreaView style={styles.container}>
-          <TouchableOpacity activeOpacity={.5} onPress={() => navigation.navigate("PhoneInput")} style={[navigationStyles.icon, { width: "100%" }]}>
+          <TouchableOpacity activeOpacity={.5} onPress={() => navigation.navigate("PhoneInput")} style={[navigationStyles.icon, { width: "100%", padding: 25 }]}>
             <Icon
               name="chevron-left"
               color={colorScheme.lessDarkText}
@@ -67,7 +67,7 @@ export default function Name({ navigation }) {
             </View>
           </View>
         </SafeAreaView>
-        <KeyboardAvoidingView behavior={"padding"} style={{ flexDirection: "row", alignItems: "flex-end", width: "100%", backgroundColor: colorScheme.footer }}>
+        <KeyboardAvoidingView behavior= {(Platform.OS === 'ios')? "padding" : null} style={{ flexDirection: "row", alignItems: "flex-end", width: "100%", backgroundColor: colorScheme.footer }}>
           <TouchableOpacity activeOpacity={.5}
             style={[shadowStyles.shadowDown, {
               backgroundColor: value.length > 5 ? colorScheme.button : colorScheme.primary,

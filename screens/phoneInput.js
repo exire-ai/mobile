@@ -21,6 +21,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 
 export default function PhoneInput({ navigation }) {
   const [number, setNumber] = React.useState("");
+  const [backspace, setBackSpace] = React.useState(false);
   const [formatNumber, setFormatNumber] = React.useState("");
   const [errorMsg, changeErrorMsg] = React.useState("#fff");
   const [loadingVisible, setLoadingVisible] = React.useState(false);
@@ -85,7 +86,7 @@ export default function PhoneInput({ navigation }) {
   return (
     <View style={{height: "100%", width: "100%", backgroundColor: colorScheme.footer}}>
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity activeOpacity={.5} onPress={() => navigation.goBack()} style={[navigationStyles.icon, { width: "100%" }]}>
+      <TouchableOpacity activeOpacity={.5} onPress={() => navigation.goBack()} style={[navigationStyles.icon, { width: "100%", padding: 25 }]}>
         <Icon
           name="chevron-left"
           color={colorScheme.lessDarkText}
@@ -118,7 +119,7 @@ export default function PhoneInput({ navigation }) {
           <Text style={signInStyles.subHeaderText}>
             We just need your number for verification and won't spam you or sell
             your data.
-        </Text>
+          </Text>
         </View>
         <View style={{alignItems: "center"}}>
         <TextInput
@@ -130,18 +131,27 @@ export default function PhoneInput({ navigation }) {
           autoCompleteType={"tel"}
           selectionColor={colorScheme.button}
           placeholderTextColor={colorScheme.veryLight}
-          onKeyPress={({ nativeEvent }) => {
-            if (nativeEvent.key === 'Backspace') {
-                formatNumberFunc(number.substr(0, number.length - 1))
+          onChangeText={(text) => {
+            if(backspace) {
+              //Do Nothing
+              setBackSpace(false);
             } else {
-              formatNumberFunc(number + (!isNaN(nativeEvent.key) ? nativeEvent.key : ""));
+              formatNumberFunc(number + (!isNaN(text[text.length - 1]) ? text[text.length - 1] : ""));
+            }
+            console.log(text[text.length - 1]);
+          }}
+          onKeyPress={(event) => {
+            event.persist()
+            if (event.nativeEvent.key === 'Backspace') {
+              formatNumberFunc(number.substr(0, number.length - 1));
+              setBackSpace(true);
             }
           }}
         />
         </View>
       </View>
     </SafeAreaView>
-    <KeyboardAvoidingView behavior={"padding"} style={{ flexDirection: "row", alignItems: "flex-end", width: "100%", backgroundColor: colorScheme.footer }}>
+    <KeyboardAvoidingView behavior= {(Platform.OS === 'ios')? "padding" : null} style={{ flexDirection: "row", alignItems: "flex-end", width: "100%", backgroundColor: colorScheme.footer }}>
       <TouchableOpacity activeOpacity={.5}
         style={[shadowStyles.shadowDown, {
           backgroundColor: number.length > 9 ? colorScheme.button : colorScheme.activeButton,
