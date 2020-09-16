@@ -14,6 +14,8 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { analytics } from "../functions/mixpanel";
 
+import  ContactList  from '../components/ContactList';
+
 export default class CreateChat extends React.Component {
   db = firebase.firestore();
 
@@ -28,7 +30,8 @@ export default class CreateChat extends React.Component {
     contacts: [],
     contactPermission: true,
     search: [],
-    contactListOpen: false
+    contactListOpen: false,
+    added: []
   }
 
   componentDidMount() {
@@ -92,20 +95,58 @@ export default class CreateChat extends React.Component {
 
   createGroup = () => {
     if (this.state.chatName.length > 3) {
-      AsyncStorage.getItem("name").then(name => {
-        AsyncStorage.getItem("userID").then(userID => {
-          AsyncStorage.getItem("profileImg").then(profileImg => {
-            AsyncStorage.getItem("number").then(number => {
-              chats.createChat(this.state.chatName, name, userID, number, profileImg, this.state.otherUsers, (docID, chatID) => {
-                this.getChat(chatID, data => {
-                  analytics.track("Create Group", { chat: this.state.chatName, chatID: chatID });
-                  this.props.navigation.navigate("Chat", { chatID: chatID, userID: userID, name: this.state.chatName, data: data });
+
+      let data = [];
+      let fetches = [];
+      
+      for(let contact of this.state.added) {
+        fetches.push(new Promise(function(resolve, reject) {
+          users.getByNumber(contact.number, (res) => {
+            if(res) { resolve(res); }
+            else { reject(contact); }
+          })
+        })
+        .then((result) => {
+          data.push({
+                  name: result.name,
+                  number: contact.number,
+                  userID: result.userID,
+                  imgURL: result.hasOwnProperty('profileImg') ? result.profileImg : "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png"
+                });
+        })
+        .catch((err) => {
+          console.log(err);
+          data.push({
+            name: err.name,
+            number: err.number,
+            userID: '',
+            imgURL: "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png"
+          });
+          users.sendTextMsg(err.number, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
+            console.log(result);
+          })
+        }))
+      }
+
+      Promise.all(fetches).then(function() {
+        AsyncStorage.getItem("name").then(name => {
+          AsyncStorage.getItem("userID").then(userID => {
+            AsyncStorage.getItem("profileImg").then(profileImg => {
+              AsyncStorage.getItem("number").then(number => {
+                chats.createChat(this.state.chatName, name, userID, number, profileImg, data, (docID, chatID) => {
+                  this.getChat(chatID, res => {
+                    analytics.track("Create Group", { chat: this.state.chatName, chatID: chatID });
+                    this.props.navigation.navigate("Chat", { chatID: chatID, userID: userID, name: this.state.chatName, data: res });
+                  })
                 })
               })
             })
           })
         })
-      })
+      }.bind(this))
+
+
+
     }
   }
 
@@ -120,35 +161,17 @@ export default class CreateChat extends React.Component {
   }
 
   addNumber = (text) => {
-    // need to add check that they don"t add self
     this.setState({ number: text })
     if (text.length > 9) {
-      var temp = this.state.otherUsers
+      var temp = this.state.added
       temp.push({
         name: "",
         number: text,
         userID: "",
         imgURL: ""
       })
-      this.setState({ otherUsers: temp })
+      this.setState({ added: temp })
       this.setState({ number: "" })
-      users.getByNumber(text, (result) => {
-        if (result) {
-          var temp = this.state.otherUsers
-          temp = temp.filter(function (o) { return o.number != text });
-          temp.push({
-            name: result.name,
-            number: text,
-            userID: result.userID,
-            imgURL: "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png"
-          })
-          this.setState({ otherUsers: temp })
-        } else {
-          users.sendTextMsg(text, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
-            console.log(result)
-          })
-        }
-      })
     }
   }
 
@@ -166,11 +189,11 @@ export default class CreateChat extends React.Component {
           selectionColor={colorScheme.button}
           placeholderTextColor={colorScheme.veryLight}
         />
-        <View style={{ height: 10 + 44 * Math.ceil(this.state.otherUsers.length / 2), width: '100%' }}>
+        <View style={{ height: 10 + 44 * Math.ceil(this.state.added.length / 2), width: '100%' }}>
           <FlatList
             style={{ width: "100%" }}
             contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
-            data={this.state.otherUsers}
+            data={this.state.added}
             numColumns={2}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => "number" + item.number}
@@ -184,10 +207,14 @@ export default class CreateChat extends React.Component {
                 <TouchableOpacity activeOpacity={.5}
                   style={[shadowStyles.shadowDown, { height: 25, width: 25, borderRadius: 12.5, backgroundColor: item.name == "" ? "#ffcccb" : "#fff", marginLeft: 10, alignItems: "center", justifyContent: "center" }]}
                   onPress={() => {
-                    var temp = this.state.otherUsers
-                    temp = temp.filter(function (o) { return o.number != item.number });
+                    
+                    let tempAdded = this.state.added;
 
-                    this.setState({ otherUsers: temp.length > 5 ? temp.slice(0, 5) : temp })
+                    tempAdded = tempAdded.filter(u => u.number != item.number);
+
+                    this.setState({ 
+                      added: tempAdded
+                    })
                   }}
                 >
                   <Icon
@@ -228,58 +255,15 @@ export default class CreateChat extends React.Component {
             value={this.state.number}
           ></TextInput>
         </View>
-        <View style={{ flex: 1, width: '100%', marginTop: 10, marginBottom: 100 }}>
-          <Text style={[textStyles.titleText, {marginLeft: 15, marginTop: 10, fontSize: 20}]}>Contact List</Text>
-          <FlatList
-            style={{ width: "100%" }}
-            contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
-            data={this.state.search}
-            numColumns={1}
-            showsVerticalScrollIndicator={true}
-            keyExtractor={(item, index) => "number" + item.number + "name" + item.name}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity 
-              style={{ width: Dimensions.get('screen').width * 0.9, flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginVertical: 5, padding: 10 }}
-              onPress={() => {
-                var temp = this.state.otherUsers
-                temp = temp.filter(function (o) { return o.number != item.number });
-                temp.push({
-                  name: item.name,
-                  number: item.number,
-                  userID: '',
-                  imgURL: ''
-                })
-                this.setState({ otherUsers: temp })
-                users.getByNumber(item.number, (result) => {
-                  if (result) {
-                    var temp = this.state.otherUsers
-                    temp = temp.filter(function (o) { return o.number != item.number });
-                    temp.push({
-                      name: result.name,
-                      number: result.number,
-                      userID: result.userID,
-                      imgURL: result.includes('profileImg') ? result.profileImg : "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png"
-                    })
-                    this.setState({ otherUsers: temp })
-                  } else {
-                    users.sendTextMsg(item.number, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
-                      console.log(result)
-                    })
-                  }
-                })
-                this.setState({text: ""})
-                this.addContact("")
-              }}
-              >
-                <Text style={{ fontFamily: "Bold", color: colorScheme.lessDarkText, fontSize: 17 }}>{
-                  item.name
-                }</Text>
-                <Text style={[{ fontFamily: "SemiBold", fontSize: 17, color: "#007AFF"}]}>Invite</Text>
-
-              </TouchableOpacity>
-            )}
-          />
-        </View>
+        {(this.state.search.length > 0) ? <ContactList search={this.state.search} otherUsers={this.state.otherUsers} addContact={(contact) => {
+          let temp = this.state.added;
+          if(temp.indexOf(contact) === -1) {
+            temp.push(contact);
+          }
+          this.setState({
+            added: temp,
+          })
+        }} /> : null }
         <KeyboardAvoidingView behavior={"padding"} style={{ width: "100%", alignItems: "flex-end", justifyContent: "center", flexDirection: "row", position: 'absolute', bottom: 40 }}>
           <TouchableOpacity activeOpacity={.5}
             onPress={this.createGroup}
