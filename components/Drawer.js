@@ -218,7 +218,7 @@ export default class Drawer extends Component {
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => "number" + item.number}
               renderItem={({ item, index }) => (
-                <TouchableOpacity activeOpacity={.5} style={[shadowStyles.shadowDown, { height: 70, backgroundColor: colorScheme.veryLight, width: "100%", alignItems: "center", borderRadius: 15, flexDirection: "row", paddingHorizontal: 10 }]}>
+                <TouchableOpacity activeOpacity={.5} style={[shadowStyles.shadowDown, { height: 70, backgroundColor: colorScheme.veryLight, width: "100%", alignItems: "center", borderRadius: 15, flexDirection: "row", paddingHorizontal: 10, marginBottom: 5 }]}>
                   <View style={[{ height: 50, width: 50, borderRadius: 25, overflow: "hidden" }, shadowStyles.shadowDown]}>
                     <ImageBackground source={{ uri: item.profileImg !== null ? item.profileImg : "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png" }} style={{ width: 50, height: 50 }}>
                     </ImageBackground>
