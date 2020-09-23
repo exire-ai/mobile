@@ -7,6 +7,7 @@ import { colorScheme } from "../global/colorScheme"
 import { shadowStyles } from "../global/shadowStyles"
 import { chatsStyles } from "../global/chatsStyles";
 import users from "../functions/users";
+import ContactList from "../components/ContactList"
 
 // Firestore connection
 import * as firebase from "firebase";
@@ -20,8 +21,11 @@ export default class ChatInfo extends React.Component {
   }
 
   constructor(props) {
-    super(props)
-    this.state = props.navigation.state.params.data
+    super(props);
+    console.log(props.navigation.state);
+    let temp = props.navigation.state.params.data;
+    temp.search = [];
+    this.state = temp;
     AsyncStorage.getItem("userID").then(userID => {
       this.setState({
         userID: userID,
@@ -296,7 +300,20 @@ export default class ChatInfo extends React.Component {
             value={this.state.number}
           ></TextInput>
         </View>
-        <View style={{ height: 5 > 6 ? 10 + 44 * 5 : 10 + 5 * 44, width: '100%', marginTop: 10 }}>
+        {(this.state.search.length > 0) ? <ContactList search={this.state.search} otherUsers={this.state.otherUsers} addContact={(contact) => {
+          console.log(contact)
+          //Must add Number
+          this.addNumber(contact.number);
+
+          // let temp = this.state.added;
+          // if(temp.indexOf(contact) === -1) {
+          //   temp.push(contact);
+          // }
+          // this.setState({
+          //   added: temp,
+          // })
+        }} /> : null }
+        {/* <View style={{ height: 5 > 6 ? 10 + 44 * 5 : 10 + 5 * 44, width: '100%', marginTop: 10 }}>
           <FlatList
             style={{ width: "100%" }}
             contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
@@ -357,7 +374,7 @@ export default class ChatInfo extends React.Component {
               </TouchableOpacity>
             )}
           />
-        </View>
+        </View> */}
         <TouchableOpacity activeOpacity={.5}
           style={[{ bottom: 25, position: "absolute", width: '85%', height: 50, paddingHorizontal: 10, alignItems: "center", justifyContent: "center", borderRadius: 15 }, shadowStyles.shadowDown]}
           onPress={() => {
