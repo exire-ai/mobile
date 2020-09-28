@@ -8,7 +8,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "packagerOpts": {
@@ -40,7 +40,10 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "ai.exire.exireMobile",
-      "buildNumber": "16"
+      "buildNumber": "2",
+      "infoPlist": {
+        "NSContactsUsageDescription": "You can directly invite friends through you contact list."
+      }
     },
     "android": {
       "package": "ai.exire.exireMobile",
