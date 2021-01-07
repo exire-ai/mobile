@@ -18,7 +18,6 @@ import { colorScheme } from '../global/colorScheme';
 import { shadowStyles } from '../global/shadowStyles';
 import dialogflow from '../functions/dialogflow';
 import plans from '../functions/plans';
-import chats from '../functions/chats';
 import notifs from '../functions/notifications';
 import { textStyles } from '../global/textStyles';
 import { analytics } from '../functions/mixpanel';

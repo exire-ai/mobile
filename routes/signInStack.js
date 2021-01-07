@@ -10,7 +10,6 @@ import TextVerification from '../screens/textVerification';
 import Name from '../screens/name';
 import ActivityPreference from '../screens/activityPreference';
 import FoodPreference from '../screens/foodPreference';
-import { colorScheme } from '../global/colorScheme';
 import { shadowStyles } from '../global/shadowStyles';
 
 const screens = {

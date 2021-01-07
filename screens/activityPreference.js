@@ -17,8 +17,6 @@ function Category({
     title,
     ogUrl,
     lowUrl,
-    url,
-    code,
     selected,
     onSelect
 }) {

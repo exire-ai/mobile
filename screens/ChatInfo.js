@@ -523,79 +523,9 @@ export default class ChatInfo extends React.Component {
                             console.log(contact);
                             //Must add Number
                             this.addNumber(contact.number);
-
-                            // let temp = this.state.added;
-                            // if(temp.indexOf(contact) === -1) {
-                            //   temp.push(contact);
-                            // }
-                            // this.setState({
-                            //   added: temp,
-                            // })
                         }}
                     />
                 ) : null}
-                {/* <View style={{ height: 5 > 6 ? 10 + 44 * 5 : 10 + 5 * 44, width: '100%', marginTop: 10 }}>
-          <FlatList
-            style={{ width: "100%" }}
-            contentContainerStyle={{ alignItems: "center", marginTop: 10 }}
-            data={this.state.search}
-            numColumns={1}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => "number" + item.number + "name" + item.name}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity activeOpacity={.5}
-                style={[{ paddingVertical: 7, marginBottom: 5, paddingHorizontal: 10, marginHorizontal: 5, backgroundColor: colorScheme.componentBackground, borderRadius: 15, flexDirection: "row", alignItems: "center", justifyContent: "center" }, shadowStyles.shadowDown]} onPress={() => {
-                  var temp = this.state.userData
-                  if (this.state.users.includes(item.number)) {
-                  } else {
-                    temp = temp.filter(function (o) { return o.number != item.number });
-                    temp.push({
-                      name: item.name,
-                      number: item.number,
-                      userID: '',
-                      imgURL: ''
-                    })
-                    this.setState({ userData: temp })
-                    users.getByNumber(item.number, (result) => {
-                      if (result) {
-                        var temp = this.state.userData
-                        temp = temp.filter(function (o) { return o.number != item.number });
-                        temp.push({
-                          name: result.name,
-                          number: result.number,
-                          userID: result.userID,
-                          imgURL: result.includes('profileImg') ? result.profileImg : "https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png"
-                        })
-                        this.setState({ userData: temp, number: "", tempNum: item.number })
-                        this.addData()
-                      } else {
-                        users.sendTextMsg(item.number, this.state.name + " invited you to join the Exire group " + this.state.chatName + ". Download the app now at https://exire.ai to join!", (result) => {
-                        })
-                        this.addData()
-                        this.setState({ number: "", tempNum: item.number })
-                      }
-                    })
-                    this.addContact("")
-                  }
-                }}
-              >
-                <Text style={{ fontFamily: "Bold", color: colorScheme.lessDarkText, fontSize: 17 }}>{
-                  item.name
-                }</Text>
-                <View style={{ height: 25, width: 25, borderRadius: 12.5, backgroundColor: "#ffcccb", marginLeft: 10, alignItems: "center", justifyContent: "center" }}>
-
-                  <Icon
-                    name="plus"
-                    color={colorScheme.lesserDarkText}
-                    size={20}
-                    style={[shadowStyles.shadowDown, { paddingTop: 2, paddingLeft: 1.5 }]}
-                  />
-                </View>
-
-              </TouchableOpacity>
-            )}
-          />
-        </View> */}
                 <TouchableOpacity
                     activeOpacity={0.5}
                     style={[

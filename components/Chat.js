@@ -3,8 +3,7 @@ import {
     View,
     Text,
     TouchableOpacity,
-    ImageBackground,
-    Switch
+    ImageBackground
 } from 'react-native';
 
 // Styles Imports
@@ -22,7 +21,7 @@ export default function Chat({
     selected,
     navigate
 }) {
-    var chat = (
+    const chat = (
         <TouchableOpacity
             activeOpacity={0.5}
             style={{

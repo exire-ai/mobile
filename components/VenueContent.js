@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { shadowStyles } from '../global/shadowStyles';
-import { TextInput } from 'react-native-paper';
 import { colorScheme } from '../global/colorScheme';
 
 export default class VenueContent extends Component {

@@ -9,7 +9,6 @@ import PlanDetail from '../screens/PlanDetail';
 import ProfileIcon from '../components/ProfileIcon';
 import * as Calendar from 'expo-calendar';
 import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
 
 // Style Imports
 import { navigationStyles } from '../global/navigationStyles';

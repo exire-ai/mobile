@@ -1,7 +1,6 @@
 // Style Imports
 import { navigationStyles } from '../global/navigationStyles';
 import { shadowStyles } from '../global/shadowStyles';
-import { colorScheme } from '../global/colorScheme';
 
 const Styling = {
     title: 'Games',

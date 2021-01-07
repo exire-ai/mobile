@@ -1,7 +1,3 @@
-import { useColorScheme } from 'react-native-appearance';
-
-// const iD = useColorScheme() === "dark"
-
 export const colorScheme = {
     primary: '#3597e9',
     background: '#efefef',

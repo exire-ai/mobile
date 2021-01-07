@@ -3,6 +3,7 @@ import MainStack from './routes/mainStack';
 import { BackdropProvider } from 'react-native-propel-kit';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config';
@@ -19,10 +20,6 @@ const getFonts = () =>
         SemiBold: require('./assets/fonts/Nunito-SemiBold.ttf'),
         Bold: require('./assets/fonts/Nunito-Bold.ttf'),
         Light: require('./assets/fonts/Nunito-Light.ttf')
-        // "Light" : require("./assets/fonts/H-Light.otf"),
-        // "Reg" : require("./assets/fonts/H-Reg.otf"),
-        // "SemiBold" : require("./assets/fonts/H-SemiBold.otf"),
-        // "Bold" : require("./assets/fonts/H-Bold.otf")
     });
 
 export default function App() {
@@ -38,14 +35,16 @@ export default function App() {
         return <MainStack />;
     } else {
         return (
-            <BackdropProvider>
-                <SafeAreaProvider>
-                    <AppLoading
-                        startAsync={getFonts}
-                        onFinish={() => setFontsLoaded(true)}
-                    />
-                </SafeAreaProvider>
-            </BackdropProvider>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                <BackdropProvider>
+                    <SafeAreaProvider>
+                        <AppLoading
+                            startAsync={getFonts}
+                            onFinish={() => setFontsLoaded(true)}
+                        />
+                    </SafeAreaProvider>
+                </BackdropProvider>
+            </TouchableWithoutFeedback>
         );
     }
 }

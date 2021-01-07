@@ -6,7 +6,7 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { CalendarList } from 'react-native-calendars';
 import { textStyles } from '../global/textStyles';
 import { colorScheme } from '../global/colorScheme';
 
