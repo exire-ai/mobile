@@ -1,40 +1,50 @@
 export const getNavigationOptions = (title, backgroundColor, color) => ({
     title,
     headerStyle: {
-      backgroundColor,
+        backgroundColor
     },
     headerTitleStyle: {
-      color,
+        color
     },
-    headerTintColor: color,
-  });
-  
-  export const getNavigationOptionsWithAction = (title, backgroundColor, color, headerLeft) => ({
+    headerTintColor: color
+});
+
+export const getNavigationOptionsWithAction = (
+    title,
+    backgroundColor,
+    color,
+    headerLeft
+) => ({
     title,
     headerStyle: {
-      backgroundColor,
+        backgroundColor
     },
     headerTitleStyle: {
-      color,
+        color
     },
     headerTintColor: color,
-    headerLeft,
-  });
-  
-  export const getDrawerNavigationOptions = (title, backgroundColor, titleColor, drawerIcon) => ({
+    headerLeft
+});
+
+export const getDrawerNavigationOptions = (
+    title,
+    backgroundColor,
+    titleColor,
+    drawerIcon
+) => ({
     title,
     headerStyle: {
-      backgroundColor,
+        backgroundColor
     },
     headerTitleStyle: {
-      color: titleColor,
+        color: titleColor
     },
     headerTintColor: titleColor,
     drawerLabel: title,
-    drawerIcon,
-  });
-  
-  export const getDrawerConfig = (drawerWidth, drawerPosition) => ({
+    drawerIcon
+});
+
+export const getDrawerConfig = (drawerWidth, drawerPosition) => ({
     drawerWidth,
-    drawerPosition,
-  });
+    drawerPosition
+});

@@ -1,47 +1,47 @@
 {
-  "project_info": {
-    "project_number": "471330204699",
-    "firebase_url": "https://exire-62903.firebaseio.com",
-    "project_id": "exire-62903",
-    "storage_bucket": "exire-62903.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:471330204699:android:d3d10567f46a462ec99cbe",
-        "android_client_info": {
-          "package_name": "ai.exire.exireMobile"
-        }
-      },
-      "oauth_client": [
+    "project_info": {
+        "project_number": "471330204699",
+        "firebase_url": "https://exire-62903.firebaseio.com",
+        "project_id": "exire-62903",
+        "storage_bucket": "exire-62903.appspot.com"
+    },
+    "client": [
         {
-          "client_id": "471330204699-mna00jkbsnrl7pct8i92t6b0ujosqp6l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDHm9McN2Xu_BpOI-wUF7SkRt8U_mq-1Qc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "471330204699-mna00jkbsnrl7pct8i92t6b0ujosqp6l.apps.googleusercontent.com",
-              "client_type": 3
+            "client_info": {
+                "mobilesdk_app_id": "1:471330204699:android:d3d10567f46a462ec99cbe",
+                "android_client_info": {
+                    "package_name": "ai.exire.exireMobile"
+                }
             },
-            {
-              "client_id": "471330204699-q9seud7auai0o32u9rg6fl3bhnh4p01d.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "ai.Exire.ExireAdmin"
-              }
+            "oauth_client": [
+                {
+                    "client_id": "471330204699-mna00jkbsnrl7pct8i92t6b0ujosqp6l.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyDHm9McN2Xu_BpOI-wUF7SkRt8U_mq-1Qc"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "471330204699-mna00jkbsnrl7pct8i92t6b0ujosqp6l.apps.googleusercontent.com",
+                            "client_type": 3
+                        },
+                        {
+                            "client_id": "471330204699-q9seud7auai0o32u9rg6fl3bhnh4p01d.apps.googleusercontent.com",
+                            "client_type": 2,
+                            "ios_info": {
+                                "bundle_id": "ai.Exire.ExireAdmin"
+                            }
+                        }
+                    ]
+                }
             }
-          ]
         }
-      }
-    }
-  ],
-  "configuration_version": "1"
+    ],
+    "configuration_version": "1"
 }

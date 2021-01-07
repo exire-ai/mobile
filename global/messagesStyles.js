@@ -1,62 +1,62 @@
-import { StyleSheet } from "react-native";
-import { colorScheme } from "./colorScheme";
+import { StyleSheet } from 'react-native';
+import { colorScheme } from './colorScheme';
 
 export const messagesStyles = StyleSheet.create({
     textInput: {
-        color: colorScheme.inactiveButton, 
+        color: colorScheme.inactiveButton,
         fontSize: 16
     },
     chatContainer: {
-        width: "100%", 
-        flexDirection: "row", 
-        alignItems: "flex-start", 
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
         paddingLeft: 10,
         paddingRight: 13
     },
     profileImage: {
         marginTop: 15,
-        height: 48, 
-        width: 48, 
+        height: 48,
+        width: 48,
         borderRadius: 24,
-        overflow: "hidden",
+        overflow: 'hidden',
         backgroundColor: colorScheme.lessDarkText
     },
     name: {
-        fontFamily: "Bold", 
-        fontSize: 18, 
+        fontFamily: 'Bold',
+        fontSize: 18,
         color: colorScheme.darkText
     },
     text: {
-        fontFamily: "Reg", 
-        fontSize: 16, 
+        fontFamily: 'Reg',
+        fontSize: 16,
         color: colorScheme.lessDarkText
     },
     venueContainer: {
         flex: 1,
-        flexDirection: "column",
+        flexDirection: 'column',
         height: 150,
         width: 145,
         borderRadius: 16,
-        overflow: "hidden",
-        backgroundColor: colorScheme.background,
-      },
-      venueImage: {
-        width: "100%",
-        height: "100%",
-        borderRadius: 16,
-      },
-      venueContent: {
-        height: "100%",
-        width: "100%",
-        backgroundColor: "rgba(0,0,0,.35)",
-      },
-      venueText: {
-        fontFamily: "SemiBold",
+        overflow: 'hidden',
+        backgroundColor: colorScheme.background
+    },
+    venueImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 16
+    },
+    venueContent: {
+        height: '100%',
+        width: '100%',
+        backgroundColor: 'rgba(0,0,0,.35)'
+    },
+    venueText: {
+        fontFamily: 'SemiBold',
         fontSize: 16,
         color: colorScheme.primaryText,
-        fontWeight: "600",
-        position: "absolute",
+        fontWeight: '600',
+        position: 'absolute',
         marginHorizontal: 5,
-        bottom: 5,
-      },
-})
+        bottom: 5
+    }
+});
