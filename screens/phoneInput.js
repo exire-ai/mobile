@@ -36,7 +36,7 @@ export default function PhoneInput({ navigation }) {
                 setLoadingVisible(false);
                 if (data) {
                     users.doesNumberExist(text, (userExist) => {
-                        var newData = {
+                        let newData = {
                             data: {
                                 code: data.code,
                                 number: text

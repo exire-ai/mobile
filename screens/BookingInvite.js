@@ -15,14 +15,14 @@ export default class BookingInvite extends Component {
     }
 
     addAttendee = () => {
-        var current = this.state.numAttendees;
+        let current = this.state.numAttendees;
         this.setState({
             numAttendees: current + 1
         });
     };
 
     removeAttendee = () => {
-        var current = this.state.numAttendees;
+        let current = this.state.numAttendees;
         this.setState({
             numAttendees: current - 1
         });
@@ -44,7 +44,7 @@ export default class BookingInvite extends Component {
     };
 
     continue = () => {
-        var order = {};
+        let order = {};
         order.numAttendees = this.state.numAttendees;
         order.booking = this.state.booking;
         order.venue = this.state.venue;

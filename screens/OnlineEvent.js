@@ -15,7 +15,7 @@ import { navigationStyles } from '../global/navigationStyles';
 import { colorScheme } from '../global/colorScheme';
 import DateFormatter from '../global/DateFormatter';
 
-var formatter = new DateFormatter();
+let formatter = new DateFormatter();
 
 export default class OnlineEvent extends Component {
     constructor(props) {

@@ -125,11 +125,11 @@ export default class Chats extends Component {
     };
 
     timeConvert(unix) {
-        var now = Math.round(new Date().getTime() / 1000);
-        var res = new Date(unix);
+        let now = Math.round(new Date().getTime() / 1000);
+        let res = new Date(unix);
         if (unix + 86400 > now) {
-            var hours = res.getHours();
-            var minutes = res.getMinutes();
+            let hours = res.getHours();
+            let minutes = res.getMinutes();
             return (
                 (hours > 12 ? hours - 12 : hours == 0 ? 12 : hours) +
                 ':' +
@@ -202,7 +202,7 @@ export default class Chats extends Component {
                                     : 'Send your first message!'
                             }
                             select={() => {
-                                var selected = this.state.selected;
+                                let selected = this.state.selected;
                                 console.log(selected);
                                 this.setState({
                                     selected:
@@ -302,7 +302,7 @@ export default class Chats extends Component {
                             ]}
                             onPress={() => {
                                 if (this.state.selected) {
-                                    var attachment =
+                                    let attachment =
                                         'attachment' in this.state &&
                                         this.state.attachment;
                                     this.setState({ attachment: null });

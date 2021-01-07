@@ -86,7 +86,7 @@ export default class SelectPlan extends Component {
         const placeholder = Object.keys(nameDict).includes(category)
             ? nameDict[category][0] + ' @ ' + title
             : 'Name Plan';
-        var descPlaceholder = this.props.navigation.state.params.venue
+        let descPlaceholder = this.props.navigation.state.params.venue
             .description;
         descPlaceholder =
             descPlaceholder !== '' ? descPlaceholder : 'Enter Description';
@@ -94,9 +94,9 @@ export default class SelectPlan extends Component {
 
         AsyncStorage.getItem('userID').then((userID) => {
             users.getPlans(userID, (response) => {
-                var now = Math.round(new Date().getTime());
-                var upcoming = [];
-                for (var i = 0; i < _.get(response, 'length', 0); i++) {
+                let now = Math.round(new Date().getTime());
+                let upcoming = [];
+                for (let i = 0; i < _.get(response, 'length', 0); i++) {
                     if (
                         response[i] !== null &&
                         response[i].startUNIX * 1000 > now
@@ -122,7 +122,7 @@ export default class SelectPlan extends Component {
 
     addToPlan = () => {
         const plan = this.state.selectedData;
-        var tempIDs = plan.ids.map((o) =>
+        let tempIDs = plan.ids.map((o) =>
             _.get(o, 'eventID', _.get(o, 'placeID', ''))
         );
         const id = _.get(

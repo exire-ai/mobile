@@ -67,7 +67,7 @@ export default class CreateChat extends React.Component {
             pageOffset: 0
         });
         if (contacts.total > 0) {
-            var newContacts = contacts.data
+            let newContacts = contacts.data
                 .filter((o) => {
                     if ('phoneNumbers' in o && 'name' in o) {
                         if (o.phoneNumbers.length != 0) {
@@ -77,7 +77,7 @@ export default class CreateChat extends React.Component {
                     return false;
                 })
                 .map((o) => {
-                    var num = o.phoneNumbers[0].digits;
+                    let num = o.phoneNumbers[0].digits;
                     num =
                         num.length <= 10 ? num : num.substring(num.length - 10);
                     return {
@@ -97,7 +97,7 @@ export default class CreateChat extends React.Component {
             .get()
             .then((querySnapshot) => {
                 const data = querySnapshot.docs.map((doc) => {
-                    var temp = doc.data();
+                    let temp = doc.data();
                     return temp;
                 })[0];
                 callback(data);
@@ -212,7 +212,7 @@ export default class CreateChat extends React.Component {
         if (text.match(/^[0-9]+$/) != null && text.length == 10) {
             this.addNumber(text);
         } else {
-            var data = this.state.contacts.filter((o) =>
+            let data = this.state.contacts.filter((o) =>
                 o.name.toLowerCase().includes(text.toLowerCase())
             );
             this.setState({ search: data });
@@ -222,7 +222,7 @@ export default class CreateChat extends React.Component {
     addNumber = (text) => {
         this.setState({ number: text });
         if (text.length > 9) {
-            var temp = this.state.added;
+            let temp = this.state.added;
             temp.push({
                 name: '',
                 number: text,

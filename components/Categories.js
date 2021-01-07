@@ -45,15 +45,15 @@ const nameDict = {
     rockclimbing: ['Rock Climbing', '🧗']
 };
 
-var format = (categories) => {
-    var temp = [
+let format = (categories) => {
+    let temp = [
         {
             name: ['All', ''],
             key: 'all',
             selected: true
         }
     ];
-    for (var i in categories) {
+    for (let i in categories) {
         temp.push({
             name: nameDict[categories[i]],
             key: categories[i],
@@ -84,12 +84,12 @@ export default class Categories extends React.Component {
                         activeOpacity={0.5}
                         style={[{ padding: 5 }, shadowStyles.shadowDown]}
                         onPress={() => {
-                            var temp = this.state.categories;
+                            let temp = this.state.categories;
                             temp.find(
                                 (o) => o.key === item.key
                             ).selected = !item.selected;
-                            var noneSelected = true;
-                            for (var i in temp) {
+                            let noneSelected = true;
+                            for (let i in temp) {
                                 if (
                                     temp[i].selected == true &&
                                     temp[i].key != 'all'
@@ -102,7 +102,7 @@ export default class Categories extends React.Component {
                                     (o) => o.key === 'all'
                                 ).selected = noneSelected;
                             } else {
-                                for (var i in temp) {
+                                for (let i in temp) {
                                     if (temp[i].key != 'all') {
                                         temp[i].selected = false;
                                     }

@@ -88,12 +88,12 @@ export default class Drawer extends Component {
             quality: 1
         });
         if (!result.cancelled) {
-            var file = {
+            let file = {
                 uri: result.uri,
                 name: this.state.userID + '.png',
                 type: 'image/png'
             };
-            var options = {
+            let options = {
                 keyPrefix: 'uploads/',
                 bucket: 'exirevideo',
                 region: 'us-east-2',
@@ -101,7 +101,7 @@ export default class Drawer extends Component {
                 secretKey: 'Dkxr8PVsdv3QIDUm+INg4Bbqik17MLjhngYmN1eh',
                 successActionStatus: 201
             };
-            var temp =
+            let temp =
                 'https://media1.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif';
             this.setState({ image: temp });
             this.setState({

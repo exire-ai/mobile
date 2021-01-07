@@ -31,7 +31,7 @@ const screens = {
     Chat: {
         screen: Chat,
         navigationOptions: ({ navigation, screenProps }) => {
-            var name = navigation.getParam('name');
+            let name = navigation.getParam('name');
             return {
                 headerShown: true,
                 title: name.length >= 30 ? name.slice(0, 29) + '...' : name,

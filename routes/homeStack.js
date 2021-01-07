@@ -19,13 +19,13 @@ import Drawer from '../components/Drawer';
 import Logout from '../components/Logout';
 
 //TODO: update in future toa cleaner solution
-var tabHeight = Platform.OS === 'ios' ? 45 : 25;
+let tabHeight = Platform.OS === 'ios' ? 45 : 25;
 
 const screens = {
     Discover: {
         screen: DiscoverStack,
         navigationOptions: ({ navigation }) => {
-            var tabBarVisible = false;
+            let tabBarVisible = false;
             let routeName =
                 navigation.state.routes[navigation.state.index].routeName;
             if (
@@ -69,7 +69,7 @@ const screens = {
     Chats: {
         screen: ChatsStack,
         navigationOptions: ({ navigation }) => {
-            var tabBarVisible = false;
+            let tabBarVisible = false;
             let routeName =
                 navigation.state.routes[navigation.state.index].routeName;
             if (

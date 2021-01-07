@@ -63,8 +63,8 @@ const nameDict = {
     comedyclubs: ['Comedy Clubs', '🤣']
 };
 
-var format = (categories) => {
-    var temp = [
+let format = (categories) => {
+    let temp = [
         {
             name: ['All', ''],
             key: 'all',
@@ -76,7 +76,7 @@ var format = (categories) => {
             selected: false
         }
     ];
-    for (var i in categories) {
+    for (let i in categories) {
         temp.push({
             name: nameDict[categories[i]],
             key: categories[i],
@@ -113,9 +113,9 @@ export default class Discover extends Component {
     }
 
     formatVenues(data, callback, load = false) {
-        var tempDuplicates = [];
+        let tempDuplicates = [];
         data = data.filter((o) => {
-            var id = o.placeID != null ? o.placeID : o.eventID;
+            let id = o.placeID != null ? o.placeID : o.eventID;
             if (tempDuplicates.includes(id)) {
                 return false;
             } else {
@@ -124,16 +124,16 @@ export default class Discover extends Component {
             }
         });
 
-        var venues = [];
-        var doubleVenue = {};
-        var validCategories = [];
+        let venues = [];
+        let doubleVenue = {};
+        let validCategories = [];
 
-        var double = data.length >= 2;
-        var doubleRep = false;
-        var single = !double;
+        let double = data.length >= 2;
+        let doubleRep = false;
+        let single = !double;
 
-        for (var i = 0; i < data.length; i++) {
-            var id =
+        for (let i = 0; i < data.length; i++) {
+            let id =
                 data[i].placeID != null ? data[i].placeID : data[i].eventID;
             if (load && !validCategories.includes(data[i].subcategory)) {
                 validCategories.push(data[i].subcategory);
@@ -177,7 +177,7 @@ export default class Discover extends Component {
         AsyncStorage.getItem('userID').then((value) => {
             plans.getRecommended(value, (result1) => {
                 plans.getByHierCategory('online-event', (result) => {
-                    for (var i = 0; i < result.length; i++) {
+                    for (let i = 0; i < result.length; i++) {
                         result[i]['subcategory'] = 'online';
                     }
                     result = result.concat(result1);
@@ -206,7 +206,7 @@ export default class Discover extends Component {
     loadCategories = () => {
         AsyncStorage.getItem('userID').then((value) => {
             users.getCategories(value, (result) => {
-                var categories = format(result);
+                let categories = format(result);
                 this.setState({
                     categories: categories
                 });
@@ -219,10 +219,10 @@ export default class Discover extends Component {
     };
 
     filterCategories = () => {
-        var rawVenues = this.state.rawVenues;
-        var categories = this.state.categories;
-        var selected = [];
-        for (var i = 0; i < categories.length; i++) {
+        let rawVenues = this.state.rawVenues;
+        let categories = this.state.categories;
+        let selected = [];
+        for (let i = 0; i < categories.length; i++) {
             if (categories[i].selected) {
                 selected.push(categories[i].key);
             }
@@ -234,7 +234,7 @@ export default class Discover extends Component {
                 });
             });
         } else {
-            var filteredVenues = rawVenues.filter((venue) =>
+            let filteredVenues = rawVenues.filter((venue) =>
                 selected.includes(venue.subcategory)
             );
             this.formatVenues(filteredVenues, (venues) => {
@@ -248,7 +248,7 @@ export default class Discover extends Component {
     setSearch = (query) => {
         let { categories, selected } = this.state;
         if (selected !== ['all']) {
-            for (var i in categories) {
+            for (let i in categories) {
                 categories[i].selected = categories[i].key === 'all';
             }
             this.setState({ selected, categories });
@@ -291,12 +291,12 @@ export default class Discover extends Component {
                                 activeOpacity={0.5}
                                 style={{ height: '100%', paddingLeft: 7 }}
                                 onPress={() => {
-                                    var temp = this.state.categories;
+                                    let temp = this.state.categories;
                                     temp.find(
                                         (o) => o.key === item.key
                                     ).selected = !item.selected;
-                                    var noneSelected = true;
-                                    for (var i in temp) {
+                                    let noneSelected = true;
+                                    for (let i in temp) {
                                         if (
                                             temp[i].selected == true &&
                                             temp[i].key != 'all'
@@ -309,14 +309,14 @@ export default class Discover extends Component {
                                             (o) => o.key === 'all'
                                         ).selected = noneSelected;
                                     } else {
-                                        for (var i in temp) {
+                                        for (let i in temp) {
                                             if (temp[i].key != 'all') {
                                                 temp[i].selected = false;
                                             }
                                         }
                                     }
-                                    var noneSelected = true;
-                                    for (var i in temp) {
+                                    noneSelected = true;
+                                    for (let i in temp) {
                                         if (temp[i].selected == true) {
                                             noneSelected = false;
                                         }

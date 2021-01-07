@@ -97,11 +97,11 @@ export default class DateTime extends Component {
     }
 
     getCurrentDate = () => {
-        var today = new Date();
-        var dd = today.getDate();
+        let today = new Date();
+        let dd = today.getDate();
 
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
+        let mm = today.getMonth() + 1;
+        let yyyy = today.getFullYear();
         if (dd < 10) {
             dd = '0' + dd;
         }
@@ -119,8 +119,8 @@ export default class DateTime extends Component {
 
     selectedDate = (day) => {
         // const selectedDate = { [day.dateString]: { selected: true } };
-        var obj = null;
-        for (var i = 0; i < availableBookings.length; i++) {
+        let obj = null;
+        for (let i = 0; i < availableBookings.length; i++) {
             if (availableBookings[i].date == day.dateString) {
                 obj = availableBookings[i];
             }
@@ -134,7 +134,7 @@ export default class DateTime extends Component {
     };
 
     selectedSlot = (slot) => {
-        var order = {};
+        let order = {};
         order.booking = slot;
         order.booking.date = this.state.selectedDate.date;
         order.venue = this.state.venue;
@@ -142,9 +142,9 @@ export default class DateTime extends Component {
     };
 
     enabledDates = () => {
-        var obj = {};
-        for (var i = 0; i < availableBookings.length; i++) {
-            var curr = availableBookings[i].date;
+        let obj = {};
+        for (let i = 0; i < availableBookings.length; i++) {
+            let curr = availableBookings[i].date;
             obj[availableBookings[i].date] = {
                 disabled: false,
                 disableTouchEvent: false
@@ -154,7 +154,7 @@ export default class DateTime extends Component {
     };
 
     markedDates = () => {
-        var obj = this.enabledDates();
+        let obj = this.enabledDates();
         if (this.state.selectedDate != null) {
             obj[this.state.selectedDate.date].selected = true;
             obj[this.state.selectedDate.date].selectedColor =
@@ -167,8 +167,8 @@ export default class DateTime extends Component {
 
     formattedHour = (hour) => {
         //TODO Generate This based on Locale in future
-        var timezone = '(EDT)';
-        var suffix = 'AM';
+        let timezone = '(EDT)';
+        let suffix = 'AM';
         if (hour >= 12) {
             suffix = 'PM';
             if (hour != 12) {
@@ -179,9 +179,9 @@ export default class DateTime extends Component {
     };
 
     formattedDate = (dateString) => {
-        var day = this.getDayOfWeek(dateString);
-        var month = months[dateString.substring(5, 7)];
-        var year = dateString.substring(0, 4);
+        let day = this.getDayOfWeek(dateString);
+        let month = months[dateString.substring(5, 7)];
+        let year = dateString.substring(0, 4);
         return day + ' ' + month + ' ' + year;
     };
 

@@ -1,4 +1,4 @@
-var uuid = require('uuid');
+let uuid = require('uuid');
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -12,10 +12,10 @@ const chats = {
         otherUsers,
         callback
     ) {
-        var db = firebase.firestore();
-        var users = [];
-        var userData = [];
-        var chatID = uuid.v4();
+        let db = firebase.firestore();
+        let users = [];
+        let userData = [];
+        let chatID = uuid.v4();
         userData.push({
             userID: userID,
             name: name,
@@ -28,13 +28,13 @@ const chats = {
             imgURL: 'https://exirevideo.s3.us-east-2.amazonaws.com/emma.png',
             number: 1000
         });
-        for (var i = 0; i < otherUsers.length; i++) {
+        for (let i = 0; i < otherUsers.length; i++) {
             users.push(otherUsers[i].number);
             userData.push(otherUsers[i]);
         }
         users.push(number);
         users.push(1000);
-        var initialChat = {
+        let initialChat = {
             chatID: chatID,
             name: chatName,
             messages: [

@@ -7,10 +7,11 @@ import { colorScheme } from '../global/colorScheme';
 import { messagesStyles } from '../global/messagesStyles';
 
 export function Message({ name, message, time, imgURL }) {
+    let temp
     if (message.includes('@Emma')) {
-        var temp = message.split('@Emma');
+        temp = message.split('@Emma');
     } else {
-        var temp = message.split('@emma');
+        temp = message.split('@emma');
     }
 
     if (temp.length == 2) {
@@ -28,7 +29,7 @@ export function Message({ name, message, time, imgURL }) {
             </Text>
         );
     }
-    var MessageObj = (
+    let MessageObj = (
         <View style={[messagesStyles.chatContainer]}>
             <View
                 style={[

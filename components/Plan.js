@@ -81,9 +81,9 @@ export default class Plan extends Component {
     }
 
     render() {
-        var data = this.props.data;
-        var extraStyle = _.get(this.props, 'extraStyle', false);
-        var plan = (
+        let data = this.props.data;
+        let extraStyle = _.get(this.props, 'extraStyle', false);
+        let plan = (
             <TouchableOpacity
                 activeOpacity={0.5}
                 style={{ alignItems: 'center', paddingTop: 10 }}

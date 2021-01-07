@@ -30,8 +30,8 @@ export default class PlanDetail extends Component {
 
     componentDidMount() {
         AsyncStorage.getItem('userID').then((userID) => {
-            var isOnPlan = false;
-            var plan = this.state.plan;
+            let isOnPlan = false;
+            let plan = this.state.plan;
             for (elem in plan.users) {
                 if (userID === plan.users[elem]['userID']) {
                     isOnPlan = true;
@@ -47,10 +47,10 @@ export default class PlanDetail extends Component {
     joinPlan() {
         users.addPlan(this.state.user, this.state.plan.planID, (res) => {
             plans.addUser(this.state.plan.planID, this.state.user, (resp) => {
-                var current = this.state.plan;
+                let current = this.state.plan;
                 AsyncStorage.getItem('profileImg').then((profileImg) => {
                     AsyncStorage.getItem('name').then((name) => {
-                        var user = {
+                        let user = {
                             userID: this.state.user,
                             name: name,
                             profileImg: profileImg

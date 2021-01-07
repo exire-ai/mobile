@@ -171,7 +171,7 @@ export class MessageClass extends React.Component {
                 </Text>
             );
         }
-        var MessageObj = (
+        let MessageObj = (
             <View style={{ width: '100%' }}>
                 <View style={[messagesStyles.chatContainer]}>
                     <View

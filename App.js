@@ -7,6 +7,7 @@ import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config';
+import User from './providers/UserContext';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -37,12 +38,14 @@ export default function App() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <BackdropProvider>
-                    <SafeAreaProvider>
-                        <AppLoading
-                            startAsync={getFonts}
-                            onFinish={() => setFontsLoaded(true)}
-                        />
-                    </SafeAreaProvider>
+                    <User>
+                        <SafeAreaProvider>
+                            <AppLoading
+                                startAsync={getFonts}
+                                onFinish={() => setFontsLoaded(true)}
+                            />
+                        </SafeAreaProvider>
+                    </User>
                 </BackdropProvider>
             </TouchableWithoutFeedback>
         );

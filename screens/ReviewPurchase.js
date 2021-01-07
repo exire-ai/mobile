@@ -5,7 +5,7 @@ import { shadowStyles } from '../global/shadowStyles';
 import { colorScheme } from '../global/colorScheme';
 import DateFormatter from '../global/DateFormatter';
 
-var formatter = new DateFormatter();
+let formatter = new DateFormatter();
 
 export default class ReviewPurchase extends Component {
     constructor(props) {

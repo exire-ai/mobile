@@ -65,7 +65,7 @@ export default class ChatInfo extends React.Component {
             .get()
             .then((querySnapshot) => {
                 const data = querySnapshot.docs.map((doc) => {
-                    var temp = doc.data();
+                    let temp = doc.data();
                     return temp;
                 })[0];
                 this.setState({
@@ -93,7 +93,7 @@ export default class ChatInfo extends React.Component {
             pageOffset: 0
         });
         if (contacts.total > 0) {
-            var newContacts = contacts.data
+            let newContacts = contacts.data
                 .filter((o) => {
                     if ('phoneNumbers' in o && 'name' in o) {
                         if (o.phoneNumbers.length != 0) {
@@ -103,7 +103,7 @@ export default class ChatInfo extends React.Component {
                     return false;
                 })
                 .map((o) => {
-                    var num = o.phoneNumbers[0].digits;
+                    let num = o.phoneNumbers[0].digits;
                     num =
                         num.length <= 10 ? num : num.substring(num.length - 10);
                     return {
@@ -124,10 +124,10 @@ export default class ChatInfo extends React.Component {
     }
 
     toggleFriend(userID) {
-        var friends = this.state.friends;
+        let friends = this.state.friends;
         if (friends.includes(userID)) {
             users.deleteFriend(this.state.userID, userID, (data) => {
-                for (var i = 0; i < friends.length; i++) {
+                for (let i = 0; i < friends.length; i++) {
                     if (friends[i] === userID) {
                         friends.splice(i, 1);
                     }
@@ -147,7 +147,7 @@ export default class ChatInfo extends React.Component {
         if (text.match(/^[0-9]+$/) != null && text.length == 10) {
             this.addNumber(text);
         } else {
-            var data = this.state.contacts.filter((o) =>
+            let data = this.state.contacts.filter((o) =>
                 o.name.toLowerCase().includes(text.toLowerCase())
             );
             this.setState({ search: data });
@@ -158,7 +158,7 @@ export default class ChatInfo extends React.Component {
         // need to add check that they don"t add self
         this.setState({ number: text });
         if (text.length > 9) {
-            var temp = this.state.userData;
+            let temp = this.state.userData;
             temp.push({
                 name: '',
                 number: text,
@@ -169,7 +169,7 @@ export default class ChatInfo extends React.Component {
             this.setState({ number: '' });
             users.getByNumber(text, (result) => {
                 if (result) {
-                    var temp = this.state.userData;
+                    let temp = this.state.userData;
                     temp = temp.filter(function (o) {
                         return o.number != text;
                     });
@@ -196,7 +196,7 @@ export default class ChatInfo extends React.Component {
     };
 
     leave() {
-        var userData = {
+        let userData = {
             userID: this.state.userID,
             number: 'gone',
             name: this.state.userData.find((o) => o.userID == this.state.userID)
@@ -205,18 +205,18 @@ export default class ChatInfo extends React.Component {
                 (o) => o.userID == this.state.userID
             ).imgURL
         };
-        var oldNumber = this.state.userData.find(
+        let oldNumber = this.state.userData.find(
             (o) => o.userID == this.state.userID
         ).number;
-        var oldUserData = this.state.userData;
+        let oldUserData = this.state.userData;
         this.db
             .collection('chats')
             .where('chatID', '==', this.state.chatID)
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    var data = doc.data().userData;
-                    var users = doc.data().users;
+                    let data = doc.data().userData;
+                    let users = doc.data().users;
                     data = data.filter(function (o) {
                         return o.number != oldNumber;
                     });
@@ -244,7 +244,7 @@ export default class ChatInfo extends React.Component {
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    var users = doc.data().users;
+                    let users = doc.data().users;
                     users.push(this.state.tempNum);
                     this.db.collection('chats').doc(doc.id).update({
                         userData: this.state.userData,
@@ -295,7 +295,7 @@ export default class ChatInfo extends React.Component {
                         }
                         keyExtractor={(item, index) => 'number' + item.number}
                         renderItem={({ item, index }) => {
-                            var friends =
+                            let friends =
                                 this.state.friends instanceof Array
                                     ? this.state.friends
                                     : [];

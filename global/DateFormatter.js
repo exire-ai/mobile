@@ -17,7 +17,7 @@ module.exports = class DateFormatter {
     constructor() {}
 
     unixToDate = (timestamp) => {
-        var date = new Date(timestamp * 1000);
+        let date = new Date(timestamp * 1000);
 
         let month = date.getMonth();
         let day = date.getDate();
@@ -26,17 +26,17 @@ module.exports = class DateFormatter {
     };
 
     unixToTime = (timestamp) => {
-        var date = new Date(timestamp * 1000);
+        let date = new Date(timestamp * 1000);
         let hour = this.formattedHour(date.getHours());
         return hour;
     };
 
     getCurrentDate = () => {
-        var today = new Date();
-        var dd = today.getDate();
+        let today = new Date();
+        let dd = today.getDate();
 
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
+        let mm = today.getMonth() + 1;
+        let yyyy = today.getFullYear();
         if (dd < 10) {
             dd = '0' + dd;
         }
@@ -50,8 +50,8 @@ module.exports = class DateFormatter {
 
     formattedHour = (hour) => {
         //TODO Generate This based on Locale in future
-        var timezone = '(EDT)';
-        var suffix = 'AM';
+        let timezone = '(EDT)';
+        let suffix = 'AM';
         if (hour >= 12) {
             suffix = 'PM';
             if (hour != 12) {
@@ -62,9 +62,9 @@ module.exports = class DateFormatter {
     };
 
     formattedDate = (dateString) => {
-        var day = this.getDayOfWeek(dateString);
-        var month = months[dateString.substring(5, 7)];
-        var year = dateString.substring(0, 4);
+        let day = this.getDayOfWeek(dateString);
+        let month = months[dateString.substring(5, 7)];
+        let year = dateString.substring(0, 4);
         return day + ' ' + month + ' ' + year;
     };
 

@@ -123,10 +123,10 @@ function Category({
 export default class CategoryPreference extends React.Component {
     constructor(props) {
         super(props);
-        var categoryData = this.props.navigation.state.params.categoryData;
-        var userCategories = this.props.navigation.state.params.userCategories;
+        let categoryData = this.props.navigation.state.params.categoryData;
+        let userCategories = this.props.navigation.state.params.userCategories;
 
-        var food = [
+        let food = [
             'chinese',
             'sushi',
             'burgers',
@@ -147,10 +147,10 @@ export default class CategoryPreference extends React.Component {
             'japanese'
         ];
 
-        var formatData = () => {
-            var categories = [];
-            var j = 0;
-            for (var i = 0; i < categoryData.length; i++) {
+        let formatData = () => {
+            let categories = [];
+            let j = 0;
+            for (let i = 0; i < categoryData.length; i++) {
                 if (food.includes(categoryData[i].code)) {
                     categories.push({
                         title: categoryData[i].title,
@@ -173,9 +173,9 @@ export default class CategoryPreference extends React.Component {
             return categories;
         };
 
-        var priorSelected = () => {
-            var selectedCategories = [];
-            for (var i = 0; i < categoryData.length; i++) {
+        let priorSelected = () => {
+            let selectedCategories = [];
+            for (let i = 0; i < categoryData.length; i++) {
                 if (food.includes(categoryData[i].code)) {
                     if (userCategories.includes(categoryData[i].code)) {
                         selectedCategories.push(categoryData[i].code);
@@ -194,9 +194,9 @@ export default class CategoryPreference extends React.Component {
 
     next = (selected) => {
         if (selected.length > 2) {
-            var temp = this.props.navigation.state.params.selected;
+            let temp = this.props.navigation.state.params.selected;
             selected = temp.concat(selected);
-            var userID = this.props.navigation.state.params.userID;
+            let userID = this.props.navigation.state.params.userID;
             users.updateCategories(userID, selected, () => {
                 AsyncStorage.setItem('userID', userID);
                 this.props.navigation.navigate('HomeStack');
@@ -241,10 +241,10 @@ export default class CategoryPreference extends React.Component {
                             lowUrl={item.lowUrl}
                             selected={item.selected}
                             onSelect={() => {
-                                var newCategories = this.state.categories;
+                                let newCategories = this.state.categories;
                                 newCategories[item.id].selected = !this.state
                                     .categories[item.id].selected;
-                                var newSelected = this.state.selectedCategories;
+                                let newSelected = this.state.selectedCategories;
                                 if (newCategories[item.id].selected) {
                                     newSelected.push(
                                         newCategories[item.id].code

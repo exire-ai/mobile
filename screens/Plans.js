@@ -96,10 +96,10 @@ export default class Plans extends Component {
         });
         AsyncStorage.getItem('userID').then((userID) => {
             users.getPlans(userID, (response) => {
-                var now = Math.round(new Date().getTime());
-                var upcoming = [];
-                var previous = [];
-                for (var i = 0; i < response.length; i++) {
+                let now = Math.round(new Date().getTime());
+                let upcoming = [];
+                let previous = [];
+                for (let i = 0; i < response.length; i++) {
                     if (
                         response[i] !== null &&
                         response[i].startUNIX * 1000 > now

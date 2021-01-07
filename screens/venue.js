@@ -169,12 +169,12 @@ export default class Venue extends Component {
         //Only called on one-time free online events
         AsyncStorage.getItem('userID').then((value) => {
             //Create plan object
-            var booking = {
+            let booking = {
                 type: 'one-time',
                 slot: null
             };
 
-            var plan = {
+            let plan = {
                 bookings: [],
                 users: [],
                 ids: [],
@@ -208,7 +208,7 @@ export default class Venue extends Component {
     sendToChats = () => {
         this.props.navigation.pop();
         const venue = this.state.venue;
-        var body = {};
+        let body = {};
         if (_.has(venue, 'placeID')) {
             body = {
                 venue: venue.placeID,
@@ -231,6 +231,11 @@ export default class Venue extends Component {
     };
 
     render() {
+        let navigationButton;
+        let uberButton;
+        let lyftButton;
+        let infoButton;
+
         if (this.state.venue.category == 'online-event') {
             return (
                 <OnlineEvent
@@ -250,7 +255,7 @@ export default class Venue extends Component {
                 this.state.venue.longitude != 0 &&
                 this.state.venue.longitude != null
             ) {
-                var navigationButton = (
+                navigationButton = (
                     <View style={{ alignItems: 'center' }}>
                         <TouchableOpacity
                             activeOpacity={0.5}
@@ -304,7 +309,7 @@ export default class Venue extends Component {
                     </View>
                 );
             } else {
-                var navigationButton = null;
+                navigationButton = null;
             }
             if (
                 this.state.venue.latitude != 0 &&
@@ -312,7 +317,7 @@ export default class Venue extends Component {
                 this.state.venue.longitude != 0 &&
                 this.state.venue.longitude != null
             ) {
-                var uberButton = (
+                uberButton = (
                     <View style={{ alignItems: 'center' }}>
                         <TouchableOpacity
                             activeOpacity={0.5}
@@ -360,7 +365,7 @@ export default class Venue extends Component {
                     </View>
                 );
             } else {
-                var uberButton = null;
+                uberButton = null;
             }
             if (
                 this.state.venue.latitude != 0 &&
@@ -368,7 +373,7 @@ export default class Venue extends Component {
                 this.state.venue.longitude != 0 &&
                 this.state.venue.longitude != null
             ) {
-                var lyftButton = (
+                lyftButton = (
                     <View style={{ alignItems: 'center' }}>
                         <TouchableOpacity
                             activeOpacity={0.5}
@@ -417,13 +422,13 @@ export default class Venue extends Component {
                     </View>
                 );
             } else {
-                var lyftButton = null;
+                lyftButton = null;
             }
             if (
                 this.state.venue.accessURL != null &&
                 this.state.venue.accessURL != ''
             ) {
-                var infoButton = (
+                let infoButton = (
                     <View style={{ alignItems: 'center' }}>
                         <TouchableOpacity
                             activeOpacity={0.5}
@@ -464,7 +469,7 @@ export default class Venue extends Component {
                     </View>
                 );
             } else {
-                var infoButton = null;
+                infoButton = null;
             }
             return (
                 <View style={styles.container}>

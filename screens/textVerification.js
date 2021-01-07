@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView
 } from 'react-native';
-var uuid = require('uuid');
+let uuid = require('uuid');
 import _ from 'lodash';
 import users from '../functions/users';
 import { signInStyles } from '../global/signInStyles';
@@ -25,7 +25,7 @@ export default function TextVerification({ navigation }) {
     const [value, changeText] = React.useState('');
     const [errorMsg, changeErrorMsg] = React.useState('#fff');
 
-    var userID = uuid.v4();
+    let userID = uuid.v4();
 
     function onChangeText(text) {
         changeText(text);
@@ -38,7 +38,7 @@ export default function TextVerification({ navigation }) {
                 });
             } else {
                 users.getByNumber(data.number, (result) => {
-                    var profileImg =
+                    let profileImg =
                         'https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png';
                     AsyncStorage.setItem('userID', result.userID);
                     AsyncStorage.setItem('name', result.name);

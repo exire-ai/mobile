@@ -115,10 +115,10 @@ function Category({
 export default class CategoryPreference extends React.Component {
     constructor(props) {
         super(props);
-        var categoryData = this.props.navigation.state.params.categories;
-        var userCategories = this.props.navigation.state.params.userCategories;
+        let categoryData = this.props.navigation.state.params.categories;
+        let userCategories = this.props.navigation.state.params.userCategories;
 
-        var activities = [
+        let activities = [
             'dancing',
             'bars',
             'artgalleries',
@@ -137,10 +137,10 @@ export default class CategoryPreference extends React.Component {
             'museums'
         ];
 
-        var formatData = () => {
-            var categories = [];
-            var j = 0;
-            for (var i = 0; i < categoryData.length; i++) {
+        let formatData = () => {
+            let categories = [];
+            let j = 0;
+            for (let i = 0; i < categoryData.length; i++) {
                 if (activities.includes(categoryData[i].code)) {
                     categories.push({
                         title: categoryData[i].title,
@@ -163,9 +163,9 @@ export default class CategoryPreference extends React.Component {
             return categories;
         };
 
-        var priorSelected = () => {
-            var selectedCategories = [];
-            for (var i = 0; i < categoryData.length; i++) {
+        let priorSelected = () => {
+            let selectedCategories = [];
+            for (let i = 0; i < categoryData.length; i++) {
                 if (activities.includes(categoryData[i].code)) {
                     if (userCategories.includes(categoryData[i].code)) {
                         selectedCategories.push(categoryData[i].code);
@@ -234,10 +234,10 @@ export default class CategoryPreference extends React.Component {
                             lowUrl={item.lowUrl}
                             selected={item.selected}
                             onSelect={() => {
-                                var newCategories = this.state.categories;
+                                let newCategories = this.state.categories;
                                 newCategories[item.id].selected = !this.state
                                     .categories[item.id].selected;
-                                var newSelected = this.state.selectedCategories;
+                                let newSelected = this.state.selectedCategories;
                                 if (newCategories[item.id].selected) {
                                     newSelected.push(
                                         newCategories[item.id].code

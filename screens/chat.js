@@ -41,7 +41,7 @@ export default class Chat extends React.Component {
             'number',
             'token'
         ]).then((value) => {
-            var token = value[4][1] !== null ? value[4][1] : '';
+            let token = value[4][1] !== null ? value[4][1] : '';
             this.setState({
                 userID: value[0][1],
                 name: value[1][1],
@@ -118,9 +118,9 @@ export default class Chat extends React.Component {
                 });
                 this.checkSize(true);
                 if (this.props.navigation.state.params.attachment != null) {
-                    var attachment = this.props.navigation.state.params
+                    let attachment = this.props.navigation.state.params
                         .attachment;
-                    var special = {};
+                    let special = {};
                     if (attachment.type === 'plan') {
                         special = { plan: attachment.planID };
                     } else if (attachment.type === 'online-event') {
@@ -129,14 +129,14 @@ export default class Chat extends React.Component {
                         special = { venues: [attachment.venue] };
                     }
                     if (special !== {}) {
-                        var message = {
+                        let message = {
                             userID: this.state.userID,
                             message: 'Sent '.concat(attachment.title),
                             time: Math.round(new Date().getTime()),
                             special
                         };
                         this.addMessage(message);
-                        var messages = this.state.messages;
+                        let messages = this.state.messages;
                         if (this.state.inverse == 1) {
                             messages.push(message);
                         } else {
@@ -150,7 +150,7 @@ export default class Chat extends React.Component {
                         let user = this.state.users.find(
                             (o) => o.userID == message.userID
                         );
-                        var tokens = this.state.users
+                        let tokens = this.state.users
                             .filter((o) => 'token' in o)
                             .filter((o) => o.userID !== message.userID)
                             .map((o) => o.token);
@@ -189,7 +189,7 @@ export default class Chat extends React.Component {
     }
 
     updateUserData() {
-        var userData = {
+        let userData = {
             userID: this.state.userID,
             number: this.state.number,
             name: this.state.name,
@@ -202,7 +202,7 @@ export default class Chat extends React.Component {
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    var data = doc.data().userData;
+                    let data = doc.data().userData;
                     data = data.filter(function (o) {
                         return o.number != userData.number;
                     });
@@ -215,7 +215,7 @@ export default class Chat extends React.Component {
     }
 
     onListen(doc) {
-        var data = doc.data();
+        let data = doc.data();
         console.log('message added:', data.messages[data.messages.length - 1]);
     }
 
@@ -228,8 +228,8 @@ export default class Chat extends React.Component {
     }
 
     sendMessage = () => {
-        var messages = this.state.messages;
-        var message = {
+        let messages = this.state.messages;
+        let message = {
             userID: this.props.navigation.state.params.userID,
             message: this.state.text,
             time: Math.round(new Date().getTime()),
@@ -255,7 +255,7 @@ export default class Chat extends React.Component {
         }
         // Send Notification
         let user = this.state.users.find((o) => o.userID == message.userID);
-        var tokens = this.state.users
+        let tokens = this.state.users
             .filter((o) => 'token' in o)
             .filter((o) => o.userID !== message.userID)
             .map((o) => o.token);
@@ -303,7 +303,7 @@ export default class Chat extends React.Component {
             message,
             this.state.users.map((o) => o.userID),
             (data) => {
-                var parsedData;
+                let parsedData;
                 try {
                     parsedData = JSON.parse(data.fulfillmentText);
                 } catch (e) {
@@ -327,7 +327,7 @@ export default class Chat extends React.Component {
                     plans.getRecommendedGroup(
                         this.state.users.map((o) => o.userID),
                         (venues) => {
-                            var newMessage = {
+                            let newMessage = {
                                 message: parsedData.text,
                                 userID: 'emma',
                                 special: {
@@ -337,7 +337,7 @@ export default class Chat extends React.Component {
                                 },
                                 time: Math.round(new Date().getTime())
                             };
-                            var messages = this.state.messages;
+                            let messages = this.state.messages;
                             if (this.state.inverse == 1) {
                                 messages.push(newMessage);
                             } else {
@@ -352,7 +352,7 @@ export default class Chat extends React.Component {
                         }
                     );
                 } else {
-                    var newMessage = {
+                    let newMessage = {
                         message: parsedData.text,
                         userID: 'emma',
                         special: parsedData.hasOwnProperty('venues')
@@ -360,7 +360,7 @@ export default class Chat extends React.Component {
                             : {},
                         time: Math.round(new Date().getTime())
                     };
-                    var messages = this.state.messages;
+                    let messages = this.state.messages;
                     if (this.state.inverse == 1) {
                         messages.push(newMessage);
                     } else {
@@ -377,7 +377,7 @@ export default class Chat extends React.Component {
                 let user = this.state.users.find(
                     (o) => o.userID == message.userID
                 );
-                var tokens = this.state.users
+                let tokens = this.state.users
                     .filter((o) => 'token' in o)
                     .filter((o) => o.userID !== message.userID)
                     .map((o) => o.token);
@@ -406,9 +406,9 @@ export default class Chat extends React.Component {
         ];
         const now = Math.round(new Date().getTime());
         const res = new Date(unix);
-        var time = '';
-        var hours = res.getHours();
-        var minutes = res.getMinutes();
+        let time = '';
+        let hours = res.getHours();
+        let minutes = res.getMinutes();
         if (unix + 86400000 > now) {
         } else if (unix + 518400000 > now) {
             time += days[res.getDay()] + ' ';

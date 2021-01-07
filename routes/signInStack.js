@@ -56,7 +56,7 @@ const screens = {
                 headerTitleStyle: navigationStyles.headerTitle,
                 headerTitleAlign: 'center',
                 headerLeft: () => {
-                    var tempFunc;
+                    let tempFunc;
                     if (
                         navigation.dangerouslyGetParent().state.routes[0]
                             .routeName == 'GetStarted'

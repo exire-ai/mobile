@@ -23,7 +23,7 @@ export default function Name({ navigation }) {
     const categories = navigation.getParam('categories');
 
     function next() {
-        var profileImg =
+        let profileImg =
             'https://holmesbuilders.com/wp-content/uploads/2016/12/male-profile-image-placeholder.png';
         users.createUser(userID, value, number, profileImg, (result) => {
             AsyncStorage.setItem('userID', userID);
