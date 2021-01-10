@@ -7,7 +7,7 @@ import { colorScheme } from '../global/colorScheme';
 import { messagesStyles } from '../global/messagesStyles';
 
 export function Message({ name, message, time, imgURL }) {
-    let temp
+    let temp;
     if (message.includes('@Emma')) {
         temp = message.split('@Emma');
     } else {

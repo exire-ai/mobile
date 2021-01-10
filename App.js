@@ -3,7 +3,7 @@ import MainStack from './routes/mainStack';
 import { BackdropProvider } from 'react-native-propel-kit';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config';
@@ -36,7 +36,10 @@ export default function App() {
         return <MainStack />;
     } else {
         return (
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <TouchableWithoutFeedback
+                onPress={Keyboard.dismiss}
+                accessible={false}
+            >
                 <BackdropProvider>
                     <User>
                         <SafeAreaProvider>

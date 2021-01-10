@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-// Components Imports
-import Chat from '../components/Chat';
 
 // Styles Imports
 import { shadowStyles } from '../global/shadowStyles';
@@ -30,7 +27,7 @@ export default function Search({ setSearch }) {
                 placeholder={'Search...'}
                 placeholderTextColor={colorScheme.lessDarkText}
                 onChangeText={setSearch}
-            ></TextInput>
+            />
         </View>
     );
 }

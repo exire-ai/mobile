@@ -12,14 +12,7 @@ import { colorScheme } from '../global/colorScheme';
 import { shadowStyles } from '../global/shadowStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function Category({
-    key,
-    title,
-    ogUrl,
-    lowUrl,
-    selected,
-    onSelect
-}) {
+function Category({ key, title, ogUrl, lowUrl, selected, onSelect }) {
     function renderSelectedImage() {
         if (selected) {
             return (

@@ -1,22 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { shadowStyles } from '../global/shadowStyles';
 import { colorScheme } from '../global/colorScheme';
 
-export default class VenueContent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            venue: this.props.venue
-        };
-        if (this.props.hideRank == undefined) {
-            this.state.hideRank = false;
-        } else {
-            this.state.hideRank = this.props.hideRank;
-        }
-    }
-
-    titleTextView = (title, subtitle) => {
+const VenueContent = ({ hideRank, venue, onTap }) => {
+    const titleTextView = (title, subtitle) => {
         if (subtitle) {
             return (
                 <Text
@@ -29,7 +17,7 @@ export default class VenueContent extends Component {
                         shadowStyles.shadowDown
                     ]}
                 >
-                    {this.state.venue.title}
+                    {venue.title}
                 </Text>
             );
         } else {
@@ -44,13 +32,13 @@ export default class VenueContent extends Component {
                         shadowStyles.shadowDown
                     ]}
                 >
-                    {this.state.venue.title}
+                    {venue.title}
                 </Text>
             );
         }
     };
 
-    subTextView = (subtitle) => {
+    const subTextView = (subtitle) => {
         return (
             <Text
                 style={[
@@ -67,7 +55,7 @@ export default class VenueContent extends Component {
         );
     };
 
-    rankView = () => {
+    const rankView = () => {
         return (
             <View
                 style={{
@@ -89,77 +77,75 @@ export default class VenueContent extends Component {
                         shadowStyles.shadowDown
                     ]}
                 >
-                    {Math.ceil(this.state.venue.rank)}% Match
+                    {Math.ceil(venue.rank)}% Match
                 </Text>
             </View>
         );
     };
-    render() {
-        return (
-            <ImageBackground
-                source={{ uri: this.state.venue.imgURL }}
+
+    return (
+        <ImageBackground
+            source={{ uri: venue.imgURL }}
+            style={{
+                width: '100%',
+                height: '100%'
+            }}
+        >
+            <TouchableOpacity
+                activeOpacity={0.5}
                 style={{
+                    backgroundColor: 'rgba(0,0,0,0.25)',
                     width: '100%',
-                    height: '100%'
+                    height: '100%',
+                    justifyContent: 'flex-end'
+                }}
+                activeOpacity={0.5}
+                onPress={() => {
+                    onTap(venue);
                 }}
             >
-                <TouchableOpacity
-                    activeOpacity={0.5}
+                {!hideRank ? rankView() : null}
+
+                <View
                     style={{
-                        backgroundColor: 'rgba(0,0,0,0.25)',
-                        width: '100%',
-                        height: '100%',
-                        justifyContent: 'flex-end'
-                    }}
-                    activeOpacity={0.5}
-                    onPress={() => {
-                        this.props.onTap(this.state.venue);
+                        flexDirection: 'column',
+                        marginBottom: 8,
+                        marginLeft: 10
                     }}
                 >
-                    {!this.state.hideRank ? this.rankView() : null}
-
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            marginBottom: 8,
-                            marginLeft: 10
-                        }}
-                    >
-                        {this.state.venue.category == 'online-event' ? (
-                            <View
-                                style={{
-                                    borderRadius: 5,
-                                    overflow: 'hidden',
-                                    paddingVertical: 4,
-                                    paddingHorizontal: 5,
-                                    backgroundColor: 'rgba(255,255,255,0.3)',
-                                    alignItems: 'center',
-                                    width: 60
-                                }}
+                    {venue.category == 'online-event' ? (
+                        <View
+                            style={{
+                                borderRadius: 5,
+                                overflow: 'hidden',
+                                paddingVertical: 4,
+                                paddingHorizontal: 5,
+                                backgroundColor: 'rgba(255,255,255,0.3)',
+                                alignItems: 'center',
+                                width: 60
+                            }}
+                        >
+                            <Text
+                                style={[
+                                    {
+                                        fontFamily: 'Bold',
+                                        fontSize: 14,
+                                        color: colorScheme.primaryText
+                                    }
+                                ]}
                             >
-                                <Text
-                                    style={[
-                                        {
-                                            fontFamily: 'Bold',
-                                            fontSize: 14,
-                                            color: colorScheme.primaryText
-                                        }
-                                    ]}
-                                >
-                                    Online
-                                </Text>
-                            </View>
-                        ) : null}
-                        {this.titleTextView(
-                            this.state.venue.title,
-                            this.state.venue.subtitle != null
-                        )}
-                        {this.state.venue.subtitle != null
-                            ? this.subTextView(this.state.venue.subtitle)
-                            : null}
-                    </View>
-                </TouchableOpacity>
-            </ImageBackground>
-        );
-    }
-}
+                                Online
+                            </Text>
+                        </View>
+                    ) : null}
+                    {titleTextView(venue.title, venue.subtitle != null)}
+                    {venue.subtitle != null
+                        ? subTextView(venue.subtitle)
+                        : null}
+                </View>
+            </TouchableOpacity>
+        </ImageBackground>
+    );
+};
+
+export default VenueContent;

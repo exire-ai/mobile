@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    ImageBackground
-} from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
 // Styles Imports
 import { shadowStyles } from '../global/shadowStyles';
