@@ -94,11 +94,11 @@ export default class Drawer extends Component {
                 type: 'image/png'
             };
             let options = {
-                keyPrefix: 'uploads/',
-                bucket: 'exirevideo',
-                region: 'us-east-2',
-                accessKey: 'AKIA2KE66HVRD2Y6W6UZ',
-                secretKey: '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',
+                keyPrefix: '',
+                bucket: '',
+                region: '',
+                accessKey: '',
+                secretKey: '',
                 successActionStatus: 201
             };
             let temp =
@@ -231,19 +231,6 @@ export default class Drawer extends Component {
                         />
                     </View>
                     <View style={[drawerStyles.profileInfo, { height: 10 }]}>
-                        {/* <View style={drawerStyles.profileInfo}>
-            <View style={{ alignItems: "center" }}>
-              <Text style={[drawerStyles.mediumText]}>{this.state.friends}</Text>
-              <Text style={[drawerStyles.smallText]}>Friends</Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text style={[drawerStyles.mediumText]}>{this.state.points}</Text>
-              <Text style={[drawerStyles.smallText]}>Points</Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text style={[drawerStyles.mediumText]}>{this.state.plans}</Text>
-              <Text style={[drawerStyles.smallText]}>Plans</Text>
-            </View> */}
                     </View>
                     <View
                         style={{ paddingHorizontal: 15, paddingVertical: 10 }}
